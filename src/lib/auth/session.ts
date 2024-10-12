@@ -16,6 +16,7 @@ export type User = {
   name: string;
   email: string;
   emailVerified: boolean;
+  userVerified: boolean;
   image: string | null;
   role: string | null;
   createdAt: Date;

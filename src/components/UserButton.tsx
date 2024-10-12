@@ -12,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import { User } from '@/lib/session';
+import { User } from '@/lib/auth/session';
 import { logoutAction } from '@/app/(auth)/actions';
 
 interface UserButtonProps {
@@ -41,9 +41,9 @@ export default function UserButton({ user }: UserButtonProps) {
 
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <Link href="/2fa/setup" className="cursor-pointer">
+            <Link href="/settings" className="cursor-pointer">
               <Settings className="mr-2 h-4 w-4" />
-              <span>{user.twoFactorEnabled ? 'Update ' : 'Setup '} 2FA</span>
+              <span>Settings</span>
             </Link>
           </DropdownMenuItem>
           {user.role === 'admin' && (
