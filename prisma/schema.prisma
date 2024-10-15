@@ -27,6 +27,9 @@ model User {
   sessions                 Session[]
   emailVerificationRequest EmailVerificationRequest?
   passwordResetTokens      PasswordResetToken[]
+
+  saleReports    SaleReport[]
+  individualTips IndividualTip[]
 }
 
 model Session {
@@ -54,4 +57,45 @@ model PasswordResetToken {
   expiresAt DateTime
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model SaleReport {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  date               DateTime
+  saleTotal          Float
+  cardTotal          Float
+  cashTotal          Float
+  expenses           Float
+  expensesReason     String?
+  actualCash         Float
+  cardTips           Float
+  cashTips           Float
+  extraTips          Float
+  uberEatsSales      Float
+  doorDashSales      Float
+  skipTheDishesSales Float
+  onlineSales        Float
+  cashInTill         Float
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId   String @db.ObjectId
+  reporter User   @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  individualTips IndividualTip[]
+}
+
+model IndividualTip {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  amount       Float
+  date         DateTime
+  userId       String   @db.ObjectId
+  saleReportId String   @db.ObjectId
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Restrict)
+  saleReport SaleReport @relation(fields: [saleReportId], references: [id], onDelete: Restrict)
 }

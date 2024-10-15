@@ -1,19 +1,31 @@
-import { hashPassword } from '@/lib/auth/password';
-import prisma from '@/lib/prisma';
-import { User } from '@/lib/auth/session';
+import { hashPassword } from "@/lib/auth/password";
+import prisma from "@/lib/prisma";
+import { User } from "@/lib/auth/session";
 
 // Create User
 export async function createUser(
   name: string,
   username: string,
   email: string,
-  password: string
+  password: string,
 ) {
   const passwordHash = await hashPassword(password);
   const user = await prisma.user.create({
     data: { name, username, email, passwordHash },
   });
   return user as User;
+}
+
+// Get All Users
+export async function getAllUsers() {
+  const users = await prisma.user.findMany();
+  return users as User[];
+}
+
+// Get User By ID
+export async function getUserById(userId: string) {
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  return user as User | null;
 }
 
 // Get User By Email
@@ -38,7 +50,7 @@ export async function getUserPasswordHash(userId: string) {
     where: { id: userId },
     select: { passwordHash: true },
   });
-  if (!user) throw new Error('Invalid user ID');
+  if (!user) throw new Error("Invalid user ID");
   return user.passwordHash;
 }
 

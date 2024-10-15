@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { Session } from '@prisma/client';
-import { User } from '@/lib/session';
-import { createContext, ReactNode, useContext } from 'react';
+import { Session } from "@prisma/client";
+import { User } from "@/lib/auth/session";
+import { createContext, ReactNode, useContext } from "react";
 
 interface SessionContext {
   user: User | null;
@@ -14,7 +14,7 @@ const SessionContext = createContext({} as SessionContext);
 export function useSession() {
   const context = useContext(SessionContext);
   if (!context) {
-    throw new Error('useSession must be used within a SessionProvider');
+    throw new Error("useSession must be used within a SessionProvider");
   }
   return context;
 }
