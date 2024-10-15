@@ -47,122 +47,118 @@ export function SaleReportView({ report, employees, users }: SaleReportProps) {
   const tipsPerPerson = totalTips / totalPeople;
 
   return (
-    <div className="flex space-x-4">
-      <div className="rounded border p-2 text-sm shadow">
+    <div className="mx-auto w-full rounded border p-2 text-sm shadow sm:w-2/3 md:w-1/2">
+      <div>
+        <span className="font-semibold">Date: </span>
+        {moment(new Date()).format("YYYY/MM/DD")}
+      </div>
+
+      <div className="flex justify-between space-x-2">
+        <p>
+          <span className="font-semibold">Day: </span>
+          {moment(new Date()).format("ddd")}
+        </p>
+
+        <p>
+          <span className="font-semibold">By: </span>
+          {user?.name}
+        </p>
+      </div>
+
+      <Separator className="my-1" />
+
+      <div>
+        <span className="font-semibold">Total: </span>
+        {formatPrice(inStoreSales)} + {formatPrice(otherSales)} ={" "}
+        {formatPrice(report.saleTotal!)}
+      </div>
+
+      <Separator className="my-1" />
+
+      <div>
+        <span className="font-semibold">Card (net sales): </span>
+        {formatPrice(report.cardTotal!)}
+      </div>
+
+      <Separator className="my-1" />
+
+      <div className="">
+        <span className="font-semibold">Cash: </span>
+        {formatPrice(cashTotal)}
+      </div>
+
+      <Separator className="my-1" />
+
+      <div>
+        <span className="font-semibold">Expenses: </span>
+        {formatPrice(report.expenses!)}
+      </div>
+
+      <Separator className="my-1" />
+
+      <div>
+        <span className="font-semibold">Actual Cash: </span>
+        {formatPrice(actualCash)}
+      </div>
+
+      <Separator className="my-1" />
+
+      <div className="flex items-center gap-4">
         <div>
-          <span className="font-semibold">Date: </span>
-          {moment(new Date()).format("YYYY/MM/DD")}
-        </div>
-
-        <div className="flex justify-between space-x-2">
-          <p>
-            <span className="font-semibold">Day: </span>
-            {moment(new Date()).format("ddd")}
-          </p>
-
-          <p>
-            <span className="font-semibold">By: </span>
-            {user?.name}
-          </p>
-        </div>
-
-        <Separator className="my-1" />
-
-        <div>
-          <span className="font-semibold">Total: </span>
-          {formatPrice(inStoreSales)} + {formatPrice(otherSales)} ={" "}
-          {formatPrice(report.saleTotal!)}
-        </div>
-
-        <Separator className="my-1" />
-
-        <div>
-          <span className="font-semibold">Card (net sales): </span>
-          {formatPrice(report.cardTotal!)}
-        </div>
-
-        <Separator className="my-1" />
-
-        <div className="">
-          <span className="font-semibold">Cash: </span>
-          {formatPrice(cashTotal)}
-        </div>
-
-        <Separator className="my-1" />
-
-        <div>
-          <span className="font-semibold">Expenses: </span>
-          {formatPrice(report.expenses!)}
-        </div>
-
-        <Separator className="my-1" />
-
-        <div>
-          <span className="font-semibold">Actual Cash: </span>
-          {formatPrice(actualCash)}
-        </div>
-
-        <Separator className="my-1" />
-
-        <div className="flex items-center justify-between">
           <div>
-            <div>
-              <span className="font-semibold">Card Tips: </span>
-              {formatPrice(report.cardTips!)}
-            </div>
-            <div>
-              <span className="font-semibold">Cash Tips: </span>
-              {formatPrice(report.cashTips!)}
-            </div>
-            <div>
-              <span className="font-semibold">Extra Tips: </span>
-              {formatPrice(report.extraTips!)}
-            </div>
+            <span className="font-semibold">Card Tips: </span>
+            {formatPrice(report.cardTips!)}
           </div>
-
-          <div className="flex items-center gap-2">
-            <MoveRight size={20} />
-            {formatPrice(totalTips)}
+          <div>
+            <span className="font-semibold">Cash Tips: </span>
+            {formatPrice(report.cashTips!)}
+          </div>
+          <div>
+            <span className="font-semibold">Extra Tips: </span>
+            {formatPrice(report.extraTips!)}
           </div>
         </div>
 
-        <Separator className="my-1" />
-
-        <div>
-          <span className="font-semibold">Sales Detail: </span>
-
-          <div>
-            ({formatPrice(report.cashInTill!)} - {START_CASH}) -{" "}
-            {formatPrice(actualCash)} = {formatPrice(cashDifference)}
-          </div>
-
-          <div className="mt-2 grid grid-cols-2">
-            <div>UE: {formatPrice(report.uberEatsSales!)}</div>
-            <div>DD: {formatPrice(report.doorDashSales!)}</div>
-            <div>SK: {formatPrice(report.skipTheDishesSales!)}</div>
-            <div>ON: {formatPrice(report.onlineSales!)}</div>
-          </div>
+        <div className="flex items-center gap-2">
+          <MoveRight size={20} />
+          {formatPrice(totalTips)}
         </div>
       </div>
 
-      <div className="self-start rounded border p-2 text-sm shadow">
+      <Separator className="my-1" />
+
+      <div>
         <div>
-          <span className="font-semibold">Tips: </span> {formatPrice(totalTips)}{" "}
-          / {totalPeople} = {formatPrice(tipsPerPerson)}
+          <span className="font-semibold">Sales Detail: </span>(
+          {formatPrice(report.cashInTill!)} - {START_CASH}) -{" "}
+          {formatPrice(actualCash)} = {formatPrice(cashDifference)}
         </div>
 
-        <Separator className="my-1" />
-
-        <div>
-          {employees?.map((emp) => (
-            <div key={emp.userId}>
-              {users.find((u) => u.id === emp.userId)?.name}:{" "}
-              {emp.fullDay
-                ? formatPrice(tipsPerPerson)
-                : formatPrice(tipsPerPerson / 2)}
-            </div>
-          ))}
+        <div className="mt-2 grid grid-cols-2">
+          <div>UE: {formatPrice(report.uberEatsSales!)}</div>
+          <div>DD: {formatPrice(report.doorDashSales!)}</div>
+          <div>SK: {formatPrice(report.skipTheDishesSales!)}</div>
+          <div>ON: {formatPrice(report.onlineSales!)}</div>
         </div>
+      </div>
+
+      <Separator className="my-1" />
+
+      <div>
+        <span className="font-semibold">Tips: </span> {formatPrice(totalTips)} /{" "}
+        {totalPeople} = {formatPrice(tipsPerPerson)}
+      </div>
+      <Separator className="my-1" />
+
+      <div>
+        {employees?.map((emp) => (
+          <div key={emp.userId}>
+            {users.find((u) => u.id === emp.userId)?.name}:{" "}
+            {emp.fullDay
+              ? formatPrice(tipsPerPerson)
+              : formatPrice(tipsPerPerson / 2)}
+          </div>
+        ))}
       </div>
     </div>
   );

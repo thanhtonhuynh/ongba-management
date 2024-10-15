@@ -24,6 +24,6 @@ export const CreateReportSchema = z.object({
         fullDay: z.boolean(),
       }),
     )
-    .min(5, "At least 5 employees are required"),
+    .min(1, "At least 1 employee is required"),
 });
 export type CreateReportSchemaTypes = z.infer<typeof CreateReportSchema>;

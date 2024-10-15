@@ -12,9 +12,10 @@ import { User } from "@/lib/auth/session";
 import { createReportAction } from "./actions";
 import { CashCounterForm } from "./CashCounterForm";
 import { SaleDetailForm } from "./SaleDetailForm";
-import { ArrowLeft, ArrowRight, CircleAlert, CircleCheck } from "lucide-react";
+import { CircleAlert, CircleCheck, MoveLeft, MoveRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { ReportPreview } from "./ReportPreview";
+import { Button } from "@/components/ui/button";
 
 const steps = [
   {
@@ -113,6 +114,9 @@ export function NewReportPortal({ users }: { users: User[] }) {
     if (currentStep > 0) {
       if (currentStep === steps.length - 1) {
         setError(undefined);
+        setPreviousStep(currentStep);
+        setCurrentStep((step) => step - 2);
+        return;
       }
       setPreviousStep(currentStep);
       setCurrentStep((step) => step - 1);
@@ -121,7 +125,7 @@ export function NewReportPortal({ users }: { users: User[] }) {
 
   return (
     <>
-      <nav>
+      <nav className="hidden md:block">
         <ol className="space-y-4 md:flex md:space-x-8 md:space-y-0">
           {steps.map((step, index) => (
             <li key={step.name} className="md:flex-1">
@@ -145,12 +149,18 @@ export function NewReportPortal({ users }: { users: User[] }) {
 
       {currentStep === 0 && (
         <MotionContainer delta={delta}>
+          <h2 className="text-center text-lg font-semibold md:hidden">
+            Sale Details
+          </h2>
           <SaleDetailForm users={users} form={createReportForm} />
         </MotionContainer>
       )}
 
       {currentStep === 1 && (
         <MotionContainer delta={delta}>
+          <h2 className="text-center text-lg font-semibold md:hidden">
+            Count Cash
+          </h2>
           <CashCounterForm
             createReportForm={createReportForm}
             cashCounterForm={cashCounterForm}
@@ -166,7 +176,7 @@ export function NewReportPortal({ users }: { users: User[] }) {
 
       {currentStep === 3 && (
         <MotionContainer delta={delta}>
-          <div className="flex flex-col space-y-4">
+          <div className="mb-2 flex flex-col space-y-4">
             <h2
               className={`flex w-fit items-center gap-2 rounded p-1 px-2 text-lg font-semibold text-secondary ${error ? "bg-destructive" : "bg-green-500"}`}
             >
@@ -179,21 +189,22 @@ export function NewReportPortal({ users }: { users: User[] }) {
                 : "Your report has been submitted successfully. Good night!"}
             </p>
           </div>
+
+          <ReportPreview createReportForm={createReportForm} users={users} />
         </MotionContainer>
       )}
 
       <div className="flex justify-between">
-        <LoadingButton
+        <Button
           variant={`outline`}
           type="button"
           onClick={prevStep}
           disabled={currentStep === 0}
-          className="w-1/4"
-          loading={isPending}
+          className="flex w-1/4 items-center gap-2"
         >
-          <ArrowLeft size={15} />
+          <MoveLeft size={15} />
           Back
-        </LoadingButton>
+        </Button>
 
         {currentStep < steps.length - 1 && (
           <LoadingButton
@@ -204,7 +215,7 @@ export function NewReportPortal({ users }: { users: User[] }) {
             className="w-1/4"
           >
             {currentStep < steps.length - 2 ? "Next" : "Submit"}
-            {currentStep < steps.length - 2 && <ArrowRight size={15} />}
+            {currentStep < steps.length - 2 && <MoveRight size={15} />}
           </LoadingButton>
         )}
       </div>

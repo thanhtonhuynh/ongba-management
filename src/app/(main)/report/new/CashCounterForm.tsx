@@ -79,12 +79,8 @@ export function CashCounterForm({
 
   return (
     <Form {...cashCounterForm}>
-      <form className="space-y-2">
+      <form className="space-y-3">
         <h2 className="text-sm font-semibold">Cash in till</h2>
-
-        <div className="w-fit rounded-md border border-primary p-2 px-4 text-sm text-primary">
-          <h3>Total: {formatPrice(createReportForm.watch("cashInTill"))}</h3>
-        </div>
 
         <div className="rounded-md border p-2 shadow">
           <h3 className="text-sm font-semibold">Bills</h3>
@@ -168,6 +164,27 @@ export function CashCounterForm({
               />
             ))}
           </div>
+        </div>
+
+        <div className="mx-auto w-fit">
+          <FormField
+            name="cashInTill"
+            control={createReportForm.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-semibold">
+                  Total Cash in Till
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
         </div>
       </form>
     </Form>

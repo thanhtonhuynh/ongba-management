@@ -1,6 +1,10 @@
 "use server";
 
-import { createReport } from "@/data/report";
+import {
+  createReport,
+  deleteTodayReport,
+  todayReportIsCreated,
+} from "@/data/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import {
   CreateReportSchema,
@@ -15,6 +19,10 @@ export async function createReportAction(data: CreateReportSchemaTypes) {
     }
 
     const parsedData = CreateReportSchema.parse(data);
+
+    if (await todayReportIsCreated()) {
+      await deleteTodayReport();
+    }
 
     await createReport(parsedData, user.id);
 

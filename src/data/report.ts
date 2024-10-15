@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import { CreateReportSchemaTypes } from "@/lib/report/validation";
 
+// Create a new report
 export async function createReport(
   data: CreateReportSchemaTypes,
   userId: string,
@@ -49,4 +50,30 @@ export async function createReport(
   });
 
   return report;
+}
+
+// Determine if a report has already been created today
+export async function todayReportIsCreated() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const report = await prisma.saleReport.findFirst({
+    where: {
+      date: { gte: today },
+    },
+  });
+
+  return !!report;
+}
+
+// Delete today's report
+export async function deleteTodayReport() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  await prisma.saleReport.deleteMany({
+    where: {
+      date: { gte: today },
+    },
+  });
 }

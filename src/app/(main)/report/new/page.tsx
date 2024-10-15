@@ -14,7 +14,7 @@ export default async function Page() {
   return (
     <Container className="items-center space-y-4">
       <div className="flex w-full max-w-[50rem] flex-col space-y-8 rounded-xl border px-4 py-8 shadow-xl">
-        <h1 className="text-3xl font-bold">Create new sale report</h1>
+        <h1 className="text-2xl font-bold">Create new sale report</h1>
         <NewReportPortal users={users} />
       </div>
     </Container>

@@ -42,7 +42,7 @@ export function EmployeeInput({
     <div className="flex items-center space-x-4">
       <Select onValueChange={(value) => setUserId(value)}>
         <SelectTrigger className="w-1/2">
-          <SelectValue placeholder="Select employee" />
+          <SelectValue placeholder="Select" />
         </SelectTrigger>
 
         <SelectContent>
@@ -63,13 +63,13 @@ export function EmployeeInput({
           id="full-day"
           onClick={() => setFullDay(!fullDay)}
         />
-        <Label htmlFor="full-day" className="font-semibold">
+        <Label htmlFor="full-day" className="cursor-pointer font-semibold">
           Full day
         </Label>
       </div>
 
       <Button type="button" variant={`outline`} onClick={addEmployee}>
-        Add employee
+        Add
       </Button>
     </div>
   );
