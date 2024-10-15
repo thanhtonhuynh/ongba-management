@@ -7,19 +7,15 @@ import moment from "moment";
 import { Separator } from "./ui/separator";
 import { MoveRight } from "lucide-react";
 import { SaleEmployee } from "@/types";
-import { User } from "@/lib/auth/session";
-import { CreateReportSchemaTypes } from "@/lib/report/validation";
 
 const START_CASH = 300.0;
 
 type SaleReportProps = {
-  // report: Partial<SaleReport>;
-  report: CreateReportSchemaTypes;
+  report: Partial<SaleReport>;
   employees?: SaleEmployee[];
-  users: User[];
 };
 
-export function SaleReportView({ report, employees, users }: SaleReportProps) {
+export function SaleReportView({ report, employees }: SaleReportProps) {
   const { user } = useSession();
 
   const otherSales =
@@ -91,7 +87,7 @@ export function SaleReportView({ report, employees, users }: SaleReportProps) {
 
       <div>
         <span className="font-semibold">Expenses: </span>
-        {formatPrice(report.expenses!)}
+        {formatPrice(report.expenses!)} ({report.expensesReason})
       </div>
 
       <Separator className="my-1" />
@@ -153,7 +149,7 @@ export function SaleReportView({ report, employees, users }: SaleReportProps) {
       <div>
         {employees?.map((emp) => (
           <div key={emp.userId}>
-            {users.find((u) => u.id === emp.userId)?.name}:{" "}
+            {emp.name}:{" "}
             {emp.fullDay
               ? formatPrice(tipsPerPerson)
               : formatPrice(tipsPerPerson / 2)}

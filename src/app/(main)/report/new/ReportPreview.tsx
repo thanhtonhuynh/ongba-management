@@ -11,11 +11,17 @@ type ReportPreviewProps = {
 };
 
 export function ReportPreview({ createReportForm, users }: ReportPreviewProps) {
+  const employees = createReportForm.watch("employees").map((emp) => ({
+    userId: emp.userId,
+    fullDay: emp.fullDay,
+    name: users.find((user) => user.id === emp.userId)?.name || "",
+  }));
+
   return (
     <SaleReportView
       report={createReportForm.watch()}
-      employees={createReportForm.watch("employees")}
-      users={users}
+      employees={employees}
+      // users={users}
     />
   );
 }

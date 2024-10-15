@@ -13,6 +13,14 @@ export function formatPrice(amount: number) {
   }).format(amount);
 }
 
+export function formatPriceWithDollarSign(amount: number) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 0,
+  }).format(amount);
+}
+
 export function formatNumber(number: number) {
   return new Intl.NumberFormat("en-US").format(number);
 }

@@ -18,4 +18,5 @@ export type CashType =
 export type SaleEmployee = {
   userId: string;
   fullDay: boolean;
+  name: string;
 };

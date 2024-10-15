@@ -59,12 +59,27 @@ model PasswordResetToken {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model StoreSettings {
+  id             String @id @default(auto()) @map("_id") @db.ObjectId
+  uniqueKey      String @unique @default("store")
+  mondayShift    Float
+  tuesdayShift   Float
+  wednesdayShift Float
+  thursdayShift  Float
+  fridayShift    Float
+  saturdayShift  Float
+  sundayShift    Float
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model SaleReport {
   id                 String   @id @default(auto()) @map("_id") @db.ObjectId
   date               DateTime
   saleTotal          Float
   cardTotal          Float
-  cashTotal          Float
+  // cashTotal          Float
   expenses           Float
   expensesReason     String?
   actualCash         Float
@@ -76,6 +91,7 @@ model SaleReport {
   skipTheDishesSales Float
   onlineSales        Float
   cashInTill         Float
+  fullDayHours       Float
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -89,6 +105,7 @@ model SaleReport {
 model IndividualTip {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   amount       Float
+  hours        Float
   date         DateTime
   userId       String   @db.ObjectId
   saleReportId String   @db.ObjectId
