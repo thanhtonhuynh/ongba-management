@@ -15,3 +15,13 @@ export async function getFullDayHours(day: string) {
   if (day === "saturday") return storeSettings.saturdayShift;
   return storeSettings.sundayShift;
 }
+
+export async function getStartCash() {
+  const storeSettings = await prisma.storeSettings.findFirst();
+
+  if (!storeSettings) {
+    throw new Error("Store settings not found");
+  }
+
+  return storeSettings.startCash;
+}

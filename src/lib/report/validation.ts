@@ -5,12 +5,12 @@ const requiredString = trimmedString.min(1, "Required");
 
 // Create report
 export const CreateReportSchema = z.object({
-  saleTotal: z.coerce.number().gte(0, "Invalid"),
+  totalSales: z.coerce.number().gte(0, "Invalid"),
+  cardSales: z.coerce.number().gte(0, "Invalid"),
   uberEatsSales: z.coerce.number().gte(0, "Invalid"),
   doorDashSales: z.coerce.number().gte(0, "Invalid"),
   skipTheDishesSales: z.coerce.number().gte(0, "Invalid"),
   onlineSales: z.coerce.number().gte(0, "Invalid"),
-  cardTotal: z.coerce.number().gte(0, "Invalid"),
   expenses: z.coerce.number().gte(0, "Invalid"),
   expensesReason: trimmedString.optional(),
   cardTips: z.coerce.number().gte(0, "Invalid"),
@@ -22,6 +22,7 @@ export const CreateReportSchema = z.object({
       z.object({
         userId: requiredString,
         fullDay: z.boolean(),
+        name: requiredString,
       }),
     )
     .min(1, "At least 1 employee is required"),

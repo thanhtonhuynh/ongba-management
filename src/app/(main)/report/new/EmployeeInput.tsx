@@ -20,7 +20,7 @@ import { UseFormSetValue } from "react-hook-form";
 
 type EmployeeInputProps = {
   users: User[];
-  employees: { userId: string; fullDay: boolean }[];
+  employees: SaleEmployee[];
   formSetValue: UseFormSetValue<CreateReportSchemaTypes>;
 };
 
@@ -35,7 +35,13 @@ export function EmployeeInput({
   function addEmployee() {
     if (!userId) return;
     if (employees.some((employee) => employee.userId === userId)) return;
-    formSetValue("employees", [...employees, { userId, fullDay }]);
+
+    const employeeName = users.find((user) => user.id === userId)?.name || "";
+
+    formSetValue("employees", [
+      ...employees,
+      { userId, fullDay, name: employeeName },
+    ]);
   }
 
   return (

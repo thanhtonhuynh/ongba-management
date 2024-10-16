@@ -1,45 +1,31 @@
 import prisma from "@/lib/prisma";
 import { CreateReportSchemaTypes } from "@/lib/report/validation";
-import { getFullDayHours } from "./store";
+import { getFullDayHours, getStartCash } from "./store";
 
 // Create a new report
 export async function createReport(
   data: CreateReportSchemaTypes,
   userId: string,
 ) {
-  const {
-    saleTotal,
-    uberEatsSales,
-    doorDashSales,
-    skipTheDishesSales,
-    onlineSales,
-    cardTotal,
-    expenses,
-    cardTips,
-    cashTips,
-    extraTips,
-  } = data;
-
+  const { cardTips, cashTips, extraTips } = data;
   const { employees, ...reportData } = data;
+
   const date = new Date();
-  const otherSales =
-    uberEatsSales + doorDashSales + skipTheDishesSales + onlineSales;
-  const inStoreSales = saleTotal - otherSales;
-  const cashTotal = inStoreSales - cardTotal;
-  const actualCash = cashTotal - expenses;
   const totalTips = cardTips + cashTips + extraTips;
   const totalPeople =
     employees.reduce((acc, emp) => acc + (emp.fullDay ? 1 : 0.5), 0) || 1;
   const tipsPerPerson = totalTips / totalPeople;
+
   const fullDayHours = await getFullDayHours(
     date.toLocaleDateString("en-US", { weekday: "long" }).toLowerCase(),
   );
+  const startCash = await getStartCash();
 
   const report = await prisma.saleReport.create({
     data: {
       date,
       fullDayHours,
-      actualCash,
+      startCash,
       ...reportData,
       userId,
       individualTips: {
@@ -93,8 +79,9 @@ export async function getTodayReport() {
     },
     include: {
       individualTips: {
-        include: { user: { select: { name: true } } },
+        select: { userId: true, hours: true, user: { select: { name: true } } },
       },
+      reporter: { select: { name: true } },
     },
   });
 

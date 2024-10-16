@@ -60,8 +60,9 @@ model PasswordResetToken {
 }
 
 model StoreSettings {
-  id             String @id @default(auto()) @map("_id") @db.ObjectId
-  uniqueKey      String @unique @default("store")
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  uniqueKey String @unique @default("store")
+
   mondayShift    Float
   tuesdayShift   Float
   wednesdayShift Float
@@ -70,6 +71,8 @@ model StoreSettings {
   saturdayShift  Float
   sundayShift    Float
 
+  startCash Float
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -77,20 +80,19 @@ model StoreSettings {
 model SaleReport {
   id                 String   @id @default(auto()) @map("_id") @db.ObjectId
   date               DateTime
-  saleTotal          Float
-  cardTotal          Float
-  // cashTotal          Float
+  totalSales         Float
+  cardSales          Float
+  uberEatsSales      Float
+  skipTheDishesSales Float
+  doorDashSales      Float
+  onlineSales        Float
   expenses           Float
   expensesReason     String?
-  actualCash         Float
   cardTips           Float
   cashTips           Float
   extraTips          Float
-  uberEatsSales      Float
-  doorDashSales      Float
-  skipTheDishesSales Float
-  onlineSales        Float
   cashInTill         Float
+  startCash          Float
   fullDayHours       Float
 
   createdAt DateTime @default(now())

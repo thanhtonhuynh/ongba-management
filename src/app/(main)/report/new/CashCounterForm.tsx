@@ -9,32 +9,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { CreateReportSchemaTypes } from "@/lib/report/validation";
-import { formatPrice } from "@/lib/utils";
 import { CashType } from "@/types";
 import { UseFormReturn } from "react-hook-form";
-
-// const CashCounterSchema = z.object({
-//   cent5: z.coerce.number().gte(0, "Invalid"),
-//   cent10: z.coerce.number().gte(0, "Invalid"),
-//   cent25: z.coerce.number().gte(0, "Invalid"),
-//   dollar1: z.coerce.number().gte(0, "Invalid"),
-//   dollar2: z.coerce.number().gte(0, "Invalid"),
-//   dollar5: z.coerce.number().gte(0, "Invalid"),
-//   dollar10: z.coerce.number().gte(0, "Invalid"),
-//   dollar20: z.coerce.number().gte(0, "Invalid"),
-//   dollar50: z.coerce.number().gte(0, "Invalid"),
-//   dollar100: z.coerce.number().gte(0, "Invalid"),
-//   roll5c: z.coerce.number().gte(0, "Invalid"),
-//   roll10c: z.coerce.number().gte(0, "Invalid"),
-//   roll25c: z.coerce.number().gte(0, "Invalid"),
-//   roll1: z.coerce.number().gte(0, "Invalid"),
-//   roll2: z.coerce.number().gte(0, "Invalid"),
-// });
-// export type CashCounterSchemaTypes = z.infer<typeof CashCounterSchema>;
-
-// type CashTypes = keyof CashCounterSchemaTypes;
-
-// const moneyFields = Object.keys(CashCounterSchema.shape) as CashTypes[];
 
 const moneyValues = new Map([
   ["coin2", { label: "$2", value: 2 }],
@@ -68,7 +44,6 @@ export function CashCounterForm({
   createReportForm,
   cashCounterForm,
 }: CashCounterFormProps) {
-  // Calculate the total cash in till based on the money type and quantity
   function calculateCashInTill() {
     let total = 0;
     for (const field of MoneyFields) {

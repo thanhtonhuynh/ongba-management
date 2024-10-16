@@ -1,63 +1,36 @@
 "use client";
 
-import { useSession } from "@/contexts/SessionProvider";
 import { formatPrice } from "@/lib/utils";
-import { SaleReport } from "@prisma/client";
 import moment from "moment";
 import { Separator } from "./ui/separator";
 import { MoveRight } from "lucide-react";
-import { SaleEmployee } from "@/types";
-
-const START_CASH = 300.0;
+import { SaleReportCardProcessedData } from "@/types";
 
 type SaleReportProps = {
-  report: Partial<SaleReport>;
-  employees?: SaleEmployee[];
+  data: SaleReportCardProcessedData | undefined;
 };
 
-export function SaleReportView({ report, employees }: SaleReportProps) {
-  const { user } = useSession();
-
-  const otherSales =
-    Number(report.uberEatsSales) +
-    Number(report.doorDashSales) +
-    Number(report.skipTheDishesSales) +
-    Number(report.onlineSales);
-
-  const inStoreSales = report.saleTotal! - otherSales;
-
-  const cashTotal = inStoreSales - report.cardTotal!;
-
-  const actualCash = cashTotal - report.expenses!;
-
-  const totalTips =
-    Number(report.cardTips) +
-    Number(report.cashTips) +
-    Number(report.extraTips);
-
-  const cashDifference = report.cashInTill! - START_CASH - actualCash;
-
-  const totalPeople =
-    employees?.reduce((acc, emp) => acc + (emp.fullDay ? 1 : 0.5), 0) || 1;
-
-  const tipsPerPerson = totalTips / totalPeople;
+export function SaleReportCard({ data }: SaleReportProps) {
+  if (!data) {
+    return null;
+  }
 
   return (
     <div className="mx-auto w-full rounded border p-2 text-sm shadow sm:w-2/3 md:w-1/2">
       <div>
         <span className="font-semibold">Date: </span>
-        {moment(new Date()).format("YYYY/MM/DD")}
+        {moment(data.date).format("YYYY/MM/DD")}
       </div>
 
       <div className="flex justify-between space-x-2">
         <p>
           <span className="font-semibold">Day: </span>
-          {moment(new Date()).format("ddd")}
+          {moment(data.date).format("ddd")}
         </p>
 
         <p>
           <span className="font-semibold">By: </span>
-          {user?.name}
+          {data.reporterName}
         </p>
       </div>
 
@@ -65,36 +38,36 @@ export function SaleReportView({ report, employees }: SaleReportProps) {
 
       <div>
         <span className="font-semibold">Total: </span>
-        {formatPrice(inStoreSales)} + {formatPrice(otherSales)} ={" "}
-        {formatPrice(report.saleTotal!)}
+        {formatPrice(data.inStoreSales)} + {formatPrice(data.otherSales)} ={" "}
+        {formatPrice(data.totalSales)}
       </div>
 
       <Separator className="my-1" />
 
       <div>
         <span className="font-semibold">Card (net sales): </span>
-        {formatPrice(report.cardTotal!)}
+        {formatPrice(data.cardSales)}
       </div>
 
       <Separator className="my-1" />
 
       <div className="">
         <span className="font-semibold">Cash: </span>
-        {formatPrice(cashTotal)}
+        {formatPrice(data.cashSales)}
       </div>
 
       <Separator className="my-1" />
 
       <div>
         <span className="font-semibold">Expenses: </span>
-        {formatPrice(report.expenses!)} ({report.expensesReason})
+        {formatPrice(data.expenses)} ({data.expensesReason})
       </div>
 
       <Separator className="my-1" />
 
       <div>
         <span className="font-semibold">Actual Cash: </span>
-        {formatPrice(actualCash)}
+        {formatPrice(data.actualCash)}
       </div>
 
       <Separator className="my-1" />
@@ -103,21 +76,21 @@ export function SaleReportView({ report, employees }: SaleReportProps) {
         <div>
           <div>
             <span className="font-semibold">Card Tips: </span>
-            {formatPrice(report.cardTips!)}
+            {formatPrice(data.cardTips)}
           </div>
           <div>
             <span className="font-semibold">Cash Tips: </span>
-            {formatPrice(report.cashTips!)}
+            {formatPrice(data.cashTips)}
           </div>
           <div>
             <span className="font-semibold">Extra Tips: </span>
-            {formatPrice(report.extraTips!)}
+            {formatPrice(data.extraTips)}
           </div>
         </div>
 
         <div className="flex items-center gap-2">
           <MoveRight size={20} />
-          {formatPrice(totalTips)}
+          {formatPrice(data.totalTips)}
         </div>
       </div>
 
@@ -126,33 +99,34 @@ export function SaleReportView({ report, employees }: SaleReportProps) {
       <div>
         <div>
           <span className="font-semibold">Sales Detail: </span>(
-          {formatPrice(report.cashInTill!)} - {START_CASH}) -{" "}
-          {formatPrice(actualCash)} = {formatPrice(cashDifference)}
+          {formatPrice(data.cashInTill)} - {data.startCash}) -{" "}
+          {formatPrice(data.actualCash)} = {formatPrice(data.cashDifference)}
         </div>
 
         <div className="mt-2 grid grid-cols-2">
-          <div>UE: {formatPrice(report.uberEatsSales!)}</div>
-          <div>DD: {formatPrice(report.doorDashSales!)}</div>
-          <div>SK: {formatPrice(report.skipTheDishesSales!)}</div>
-          <div>ON: {formatPrice(report.onlineSales!)}</div>
+          <div>UE: {formatPrice(data.uberEatsSales)}</div>
+          <div>DD: {formatPrice(data.doorDashSales)}</div>
+          <div>SK: {formatPrice(data.skipTheDishesSales)}</div>
+          <div>ON: {formatPrice(data.onlineSales)}</div>
         </div>
       </div>
 
       <Separator className="my-1" />
 
       <div>
-        <span className="font-semibold">Tips: </span> {formatPrice(totalTips)} /{" "}
-        {totalPeople} = {formatPrice(tipsPerPerson)}
+        <span className="font-semibold">Tips: </span>{" "}
+        {formatPrice(data.totalTips)} / {data.totalPeople} ={" "}
+        {formatPrice(data.tipsPerPerson)}
       </div>
       <Separator className="my-1" />
 
       <div>
-        {employees?.map((emp) => (
+        {data.employees.map((emp) => (
           <div key={emp.userId}>
             {emp.name}:{" "}
             {emp.fullDay
-              ? formatPrice(tipsPerPerson)
-              : formatPrice(tipsPerPerson / 2)}
+              ? formatPrice(data.tipsPerPerson)
+              : formatPrice(data.tipsPerPerson / 2)}
           </div>
         ))}
       </div>

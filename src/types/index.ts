@@ -20,3 +20,33 @@ export type SaleEmployee = {
   fullDay: boolean;
   name: string;
 };
+
+export interface SaleReportCardRawData {
+  date: Date;
+  reporterName: string;
+  totalSales: number;
+  cardSales: number;
+  expenses: number;
+  expensesReason?: string | null;
+  cardTips: number;
+  cashTips: number;
+  extraTips: number;
+  cashInTill: number;
+  startCash: number;
+  uberEatsSales: number;
+  doorDashSales: number;
+  skipTheDishesSales: number;
+  onlineSales: number;
+  employees: SaleEmployee[];
+}
+
+export interface SaleReportCardProcessedData extends SaleReportCardRawData {
+  inStoreSales: number;
+  otherSales: number;
+  cashSales: number;
+  actualCash: number;
+  totalTips: number;
+  cashDifference: number;
+  totalPeople: number;
+  tipsPerPerson: number;
+}

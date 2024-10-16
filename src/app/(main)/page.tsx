@@ -4,14 +4,16 @@ import { redirect } from "next/navigation";
 import moment from "moment";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { getTodayReport, todayReportIsCreated } from "@/data/report";
+import { getTodayReport } from "@/data/report";
 import { CircleCheck } from "lucide-react";
 import {
   getUserMonthToDateHours,
   getUserMonthToDateTips,
 } from "@/data/employee";
 import { formatPriceWithDollarSign } from "@/lib/utils";
-import { SaleReportView } from "@/components/SaleReportView";
+import { SaleReportCard } from "@/components/SaleReportCard";
+import { SaleReportCardProcessedData, SaleReportCardRawData } from "@/types";
+import { processReportDataForView } from "@/utils/report";
 
 export default async function Home() {
   const { session, user } = await getCurrentSession();
@@ -20,13 +22,24 @@ export default async function Home() {
 
   const userMonthToDateTips = await getUserMonthToDateTips(user.id);
   const userMonthToDateHours = await getUserMonthToDateHours(user.id);
-  const todayReportCreated = await todayReportIsCreated();
+
   const todayReport = await getTodayReport();
-  const saleEmployees = todayReport?.individualTips.map((data) => ({
-    userId: data.userId,
-    fullDay: data.hours === todayReport.fullDayHours,
-    name: data.user.name,
-  }));
+  let processedTodayReportData: SaleReportCardProcessedData | undefined;
+  if (todayReport) {
+    const employees = todayReport.individualTips.map((data) => ({
+      userId: data.userId,
+      fullDay: data.hours === todayReport.fullDayHours,
+      name: data.user.name,
+    }));
+
+    const rawData: SaleReportCardRawData = {
+      reporterName: todayReport.reporter.name,
+      employees,
+      ...todayReport,
+    };
+
+    processedTodayReportData = processReportDataForView(rawData);
+  }
 
   return (
     <Container className="space-y-4">
@@ -40,7 +53,7 @@ export default async function Home() {
           </span>
         </div>
 
-        {todayReportCreated && (
+        {todayReport && (
           <div className="flex items-center gap-2">
             <CircleCheck size={17} className="text-green-500" />
             Today's report has been submitted.
@@ -53,8 +66,9 @@ export default async function Home() {
       </div>
 
       {todayReport && (
-        <div>
-          <SaleReportView report={todayReport} employees={saleEmployees} />
+        <div className="space-y-4 rounded-md border p-4 shadow">
+          <h1 className="font-semibold">Today's Sale Report</h1>
+          <SaleReportCard data={processedTodayReportData} />
         </div>
       )}
 

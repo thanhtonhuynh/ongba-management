@@ -42,18 +42,23 @@ const steps = [
 
 type FieldName = keyof CreateReportSchemaTypes;
 
-export function NewReportPortal({ users }: { users: User[] }) {
+type NewReportPortalProps = {
+  users: User[];
+  startCash: number;
+};
+
+export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
   const [error, setError] = useState<string>();
   const [isPending, startTransition] = useTransition();
   const createReportForm = useForm<CreateReportSchemaTypes>({
     resolver: zodResolver(CreateReportSchema),
     defaultValues: {
-      saleTotal: 0.0,
+      totalSales: 0.0,
       uberEatsSales: 0.0,
       doorDashSales: 0.0,
       skipTheDishesSales: 0.0,
       onlineSales: 0.0,
-      cardTotal: 0.0,
+      cardSales: 0.0,
       expenses: 0.0,
       expensesReason: "",
       cardTips: 0.0,
@@ -170,7 +175,10 @@ export function NewReportPortal({ users }: { users: User[] }) {
 
       {currentStep === 2 && (
         <MotionContainer delta={delta}>
-          <ReportPreview createReportForm={createReportForm} users={users} />
+          <ReportPreview
+            createReportForm={createReportForm}
+            startCash={startCash}
+          />
         </MotionContainer>
       )}
 
@@ -190,7 +198,10 @@ export function NewReportPortal({ users }: { users: User[] }) {
             </p>
           </div>
 
-          <ReportPreview createReportForm={createReportForm} users={users} />
+          <ReportPreview
+            createReportForm={createReportForm}
+            startCash={startCash}
+          />
         </MotionContainer>
       )}
 

@@ -26,26 +26,26 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
       <form className="space-y-2">
         <div className="grid grid-cols-2 gap-2">
           <FormField
-            name="saleTotal"
+            name="totalSales"
             control={form.control}
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="font-semibold">Total sales</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="0.00" />
+                  <Input {...field} type="number" placeholder="0.00" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
           <FormField
-            name="cardTotal"
+            name="cardSales"
             control={form.control}
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="font-semibold">Card net sales</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="0.00" />
+                  <Input {...field} type="number" placeholder="0.00" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -61,7 +61,7 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
               <FormItem>
                 <FormLabel className="font-semibold">Uber Eats</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="0.00" />
+                  <Input {...field} type="number" placeholder="0.00" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -75,7 +75,7 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
               <FormItem>
                 <FormLabel className="font-semibold">Door Dash</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="0.00" />
+                  <Input {...field} type="number" placeholder="0.00" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -89,7 +89,7 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
               <FormItem>
                 <FormLabel className="font-semibold">Skip Dishes</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="0.00" />
+                  <Input {...field} type="number" placeholder="0.00" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -103,7 +103,7 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
               <FormItem>
                 <FormLabel className="font-semibold">Online</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="0.00" />
+                  <Input {...field} type="number" placeholder="0.00" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -118,7 +118,7 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
             <FormItem>
               <FormLabel className="font-semibold">Expenses</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="0.00" />
+                <Input {...field} type="number" placeholder="0.00" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -147,7 +147,7 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
               <FormItem>
                 <FormLabel className="font-semibold">Card tips</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="0.00" />
+                  <Input {...field} type="number" placeholder="0.00" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -161,7 +161,7 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
               <FormItem>
                 <FormLabel className="font-semibold">Cash tips</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="0.00" />
+                  <Input {...field} type="number" placeholder="0.00" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -175,7 +175,7 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
               <FormItem>
                 <FormLabel className="font-semibold">Extra tips</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="0.00" />
+                  <Input {...field} type="number" placeholder="0.00" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -212,9 +212,7 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
                 key={index}
                 className="flex items-center justify-between space-x-4 border-b p-1 text-sm"
               >
-                <p className="font-semibold">
-                  {users.find((user) => user.id === employee.userId)?.name}
-                </p>
+                <p className="font-semibold">{employee.name}</p>
                 <p>{employee.fullDay ? "Full day" : "Half day"}</p>
               </div>
             ))}

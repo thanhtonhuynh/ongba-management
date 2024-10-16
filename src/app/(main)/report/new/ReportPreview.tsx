@@ -1,27 +1,29 @@
 "use client";
 
-import { SaleReportView } from "@/components/SaleReportView";
-import { User } from "@/lib/auth/session";
+import { SaleReportCard } from "@/components/SaleReportCard";
+import { useSession } from "@/contexts/SessionProvider";
 import { CreateReportSchemaTypes } from "@/lib/report/validation";
+import { SaleReportCardRawData } from "@/types";
+import { processReportDataForView } from "@/utils/report";
 import { UseFormReturn } from "react-hook-form";
 
 type ReportPreviewProps = {
   createReportForm: UseFormReturn<CreateReportSchemaTypes>;
-  users: User[];
+  startCash: number;
 };
 
-export function ReportPreview({ createReportForm, users }: ReportPreviewProps) {
-  const employees = createReportForm.watch("employees").map((emp) => ({
-    userId: emp.userId,
-    fullDay: emp.fullDay,
-    name: users.find((user) => user.id === emp.userId)?.name || "",
-  }));
+export function ReportPreview({
+  createReportForm,
+  startCash,
+}: ReportPreviewProps) {
+  const { user } = useSession();
+  const rawData: SaleReportCardRawData = {
+    ...createReportForm.watch(),
+    startCash,
+    date: new Date(),
+    reporterName: user?.name || "Unknown user",
+  };
+  const processedData = processReportDataForView(rawData);
 
-  return (
-    <SaleReportView
-      report={createReportForm.watch()}
-      employees={employees}
-      // users={users}
-    />
-  );
+  return <SaleReportCard data={processedData} />;
 }
