@@ -60,7 +60,8 @@ export function SaleReportCard({ data }: SaleReportProps) {
 
       <div>
         <span className="font-semibold">Expenses: </span>
-        {formatPrice(data.expenses)} ({data.expensesReason})
+        {formatPrice(data.expenses)}{" "}
+        {data.expensesReason && `(${data.expensesReason})`}
       </div>
 
       <Separator className="my-1" />
