@@ -10,11 +10,16 @@ import {
   CreateReportSchema,
   CreateReportSchemaTypes,
 } from "@/lib/report/validation";
+import { hasAccess } from "@/utils/access-control";
 
 export async function createReportAction(data: CreateReportSchemaTypes) {
   try {
     const { user } = await getCurrentSession();
-    if (!user || !user.userVerified) {
+    if (
+      !user ||
+      user.accountStatus !== "active" ||
+      !hasAccess(user.role, "/report/new")
+    ) {
       return { error: "Unauthorized." };
     }
 

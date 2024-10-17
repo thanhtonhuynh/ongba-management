@@ -14,10 +14,10 @@ model User {
   username      String  @unique
   email         String  @unique
   emailVerified Boolean @default(false)
-  userVerified  Boolean @default(false)
+  role          String  @default("user")
+  accountStatus String  @default("inactive")
   passwordHash  String?
   image         String?
-  role          String?
   // totpKey          Bytes?
   // twoFactorEnabled Boolean @default(false)
 

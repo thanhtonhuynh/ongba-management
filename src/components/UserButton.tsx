@@ -14,6 +14,7 @@ import {
 } from "./ui/dropdown-menu";
 import { User } from "@/lib/auth/session";
 import { logoutAction } from "@/app/(auth)/actions";
+import { hasAccess } from "@/utils/access-control";
 
 interface UserButtonProps {
   user: User;
@@ -32,18 +33,17 @@ export default function UserButton({ user }: UserButtonProps) {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>{user.name || "User"}</DropdownMenuLabel>
+        <DropdownMenuLabel className="space-y-1">
+          <div>{user.name}</div>
+          <div className="text-xs text-muted-foreground">
+            {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+          </div>
+        </DropdownMenuLabel>
 
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem asChild>
-            <Link href="/settings" className="cursor-pointer">
-              <Settings className="mr-2 h-4 w-4" />
-              <span>Settings</span>
-            </Link>
-          </DropdownMenuItem>
-          {user.role === "admin" && (
+          {hasAccess(user.role, "/admin") && (
             <DropdownMenuItem asChild>
               <Link href="/admin" className="cursor-pointer">
                 <Lock className="mr-2 h-4 w-4" />
@@ -51,6 +51,13 @@ export default function UserButton({ user }: UserButtonProps) {
               </Link>
             </DropdownMenuItem>
           )}
+
+          <DropdownMenuItem asChild>
+            <Link href="/settings" className="cursor-pointer">
+              <Settings className="mr-2 h-4 w-4" />
+              <span>Account settings</span>
+            </Link>
+          </DropdownMenuItem>
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />

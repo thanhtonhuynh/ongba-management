@@ -1,6 +1,6 @@
 import { Container } from "@/components/Container";
 import { getCurrentSession } from "@/lib/auth/session";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import moment from "moment";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -14,11 +14,12 @@ import { formatPriceWithDollarSign } from "@/lib/utils";
 import { SaleReportCard } from "@/components/SaleReportCard";
 import { SaleReportCardProcessedData, SaleReportCardRawData } from "@/types";
 import { processReportDataForView } from "@/utils/report";
+import { hasAccess } from "@/utils/access-control";
 
 export default async function Home() {
   const { session, user } = await getCurrentSession();
   if (!session) redirect("/login");
-  if (!user.userVerified) redirect("/user-not-verify");
+  if (user.accountStatus !== "active") return notFound();
 
   const userMonthToDateTips = await getUserMonthToDateTips(user.id);
   const userMonthToDateHours = await getUserMonthToDateHours(user.id);
@@ -60,9 +61,20 @@ export default async function Home() {
           </div>
         )}
 
-        <Button className="w-fit" asChild>
-          <Link href={`report/new`}>Create new sale report</Link>
-        </Button>
+        {hasAccess(user.role, "report/new") && (
+          <>
+            <Button className="w-fit" asChild>
+              <Link href={`report/new`}>Create new sale report</Link>
+            </Button>
+
+            <div className="text-sm text-muted-foreground">
+              <span className="font-semibold">Note:</span> There can only be
+              <span className="font-semibold"> ONE </span>
+              sale report per day. Submitting a new report will overwrite the
+              existing one.
+            </div>
+          </>
+        )}
       </div>
 
       {todayReport && (

@@ -1,14 +1,16 @@
 import { Container } from "@/components/Container";
 import { getAllUsers } from "@/data/users";
 import { getCurrentSession } from "@/lib/auth/session";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { NewReportPortal } from "./NewReportPortal";
 import { getStartCash } from "@/data/store";
+import { hasAccess } from "@/utils/access-control";
 
 export default async function Page() {
   const { session, user } = await getCurrentSession();
   if (!session) redirect("/login");
-  if (!user.userVerified) redirect("/user-not-verify");
+  if (user.accountStatus !== "active") return notFound();
+  if (!hasAccess(user.role, "/report/new")) return notFound();
 
   const users = await getAllUsers();
   const startCash = await getStartCash();

@@ -8,12 +8,17 @@ import {
   UpdateStartCashInput,
   UpdateStartCashSchema,
 } from "@/lib/validations/store";
+import { hasAccess } from "@/utils/access-control";
 import { revalidatePath } from "next/cache";
 
 export async function updateShiftHours(data: UpdateShiftHoursInput) {
   try {
     const { user } = await getCurrentSession();
-    if (!user || !user.userVerified || user.role !== "admin") {
+    if (
+      !user ||
+      user.accountStatus !== "active" ||
+      !hasAccess(user.role, "/admin/store-settings", "edit")
+    ) {
       return { error: "Unauthorized." };
     }
 
@@ -41,7 +46,11 @@ export async function updateShiftHours(data: UpdateShiftHoursInput) {
 export async function updateStartCash(data: UpdateStartCashInput) {
   try {
     const { user } = await getCurrentSession();
-    if (!user || !user.userVerified || user.role !== "admin") {
+    if (
+      !user ||
+      user.accountStatus !== "active" ||
+      !hasAccess(user.role, "/admin/store-settings", "edit")
+    ) {
       return { error: "Unauthorized." };
     }
 

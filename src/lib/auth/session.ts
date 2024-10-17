@@ -1,12 +1,12 @@
-import { sha256 } from '@oslojs/crypto/sha2';
+import { sha256 } from "@oslojs/crypto/sha2";
 import {
   encodeBase32LowerCaseNoPadding,
   encodeHexLowerCase,
-} from '@oslojs/encoding';
-import { Session } from '@prisma/client';
-import prisma from '@/lib/prisma';
-import { cookies } from 'next/headers';
-import { cache } from 'react';
+} from "@oslojs/encoding";
+import { Session } from "@prisma/client";
+import prisma from "@/lib/prisma";
+import { cookies } from "next/headers";
+import { cache } from "react";
 
 const SESSION_TTL = 1000 * 60 * 60 * 24 * 30; // 30 days
 const SESSION_TTL_SHORT = 1000 * 60 * 60 * 24 * 15; // 15 days
@@ -16,9 +16,9 @@ export type User = {
   name: string;
   email: string;
   emailVerified: boolean;
-  userVerified: boolean;
+  accountStatus: string;
   image: string | null;
-  role: string | null;
+  role: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -37,7 +37,7 @@ export type SessionValidationResult =
  * @returns The session and user if the token is valid, otherwise null
  */
 export async function validateSessionToken(
-  token: string
+  token: string,
 ): Promise<SessionValidationResult> {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
 
@@ -73,13 +73,13 @@ export async function validateSessionToken(
  */
 export const getCurrentSession = cache(
   async (): Promise<SessionValidationResult> => {
-    const token = cookies().get('session')?.value ?? null;
+    const token = cookies().get("session")?.value ?? null;
     if (token === null) {
       return { session: null, user: null };
     }
     const result = await validateSessionToken(token);
     return result;
-  }
+  },
 );
 
 /**
@@ -102,7 +102,7 @@ export function generateSessionToken(): string {
 export async function createSession(
   token: string,
   userId: string,
-  flags: SessionFlags
+  flags: SessionFlags,
 ): Promise<Session> {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const session = await prisma.session.create({
@@ -149,12 +149,12 @@ export async function invalidateUserSessions(userId: string) {
  * @param expiresAt - The expiration date for the session token
  */
 export function setSessionTokenCookie(token: string, expiresAt: Date) {
-  cookies().set('session', token, {
+  cookies().set("session", token, {
     httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
     expires: expiresAt,
-    path: '/',
+    path: "/",
   });
 }
 
@@ -162,11 +162,11 @@ export function setSessionTokenCookie(token: string, expiresAt: Date) {
  * Delete the session token from the browser cookie
  */
 export function deleteSessionTokenCookie() {
-  cookies().set('session', '', {
+  cookies().set("session", "", {
     httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
     maxAge: 0,
-    path: '/',
+    path: "/",
   });
 }

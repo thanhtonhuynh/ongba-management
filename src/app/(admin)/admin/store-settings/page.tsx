@@ -1,15 +1,16 @@
 import { Separator } from "@/components/ui/separator";
 import { getCurrentSession } from "@/lib/auth/session";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { ShiftHoursForm } from "./ShiftHoursForm";
 import { getShiftHours, getStartCash } from "@/data/store";
 import { StartCashForm } from "./StartCashForm";
+import { hasAccess } from "@/utils/access-control";
 
 export default async function Page() {
   const { session, user } = await getCurrentSession();
   if (!session) redirect("/login");
-  if (!user.userVerified) redirect("/user-not-verify");
-  if (!user.role || user.role !== "admin") redirect("/");
+  if (user.accountStatus !== "active") return notFound();
+  if (!hasAccess(user.role, "/admin/store-settings")) return notFound();
 
   const currentShiftHours = await getShiftHours();
   const currentStartCash = await getStartCash();
