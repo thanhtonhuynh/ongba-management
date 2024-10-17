@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { ComponentProps, ReactNode } from "react";
 
 export function Nav({
@@ -26,13 +26,18 @@ export function Nav({
 
 export function NavLink(props: Omit<ComponentProps<typeof Link>, "className">) {
   const pathname = usePathname();
+  const { href } = props;
+  const isActive =
+    pathname === href ||
+    (pathname.startsWith(href as string) && href !== "/admin");
+
   return (
     <Link
       {...props}
       className={cn(
         "rounded-md px-4 py-2 text-sm font-medium transition-colors",
-        pathname === props.href && "bg-muted",
-        pathname !== props.href && "hover:underline",
+        isActive && "bg-muted",
+        !isActive && "hover:underline",
       )}
     />
   );

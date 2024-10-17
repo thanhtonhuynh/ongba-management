@@ -35,8 +35,8 @@ export default function UserButton({ user }: UserButtonProps) {
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel className="space-y-1">
           <div>{user.name}</div>
-          <div className="text-xs text-muted-foreground">
-            {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+          <div className="text-xs capitalize text-muted-foreground">
+            {user.role}
           </div>
         </DropdownMenuLabel>
 

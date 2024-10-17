@@ -61,7 +61,7 @@ export default async function Home() {
           </div>
         )}
 
-        {hasAccess(user.role, "report/new") && (
+        {hasAccess(user.role, "/report/new") && (
           <>
             <Button className="w-fit" asChild>
               <Link href={`report/new`}>Create new sale report</Link>

@@ -10,12 +10,12 @@ const accessControl: AccessControl = {
   },
   "/admin/employees": {
     read: ["admin", "manager"],
-    edit: ["admin"],
+    update: ["admin", "manager"],
     delete: ["admin"],
   },
   "/admin/store-settings": {
     read: ["admin"],
-    edit: ["admin"],
+    update: ["admin"],
   },
   "/report/new": {
     read: ["admin", "manager", "server"],

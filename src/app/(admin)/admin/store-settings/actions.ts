@@ -17,7 +17,7 @@ export async function updateShiftHours(data: UpdateShiftHoursInput) {
     if (
       !user ||
       user.accountStatus !== "active" ||
-      !hasAccess(user.role, "/admin/store-settings", "edit")
+      !hasAccess(user.role, "/admin/store-settings", "update")
     ) {
       return { error: "Unauthorized." };
     }
@@ -49,7 +49,7 @@ export async function updateStartCash(data: UpdateStartCashInput) {
     if (
       !user ||
       user.accountStatus !== "active" ||
-      !hasAccess(user.role, "/admin/store-settings", "edit")
+      !hasAccess(user.role, "/admin/store-settings", "update")
     ) {
       return { error: "Unauthorized." };
     }

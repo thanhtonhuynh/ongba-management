@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { cache } from "react";
 
 // Get user month-to-date tips
 export async function getUserMonthToDateTips(userId: string) {
@@ -31,4 +32,21 @@ export async function getUserMonthToDateHours(userId: string) {
   });
 
   return workDays.reduce((acc, workDay) => acc + workDay.hours, 0);
+}
+
+// Get employees
+export const getEmployees = cache(async (status?: string) => {
+  return prisma.user.findMany({
+    where: {
+      accountStatus: status,
+    },
+  });
+});
+
+// Deactivate employee
+export async function updateEmployeeStatus(userId: string, status: string) {
+  return prisma.user.update({
+    where: { id: userId },
+    data: { accountStatus: status },
+  });
 }
