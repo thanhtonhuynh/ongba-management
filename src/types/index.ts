@@ -50,3 +50,22 @@ export interface SaleReportCardProcessedData extends SaleReportCardRawData {
   totalPeople: number;
   tipsPerPerson: number;
 }
+
+export type Weekday =
+  | "monday"
+  | "tuesday"
+  | "wednesday"
+  | "thursday"
+  | "friday"
+  | "saturday"
+  | "sunday";
+
+export type ShiftHours = {
+  monday: number;
+  tuesday: number;
+  wednesday: number;
+  thursday: number;
+  friday: number;
+  saturday: number;
+  sunday: number;
+};

@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils';
-import { Check, CircleAlert } from 'lucide-react';
+import { cn } from "@/lib/utils";
+import { Check, CircleAlert } from "lucide-react";
 
 export function ErrorMessage({
   title,
@@ -13,8 +13,8 @@ export function ErrorMessage({
   return (
     <div
       className={cn(
-        `text-white bg-destructive rounded p-2 flex items-center gap-2 text-sm`,
-        className
+        `flex items-center gap-2 rounded bg-destructive p-2 text-sm text-white`,
+        className,
       )}
     >
       <CircleAlert size={20} />
@@ -39,8 +39,8 @@ export function SuccessMessage({
   return (
     <div
       className={cn(
-        ` bg-green-700 text-white rounded p-2 text-sm flex items-center gap-2`,
-        className
+        `flex items-center gap-2 rounded bg-green-500 p-2 text-sm text-white`,
+        className,
       )}
     >
       <Check size={20} />

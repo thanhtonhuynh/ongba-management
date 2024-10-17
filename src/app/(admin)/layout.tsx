@@ -12,7 +12,7 @@ export default async function Layout({
       <NavBar />
       <Container className="flex flex-col space-y-8 md:flex-row md:space-x-12 md:space-y-0">
         <AdminNavBar />
-        {children}
+        <div className="flex-1">{children}</div>
       </Container>
     </>
   );
