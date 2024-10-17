@@ -1,4 +1,5 @@
-import NavBar from '@/components/NavBar';
+import Footer from "@/components/Footer";
+import NavBar from "@/components/NavBar";
 
 export default async function Layout({
   children,
@@ -9,6 +10,7 @@ export default async function Layout({
     <>
       <NavBar />
       {children}
+      <Footer />
     </>
   );
 }

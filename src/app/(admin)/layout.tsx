@@ -1,5 +1,6 @@
 import { AdminNavBar } from "@/components/AdminNavBar";
 import { Container } from "@/components/Container";
+import Footer from "@/components/Footer";
 import NavBar from "@/components/NavBar";
 
 export default async function Layout({
@@ -14,6 +15,7 @@ export default async function Layout({
         <AdminNavBar />
         <div className="flex-1">{children}</div>
       </Container>
+      <Footer />
     </>
   );
 }

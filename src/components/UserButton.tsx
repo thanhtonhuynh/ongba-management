@@ -1,8 +1,8 @@
-import avatarPlaceholder from '@/assets/avatar_placeholder.png';
-import { Lock, LogOut, Settings } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Button } from './ui/button';
+import avatarPlaceholder from "@/assets/avatar_placeholder.png";
+import { Lock, LogOut, Settings, UserRound } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,9 +11,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from './ui/dropdown-menu';
-import { User } from '@/lib/auth/session';
-import { logoutAction } from '@/app/(auth)/actions';
+} from "./ui/dropdown-menu";
+import { User } from "@/lib/auth/session";
+import { logoutAction } from "@/app/(auth)/actions";
 
 interface UserButtonProps {
   user: User;
@@ -23,19 +23,16 @@ export default function UserButton({ user }: UserButtonProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="icon" className="flex-none rounded-full">
-          <Image
-            src={user.image || avatarPlaceholder}
-            alt="User profile picture"
-            width={50}
-            height={50}
-            className="aspect-square rounded-full bg-background object-cover"
-          />
+        <Button
+          size="icon"
+          className="flex-none rounded-full border bg-background text-primary shadow-md hover:bg-muted"
+        >
+          <UserRound size={20} />
         </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>{user.name || 'User'}</DropdownMenuLabel>
+        <DropdownMenuLabel>{user.name || "User"}</DropdownMenuLabel>
 
         <DropdownMenuSeparator />
 
@@ -46,7 +43,7 @@ export default function UserButton({ user }: UserButtonProps) {
               <span>Settings</span>
             </Link>
           </DropdownMenuItem>
-          {user.role === 'admin' && (
+          {user.role === "admin" && (
             <DropdownMenuItem asChild>
               <Link href="/admin" className="cursor-pointer">
                 <Lock className="mr-2 h-4 w-4" />
