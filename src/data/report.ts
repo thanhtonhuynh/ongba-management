@@ -96,3 +96,38 @@ export async function getFirstReportDate() {
 
   return report?.date;
 }
+
+// Get all reports
+export async function getAllReports() {
+  const reports = await prisma.saleReport.findMany({
+    orderBy: { date: "desc" },
+    include: {
+      individualTips: {
+        select: { userId: true, hours: true, user: { select: { name: true } } },
+      },
+      reporter: { select: { name: true } },
+    },
+  });
+
+  return reports;
+}
+
+// Get report by date
+export async function getReportByDate(date: Date) {
+  const startOfDay = new Date(date);
+  startOfDay.setHours(0, 0, 0, 0);
+  const endOfDay = new Date(date);
+  endOfDay.setHours(23, 59, 59, 999);
+
+  const report = await prisma.saleReport.findFirst({
+    where: { date: { gte: startOfDay, lte: endOfDay } },
+    include: {
+      individualTips: {
+        select: { userId: true, hours: true, user: { select: { name: true } } },
+      },
+      reporter: { select: { name: true } },
+    },
+  });
+
+  return report;
+}

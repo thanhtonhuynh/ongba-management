@@ -28,3 +28,9 @@ export const CreateReportSchema = z.object({
     .min(1, "At least 1 employee is required"),
 });
 export type CreateReportSchemaTypes = z.infer<typeof CreateReportSchema>;
+
+// Search report by date
+export const SearchReportSchema = z.object({
+  date: z.date({ message: "Invalid date" }),
+});
+export type SearchReportInput = z.infer<typeof SearchReportSchema>;
