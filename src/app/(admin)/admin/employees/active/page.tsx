@@ -15,7 +15,7 @@ export default async function Page() {
   return (
     <section className="grid grid-cols-2 gap-2">
       {employees.map((employee) => (
-        <EmployeeCard key={employee.id} user={employee} />
+        <EmployeeCard key={employee.id} employee={employee} />
       ))}
     </section>
   );

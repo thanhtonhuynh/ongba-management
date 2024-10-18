@@ -35,7 +35,7 @@ export function ReactivateUser({ user }: ReactivateUser) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant={"outline"} className="text-yellow-600">
+        <Button variant={"outline"} size={`sm`} className="text-yellow-600">
           Reactivate
         </Button>
       </AlertDialogTrigger>

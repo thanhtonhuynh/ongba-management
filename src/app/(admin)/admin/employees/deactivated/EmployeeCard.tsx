@@ -16,19 +16,19 @@ type EmployeeCardProps = {
 export function EmployeeCard({ user }: EmployeeCardProps) {
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="p-4">
         <CardTitle>
           {user.name}{" "}
           <span className="text-sm font-medium text-muted-foreground">
             {user.email}
           </span>
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-xs">
           <span className="capitalize">{user.role}</span>
         </CardDescription>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="flex space-x-2 p-4 pt-0">
         <ReactivateUser user={user} />
       </CardContent>
     </Card>

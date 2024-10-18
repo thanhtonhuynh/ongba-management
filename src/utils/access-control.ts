@@ -31,3 +31,14 @@ export function hasAccess(role: string, path: string, action?: string) {
 
   return accessControl[path][action].includes(role);
 }
+
+export function canDeactivateUser(userRole: string, targetRole: string) {
+  if (
+    (targetRole === "admin" || targetRole === "manager") &&
+    userRole !== "admin"
+  ) {
+    return false;
+  }
+
+  return true;
+}

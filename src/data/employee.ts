@@ -43,10 +43,18 @@ export const getEmployees = cache(async (status?: string) => {
   });
 });
 
-// Deactivate employee
+// Update employee status
 export async function updateEmployeeStatus(userId: string, status: string) {
   return prisma.user.update({
     where: { id: userId },
     data: { accountStatus: status },
+  });
+}
+
+// Update employee role
+export async function updateEmployeeRole(userId: string, role: string) {
+  return prisma.user.update({
+    where: { id: userId },
+    data: { role },
   });
 }

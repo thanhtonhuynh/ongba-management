@@ -35,7 +35,7 @@ export function DeactivateUser({ user }: DeactivateUserProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant={"outline"} className="text-destructive">
+        <Button variant={"outline"} size={`sm`} className="text-destructive">
           Deactivate
         </Button>
       </AlertDialogTrigger>

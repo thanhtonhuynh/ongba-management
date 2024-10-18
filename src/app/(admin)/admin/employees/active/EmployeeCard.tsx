@@ -1,4 +1,4 @@
-import { User } from "@/lib/auth/session";
+import { getCurrentSession, User } from "@/lib/auth/session";
 import {
   Card,
   CardContent,
@@ -8,28 +8,37 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { DeactivateUser } from "./DeactivateUser";
+import { ChangeUserRoleDialog } from "./ChangeUserRoleDialog";
+import { canDeactivateUser } from "@/utils/access-control";
 
 type EmployeeCardProps = {
-  user: User;
+  employee: User;
 };
 
-export function EmployeeCard({ user }: EmployeeCardProps) {
+export async function EmployeeCard({ employee }: EmployeeCardProps) {
+  const { user } = await getCurrentSession();
+  if (!user) return null;
+
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="p-4">
         <CardTitle>
-          {user.name}{" "}
+          {employee.name}{" "}
           <span className="text-sm font-medium text-muted-foreground">
-            {user.email}
+            {employee.email}
           </span>
         </CardTitle>
-        <CardDescription>
-          <span className="capitalize">{user.role}</span>
+        <CardDescription className="text-xs">
+          <span className="capitalize">{employee.role}</span>
         </CardDescription>
       </CardHeader>
 
-      <CardContent>
-        <DeactivateUser user={user} />
+      <CardContent className="flex justify-between space-x-2 p-4 pt-0">
+        <ChangeUserRoleDialog selectedUser={employee} />
+
+        {canDeactivateUser(user.role, employee.role) && (
+          <DeactivateUser user={employee} />
+        )}
       </CardContent>
     </Card>
   );
