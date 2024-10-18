@@ -26,7 +26,9 @@ export function PeriodSelect({
   latestYearMonths,
 }: PeriodSelectProps) {
   const pathname = usePathname();
-  const [selectedYear, setSelectedYear] = useState<number>(years[0]);
+  const [selectedYear, setSelectedYear] = useState<number>(
+    years[0] || new Date().getFullYear(),
+  );
   const [displayedMonths, setDisplayedMonths] =
     useState<number[]>(latestYearMonths);
 

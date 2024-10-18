@@ -19,11 +19,13 @@ export default async function Layout({
       <Separator className="my-4" />
 
       <div className="flex space-x-4">
-        <PeriodSelect
-          years={years}
-          firstYearMonths={firstYearMonths}
-          latestYearMonths={latestYearMonths}
-        />
+        {years.length > 0 && (
+          <PeriodSelect
+            years={years}
+            firstYearMonths={firstYearMonths}
+            latestYearMonths={latestYearMonths}
+          />
+        )}
 
         {children}
       </div>
