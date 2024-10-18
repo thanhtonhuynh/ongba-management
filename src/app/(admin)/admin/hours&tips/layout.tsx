@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import { PeriodSelect } from "./PeriodSelect";
+import { PeriodSelect } from "./_components/PeriodSelect";
 import { populatePeriodSelectData } from "@/utils/hours-tips";
 
 export default async function Layout({

@@ -5,7 +5,7 @@ import { hasAccess } from "@/utils/access-control";
 import { getPeriodsByMonthAndYear } from "@/utils/hours-tips";
 import { notFound, redirect } from "next/navigation";
 import moment from "moment";
-import { HoursTipsTable } from "../HoursTipsTable";
+import { HoursTipsTable } from "../_components/HoursTipsTable";
 
 type Props = {
   params: {

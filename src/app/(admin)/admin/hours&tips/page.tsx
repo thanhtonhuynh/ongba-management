@@ -1,7 +1,7 @@
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasAccess } from "@/utils/access-control";
 import { notFound, redirect } from "next/navigation";
-import { HoursTipsTable } from "./HoursTipsTable";
+import { HoursTipsTable } from "./_components/HoursTipsTable";
 import { getEmployeesHoursAndTips } from "@/data/employee";
 import { getTodayBiweeklyPeriod } from "@/utils/hours-tips";
 import moment from "moment";
