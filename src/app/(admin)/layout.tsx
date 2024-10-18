@@ -1,9 +1,9 @@
-import { AdminNavBar } from "@/components/AdminNavBar";
 import { Container } from "@/components/Container";
+import { AdminNavBar } from "./AdminNavBar";
 import Footer from "@/components/Footer";
 import NavBar from "@/components/NavBar";
 
-export default async function Layout({
+export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;

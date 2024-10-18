@@ -69,3 +69,8 @@ export type ShiftHours = {
   saturday: number;
   sunday: number;
 };
+
+export type DayRange = {
+  start: Date;
+  end: Date;
+};

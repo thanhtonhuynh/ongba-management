@@ -87,3 +87,12 @@ export async function getTodayReport() {
 
   return report;
 }
+
+// Get first report date
+export async function getFirstReportDate() {
+  const report = await prisma.saleReport.findFirst({
+    orderBy: { date: "asc" },
+  });
+
+  return report?.date;
+}
