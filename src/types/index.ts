@@ -22,7 +22,6 @@ export type SaleEmployee = {
 };
 
 export interface SaleReportCardRawData {
-  id: string;
   date: Date;
   reporterName: string;
   totalSales: number;

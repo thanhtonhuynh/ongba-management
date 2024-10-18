@@ -18,8 +18,8 @@ export default async function Page() {
 
   return (
     <Container className="items-center space-y-4">
-      <div className="flex w-full max-w-[50rem] flex-col space-y-8 rounded-xl border px-4 py-8 shadow-xl">
-        <h1 className="text-2xl font-bold">Create new sale report</h1>
+      <div className="flex w-full max-w-[50rem] flex-col space-y-4 rounded-md border px-4 py-8 shadow-xl">
+        <h1 className="text-2xl font-bold">Create sale report</h1>
         <NewReportPortal users={users} startCash={startCash} />
       </div>
     </Container>

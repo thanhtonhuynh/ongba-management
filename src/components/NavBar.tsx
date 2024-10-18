@@ -12,23 +12,23 @@ export default async function NavBar() {
   return (
     <header className="sticky top-0 border-b bg-background px-3 shadow-sm">
       <nav className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-3">
-        <Link href="/" className="flex items-center font-bold">
-          <Image
-            src={ongbaLogo}
-            alt="Ongba Logo"
-            width={30}
-            height={30}
-            className="aspect-square object-cover"
-          />
-          ONGBA
-        </Link>
+        <div className="flex items-center space-x-4">
+          <Link href="/" className="flex items-center space-x-1 font-bold">
+            <Image
+              src={ongbaLogo}
+              alt="Ongba Logo"
+              width={40}
+              height={40}
+              className="aspect-square object-cover"
+            />
+            <span className="text-xl tracking-wider">ONGBA</span>
+          </Link>
+
+          <NavLink href={`/report`}>Sale Reports</NavLink>
+        </div>
 
         {user ? (
-          <div className="flex items-center space-x-4">
-            <NavLink href={`/report`}>Sale Reports</NavLink>
-
-            <UserButton user={user} />
-          </div>
+          <UserButton user={user} />
         ) : (
           <Button asChild>
             <Link href={`/login`}>Login</Link>

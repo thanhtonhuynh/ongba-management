@@ -16,7 +16,7 @@ export function SaleReportCard({ data }: SaleReportProps) {
   }
 
   return (
-    <div className="mx-auto w-full rounded border p-2 text-sm shadow sm:w-2/3 md:w-1/2">
+    <div className="w-full rounded border p-2 text-sm shadow">
       <div>
         <span className="font-semibold">Date: </span>
         {moment(data.date).format("YYYY/MM/DD")}

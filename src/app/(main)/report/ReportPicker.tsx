@@ -14,12 +14,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import moment from "moment";
 import { Calendar } from "@/components/ui/calendar";
 import { LoadingButton } from "@/components/LoadingButton";
-import { CalendarIcon } from "@radix-ui/react-icons";
 import { ErrorMessage } from "@/components/Message";
 import { SaleReportCard } from "@/components/SaleReportCard";
 
@@ -36,7 +33,6 @@ export function ReportPicker() {
   const [error, setError] = useState<string | null>(null);
 
   async function onSubmit(data: SearchReportInput) {
-    console.log(data);
     setError(null);
     setProcessedReport(null);
 
@@ -51,65 +47,73 @@ export function ReportPicker() {
     });
   }
   return (
-    <div className="flex">
+    <div className={`grid space-y-4 md:grid-cols-2 md:space-x-4 md:space-y-0`}>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4 self-start rounded-md border p-4 shadow"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              form.handleSubmit(onSubmit)();
+            }
+          }}
+        >
           <FormField
             control={form.control}
             name="date"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Date</FormLabel>
+                <FormLabel className="text-base">
+                  Pick a date to search for a sales report
+                </FormLabel>
                 <FormControl>
-                  {/* <Button
-                    type="button"
-                    variant={"outline"}
-                    className={cn(
-                      "w-[240px] pl-3 text-left font-normal",
-                      !field.value && "text-muted-foreground",
-                    )}
-                  >
-                    {field.value ? (
-                      moment(field.value).format("MMM D, YYYY")
-                    ) : (
-                      <span>Pick a date</span>
-                    )}
-                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                  </Button> */}
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onDayFocus={(date) => {
+                      field.onChange(moment(date).toDate());
+                    }}
+                    // onSelect={(date) => {
+                    //   field.onChange(moment(date).toDate());
+                    //   console.log(date);
+                    // }}
+                    onDayClick={(date) => {
+                      field.onChange(moment(date).toDate());
+                    }}
+                    disabled={(date) =>
+                      date > new Date() || date < new Date("1900-01-01")
+                    }
+                    initialFocus
+                  />
                 </FormControl>
-                <Calendar
-                  mode="single"
-                  selected={field.value}
-                  onSelect={field.onChange}
-                  disabled={(date) =>
-                    date > new Date() || date < new Date("1900-01-01")
-                  }
-                  initialFocus
-                />
                 <FormMessage />
               </FormItem>
             )}
           />
-          <LoadingButton loading={isPending} type="submit">
+
+          <LoadingButton loading={isPending} type="submit" className="w-full">
             {isPending ? "Searching..." : "Search"}
           </LoadingButton>
         </form>
       </Form>
 
-      <div className="flex-1">
-        {error && <ErrorMessage message={error} />}
+      {(error || processedReport) && (
+        <div className="rounded-md border p-4 shadow">
+          {error && <ErrorMessage message={error} />}
 
-        {processedReport && (
-          <div>
-            <h2>
-              Sales Report for{" "}
-              {moment(processedReport.date).format("MMM D, YYYY")}
-            </h2>
+          {processedReport && (
+            <div className="space-y-4">
+              <h2 className="font-semibold">
+                Sales Report for{" "}
+                {moment(processedReport.date).format("MMM D, YYYY")}
+              </h2>
 
-            <SaleReportCard data={processedReport} />
-          </div>
-        )}
-      </div>
+              <SaleReportCard data={processedReport} />
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

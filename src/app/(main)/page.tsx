@@ -44,45 +44,43 @@ export default async function Home() {
 
   return (
     <Container className="space-y-4">
-      <div className="space-y-4 rounded-md border p-4 shadow">
-        <div>Good day, {user.name}!</div>
-
-        <div>
-          Today is{" "}
-          <span className="font-bold">
-            {moment().format("dddd, MMM DD, YYYY")}
-          </span>
+      <div className="grid grid-cols-1 space-y-4 md:grid-cols-2 md:space-x-4 md:space-y-0">
+        <div className="space-y-4 rounded-md border p-4 shadow">
+          <div>Good day, {user.name}!</div>
+          <div>
+            Today is{" "}
+            <span className="font-bold">
+              {moment().format("dddd, MMM DD, YYYY")}
+            </span>
+          </div>
+          {todayReport && (
+            <div className="flex items-center gap-2">
+              <CircleCheck size={17} className="text-green-500" />
+              Today's report has been submitted.
+            </div>
+          )}
+          {hasAccess(user.role, "/report/new") && (
+            <>
+              <Button className="w-fit" asChild>
+                <Link href={`report/new`}>Create new sale report</Link>
+              </Button>
+              <div className="text-sm text-muted-foreground">
+                <span className="font-semibold">Note:</span> There can only be
+                <span className="font-semibold"> ONE </span>
+                sale report per day. Submitting a new report will overwrite the
+                existing one.
+              </div>
+            </>
+          )}
         </div>
 
         {todayReport && (
-          <div className="flex items-center gap-2">
-            <CircleCheck size={17} className="text-green-500" />
-            Today's report has been submitted.
+          <div className="space-y-4 rounded-md border p-4 shadow">
+            <h1 className="font-semibold">Today's Sale Report</h1>
+            <SaleReportCard data={processedTodayReportData} />
           </div>
         )}
-
-        {hasAccess(user.role, "/report/new") && (
-          <>
-            <Button className="w-fit" asChild>
-              <Link href={`report/new`}>Create new sale report</Link>
-            </Button>
-
-            <div className="text-sm text-muted-foreground">
-              <span className="font-semibold">Note:</span> There can only be
-              <span className="font-semibold"> ONE </span>
-              sale report per day. Submitting a new report will overwrite the
-              existing one.
-            </div>
-          </>
-        )}
       </div>
-
-      {todayReport && (
-        <div className="space-y-4 rounded-md border p-4 shadow">
-          <h1 className="font-semibold">Today's Sale Report</h1>
-          <SaleReportCard data={processedTodayReportData} />
-        </div>
-      )}
 
       <div className="space-y-4 rounded-md border p-4 shadow">
         <div>

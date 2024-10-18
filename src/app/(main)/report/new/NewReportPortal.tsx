@@ -130,21 +130,27 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
 
   return (
     <>
-      <nav className="hidden md:block">
-        <ol className="space-y-4 md:flex md:space-x-8 md:space-y-0">
+      <nav className="h-1 md:h-fit">
+        <ol className="flex space-x-8">
           {steps.map((step, index) => (
-            <li key={step.name} className="md:flex-1">
+            <li key={step.name} className="flex-1">
               {currentStep > index ? (
-                <div className="flex w-full flex-col border-l-4 border-primary py-2 pl-4 transition-colors md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-2">
-                  <span className="text-sm font-semibold">{step.name}</span>
+                <div className="flex w-full flex-col border-l-0 border-t-4 border-primary py-2 pl-4 transition-colors md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-2">
+                  <span className="hidden text-sm font-semibold md:block">
+                    {step.name}
+                  </span>
                 </div>
               ) : currentStep === index ? (
-                <div className="flex w-full flex-col border-l-4 border-primary py-2 pl-4 md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-2">
-                  <span className="text-sm font-semibold">{step.name}</span>
+                <div className="flex w-full flex-col border-l-0 border-t-4 border-primary py-2 pl-4 md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-2">
+                  <span className="hidden text-sm font-semibold md:block">
+                    {step.name}
+                  </span>
                 </div>
               ) : (
-                <div className="flex w-full flex-col border-l-4 border-muted py-2 pl-4 transition-colors md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-2">
-                  <span className="text-sm font-semibold">{step.name}</span>
+                <div className="flex w-full flex-col border-l-0 border-t-4 border-muted py-2 pl-4 transition-colors md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-2">
+                  <span className="hidden text-sm font-semibold md:block">
+                    {step.name}
+                  </span>
                 </div>
               )}
             </li>
@@ -157,6 +163,7 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
           <h2 className="text-center text-lg font-semibold md:hidden">
             Sale Details
           </h2>
+
           <SaleDetailForm users={users} form={createReportForm} />
         </MotionContainer>
       )}
@@ -166,6 +173,7 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
           <h2 className="text-center text-lg font-semibold md:hidden">
             Count Cash
           </h2>
+
           <CashCounterForm
             createReportForm={createReportForm}
             cashCounterForm={cashCounterForm}
@@ -175,6 +183,17 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
 
       {currentStep === 2 && (
         <MotionContainer delta={delta}>
+          <h2 className="text-center text-lg font-semibold md:hidden">
+            Review
+          </h2>
+
+          <div className="text-sm text-muted-foreground">
+            <p>Please review the report before submitting.</p>
+            <p>
+              You can go back to make changes or click submit when you're ready.
+            </p>
+          </div>
+
           <ReportPreview
             createReportForm={createReportForm}
             startCash={startCash}
@@ -184,7 +203,7 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
 
       {currentStep === 3 && (
         <MotionContainer delta={delta}>
-          <div className="mb-2 flex flex-col space-y-4">
+          <div className="flex flex-col space-y-4">
             <h2
               className={`flex w-fit items-center gap-2 rounded p-1 px-2 text-lg font-semibold text-secondary ${error ? "bg-destructive" : "bg-green-500"}`}
             >
@@ -246,6 +265,7 @@ function MotionContainer({
       initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
+      className="space-y-4"
     >
       {children}
     </motion.div>
