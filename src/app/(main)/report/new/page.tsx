@@ -5,6 +5,7 @@ import { notFound, redirect } from "next/navigation";
 import { NewReportPortal } from "./NewReportPortal";
 import { getStartCash } from "@/data/store";
 import { hasAccess } from "@/utils/access-control";
+import { getEmployees } from "@/data/employee";
 
 export default async function Page() {
   const { session, user } = await getCurrentSession();
@@ -12,7 +13,7 @@ export default async function Page() {
   if (user.accountStatus !== "active") return notFound();
   if (!hasAccess(user.role, "/report/new")) return notFound();
 
-  const users = await getAllUsers();
+  const users = await getEmployees("active");
   const startCash = await getStartCash();
 
   return (

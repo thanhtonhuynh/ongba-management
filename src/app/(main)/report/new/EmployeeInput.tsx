@@ -48,18 +48,19 @@ export function EmployeeInput({
     <div className="flex items-center space-x-4">
       <Select onValueChange={(value) => setUserId(value)}>
         <SelectTrigger className="w-1/2">
-          <SelectValue placeholder="Select" />
+          <SelectValue placeholder="Select employee" />
         </SelectTrigger>
 
         <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Employees</SelectLabel>
-            {users.map((user) => (
-              <SelectItem key={user.id} value={user.id}>
-                {user.name}
-              </SelectItem>
-            ))}
-          </SelectGroup>
+          {users.map((user) => (
+            <SelectItem
+              key={user.id}
+              value={user.id}
+              className="cursor-pointer"
+            >
+              {user.name}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
 

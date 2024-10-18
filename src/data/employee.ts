@@ -34,7 +34,7 @@ export async function getUserMonthToDateHours(userId: string) {
   return workDays.reduce((acc, workDay) => acc + workDay.hours, 0);
 }
 
-// Get employees
+// Get employees with optional status filter
 export const getEmployees = cache(async (status?: string) => {
   return prisma.user.findMany({
     where: {
