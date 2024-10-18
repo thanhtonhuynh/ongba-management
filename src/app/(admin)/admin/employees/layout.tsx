@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import { NavLink } from "@/components/Nav";
+import { NavLinkAdmin } from "@/components/Nav";
 
 export default async function Layout({
   children,
@@ -13,11 +13,13 @@ export default async function Layout({
       </div>
 
       <div className="flex h-10 items-center space-x-2">
-        <NavLink href={"/admin/employees/active"}>Active</NavLink>
-        <NavLink href={"/admin/employees/awaiting-verification"}>
+        <NavLinkAdmin href={"/admin/employees/active"}>Active</NavLinkAdmin>
+        <NavLinkAdmin href={"/admin/employees/awaiting-verification"}>
           Awaiting verification
-        </NavLink>
-        <NavLink href={"/admin/employees/deactivated"}>Deactivated</NavLink>
+        </NavLinkAdmin>
+        <NavLinkAdmin href={"/admin/employees/deactivated"}>
+          Deactivated
+        </NavLinkAdmin>
       </div>
 
       <Separator className="my-4" />

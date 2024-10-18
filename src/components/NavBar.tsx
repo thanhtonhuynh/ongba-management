@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { getCurrentSession } from "@/lib/auth/session";
 import Image from "next/image";
 import ongbaLogo from "@/assets/ongbaIcon.png";
+import { NavLink } from "./Nav";
 
 export default async function NavBar() {
   const { user } = await getCurrentSession();
@@ -23,7 +24,11 @@ export default async function NavBar() {
         </Link>
 
         {user ? (
-          <UserButton user={user} />
+          <div className="flex items-center space-x-4">
+            <NavLink href={`/report`}>Sale Reports</NavLink>
+
+            <UserButton user={user} />
+          </div>
         ) : (
           <Button asChild>
             <Link href={`/login`}>Login</Link>

@@ -1,4 +1,4 @@
-import { Nav, NavLink } from "@/components/Nav";
+import { Nav, NavLinkAdmin } from "@/components/Nav";
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasAccess } from "@/utils/access-control";
 
@@ -9,16 +9,18 @@ export async function AdminNavBar() {
   return (
     <aside className="md:w-1/5">
       <Nav>
-        <NavLink href={"/admin"}>Dashboard</NavLink>
+        <NavLinkAdmin href={"/admin"}>Dashboard</NavLinkAdmin>
 
         {hasAccess(user.role, "/admin/hours&tips") && (
-          <NavLink href={`/admin/hours&tips`}>Hours & Tips</NavLink>
+          <NavLinkAdmin href={`/admin/hours&tips`}>Hours & Tips</NavLinkAdmin>
         )}
 
-        <NavLink href={`/admin/employees`}>Employees</NavLink>
+        <NavLinkAdmin href={`/admin/employees`}>Employees</NavLinkAdmin>
 
         {hasAccess(user.role, "/admin/store-settings") && (
-          <NavLink href={`/admin/store-settings`}>Store settings</NavLink>
+          <NavLinkAdmin href={`/admin/store-settings`}>
+            Store settings
+          </NavLinkAdmin>
         )}
       </Nav>
     </aside>

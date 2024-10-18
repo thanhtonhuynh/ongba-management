@@ -2,8 +2,9 @@
 
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { ComponentProps, ReactNode } from "react";
+import { Button } from "./ui/button";
 
 export function Nav({
   children,
@@ -25,6 +26,23 @@ export function Nav({
 }
 
 export function NavLink(props: Omit<ComponentProps<typeof Link>, "className">) {
+  const pathname = usePathname();
+  const { href } = props;
+  const isActive = pathname === href;
+
+  return (
+    <Button asChild variant={`link`}>
+      <Link
+        {...props}
+        className={cn(isActive && "cursor-default bg-muted hover:no-underline")}
+      />
+    </Button>
+  );
+}
+
+export function NavLinkAdmin(
+  props: Omit<ComponentProps<typeof Link>, "className">,
+) {
   const pathname = usePathname();
   const { href } = props;
   const isActive =
