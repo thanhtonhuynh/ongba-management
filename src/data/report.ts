@@ -1,19 +1,17 @@
 import prisma from "@/lib/prisma";
 import { CreateReportSchemaTypes } from "@/lib/report/validation";
 import { getFullDayHours, getStartCash } from "./store";
+import { utc } from "moment";
 
 // Create a new report
 export async function createReport(
   data: CreateReportSchemaTypes,
   userId: string,
-  utcDay: string,
 ) {
   const { cardTips, cashTips, extraTips } = data;
   const { employees, ...reportData } = data;
-  // console.log(utcDay);
-  // const utcDate = new Date(utcDay);
-  // console.log(utcDate);
-  const date = new Date("2024-10-19T06:38:00.000Z");
+
+  const date = new Date();
   if (date.getUTCHours() < 7) {
     date.setDate(date.getDate() - 1);
   }
@@ -79,11 +77,7 @@ export async function deleteTodayReport() {
 
 // Get today's report
 export async function getTodayReport() {
-  const today = new Date();
-  console.log(today);
-  // today.setHours(0, 0, 0, 0);
-  console.log(today);
-  today.setUTCHours(7, 0, 0, 0);
+  const today = utc().utcOffset(-7).startOf("day").toDate();
   console.log(today);
 
   const report = await prisma.saleReport.findFirst({

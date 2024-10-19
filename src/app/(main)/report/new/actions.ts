@@ -12,10 +12,7 @@ import {
 } from "@/lib/report/validation";
 import { hasAccess } from "@/utils/access-control";
 
-export async function createReportAction(
-  data: CreateReportSchemaTypes,
-  utcDay: string,
-) {
+export async function createReportAction(data: CreateReportSchemaTypes) {
   try {
     const { user } = await getCurrentSession();
     if (
@@ -28,11 +25,11 @@ export async function createReportAction(
 
     const parsedData = CreateReportSchema.parse(data);
 
-    // if (await todayReportIsCreated()) {
-    //   await deleteTodayReport();
-    // }
+    if (await todayReportIsCreated()) {
+      await deleteTodayReport();
+    }
 
-    await createReport(parsedData, user.id, utcDay);
+    await createReport(parsedData, user.id);
 
     return {};
   } catch (error) {
