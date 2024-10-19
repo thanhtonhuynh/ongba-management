@@ -1,34 +1,54 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 const trimmedString = z.string().trim();
-const requiredString = trimmedString.min(1, 'Required');
+const requiredString = trimmedString.min(1, "Required");
 
 // Sign up
 export const SignupSchema = z.object({
-  name: trimmedString.min(2, 'Name must be at least 2 characters'),
-  username: trimmedString.min(4, 'Username must be at least 4 characters'),
-  email: requiredString.email('Invalid email address'),
-  password: trimmedString.min(8, 'Password must be at least 8 characters'),
+  name: trimmedString
+    .min(2, "Name must be at least 2 characters")
+    .transform((data) => {
+      return data
+        .split(" ")
+        .map((word) => {
+          return word.charAt(0).toUpperCase() + word.slice(1);
+        })
+        .join(" ");
+    }),
+  username: trimmedString
+    .min(4, "Username must be at least 4 characters")
+    .toLowerCase(),
+  email: requiredString.email("Invalid email address").toLowerCase(),
+  password: trimmedString.min(8, "Password must be at least 8 characters"),
 });
 export type SignupSchemaTypes = z.infer<typeof SignupSchema>;
 
 // Login
 export const LoginSchema = z.object({
   // email: requiredString.email('Invalid email address'),
-  identifier: requiredString,
+  identifier: requiredString.toLowerCase(),
   password: requiredString,
 });
 export type LoginSchemaTypes = z.infer<typeof LoginSchema>;
 
-// Update profile
-export const UpdateProfileSchema = z.object({
-  name: requiredString,
+// Update name, make first letter of every word uppercase
+export const UpdateNameSchema = z.object({
+  name: trimmedString
+    .min(2, "Name must be at least 2 characters")
+    .transform((data) => {
+      return data
+        .split(" ")
+        .map((word) => {
+          return word.charAt(0).toUpperCase() + word.slice(1);
+        })
+        .join(" ");
+    }),
 });
-export type UpdateProfileSchemaTypes = z.infer<typeof UpdateProfileSchema>;
+export type UpdateNameSchemaInput = z.infer<typeof UpdateNameSchema>;
 
 // Verification code
 export const VerificationCodeSchema = z.object({
-  code: trimmedString.min(6, 'Your verification code must be 6 characters.'),
+  code: trimmedString.min(6, "Your verification code must be 6 characters."),
 });
 export type VerificationCodeSchemaTypes = z.infer<
   typeof VerificationCodeSchema
@@ -36,36 +56,36 @@ export type VerificationCodeSchemaTypes = z.infer<
 
 // Forgot password
 export const ForgotPasswordSchema = z.object({
-  email: requiredString.email('Invalid email address'),
+  email: requiredString.email("Invalid email address").toLowerCase(),
 });
 export type ForgotPasswordSchemaTypes = z.infer<typeof ForgotPasswordSchema>;
 
 // Reset password
 export const ResetPasswordSchema = z
   .object({
-    password: trimmedString.min(8, 'Password must be at least 8 characters'),
+    password: trimmedString.min(8, "Password must be at least 8 characters"),
     confirmPassword: trimmedString.min(
       8,
-      'Password must be at least 8 characters'
+      "Password must be at least 8 characters",
     ),
     logOutOtherDevices: z.boolean().default(false).optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords do not match',
-    path: ['confirmPassword'],
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
   });
 export type ResetPasswordSchemaTypes = z.infer<typeof ResetPasswordSchema>;
 
 // Set up two-factor authentication
 export const TwoFactorSetupSchema = z.object({
-  code: trimmedString.min(6, 'Your code must be 6 characters.'),
+  code: trimmedString.min(6, "Your code must be 6 characters."),
   encodedTOTPKey: trimmedString.length(28),
 });
 export type TwoFactorSetupSchemaTypes = z.infer<typeof TwoFactorSetupSchema>;
 
 // Verify two-factor authentication
 export const TwoFactorVerificationSchema = z.object({
-  code: trimmedString.min(6, 'Your code must be 6 characters.'),
+  code: trimmedString.min(6, "Your code must be 6 characters."),
 });
 export type TwoFactorVerificationSchemaTypes = z.infer<
   typeof TwoFactorVerificationSchema

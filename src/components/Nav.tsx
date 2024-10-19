@@ -31,7 +31,11 @@ export function NavLink(props: Omit<ComponentProps<typeof Link>, "className">) {
   const isActive = pathname === href;
 
   return (
-    <Button asChild variant={`link`} className="font-normal">
+    <Button
+      asChild
+      variant={`link`}
+      className={cn("font-normal", !isActive && "text-muted-foreground")}
+    >
       <Link
         {...props}
         className={cn(isActive && "cursor-default bg-muted hover:no-underline")}

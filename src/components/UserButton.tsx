@@ -41,26 +41,29 @@ export default function UserButton({ user }: UserButtonProps) {
         </DropdownMenuLabel>
 
         <DropdownMenuSeparator />
+        {user.accountStatus === "active" && (
+          <>
+            <DropdownMenuGroup>
+              {hasAccess(user.role, "/admin") && (
+                <DropdownMenuItem asChild>
+                  <Link href="/admin" className="cursor-pointer">
+                    <Lock className="mr-2 h-4 w-4" />
+                    Admin
+                  </Link>
+                </DropdownMenuItem>
+              )}
 
-        <DropdownMenuGroup>
-          {hasAccess(user.role, "/admin") && (
-            <DropdownMenuItem asChild>
-              <Link href="/admin" className="cursor-pointer">
-                <Lock className="mr-2 h-4 w-4" />
-                Admin
-              </Link>
-            </DropdownMenuItem>
-          )}
+              <DropdownMenuItem asChild>
+                <Link href="/settings" className="cursor-pointer">
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Account settings</span>
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
 
-          <DropdownMenuItem asChild>
-            <Link href="/settings" className="cursor-pointer">
-              <Settings className="mr-2 h-4 w-4" />
-              <span>Account settings</span>
-            </Link>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-
-        <DropdownMenuSeparator />
+            <DropdownMenuSeparator />
+          </>
+        )}
 
         <DropdownMenuItem asChild>
           <form action={logoutAction}>
