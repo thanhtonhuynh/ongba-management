@@ -10,8 +10,11 @@ export async function createReport(
 ) {
   const { cardTips, cashTips, extraTips } = data;
   const { employees, ...reportData } = data;
-
+  console.log(utcDay);
   const date = new Date(utcDay);
+  console.log(date);
+  date.setUTCHours(0, 0, 0, 0);
+  console.log(date);
   const totalTips = cardTips + cashTips + extraTips;
   const totalPeople =
     employees.reduce((acc, emp) => acc + (emp.fullDay ? 1 : 0.5), 0) || 1;
@@ -46,7 +49,7 @@ export async function createReport(
 // Determine if a report has already been created today
 export async function todayReportIsCreated() {
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  today.setUTCHours(0, 0, 0, 0);
 
   const report = await prisma.saleReport.findFirst({
     where: {
@@ -71,7 +74,8 @@ export async function deleteTodayReport() {
 
 // Get today's report
 export async function getTodayReport() {
-  const today = new Date("2024-10-19T06:20:20.241+00:00");
+  const today = new Date();
+  console.log(today);
   today.setHours(0, 0, 0, 0);
   console.log(today);
   today.setUTCHours(0, 0, 0, 0);

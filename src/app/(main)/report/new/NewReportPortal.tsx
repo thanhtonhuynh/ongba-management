@@ -93,9 +93,7 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
   const utcDay = new Date();
 
   async function processForm(data: CreateReportSchemaTypes) {
-    // console.log(convertTime(utcDay, -7));
-
-    const { error } = await createReportAction(data, utcDay.toISOString());
+    const { error } = await createReportAction(data, utcDay.toUTCString());
     if (error) setError(error);
   }
 
@@ -194,7 +192,7 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
             <p>Please review the report before submitting.</p>
             <p>
               You can go back to make changes or click submit when you're ready.
-              {utcDay.toISOString()}
+              {utcDay.toUTCString()}
             </p>
           </div>
 
