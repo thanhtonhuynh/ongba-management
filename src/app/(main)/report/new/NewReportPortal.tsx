@@ -130,7 +130,7 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
 
   return (
     <>
-      <nav className="h-1 md:h-fit">
+      <nav className="h-1 pt-2 md:h-fit">
         <ol className="flex space-x-8">
           {steps.map((step, index) => (
             <li key={step.name} className="flex-1">
@@ -265,7 +265,7 @@ function MotionContainer({
       initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      className="space-y-4"
+      className="space-y-2"
     >
       {children}
     </motion.div>

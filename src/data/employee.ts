@@ -41,6 +41,7 @@ export const getEmployees = cache(async (status?: string) => {
     where: {
       accountStatus: status,
     },
+    orderBy: { name: "asc" },
   });
 });
 

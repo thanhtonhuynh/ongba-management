@@ -17,8 +17,8 @@ export async function HoursTipsTable({ data }: HoursTipsTableProps) {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="">Employee Name</TableHead>
-          <TableHead>Hours</TableHead>
+          <TableHead className="">Name</TableHead>
+          <TableHead className="text-center">Hours</TableHead>
           <TableHead className="text-right">Tips</TableHead>
         </TableRow>
       </TableHeader>
@@ -27,7 +27,7 @@ export async function HoursTipsTable({ data }: HoursTipsTableProps) {
         {data.map((employee) => (
           <TableRow key={employee.userId}>
             <TableCell>{employee.name}</TableCell>
-            <TableCell>{employee.totalHours}</TableCell>
+            <TableCell className="text-center">{employee.totalHours}</TableCell>
             <TableCell className="text-right">{employee.totalTips}</TableCell>
           </TableRow>
         ))}

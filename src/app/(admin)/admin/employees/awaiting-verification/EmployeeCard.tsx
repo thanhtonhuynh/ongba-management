@@ -16,10 +16,10 @@ type EmployeeCardProps = {
 export function EmployeeCard({ user }: EmployeeCardProps) {
   return (
     <Card>
-      <CardHeader className="p-4">
-        <CardTitle>
+      <CardHeader className="px-4 py-2">
+        <CardTitle className="text-sm">
           {user.name}{" "}
-          <span className="text-sm font-medium text-muted-foreground">
+          <span className="font-medium text-muted-foreground">
             {user.email}
           </span>
         </CardTitle>
@@ -28,7 +28,7 @@ export function EmployeeCard({ user }: EmployeeCardProps) {
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="flex space-x-2 p-4 pt-0">
+      <CardContent className="flex space-x-2 px-4 pb-2 pt-0">
         <VerifyUser user={user} />
       </CardContent>
     </Card>

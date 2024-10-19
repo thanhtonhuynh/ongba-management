@@ -32,18 +32,21 @@ export default async function Page() {
 
   return (
     <div className="flex-1 space-y-4">
-      <h2 className="font-semibold">Current biweekly period</h2>
-
-      <div>
-        <h3 className="text-sm font-medium">
+      <h2 className="gap-2 font-semibold sm:flex sm:items-baseline">
+        <p>Current biweekly period:</p>
+        <p className="text-sm font-medium">
           {moment(biweeklyPeriod.start).format("MMM D, YYYY")} -{" "}
           {moment(biweeklyPeriod.end).format("MMM D, YYYY")}
-        </h3>
+        </p>
+      </h2>
+
+      <div className="w-fit rounded-md border p-2 shadow-md">
+        <h3 className="text-sm font-medium">Total hours and tips</h3>
 
         <HoursTipsTable data={totalHoursTips} />
       </div>
 
-      <div>
+      <div className="hidden rounded-md border p-2 shadow-md lg:block">
         <h3 className="text-sm font-medium">Hours breakdown</h3>
         <DataTable
           startDay={biweeklyPeriod.start.getDate()}
@@ -52,7 +55,7 @@ export default async function Page() {
         />
       </div>
 
-      <div>
+      <div className="hidden rounded-md border p-2 shadow-md lg:block">
         <h3 className="text-sm font-medium">Tips breakdown</h3>
         <DataTable
           startDay={biweeklyPeriod.start.getDate()}

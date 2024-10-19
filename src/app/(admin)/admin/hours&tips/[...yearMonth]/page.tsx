@@ -48,9 +48,9 @@ export default async function Page({ params }: Props) {
         {FULL_MONTHS[month - 1]} {year}
       </h2>
 
-      <div className="flex justify-between space-x-4">
+      <div className="grid gap-4 md:grid-cols-2">
         {periods.map((period, index) => (
-          <div key={index} className="w-full">
+          <div key={index} className="w-full rounded-md border p-2 shadow-md">
             <h3 className="text-sm font-medium">
               {moment(period.start).format("MMM D")} -{" "}
               {moment(period.end).format("MMM D")}

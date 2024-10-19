@@ -10,7 +10,7 @@ export function Container({
   return (
     <main
       className={cn(
-        `m-4 mx-auto flex flex-col p-4 md:max-w-[60rem] lg:max-w-[72rem]`,
+        `mx-auto flex flex-col p-4 md:max-w-[60rem] lg:max-w-[72rem]`,
         className,
       )}
     >

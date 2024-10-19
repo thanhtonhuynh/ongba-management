@@ -21,10 +21,10 @@ export async function EmployeeCard({ employee }: EmployeeCardProps) {
 
   return (
     <Card>
-      <CardHeader className="p-4">
-        <CardTitle>
+      <CardHeader className="px-4 py-2">
+        <CardTitle className="text-sm">
           {employee.name}{" "}
-          <span className="text-sm font-medium text-muted-foreground">
+          <span className="font-medium text-muted-foreground">
             {employee.email}
           </span>
         </CardTitle>
@@ -33,7 +33,7 @@ export async function EmployeeCard({ employee }: EmployeeCardProps) {
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="flex justify-between space-x-2 p-4 pt-0">
+      <CardContent className="flex justify-between space-x-2 px-4 pb-2 pt-0">
         <ChangeUserRoleDialog selectedUser={employee} />
 
         {canDeactivateUser(user.role, employee.role) && (

@@ -19,9 +19,11 @@ export async function DataTable({ startDay, endDay, data }: DataTableProps) {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="">Employee Name</TableHead>
+          <TableHead className="">Name</TableHead>
           {Array.from({ length: endDay - startDay + 1 }).map((_, index) => (
-            <TableHead key={index}>{startDay + index}</TableHead>
+            <TableHead className="text-center" key={index}>
+              {startDay + index}
+            </TableHead>
           ))}
           <TableHead className="text-right">Total</TableHead>
         </TableRow>
@@ -32,7 +34,9 @@ export async function DataTable({ startDay, endDay, data }: DataTableProps) {
           <TableRow key={employee.userId}>
             <TableCell>{employee.userName}</TableCell>
             {employee.keyData.map((hours, index) => (
-              <TableCell key={index}>{hours > 0 ? hours : "-"}</TableCell>
+              <TableCell className="text-center" key={index}>
+                {hours > 0 ? hours : "-"}
+              </TableCell>
             ))}
             <TableCell className="text-right">{employee.total}</TableCell>
           </TableRow>

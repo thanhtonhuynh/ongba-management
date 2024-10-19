@@ -6,6 +6,7 @@ import { NewReportPortal } from "./NewReportPortal";
 import { getStartCash } from "@/data/store";
 import { hasAccess } from "@/utils/access-control";
 import { getEmployees } from "@/data/employee";
+import { Separator } from "@/components/ui/separator";
 
 export default async function Page() {
   const { session, user } = await getCurrentSession();
@@ -20,6 +21,9 @@ export default async function Page() {
     <Container className="items-center space-y-4">
       <div className="flex w-full max-w-[50rem] flex-col space-y-4 rounded-md border px-4 py-8 shadow-xl">
         <h1 className="text-2xl font-bold">Create sale report</h1>
+
+        <Separator />
+
         <NewReportPortal users={users} startCash={startCash} />
       </div>
     </Container>

@@ -32,7 +32,7 @@ export default function UserButton({ user }: UserButtonProps) {
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-56">
+      <DropdownMenuContent className="w-48">
         <DropdownMenuLabel className="space-y-1">
           <div>{user.name}</div>
           <div className="text-xs capitalize text-muted-foreground">
