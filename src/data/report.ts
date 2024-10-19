@@ -18,7 +18,7 @@ export async function createReport(
 
   // date.setUTCHours(7, 0, 0, 0);
 
-  const date = utc().utcOffset(-7).toDate();
+  const date = utc().utcOffset(-7).startOf("day").toDate();
   // console.log(date);
   const totalTips = cardTips + cashTips + extraTips;
   const totalPeople =
