@@ -11,9 +11,11 @@ export async function createReport(
   const { cardTips, cashTips, extraTips } = data;
   const { employees, ...reportData } = data;
   console.log(utcDay);
-  const date = new Date(utcDay);
-  console.log(date);
-  date.setUTCHours(0, 0, 0, 0);
+  const utcDate = new Date(utcDay);
+  console.log(utcDate);
+  const date = new Date();
+
+  date.setUTCHours(7, 0, 0, 0);
   console.log(date);
   const totalTips = cardTips + cashTips + extraTips;
   const totalPeople =
@@ -74,11 +76,11 @@ export async function deleteTodayReport() {
 
 // Get today's report
 export async function getTodayReport() {
-  const today = new Date();
+  const today = new Date("2024-10-18T07:00:00.000Z");
   console.log(today);
-  today.setHours(0, 0, 0, 0);
+  // today.setHours(0, 0, 0, 0);
   console.log(today);
-  today.setUTCHours(0, 0, 0, 0);
+  today.setUTCHours(7, 0, 0, 0);
   console.log(today);
 
   const report = await prisma.saleReport.findFirst({
