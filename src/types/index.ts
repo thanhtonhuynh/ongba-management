@@ -74,3 +74,24 @@ export type DayRange = {
   start: Date;
   end: Date;
 };
+
+export type TotalHoursTips = {
+  userId: string;
+  name: string;
+  totalHours: number;
+  totalTips: number;
+};
+
+export type IndividualHoursTips = {
+  userId: string;
+  date: Date;
+  hours: number;
+  amount: number;
+};
+
+export type BreakdownData = {
+  userId: string;
+  userName: string;
+  keyData: number[];
+  total: number;
+};

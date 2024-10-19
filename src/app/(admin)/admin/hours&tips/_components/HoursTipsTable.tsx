@@ -6,14 +6,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { TotalHoursTips } from "@/types";
 
 type HoursTipsTableProps = {
-  data: {
-    userId: string;
-    name: string;
-    hours: number;
-    tips: number;
-  }[];
+  data: TotalHoursTips[];
 };
 
 export async function HoursTipsTable({ data }: HoursTipsTableProps) {
@@ -31,8 +27,8 @@ export async function HoursTipsTable({ data }: HoursTipsTableProps) {
         {data.map((employee) => (
           <TableRow key={employee.userId}>
             <TableCell>{employee.name}</TableCell>
-            <TableCell>{employee.hours}</TableCell>
-            <TableCell className="text-right">{employee.tips}</TableCell>
+            <TableCell>{employee.totalHours}</TableCell>
+            <TableCell className="text-right">{employee.totalTips}</TableCell>
           </TableRow>
         ))}
       </TableBody>

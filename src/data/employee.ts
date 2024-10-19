@@ -60,9 +60,9 @@ export async function updateEmployeeRole(userId: string, role: string) {
   });
 }
 
-// Get employees biweekly hours and tips
+// Get employees total biweekly hours and tips
 // Return userId, name, hours, and tips
-export async function getEmployeesHoursAndTips(dayRange: DayRange) {
+export async function getTotalHoursTipsInDayRange(dayRange: DayRange) {
   // Start date of the day range
   const startDate = new Date(dayRange.start);
   // Add one day to the end date to include the entire day
@@ -88,10 +88,31 @@ export async function getEmployeesHoursAndTips(dayRange: DayRange) {
     return {
       userId: data.userId,
       name: employee?.name || "Unknown",
-      hours: data._sum.hours || 0,
-      tips: data._sum.amount || 0,
+      totalHours: data._sum.hours || 0,
+      totalTips: data._sum.amount || 0,
     };
   });
 
   return result.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+// Get hours and tips breakdown for a specific day range
+export async function getIndividualHoursTipsInDayRange(dayRange: DayRange) {
+  // Start date of the day range
+  const startDate = new Date(dayRange.start);
+  // Add one day to the end date to include the entire day
+  const endDate = new Date(dayRange.end);
+  endDate.setDate(endDate.getDate() + 1);
+
+  return await prisma.individualTip.findMany({
+    where: {
+      date: { gte: startDate, lt: endDate },
+    },
+    select: {
+      userId: true,
+      date: true,
+      hours: true,
+      amount: true,
+    },
+  });
 }

@@ -1,11 +1,11 @@
 import { FULL_MONTHS } from "@/app/constants";
-import { getEmployeesHoursAndTips } from "@/data/employee";
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasAccess } from "@/utils/access-control";
 import { getPeriodsByMonthAndYear } from "@/utils/hours-tips";
 import { notFound, redirect } from "next/navigation";
 import moment from "moment";
 import { HoursTipsTable } from "../_components/HoursTipsTable";
+import { getTotalHoursTipsInDayRange } from "@/data/employee";
 
 type Props = {
   params: {
@@ -38,8 +38,8 @@ export default async function Page({ params }: Props) {
 
   const periods = getPeriodsByMonthAndYear(year, month);
   const results = await Promise.all([
-    getEmployeesHoursAndTips(periods[0]),
-    getEmployeesHoursAndTips(periods[1]),
+    getTotalHoursTipsInDayRange(periods[0]),
+    getTotalHoursTipsInDayRange(periods[1]),
   ]);
 
   return (
