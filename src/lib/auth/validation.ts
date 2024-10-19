@@ -7,6 +7,7 @@ const requiredString = trimmedString.min(1, "Required");
 export const SignupSchema = z.object({
   name: trimmedString
     .min(2, "Name must be at least 2 characters")
+    .max(50, "Name must not exceed 50 characters")
     .transform((data) => {
       return data
         .split(" ")
@@ -16,7 +17,8 @@ export const SignupSchema = z.object({
         .join(" ");
     }),
   username: trimmedString
-    .min(4, "Username must be at least 4 characters")
+    .min(6, "Username must be at least 6 characters")
+    .max(50, "Username must not exceed 50 characters")
     .toLowerCase(),
   email: requiredString.email("Invalid email address").toLowerCase(),
   password: trimmedString.min(8, "Password must be at least 8 characters"),
@@ -25,7 +27,6 @@ export type SignupSchemaTypes = z.infer<typeof SignupSchema>;
 
 // Login
 export const LoginSchema = z.object({
-  // email: requiredString.email('Invalid email address'),
   identifier: requiredString.toLowerCase(),
   password: requiredString,
 });
@@ -45,6 +46,38 @@ export const UpdateNameSchema = z.object({
     }),
 });
 export type UpdateNameSchemaInput = z.infer<typeof UpdateNameSchema>;
+
+// Update username
+export const UpdateUsernameSchema = z.object({
+  username: trimmedString
+    .min(6, "Username must be at least 6 characters")
+    .max(50, "Username must not exceed 50 characters")
+    .toLowerCase(),
+});
+export type UpdateUsernameSchemaInput = z.infer<typeof UpdateUsernameSchema>;
+
+// Update email
+export const UpdateEmailSchema = z.object({
+  email: requiredString.email("Invalid email address").toLowerCase(),
+});
+export type UpdateEmailSchemaInput = z.infer<typeof UpdateEmailSchema>;
+
+// Update password
+export const UpdatePasswordSchema = z
+  .object({
+    currentPassword: requiredString,
+    newPassword: trimmedString.min(8, "Password must be at least 8 characters"),
+    confirmNewPassword: trimmedString.min(
+      8,
+      "Password must be at least 8 characters",
+    ),
+    logOutOtherDevices: z.boolean().default(true).optional(),
+  })
+  .refine((data) => data.newPassword === data.confirmNewPassword, {
+    message: "Passwords do not match",
+    path: ["confirmNewPassword"],
+  });
+export type UpdatePasswordSchemaInput = z.infer<typeof UpdatePasswordSchema>;
 
 // Verification code
 export const VerificationCodeSchema = z.object({
@@ -68,7 +101,7 @@ export const ResetPasswordSchema = z
       8,
       "Password must be at least 8 characters",
     ),
-    logOutOtherDevices: z.boolean().default(false).optional(),
+    logOutOtherDevices: z.boolean().default(true).optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",

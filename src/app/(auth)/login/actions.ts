@@ -1,19 +1,19 @@
-'use server';
+"use server";
 
-import { redirect } from 'next/navigation';
+import { redirect } from "next/navigation";
 import {
   createSession,
   generateSessionToken,
   setSessionTokenCookie,
-} from '@/lib/auth/session';
-import { getUserByEmailOrUsername, getUserPasswordHash } from '@/data/users';
-import { verifyPassword } from '@/lib/auth/password';
-import { isRedirectError } from 'next/dist/client/components/redirect';
+} from "@/lib/auth/session";
+import { getUserByEmailOrUsername, getUserPasswordHash } from "@/data/users";
+import { verifyPassword } from "@/lib/auth/password";
+import { isRedirectError } from "next/dist/client/components/redirect";
 // import {
 //   getUserEmailVerificationRequestByUserId,
 //   setEmailVerificationRequestCookie,
 // } from '@/lib/email-verification';
-import { LoginSchema, LoginSchemaTypes } from '@/lib/auth/validation';
+import { LoginSchema, LoginSchemaTypes } from "@/lib/auth/validation";
 
 export async function loginAction(data: LoginSchemaTypes) {
   try {
@@ -21,17 +21,17 @@ export async function loginAction(data: LoginSchemaTypes) {
 
     const existingUser = await getUserByEmailOrUsername(identifier);
     if (!existingUser) {
-      return { error: 'Invalid email or password' };
+      return { error: "Invalid email, username, or password" };
     }
 
     const passwordHash = await getUserPasswordHash(existingUser.id);
     if (!passwordHash) {
-      return { error: 'Invalid email or password' };
+      return { error: "Invalid email, username, or password" };
     }
 
     const validPassword = await verifyPassword(passwordHash, password);
     if (!validPassword) {
-      return { error: 'Invalid email or password' };
+      return { error: "Invalid email, username, or password" };
     }
 
     const sessionToken = generateSessionToken();
@@ -59,8 +59,8 @@ export async function loginAction(data: LoginSchemaTypes) {
       throw error;
     }
     console.error(error);
-    return { error: 'Login failed. Please try again.' };
+    return { error: "Login failed. Please try again." };
   }
 
-  redirect('/');
+  redirect("/");
 }

@@ -14,6 +14,7 @@ const SESSION_TTL_SHORT = 1000 * 60 * 60 * 24 * 15; // 15 days
 export type User = {
   id: string;
   name: string;
+  username: string;
   email: string;
   emailVerified: boolean;
   accountStatus: string;
@@ -141,6 +142,19 @@ export async function invalidateSession(sessionId: string) {
  */
 export async function invalidateUserSessions(userId: string) {
   await prisma.session.deleteMany({ where: { userId } });
+}
+
+/**
+ * Invalidate all sessions for a user except the current session
+ * @param userId
+ */
+export async function invalidateUserSessionsExceptCurrent(
+  userId: string,
+  sessionId: string,
+) {
+  await prisma.session.deleteMany({
+    where: { userId, NOT: { id: sessionId } },
+  });
 }
 
 /**

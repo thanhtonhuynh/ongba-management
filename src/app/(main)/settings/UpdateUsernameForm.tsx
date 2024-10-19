@@ -12,59 +12,61 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { User } from "@/lib/auth/session";
-import { UpdateNameSchema, UpdateNameSchemaInput } from "@/lib/auth/validation";
+import {
+  UpdateUsernameSchema,
+  UpdateUsernameSchemaInput,
+} from "@/lib/auth/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { updateNameAction } from "./actions";
 import { toast } from "sonner";
+import { updateUsernameAction } from "./actions";
 
-type UpdateNameFormProps = {
+type UpdateUsernameFormProps = {
   user: User;
 };
 
-export function UpdateNameForm({ user }: UpdateNameFormProps) {
+export function UpdateUsernameForm({ user }: UpdateUsernameFormProps) {
   const [isPending, startTransition] = useTransition();
-  const form = useForm<UpdateNameSchemaInput>({
-    resolver: zodResolver(UpdateNameSchema),
+  const form = useForm<UpdateUsernameSchemaInput>({
+    resolver: zodResolver(UpdateUsernameSchema),
     mode: "onBlur",
     defaultValues: {
-      name: user.name,
+      username: user.username,
     },
   });
 
-  async function onSubmit(data: UpdateNameSchemaInput) {
+  async function onSubmit(data: UpdateUsernameSchemaInput) {
     startTransition(async () => {
-      const { error } = await updateNameAction(data);
+      const { error } = await updateUsernameAction(data);
       if (error) toast.error(error);
-      else toast.success("Name updated.");
+      else toast.success("Username updated.");
     });
   }
 
   return (
     <div className="space-y-2 rounded-md border p-4 shadow-md">
-      <h2 className="font-semibold">Display name</h2>
+      <h2 className="font-semibold">Username</h2>
 
       <div className="space-y-1 text-sm text-muted-foreground">
         <p>
-          <span className="font-semibold">Note:</span> Please use your real name
-          so your colleagues can easily identify you when they create reports.
+          Besides your email, your username can also be used to log in to your
+          account.
         </p>
       </div>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
           <FormField
-            name="name"
+            name="username"
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Your real name</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Ong Ba" />
+                  <Input {...field} placeholder="ongbavietnamese" />
                 </FormControl>
                 <FormDescription>
-                  Must be at least 2 characters.
+                  Must be at least 6 characters and is not case-sensitive.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -72,7 +74,7 @@ export function UpdateNameForm({ user }: UpdateNameFormProps) {
           />
 
           <LoadingButton variant={"outline"} loading={isPending} type="submit">
-            Update name
+            Update username
           </LoadingButton>
         </form>
       </Form>

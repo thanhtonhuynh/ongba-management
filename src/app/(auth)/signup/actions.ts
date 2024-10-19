@@ -1,7 +1,7 @@
-'use server';
+"use server";
 
-import { createUser, getUserByEmail } from '@/data/users';
-import { redirect } from 'next/navigation';
+import { createUser, getUserByEmail, getUserByUsername } from "@/data/users";
+import { redirect } from "next/navigation";
 // import {
 //   sendVerificationEmail,
 //   setEmailVerificationRequestCookie,
@@ -11,8 +11,8 @@ import {
   createSession,
   generateSessionToken,
   setSessionTokenCookie,
-} from '@/lib/auth/session';
-import { SignupSchema, SignupSchemaTypes } from '@/lib/auth/validation';
+} from "@/lib/auth/session";
+import { SignupSchema, SignupSchemaTypes } from "@/lib/auth/validation";
 
 export async function signUpAction(data: SignupSchemaTypes) {
   try {
@@ -20,7 +20,12 @@ export async function signUpAction(data: SignupSchemaTypes) {
 
     const existingEmail = await getUserByEmail(email);
     if (existingEmail) {
-      return { error: 'Email already in use' };
+      return { error: "Email already in use" };
+    }
+
+    const existingUsername = await getUserByUsername(username);
+    if (existingUsername) {
+      return { error: "Username already in use" };
     }
 
     // TODO: Verify password strength
@@ -43,7 +48,7 @@ export async function signUpAction(data: SignupSchemaTypes) {
     setSessionTokenCookie(sessionToken, session.expiresAt);
   } catch (error) {
     console.error(error);
-    return { error: 'Signup failed. Please try again.' };
+    return { error: "Signup failed. Please try again." };
   }
 
   // redirect(`/verify-email`);

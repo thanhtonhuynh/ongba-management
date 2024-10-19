@@ -34,6 +34,12 @@ export async function getUserByEmail(email: string) {
   return user as User | null;
 }
 
+// Get User By Username
+export async function getUserByUsername(username: string) {
+  const user = await prisma.user.findUnique({ where: { username } });
+  return user as User | null;
+}
+
 // Get User By Email Or Username
 export async function getUserByEmailOrUsername(identifier: string) {
   const user = await prisma.user.findFirst({
