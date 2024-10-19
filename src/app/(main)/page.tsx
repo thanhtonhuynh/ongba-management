@@ -42,6 +42,14 @@ export default async function Home() {
     processedTodayReportData = processReportDataForView(rawData);
   }
 
+  function convertTime(date: Date, offset: number) {
+    date.setHours(date.getHours() + date.getTimezoneOffset() / 60 + offset);
+    date.setMinutes(
+      date.getMinutes() + date.getTimezoneOffset() / 60 + (offset % 1) * 60,
+    );
+    return date.toISOString();
+  }
+
   return (
     <Container className="space-y-4">
       <div className="grid grid-cols-1 space-y-4 md:grid-cols-2 md:space-x-4 md:space-y-0">
@@ -49,9 +57,7 @@ export default async function Home() {
           <div>Good day, {user.name}!</div>
           <div>
             Today is{" "}
-            <span className="font-bold">
-              {moment().format("dddd, MMM DD, YYYY")}
-            </span>
+            <span className="font-bold">{convertTime(new Date(), -7)}</span>
           </div>
           {todayReport && (
             <div className="flex items-center gap-2">
