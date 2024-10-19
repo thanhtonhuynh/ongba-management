@@ -90,9 +90,9 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [previousStep, setPreviousStep] = useState(0);
   const delta = currentStep - previousStep;
+  const utcDay = new Date();
 
   async function processForm(data: CreateReportSchemaTypes) {
-    const utcDay = new Date();
     // console.log(convertTime(utcDay, -7));
 
     const { error } = await createReportAction(data, utcDay.toISOString());
@@ -194,6 +194,7 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
             <p>Please review the report before submitting.</p>
             <p>
               You can go back to make changes or click submit when you're ready.
+              {utcDay.toISOString()}
             </p>
           </div>
 

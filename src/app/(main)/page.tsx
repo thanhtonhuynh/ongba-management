@@ -50,16 +50,19 @@ export default async function Home() {
           <div>
             Today is{" "}
             <span className="font-bold">
-              {new Date().toLocaleDateString("en-US", {
-                timeZone: "America/Los_Angeles",
-                weekday: "long",
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-                hour: "numeric",
-                minute: "numeric",
-                second: "numeric",
-              })}
+              {new Date("2024-10-19T06:17:35.018+00:00").toLocaleDateString(
+                "en-US",
+                {
+                  timeZone: "America/Los_Angeles",
+                  weekday: "long",
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                  second: "numeric",
+                },
+              )}
             </span>
           </div>
           {todayReport && (
