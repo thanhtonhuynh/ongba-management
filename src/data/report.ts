@@ -51,7 +51,7 @@ export async function createReport(
 // Determine if a report has already been created today
 export async function todayReportIsCreated() {
   const today = new Date();
-  today.setUTCHours(0, 0, 0, 0);
+  today.setUTCHours(7, 0, 0, 0);
 
   const report = await prisma.saleReport.findFirst({
     where: {
@@ -65,7 +65,7 @@ export async function todayReportIsCreated() {
 // Delete today's report
 export async function deleteTodayReport() {
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  today.setUTCHours(7, 0, 0, 0);
 
   await prisma.saleReport.deleteMany({
     where: {
@@ -76,7 +76,7 @@ export async function deleteTodayReport() {
 
 // Get today's report
 export async function getTodayReport() {
-  const today = new Date("2024-10-18T07:00:00.000Z");
+  const today = new Date();
   console.log(today);
   // today.setHours(0, 0, 0, 0);
   console.log(today);
