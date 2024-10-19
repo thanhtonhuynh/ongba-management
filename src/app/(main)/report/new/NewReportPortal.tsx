@@ -92,7 +92,9 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
   const delta = currentStep - previousStep;
 
   async function processForm(data: CreateReportSchemaTypes) {
-    const { error } = await createReportAction(data);
+    const utcDay = new Date().toISOString();
+
+    const { error } = await createReportAction(data, utcDay);
     if (error) setError(error);
   }
 

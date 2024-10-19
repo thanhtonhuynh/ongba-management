@@ -6,11 +6,12 @@ import { getFullDayHours, getStartCash } from "./store";
 export async function createReport(
   data: CreateReportSchemaTypes,
   userId: string,
+  utcDay: string,
 ) {
   const { cardTips, cashTips, extraTips } = data;
   const { employees, ...reportData } = data;
 
-  const date = new Date();
+  const date = new Date(utcDay);
   const totalTips = cardTips + cashTips + extraTips;
   const totalPeople =
     employees.reduce((acc, emp) => acc + (emp.fullDay ? 1 : 0.5), 0) || 1;
