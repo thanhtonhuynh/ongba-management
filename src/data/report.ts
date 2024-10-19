@@ -10,10 +10,13 @@ export async function createReport(
 ) {
   const { cardTips, cashTips, extraTips } = data;
   const { employees, ...reportData } = data;
-  console.log(utcDay);
-  const utcDate = new Date(utcDay);
-  console.log(utcDate);
-  const date = new Date();
+  // console.log(utcDay);
+  // const utcDate = new Date(utcDay);
+  // console.log(utcDate);
+  const date = new Date("2024-10-19T06:38:00.000Z");
+  if (date.getUTCHours() < 7) {
+    date.setDate(date.getDate() - 1);
+  }
 
   date.setUTCHours(7, 0, 0, 0);
   console.log(date);

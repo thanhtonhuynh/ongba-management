@@ -28,9 +28,9 @@ export async function createReportAction(
 
     const parsedData = CreateReportSchema.parse(data);
 
-    if (await todayReportIsCreated()) {
-      await deleteTodayReport();
-    }
+    // if (await todayReportIsCreated()) {
+    //   await deleteTodayReport();
+    // }
 
     await createReport(parsedData, user.id, utcDay);
 
