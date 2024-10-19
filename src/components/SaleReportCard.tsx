@@ -19,7 +19,7 @@ export function SaleReportCard({ data }: SaleReportProps) {
     <div className="w-full rounded border p-2 text-sm shadow">
       <div>
         <span className="font-semibold">Date: </span>
-        {moment(data.date).format("YYYY/MM/DD")}
+        {moment(data.date).format("YYYY/MM/DD HH:mm:ss")}
       </div>
 
       <div className="flex justify-between space-x-2">
