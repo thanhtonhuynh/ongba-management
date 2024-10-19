@@ -47,14 +47,6 @@ type NewReportPortalProps = {
   startCash: number;
 };
 
-function convertTime(date: Date, offset: number) {
-  date.setHours(date.getHours() + date.getTimezoneOffset() / 60 + offset);
-  date.setMinutes(
-    date.getMinutes() + date.getTimezoneOffset() / 60 + (offset % 1) * 60,
-  );
-  return date.toISOString();
-}
-
 export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
   const [error, setError] = useState<string>();
   const [isPending, startTransition] = useTransition();
@@ -103,7 +95,7 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
     const utcDay = new Date();
     // console.log(convertTime(utcDay, -7));
 
-    const { error } = await createReportAction(data, convertTime(utcDay, -7));
+    const { error } = await createReportAction(data, utcDay.toISOString());
     if (error) setError(error);
   }
 
