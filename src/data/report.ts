@@ -72,7 +72,7 @@ export async function deleteTodayReport() {
   // const today = new Date();
   // today.setUTCHours(7, 0, 0, 0);
 
-  const today = utc().utcOffset(-7).toDate();
+  const today = utc().utcOffset(-7).startOf("day").toDate();
 
   await prisma.saleReport.deleteMany({
     where: {
@@ -83,7 +83,7 @@ export async function deleteTodayReport() {
 
 // Get today's report
 export async function getTodayReport() {
-  const today = utc().utcOffset(-7).toDate();
+  const today = utc().utcOffset(-7).startOf("day").toDate();
   // console.log(today);
 
   const report = await prisma.saleReport.findFirst({
