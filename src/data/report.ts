@@ -12,6 +12,9 @@ export async function createReport(
   const { employees, ...reportData } = data;
 
   const date = new Date(utcDay);
+  const utcDate = new Date(
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()),
+  );
   const totalTips = cardTips + cashTips + extraTips;
   const totalPeople =
     employees.reduce((acc, emp) => acc + (emp.fullDay ? 1 : 0.5), 0) || 1;
@@ -72,7 +75,7 @@ export async function deleteTodayReport() {
 // Get today's report
 export async function getTodayReport() {
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  today.setUTCHours(0, 0, 0, 0);
 
   const report = await prisma.saleReport.findFirst({
     where: {
