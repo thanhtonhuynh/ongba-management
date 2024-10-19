@@ -1,7 +1,7 @@
 import { Container } from "@/components/Container";
 import { getCurrentSession } from "@/lib/auth/session";
 import { notFound, redirect } from "next/navigation";
-import moment from "moment";
+import { utc } from "moment";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getTodayReport } from "@/data/report";
@@ -50,19 +50,17 @@ export default async function Home() {
           <div>
             Today is{" "}
             <span className="font-bold">
-              {new Date("2024-10-19T06:17:35.018+00:00").toLocaleDateString(
-                "en-US",
-                {
-                  timeZone: "America/Los_Angeles",
-                  weekday: "long",
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                  hour: "numeric",
-                  minute: "numeric",
-                  second: "numeric",
-                },
-              )}
+              {/* {new Date().toLocaleDateString("en-US", {
+                timeZone: "America/Los_Angeles",
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+              })} */}
+              {utc().utcOffset(-7).format("dddd, MMMM Do, YYYY, h:mm:ss a")}
             </span>
           </div>
           {todayReport && (

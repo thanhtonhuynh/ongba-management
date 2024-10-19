@@ -11,13 +11,15 @@ export async function createReport(
   const { cardTips, cashTips, extraTips } = data;
   const { employees, ...reportData } = data;
 
-  const date = new Date();
-  if (date.getUTCHours() < 7) {
-    date.setDate(date.getDate() - 1);
-  }
+  // const date = new Date();
+  // if (date.getUTCHours() < 7) {
+  //   date.setDate(date.getDate() - 1);
+  // }
 
-  date.setUTCHours(7, 0, 0, 0);
-  console.log(date);
+  // date.setUTCHours(7, 0, 0, 0);
+
+  const date = utc().utcOffset(-7).startOf("day").toDate();
+  // console.log(date);
   const totalTips = cardTips + cashTips + extraTips;
   const totalPeople =
     employees.reduce((acc, emp) => acc + (emp.fullDay ? 1 : 0.5), 0) || 1;
@@ -51,8 +53,10 @@ export async function createReport(
 
 // Determine if a report has already been created today
 export async function todayReportIsCreated() {
-  const today = new Date();
-  today.setUTCHours(7, 0, 0, 0);
+  // const today = new Date();
+  // today.setUTCHours(7, 0, 0, 0);
+
+  const today = utc().utcOffset(-7).startOf("day").toDate();
 
   const report = await prisma.saleReport.findFirst({
     where: {
@@ -65,8 +69,10 @@ export async function todayReportIsCreated() {
 
 // Delete today's report
 export async function deleteTodayReport() {
-  const today = new Date();
-  today.setUTCHours(7, 0, 0, 0);
+  // const today = new Date();
+  // today.setUTCHours(7, 0, 0, 0);
+
+  const today = utc().utcOffset(-7).startOf("day").toDate();
 
   await prisma.saleReport.deleteMany({
     where: {
@@ -78,7 +84,7 @@ export async function deleteTodayReport() {
 // Get today's report
 export async function getTodayReport() {
   const today = utc().utcOffset(-7).startOf("day").toDate();
-  console.log(today);
+  // console.log(today);
 
   const report = await prisma.saleReport.findFirst({
     where: {
