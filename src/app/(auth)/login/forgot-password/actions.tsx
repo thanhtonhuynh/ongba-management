@@ -1,28 +1,20 @@
-'use server';
+"use server";
 
-import { getUserByEmail } from '@/data/users';
-import { RateLimitError } from '@/lib/errors';
-import { rateLimitByKey } from '@/lib/limiter';
+import { getUserByEmail } from "@/data/users";
 import {
   createPasswordResetToken,
   generatePasswordResetToken,
   invalidatePasswordResetToken,
   sendPasswordResetEmail,
-} from '@/lib/password-reset';
+} from "@/lib/auth/password-reset";
 import {
   ForgotPasswordSchema,
   ForgotPasswordSchemaTypes,
-} from '@/lib/validation';
+} from "@/lib/auth/validation";
 
 export async function forgotPasswordAction(data: ForgotPasswordSchemaTypes) {
   try {
     const { email } = ForgotPasswordSchema.parse(data);
-
-    await rateLimitByKey({
-      key: `forgot-password:${email}`,
-      limit: 1,
-      window: 60000,
-    });
 
     const user = await getUserByEmail(email);
     if (!user) return { success: true };
@@ -37,12 +29,7 @@ export async function forgotPasswordAction(data: ForgotPasswordSchemaTypes) {
 
     return { success: true };
   } catch (error) {
-    if (error instanceof RateLimitError) {
-      return {
-        error: 'You can only request a password reset link once per minute.',
-      };
-    }
     console.error(error);
-    return { error: 'Something went wrong. Please try again.' };
+    return { error: "Something went wrong. Please try again." };
   }
 }

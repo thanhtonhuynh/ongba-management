@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useTransition } from 'react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import {
   Form,
   FormControl,
@@ -11,21 +11,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { LoadingButton } from '@/components/LoadingButton';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { LoadingButton } from "@/components/LoadingButton";
 import {
   ForgotPasswordSchema,
   ForgotPasswordSchemaTypes,
-} from '@/lib/validation';
-import { forgotPasswordAction } from './actions';
+} from "@/lib/auth/validation";
+import { forgotPasswordAction } from "./actions";
 
 export function ForgotPasswordForm() {
   const [isPending, startTransition] = useTransition();
   const form = useForm<ForgotPasswordSchemaTypes>({
     resolver: zodResolver(ForgotPasswordSchema),
     defaultValues: {
-      email: '',
+      email: "",
     },
   });
 
@@ -37,7 +37,7 @@ export function ForgotPasswordForm() {
         return;
       }
       toast.success(
-        "If an account with that email exists, we've sent you an email with a link to reset your password."
+        "If an account with that email exists, we've sent you an email with a link to reset your password.",
       );
     });
   }

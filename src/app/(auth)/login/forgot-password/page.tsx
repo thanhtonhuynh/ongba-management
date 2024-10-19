@@ -1,6 +1,6 @@
 import { ForgotPasswordForm } from "./ForgotPasswordForm";
 import { redirect } from "next/navigation";
-import { getCurrentSession } from "@/lib/session";
+import { getCurrentSession } from "@/lib/auth/session";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
