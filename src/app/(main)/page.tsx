@@ -15,6 +15,7 @@ import { SaleReportCard } from "@/components/SaleReportCard";
 import { SaleReportCardProcessedData, SaleReportCardRawData } from "@/types";
 import { processReportDataForView } from "@/utils/report";
 import { hasAccess } from "@/utils/access-control";
+import { ClientTimeDisplay } from "@/components/ClientTimeDisplay";
 
 export default async function Home() {
   const { session, user } = await getCurrentSession();
@@ -48,20 +49,7 @@ export default async function Home() {
         <div className="space-y-4 rounded-md border p-4 shadow">
           <div>Good day, {user.name}!</div>
           <div>
-            Today is{" "}
-            <span className="font-bold">
-              {/* {new Date().toLocaleDateString("en-US", {
-                timeZone: "America/Los_Angeles",
-                weekday: "long",
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-                hour: "numeric",
-                minute: "numeric",
-                second: "numeric",
-              })} */}
-              {utc().utcOffset(-7).format("dddd, MMMM Do, YYYY, h:mm:ss a")}
-            </span>
+            Today is <ClientTimeDisplay className="font-bold" />
           </div>
           {todayReport && (
             <div className="flex items-center gap-2">
