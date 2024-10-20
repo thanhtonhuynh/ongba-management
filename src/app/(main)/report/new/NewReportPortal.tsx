@@ -92,7 +92,13 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
   const delta = currentStep - previousStep;
 
   async function processForm(data: CreateReportSchemaTypes) {
-    const { error } = await createReportAction(data);
+    const date = new Date("Sat Oct 19 2024 23:42:06 GMT-0700");
+    console.log("Date:", date);
+    date.setHours(0, 0, 0, 0);
+    console.log("Date set 0 hours:", date);
+    const utcString = date.toUTCString();
+    console.log("utcstring:", utcString);
+    const { error } = await createReportAction(data, utcString);
     if (error) setError(error);
   }
 

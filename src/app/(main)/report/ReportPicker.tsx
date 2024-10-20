@@ -72,14 +72,14 @@ export function ReportPicker() {
                     mode="single"
                     selected={field.value}
                     onDayFocus={(date) => {
-                      field.onChange(moment(date).toDate());
+                      field.onChange(date);
                     }}
                     // onSelect={(date) => {
                     //   field.onChange(moment(date).toDate());
                     //   console.log(date);
                     // }}
                     onDayClick={(date) => {
-                      field.onChange(moment(date).toDate());
+                      field.onChange(date);
                     }}
                     disabled={(date) =>
                       date > new Date() || date < new Date("1900-01-01")
