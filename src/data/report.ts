@@ -12,7 +12,7 @@ export async function createReport(
   const { cardTips, cashTips, extraTips } = data;
   const { employees, ...reportData } = data;
 
-  const date = new Date();
+  const date = new Date("2024-10-20T06:00:00.000Z");
   // if (date.getUTCHours() < 7) {
   //   date.setDate(date.getDate() - 1);
   // }
@@ -59,7 +59,7 @@ export async function todayReportIsCreated() {
   // const today = new Date();
   // today.setUTCHours(7, 0, 0, 0);
 
-  const today = utc().utcOffset(-7).startOf("day").toDate();
+  const today = moment().utcOffset("America/Vancouver").startOf("day").toDate();
 
   const report = await prisma.saleReport.findFirst({
     where: {
@@ -75,7 +75,7 @@ export async function deleteTodayReport() {
   // const today = new Date();
   // today.setUTCHours(7, 0, 0, 0);
 
-  const today = utc().utcOffset(-7).startOf("day").toDate();
+  const today = moment().utcOffset("America/Vancouver").startOf("day").toDate();
 
   await prisma.saleReport.deleteMany({
     where: {
@@ -86,7 +86,10 @@ export async function deleteTodayReport() {
 
 // Get today's report
 export async function getTodayReport() {
-  const today = moment().utcOffset("America/Vancouver").startOf("day").toDate();
+  const today = moment("2024-10-20T06:20:00.000Z")
+    .utcOffset("America/Vancouver")
+    .startOf("day")
+    .toDate();
   // console.log(today);
 
   const report = await prisma.saleReport.findFirst({
