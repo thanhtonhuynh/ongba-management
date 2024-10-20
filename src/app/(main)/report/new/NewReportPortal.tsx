@@ -16,6 +16,7 @@ import { CircleAlert, CircleCheck, MoveLeft, MoveRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { ReportPreview } from "./ReportPreview";
 import { Button } from "@/components/ui/button";
+import moment from "moment";
 
 const steps = [
   {
@@ -98,6 +99,11 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
     console.log("Date set 0 hours:", date);
     const utcString = date.toUTCString();
     console.log("utcstring:", utcString);
+
+    // const formatter = new Intl.DateTimeFormat();
+    // const { timeZone } = formatter.resolvedOptions();
+    // console.log(timeZone);
+
     const { error } = await createReportAction(data, utcString);
     if (error) setError(error);
   }

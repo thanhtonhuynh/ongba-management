@@ -6,6 +6,7 @@ import {
 } from "@/types";
 import { getFirstReportDate } from "@/data/report";
 import { cache } from "react";
+import moment from "moment";
 
 // export const populateBiweeklyPeriods = cache(async () => {
 //   const firstReportDate = new Date("2023-08-15T00:00:00.000+00:00");
@@ -83,7 +84,11 @@ export const populatePeriodSelectData = cache(async () => {
 });
 
 export function getTodayBiweeklyPeriod(): DayRange {
-  const today = new Date("2024-10-16T06:00:00.000Z");
+  // const today = new Date("2024-10-16T06:00:00.000Z");
+  const today = moment("2024-10-16T06:00:00.000Z")
+    .utcOffset("America/Vancouver")
+    .toDate();
+  // const today = new Date();
   const day = today.getDate();
 
   if (day < 16) {
