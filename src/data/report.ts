@@ -74,7 +74,8 @@ export async function upsertReport(
 
 // Get today's report
 export async function getTodayReport() {
-  const today = moment().tz("America/Vancouver").toDate();
+  const today = moment().startOf("day").toDate();
+  console.log(today);
 
   const report = await prisma.saleReport.findFirst({
     where: {
