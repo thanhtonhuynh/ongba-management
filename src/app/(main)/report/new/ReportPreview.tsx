@@ -2,13 +2,13 @@
 
 import { SaleReportCard } from "@/components/SaleReportCard";
 import { useSession } from "@/contexts/SessionProvider";
-import { CreateReportSchemaTypes } from "@/lib/report/validation";
+import { CreateReportSchemaInput } from "@/lib/report/validation";
 import { SaleReportCardRawData } from "@/types";
 import { processReportDataForView } from "@/utils/report";
 import { UseFormReturn } from "react-hook-form";
 
 type ReportPreviewProps = {
-  createReportForm: UseFormReturn<CreateReportSchemaTypes>;
+  createReportForm: UseFormReturn<CreateReportSchemaInput>;
   startCash: number;
 };
 

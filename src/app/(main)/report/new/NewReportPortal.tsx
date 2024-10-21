@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { LoadingButton } from "@/components/LoadingButton";
 import {
   CreateReportSchema,
-  CreateReportSchemaTypes,
+  CreateReportSchemaInput,
 } from "@/lib/report/validation";
 import { User } from "@/lib/auth/session";
 import { createReportAction } from "./actions";
@@ -16,7 +16,6 @@ import { CircleAlert, CircleCheck, MoveLeft, MoveRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { ReportPreview } from "./ReportPreview";
 import { Button } from "@/components/ui/button";
-import moment from "moment";
 
 const steps = [
   {
@@ -41,7 +40,7 @@ const steps = [
   { id: "Step 4", name: "Submit", fields: [] },
 ];
 
-type FieldName = keyof CreateReportSchemaTypes;
+type FieldName = keyof CreateReportSchemaInput;
 
 type NewReportPortalProps = {
   users: User[];
@@ -51,7 +50,7 @@ type NewReportPortalProps = {
 export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
   const [error, setError] = useState<string>();
   const [isPending, startTransition] = useTransition();
-  const createReportForm = useForm<CreateReportSchemaTypes>({
+  const createReportForm = useForm<CreateReportSchemaInput>({
     resolver: zodResolver(CreateReportSchema),
     defaultValues: {
       totalSales: 0.0,
@@ -92,19 +91,12 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
   const [previousStep, setPreviousStep] = useState(0);
   const delta = currentStep - previousStep;
 
-  async function processForm(data: CreateReportSchemaTypes) {
-    const date = new Date("Sat Oct 19 2024 23:42:06 GMT-0700");
-    console.log("Date:", date);
+  async function processForm(data: CreateReportSchemaInput) {
+    const date = new Date();
     date.setHours(0, 0, 0, 0);
-    console.log("Date set 0 hours:", date);
-    const utcString = date.toUTCString();
-    console.log("utcstring:", utcString);
+    const isoString = date.toISOString();
 
-    // const formatter = new Intl.DateTimeFormat();
-    // const { timeZone } = formatter.resolvedOptions();
-    // console.log(timeZone);
-
-    const { error } = await createReportAction(data, utcString);
+    const { error } = await createReportAction(data, isoString);
     if (error) setError(error);
   }
 

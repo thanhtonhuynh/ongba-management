@@ -10,13 +10,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { User } from "@/lib/auth/session";
-import { CreateReportSchemaTypes } from "@/lib/report/validation";
+import { CreateReportSchemaInput } from "@/lib/report/validation";
 import { UseFormReturn } from "react-hook-form";
 import { EmployeeInput } from "./EmployeeInput";
 
 type SaleDetailFormProps = {
   users: User[];
-  form: UseFormReturn<CreateReportSchemaTypes>;
+  form: UseFormReturn<CreateReportSchemaInput>;
 };
 export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
   const addedEmployees = form.watch("employees");

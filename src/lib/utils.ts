@@ -24,3 +24,8 @@ export function formatPriceWithDollarSign(amount: number) {
 export function formatNumber(number: number) {
   return new Intl.NumberFormat("en-US").format(number);
 }
+
+export function isISOString(value: string) {
+  const date = new Date(value);
+  return !Number.isNaN(date.valueOf()) && date.toUTCString() === value;
+}

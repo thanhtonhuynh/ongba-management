@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { User } from "@/lib/auth/session";
-import { CreateReportSchemaTypes } from "@/lib/report/validation";
+import { CreateReportSchemaInput } from "@/lib/report/validation";
 import { SaleEmployee } from "@/types";
 import { useState } from "react";
 import { UseFormSetValue } from "react-hook-form";
@@ -21,7 +21,7 @@ import { UseFormSetValue } from "react-hook-form";
 type EmployeeInputProps = {
   users: User[];
   employees: SaleEmployee[];
-  formSetValue: UseFormSetValue<CreateReportSchemaTypes>;
+  formSetValue: UseFormSetValue<CreateReportSchemaInput>;
 };
 
 export function EmployeeInput({

@@ -8,13 +8,14 @@ import {
 import { getCurrentSession } from "@/lib/auth/session";
 import {
   CreateReportSchema,
-  CreateReportSchemaTypes,
+  CreateReportSchemaInput,
 } from "@/lib/report/validation";
+import { isISOString } from "@/lib/utils";
 import { hasAccess } from "@/utils/access-control";
 
 export async function createReportAction(
-  data: CreateReportSchemaTypes,
-  utcString: string,
+  data: CreateReportSchemaInput,
+  isoString: string,
 ) {
   try {
     const { user } = await getCurrentSession();
@@ -28,11 +29,16 @@ export async function createReportAction(
 
     const parsedData = CreateReportSchema.parse(data);
 
+    // Validate if isoString is a valid date string in ISO format
+    if (!isISOString(isoString)) {
+      return { error: "Invalid date." };
+    }
+
     // if (await todayReportIsCreated()) {
     //   await deleteTodayReport();
     // }
 
-    await createReport(parsedData, user.id, utcString);
+    await createReport(parsedData, user.id, isoString);
 
     return {};
   } catch (error) {

@@ -1,28 +1,18 @@
 import prisma from "@/lib/prisma";
-import { CreateReportSchemaTypes } from "@/lib/report/validation";
+import { CreateReportSchemaInput } from "@/lib/report/validation";
 import { getFullDayHours, getStartCash } from "./store";
-import moment, { utc } from "moment";
+import moment from "moment";
 
 // Create a new report
 export async function createReport(
-  data: CreateReportSchemaTypes,
+  data: CreateReportSchemaInput,
   userId: string,
-  utcString: string,
+  isoString: string,
 ) {
   const { cardTips, cashTips, extraTips } = data;
   const { employees, ...reportData } = data;
 
-  const date = new Date("2024-10-20T06:00:00.000Z");
-  // if (date.getUTCHours() < 7) {
-  //   date.setDate(date.getDate() - 1);
-  // }
-
-  // date.setUTCHours(7, 0, 0, 0);
-
-  // const date = utc().utcOffset(-7).startOf("day").toDate();
-  console.log(date);
-  // const date = new Date(utcString);
-  // console.log("server Date from utc string", date);
+  const date = new Date(isoString);
   const totalTips = cardTips + cashTips + extraTips;
   const totalPeople =
     employees.reduce((acc, emp) => acc + (emp.fullDay ? 1 : 0.5), 0) || 1;
