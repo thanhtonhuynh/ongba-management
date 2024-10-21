@@ -50,12 +50,12 @@ export default async function Home() {
           <div>Good day, {user.name}!</div>
           <div>
             Today is <ClientTimeDisplay className="font-bold" />
+            {moment(today).format("MMM DD, YYYY hh:mm:ss A")}
           </div>
           {todayReport && (
             <div className="flex items-center gap-2">
               <CircleCheck size={17} className="text-green-500" />
               Today's report has been submitted.
-              {moment(today).format("MMM DD, YYYY hh:mm:ss A")}
             </div>
           )}
           {hasAccess(user.role, "/report/new") && (
