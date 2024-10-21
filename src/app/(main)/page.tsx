@@ -1,10 +1,9 @@
 import { Container } from "@/components/Container";
 import { getCurrentSession } from "@/lib/auth/session";
 import { notFound, redirect } from "next/navigation";
-import moment, { utc } from "moment";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { getTodayReport } from "@/data/report";
+import { getReportByDate, getTodayReport } from "@/data/report";
 import { CircleCheck } from "lucide-react";
 import {
   getUserMonthToDateHours,
@@ -16,6 +15,7 @@ import { SaleReportCardProcessedData, SaleReportCardRawData } from "@/types";
 import { processReportDataForView } from "@/utils/report";
 import { hasAccess } from "@/utils/access-control";
 import { ClientTimeDisplay } from "@/components/ClientTimeDisplay";
+import moment from "moment";
 
 export default async function Home() {
   const { session, user } = await getCurrentSession();
@@ -25,7 +25,8 @@ export default async function Home() {
   const userMonthToDateTips = await getUserMonthToDateTips(user.id);
   const userMonthToDateHours = await getUserMonthToDateHours(user.id);
 
-  const { todayReport, today } = await getTodayReport();
+  const today = moment().tz("America/Vancouver").startOf("day").toDate();
+  const todayReport = await getReportByDate(today);
   let processedTodayReportData: SaleReportCardProcessedData | undefined;
   if (todayReport) {
     const employees = todayReport.employeeShifts.map((data) => ({
@@ -50,7 +51,6 @@ export default async function Home() {
           <div>Good day, {user.name}!</div>
           <div>
             Today is <ClientTimeDisplay className="font-bold" />
-            {moment(today).format("MMM DD, YYYY hh:mm:ss A")}
           </div>
           {todayReport && (
             <div className="flex items-center gap-2">

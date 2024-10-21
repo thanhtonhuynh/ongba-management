@@ -74,13 +74,10 @@ export async function upsertReport(
 
 // Get today's report
 export async function getTodayReport() {
-  const today = moment().tz("America/Vancouver", true).startOf("day").toDate();
-  console.log(today);
+  const today = moment().tz("America/Vancouver").startOf("day").toDate();
 
-  const report = await prisma.saleReport.findFirst({
-    where: {
-      date: today,
-    },
+  const report = await prisma.saleReport.findUnique({
+    where: { date: today },
     include: {
       employeeShifts: {
         select: { userId: true, hours: true, user: { select: { name: true } } },
@@ -89,7 +86,22 @@ export async function getTodayReport() {
     },
   });
 
-  return { todayReport: report, today };
+  return report;
+}
+
+// Get report by date
+export async function getReportByDate(date: Date) {
+  const report = await prisma.saleReport.findUnique({
+    where: { date },
+    include: {
+      employeeShifts: {
+        select: { userId: true, hours: true, user: { select: { name: true } } },
+      },
+      reporter: { select: { name: true } },
+    },
+  });
+
+  return report;
 }
 
 // Create a new report
@@ -195,24 +207,4 @@ export async function getAllReports() {
   });
 
   return reports;
-}
-
-// Get report by date
-export async function getReportByDate(date: Date) {
-  const startOfDay = new Date(date);
-  startOfDay.setHours(0, 0, 0, 0);
-  const endOfDay = new Date(date);
-  endOfDay.setHours(23, 59, 59, 999);
-
-  const report = await prisma.saleReport.findFirst({
-    where: { date: { gte: startOfDay, lte: endOfDay } },
-    include: {
-      employeeShifts: {
-        select: { userId: true, hours: true, user: { select: { name: true } } },
-      },
-      reporter: { select: { name: true } },
-    },
-  });
-
-  return report;
 }
