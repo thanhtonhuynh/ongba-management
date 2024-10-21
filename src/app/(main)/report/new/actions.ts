@@ -1,6 +1,6 @@
 "use server";
 
-import { createReport, upsertReport } from "@/data/report";
+import { upsertReport } from "@/data/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import {
   CreateReportSchema,

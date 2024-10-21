@@ -8,14 +8,14 @@ export async function getUserMonthToDateTips(userId: string) {
 
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
-  const tips = await prisma.individualTip.findMany({
+  const tips = await prisma.employeeShift.findMany({
     where: {
       userId,
       date: { gte: firstDayOfMonth, lte: today },
     },
   });
 
-  return tips.reduce((acc, tip) => acc + tip.amount, 0);
+  return tips.reduce((acc, tip) => acc + tip.tips, 0);
 }
 
 // Get user month-to-date hours
@@ -24,7 +24,7 @@ export async function getUserMonthToDateHours(userId: string) {
 
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
-  const workDays = await prisma.individualTip.findMany({
+  const workDays = await prisma.employeeShift.findMany({
     where: {
       userId,
       date: { gte: firstDayOfMonth, lte: today },
@@ -70,11 +70,11 @@ export async function getTotalHoursTipsInDayRange(dayRange: DayRange) {
   const endDate = new Date(dayRange.end);
   endDate.setDate(endDate.getDate() + 1);
 
-  const hoursTipsData = await prisma.individualTip.groupBy({
+  const hoursTipsData = await prisma.employeeShift.groupBy({
     by: ["userId"],
     _sum: {
       hours: true,
-      amount: true,
+      tips: true,
     },
     where: {
       date: { gte: startDate, lt: endDate },
@@ -90,7 +90,7 @@ export async function getTotalHoursTipsInDayRange(dayRange: DayRange) {
       userId: data.userId,
       name: employee?.name || "Unknown",
       totalHours: data._sum.hours || 0,
-      totalTips: data._sum.amount || 0,
+      totalTips: data._sum.tips || 0,
     };
   });
 
@@ -105,7 +105,7 @@ export async function getIndividualHoursTipsInDayRange(dayRange: DayRange) {
   const endDate = new Date(dayRange.end);
   endDate.setDate(endDate.getDate() + 1);
 
-  return await prisma.individualTip.findMany({
+  return await prisma.employeeShift.findMany({
     where: {
       date: { gte: startDate, lt: endDate },
     },
@@ -113,7 +113,7 @@ export async function getIndividualHoursTipsInDayRange(dayRange: DayRange) {
       userId: true,
       date: true,
       hours: true,
-      amount: true,
+      tips: true,
     },
   });
 }

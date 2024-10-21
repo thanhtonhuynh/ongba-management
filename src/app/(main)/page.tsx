@@ -28,7 +28,7 @@ export default async function Home() {
   const todayReport = await getTodayReport();
   let processedTodayReportData: SaleReportCardProcessedData | undefined;
   if (todayReport) {
-    const employees = todayReport.individualTips.map((data) => ({
+    const employees = todayReport.employeeShifts.map((data) => ({
       userId: data.userId,
       fullDay: data.hours === todayReport.fullDayHours,
       name: data.user.name,
