@@ -87,7 +87,7 @@ export type IndividualHoursTips = {
   userId: string;
   date: Date;
   hours: number;
-  amount: number;
+  tips: number;
 };
 
 export type BreakdownData = {

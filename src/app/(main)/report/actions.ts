@@ -20,7 +20,7 @@ export async function searchReportAction(data: SearchReportInput) {
       return { error: "Report not found", processedReport: null };
     }
 
-    const employees = report.individualTips.map((data) => ({
+    const employees = report.employeeShifts.map((data) => ({
       userId: data.userId,
       fullDay: data.hours === report.fullDayHours,
       name: data.user.name,

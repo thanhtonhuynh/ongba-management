@@ -144,7 +144,7 @@ export function getHoursTipsBreakdownInDayRange(
       );
 
       const hours = dayData.length > 0 ? dayData[0].hours : 0;
-      const tips = dayData.length > 0 ? dayData[0].amount : 0;
+      const tips = dayData.length > 0 ? dayData[0].tips : 0;
 
       hoursData.push(hours);
       tipsData.push(tips);
