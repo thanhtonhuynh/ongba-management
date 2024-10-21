@@ -89,7 +89,7 @@ export async function getTodayReport() {
     },
   });
 
-  return report;
+  return { todayReport: report, today };
 }
 
 // Create a new report

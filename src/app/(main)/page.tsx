@@ -1,7 +1,7 @@
 import { Container } from "@/components/Container";
 import { getCurrentSession } from "@/lib/auth/session";
 import { notFound, redirect } from "next/navigation";
-import { utc } from "moment";
+import moment, { utc } from "moment";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getTodayReport } from "@/data/report";
@@ -25,7 +25,7 @@ export default async function Home() {
   const userMonthToDateTips = await getUserMonthToDateTips(user.id);
   const userMonthToDateHours = await getUserMonthToDateHours(user.id);
 
-  const todayReport = await getTodayReport();
+  const { todayReport, today } = await getTodayReport();
   let processedTodayReportData: SaleReportCardProcessedData | undefined;
   if (todayReport) {
     const employees = todayReport.employeeShifts.map((data) => ({
@@ -55,6 +55,7 @@ export default async function Home() {
             <div className="flex items-center gap-2">
               <CircleCheck size={17} className="text-green-500" />
               Today's report has been submitted.
+              {moment(today).format("MMM DD, YYYY hh:mm:ss A")}
             </div>
           )}
           {hasAccess(user.role, "/report/new") && (
