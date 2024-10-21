@@ -27,5 +27,5 @@ export function formatNumber(number: number) {
 
 export function isISOString(value: string) {
   const date = new Date(value);
-  return !Number.isNaN(date.valueOf()) && date.toUTCString() === value;
+  return !Number.isNaN(date.valueOf()) && date.toISOString() === value;
 }
