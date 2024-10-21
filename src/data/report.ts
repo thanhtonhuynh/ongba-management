@@ -72,23 +72,6 @@ export async function upsertReport(
   return report;
 }
 
-// Get today's report
-export async function getTodayReport() {
-  const today = moment().tz("America/Vancouver").startOf("day").toDate();
-
-  const report = await prisma.saleReport.findUnique({
-    where: { date: today },
-    include: {
-      employeeShifts: {
-        select: { userId: true, hours: true, user: { select: { name: true } } },
-      },
-      reporter: { select: { name: true } },
-    },
-  });
-
-  return report;
-}
-
 // Get report by date
 export async function getReportByDate(date: Date) {
   const report = await prisma.saleReport.findUnique({
@@ -183,6 +166,23 @@ export async function getReportByDate(date: Date) {
 //       date: { gte: today },
 //     },
 //   });
+// }
+
+// Get today's report
+// export async function getTodayReport() {
+//   const today = moment().tz("America/Vancouver").startOf("day").toDate();
+
+//   const report = await prisma.saleReport.findUnique({
+//     where: { date: today },
+//     include: {
+//       employeeShifts: {
+//         select: { userId: true, hours: true, user: { select: { name: true } } },
+//       },
+//       reporter: { select: { name: true } },
+//     },
+//   });
+
+//   return report;
 // }
 
 // Get first report date

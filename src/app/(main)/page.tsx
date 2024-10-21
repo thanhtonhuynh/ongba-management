@@ -3,7 +3,7 @@ import { getCurrentSession } from "@/lib/auth/session";
 import { notFound, redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { getReportByDate, getTodayReport } from "@/data/report";
+import { getReportByDate } from "@/data/report";
 import { CircleCheck } from "lucide-react";
 import {
   getUserMonthToDateHours,
@@ -15,7 +15,7 @@ import { SaleReportCardProcessedData, SaleReportCardRawData } from "@/types";
 import { processReportDataForView } from "@/utils/report";
 import { hasAccess } from "@/utils/access-control";
 import { ClientTimeDisplay } from "@/components/ClientTimeDisplay";
-import moment from "moment";
+import moment from "moment-timezone";
 
 export default async function Home() {
   const { session, user } = await getCurrentSession();
