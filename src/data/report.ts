@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
 import { CreateReportSchemaInput } from "@/lib/report/validation";
 import { getFullDayHours, getStartCash } from "./store";
-import moment from "moment";
+import moment from "moment-timezone";
 
 // Upsert a report
 export async function upsertReport(
@@ -74,7 +74,7 @@ export async function upsertReport(
 
 // Get today's report
 export async function getTodayReport() {
-  const today = moment().utcOffset("America/Vancouver").startOf("day").toDate();
+  const today = moment().tz("America/Vancouver").startOf("day").toDate();
   console.log(today);
 
   const report = await prisma.saleReport.findFirst({
