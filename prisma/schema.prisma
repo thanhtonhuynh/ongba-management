@@ -29,7 +29,7 @@ model User {
   passwordResetTokens      PasswordResetToken[]
 
   saleReports    SaleReport[]
-  individualTips IndividualTip[]
+  employeeShifts EmployeeShift[]
 }
 
 model Session {
@@ -79,7 +79,7 @@ model StoreSettings {
 
 model SaleReport {
   id                 String   @id @default(auto()) @map("_id") @db.ObjectId
-  date               DateTime
+  date               DateTime @unique
   totalSales         Float
   cardSales          Float
   uberEatsSales      Float
@@ -101,14 +101,14 @@ model SaleReport {
   userId   String @db.ObjectId
   reporter User   @relation(fields: [userId], references: [id], onDelete: Restrict)
 
-  individualTips IndividualTip[]
+  employeeShifts EmployeeShift[]
 }
 
-model IndividualTip {
+model EmployeeShift {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  amount       Float
-  hours        Float
   date         DateTime
+  tips         Float
+  hours        Float
   userId       String   @db.ObjectId
   saleReportId String   @db.ObjectId
 
@@ -117,4 +117,6 @@ model IndividualTip {
 
   user       User       @relation(fields: [userId], references: [id], onDelete: Restrict)
   saleReport SaleReport @relation(fields: [saleReportId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
 }

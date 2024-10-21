@@ -22,11 +22,17 @@ export function processReportDataForView(
 
   const cashDifference = rawData.cashInTill - rawData.startCash - actualCash;
 
-  const totalPeople =
-    rawData.employees.reduce((acc, emp) => acc + (emp.fullDay ? 1 : 0.5), 0) ||
-    1;
+  const cashOut =
+    Number(rawData.cashInTill) -
+    Number(rawData.startCash) +
+    Number(rawData.cashTips);
 
-  const tipsPerPerson = totalTips / totalPeople;
+  const totalPeople = rawData.employees.reduce(
+    (acc, emp) => acc + (emp.fullDay ? 1 : 0.5),
+    0,
+  );
+
+  const tipsPerPerson = totalTips / (totalPeople >= 1 ? totalPeople : 1);
 
   const processedData = {
     ...rawData,
@@ -36,7 +42,8 @@ export function processReportDataForView(
     actualCash,
     totalTips,
     cashDifference,
-    totalPeople,
+    cashOut,
+    totalPeople: totalPeople >= 1 ? totalPeople : 1,
     tipsPerPerson,
   };
 

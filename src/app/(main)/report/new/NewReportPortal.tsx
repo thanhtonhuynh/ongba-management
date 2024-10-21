@@ -93,11 +93,8 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
 
   async function processForm(data: CreateReportSchemaInput) {
     const date = new Date();
-    console.log(date);
     date.setHours(0, 0, 0, 0);
-    console.log(date);
     const isoString = date.toISOString();
-    console.log(isoString);
 
     const { error } = await createReportAction(data, isoString);
     if (error) setError(error);

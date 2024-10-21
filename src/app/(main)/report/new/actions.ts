@@ -1,10 +1,6 @@
 "use server";
 
-import {
-  createReport,
-  deleteTodayReport,
-  todayReportIsCreated,
-} from "@/data/report";
+import { createReport, upsertReport } from "@/data/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import {
   CreateReportSchema,
@@ -34,11 +30,7 @@ export async function createReportAction(
       return { error: "Invalid date." };
     }
 
-    // if (await todayReportIsCreated()) {
-    //   await deleteTodayReport();
-    // }
-
-    await createReport(parsedData, user.id, isoString);
+    await upsertReport(parsedData, user.id, isoString);
 
     return {};
   } catch (error) {

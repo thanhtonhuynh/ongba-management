@@ -47,6 +47,7 @@ export interface SaleReportCardProcessedData extends SaleReportCardRawData {
   actualCash: number;
   totalTips: number;
   cashDifference: number;
+  cashOut: number;
   totalPeople: number;
   tipsPerPerson: number;
 }
