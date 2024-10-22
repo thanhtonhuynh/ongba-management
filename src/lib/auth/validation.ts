@@ -21,14 +21,20 @@ export const SignupSchema = z.object({
     .max(50, "Username must not exceed 50 characters")
     .toLowerCase(),
   email: requiredString.email("Invalid email address").toLowerCase(),
-  password: trimmedString.min(8, "Password must be at least 8 characters"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+    ),
 });
 export type SignupSchemaTypes = z.infer<typeof SignupSchema>;
 
 // Login
 export const LoginSchema = z.object({
   identifier: requiredString.toLowerCase(),
-  password: requiredString,
+  password: z.string(),
 });
 export type LoginSchemaTypes = z.infer<typeof LoginSchema>;
 
@@ -65,12 +71,15 @@ export type UpdateEmailSchemaInput = z.infer<typeof UpdateEmailSchema>;
 // Update password
 export const UpdatePasswordSchema = z
   .object({
-    currentPassword: requiredString,
-    newPassword: trimmedString.min(8, "Password must be at least 8 characters"),
-    confirmNewPassword: trimmedString.min(
-      8,
-      "Password must be at least 8 characters",
-    ),
+    currentPassword: z.string(),
+    newPassword: z
+      .string()
+      .min(8, "Password must be at least 8 characters")
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+      ),
+    confirmNewPassword: z.string(),
     logOutOtherDevices: z.boolean().default(true).optional(),
   })
   .refine((data) => data.newPassword === data.confirmNewPassword, {
@@ -96,11 +105,14 @@ export type ForgotPasswordSchemaTypes = z.infer<typeof ForgotPasswordSchema>;
 // Reset password
 export const ResetPasswordSchema = z
   .object({
-    password: trimmedString.min(8, "Password must be at least 8 characters"),
-    confirmPassword: trimmedString.min(
-      8,
-      "Password must be at least 8 characters",
-    ),
+    password: z
+      .string()
+      .min(8, "Password must be at least 8 characters")
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+      ),
+    confirmPassword: z.string(),
     logOutOtherDevices: z.boolean().default(true).optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {

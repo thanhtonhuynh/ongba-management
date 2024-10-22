@@ -28,8 +28,6 @@ export async function signUpAction(data: SignupSchemaTypes) {
       return { error: "Username already in use" };
     }
 
-    // TODO: Verify password strength
-
     const user = await createUser(name, username, email, password);
 
     // const emailVerificationRequest = await upsertEmailVerificationRequest(
