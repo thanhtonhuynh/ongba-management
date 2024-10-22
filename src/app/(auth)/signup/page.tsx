@@ -8,7 +8,7 @@ export default async function Page() {
   if (session) redirect("/");
 
   return (
-    <main className="flex flex-col items-center justify-center md:h-screen">
+    <main className="mt-4 flex flex-col items-center justify-center sm:mt-0 sm:h-screen">
       <div className="flex w-full max-w-[40rem] flex-col items-center justify-center space-y-4 rounded-xl border p-4 py-8 shadow-xl">
         <h1 className="text-3xl font-bold">Sign Up</h1>
 
