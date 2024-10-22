@@ -8,7 +8,7 @@ import { getFirstReportDate } from "@/data/report";
 import { cache } from "react";
 import moment from "moment-timezone";
 
-export const populatePeriodSelectData = cache(async () => {
+export const populateMonthSelectData = cache(async () => {
   const firstReportDate = await getFirstReportDate();
 
   if (!firstReportDate)

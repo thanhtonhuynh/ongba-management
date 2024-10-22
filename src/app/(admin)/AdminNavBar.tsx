@@ -24,6 +24,10 @@ export async function AdminNavBar() {
           <NavLinkAdmin href={`/admin/hours&tips`}>Hours & Tips</NavLinkAdmin>
         )}
 
+        {hasAccess(user.role, "/admin/cashflow") && (
+          <NavLinkAdmin href={`/admin/cashflow`}>Cashflow</NavLinkAdmin>
+        )}
+
         <NavLinkAdmin href={`/admin/employees`}>Employees</NavLinkAdmin>
 
         {hasAccess(user.role, "/admin/store-settings") && (
@@ -62,6 +66,14 @@ export async function AdminNavBarMobile() {
           <DropdownMenuItem asChild>
             <Link href={`/admin/hours&tips`} className="cursor-pointer">
               Hours & Tips
+            </Link>
+          </DropdownMenuItem>
+        )}
+
+        {hasAccess(user.role, "/admin/cashflow") && (
+          <DropdownMenuItem asChild>
+            <Link href={`/admin/cashflow`} className="cursor-pointer">
+              Cashflow
             </Link>
           </DropdownMenuItem>
         )}

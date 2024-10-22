@@ -99,3 +99,20 @@ export type BreakdownData = {
   keyData: number[];
   total: number;
 };
+
+export type CashFlowRawData = {
+  id: string;
+  date: Date;
+  totalSales: number;
+  cardSales: number;
+  uberEatsSales: number;
+  doorDashSales: number;
+  skipTheDishesSales: number;
+  onlineSales: number;
+  expenses: number;
+};
+
+export type CashFlowData = CashFlowRawData & {
+  actualCash: number;
+  totalRevenue: number;
+};

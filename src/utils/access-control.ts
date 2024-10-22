@@ -20,6 +20,9 @@ const accessControl: AccessControl = {
   "/admin/hours&tips": {
     read: ["admin"],
   },
+  "/admin/cashflow": {
+    read: ["admin"],
+  },
   "/report/new": {
     read: ["admin", "manager", "server"],
   },

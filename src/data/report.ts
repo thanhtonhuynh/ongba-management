@@ -2,6 +2,7 @@ import prisma from "@/lib/prisma";
 import { CreateReportSchemaInput } from "@/lib/report/validation";
 import { getFullDayHours, getStartCash } from "./store";
 import { cache } from "react";
+import { DayRange } from "@/types";
 
 // Upsert a report
 export async function upsertReport(
@@ -95,3 +96,26 @@ export const getFirstReportDate = cache(async () => {
 
   return report?.date;
 });
+
+// Get reports by date range
+export async function getReportsByDateRange(dateRange: DayRange) {
+  const reports = await prisma.saleReport.findMany({
+    where: {
+      date: { gte: dateRange.start, lte: dateRange.end },
+    },
+    select: {
+      id: true,
+      date: true,
+      totalSales: true,
+      cardSales: true,
+      uberEatsSales: true,
+      doorDashSales: true,
+      skipTheDishesSales: true,
+      onlineSales: true,
+      expenses: true,
+    },
+    orderBy: { date: "asc" },
+  });
+
+  return reports;
+}

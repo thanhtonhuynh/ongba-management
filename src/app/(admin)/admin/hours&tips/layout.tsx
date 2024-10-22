@@ -1,6 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import { PeriodSelect } from "./_components/PeriodSelect";
-import { populatePeriodSelectData } from "@/utils/hours-tips";
+import { populateMonthSelectData } from "@/utils/hours-tips";
 
 export default async function Layout({
   children,
@@ -8,7 +8,7 @@ export default async function Layout({
   children: React.ReactNode;
 }>) {
   const { years, firstYearMonths, latestYearMonths } =
-    await populatePeriodSelectData();
+    await populateMonthSelectData();
 
   return (
     <section className="space-y-4">
