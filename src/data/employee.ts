@@ -102,6 +102,7 @@ export async function getEmployeeShiftsInDayRange(dayRange: DayRange) {
       date: true,
       hours: true,
       tips: true,
+      user: { select: { name: true } },
     },
   });
 }

@@ -88,6 +88,9 @@ export type EmployeeShift = {
   date: Date;
   hours: number;
   tips: number;
+  user: {
+    name: string;
+  };
 };
 
 export type BreakdownData = {

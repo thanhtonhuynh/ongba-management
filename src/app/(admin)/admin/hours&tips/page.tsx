@@ -25,7 +25,6 @@ export default async function Page() {
 
   const { hoursBreakdown, tipsBreakdown } = getHoursTipsBreakdownInDayRange(
     todayBiweeklyPeriod,
-    totalHoursTips,
     employeeShifts,
   );
 

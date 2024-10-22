@@ -10,7 +10,7 @@ export default async function NavBar() {
   const { user } = await getCurrentSession();
 
   return (
-    <header className="sticky top-0 border-b bg-background px-3 shadow-sm">
+    <header className="sticky top-0 z-10 border-b bg-background px-3 shadow-sm">
       <nav className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-3">
         <div className="flex items-center space-x-4">
           <Link href="/" className="flex items-center space-x-1 font-bold">

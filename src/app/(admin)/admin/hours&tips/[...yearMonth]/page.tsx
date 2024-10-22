@@ -1,14 +1,23 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasAccess } from "@/utils/access-control";
-import { getPeriodsByMonthAndYear } from "@/utils/hours-tips";
+import {
+  getDayRangeByMonthAndYear,
+  getHoursTipsBreakdownInDayRange,
+  getPeriodsByMonthAndYear,
+} from "@/utils/hours-tips";
 import { notFound, redirect } from "next/navigation";
 import moment from "moment-timezone";
 import { HoursTipsTable } from "../_components/HoursTipsTable";
-import { getTotalHoursTipsInDayRange } from "@/data/employee";
+import {
+  getEmployeeShiftsInDayRange,
+  getTotalHoursTipsInDayRange,
+} from "@/data/employee";
 import { ErrorMessage } from "@/components/Message";
 import { getFirstReportDate } from "@/data/report";
 import { GoBackButton } from "@/components/GoBackButton";
+import { DataTable } from "../_components/DataTable";
+import { Separator } from "@/components/ui/separator";
 
 type Props = {
   params: {
@@ -53,11 +62,22 @@ export default async function Page({ params }: Props) {
     );
   }
 
+  const dayRange = getDayRangeByMonthAndYear(year, month);
+
   const periods = getPeriodsByMonthAndYear(year, month);
-  const results = await Promise.all([
-    getTotalHoursTipsInDayRange(periods[0]),
-    getTotalHoursTipsInDayRange(periods[1]),
-  ]);
+
+  const totalHoursTips = await getTotalHoursTipsInDayRange(dayRange);
+
+  const [firstPeriodEmployeeShifts, secondPeriodEmployeeShifts] =
+    await Promise.all([
+      getEmployeeShiftsInDayRange(periods[0]),
+      getEmployeeShiftsInDayRange(periods[1]),
+    ]);
+
+  const hoursTipsBreakdowns = [
+    getHoursTipsBreakdownInDayRange(periods[0], firstPeriodEmployeeShifts),
+    getHoursTipsBreakdownInDayRange(periods[1], secondPeriodEmployeeShifts),
+  ];
 
   return (
     <div className="flex-1 space-y-4">
@@ -73,15 +93,58 @@ export default async function Page({ params }: Props) {
         {FULL_MONTHS[month - 1]} {year}
       </h2>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="w-fit rounded-md border p-2 shadow-md">
+        <h3 className="text-sm font-medium">Total hours and tips</h3>
+
+        <HoursTipsTable data={totalHoursTips} />
+      </div>
+
+      <div className="hidden space-y-2 rounded-md border p-2 shadow-md lg:block">
+        <h3 className="text-sm font-medium">Hours breakdown</h3>
+
         {periods.map((period, index) => (
-          <div key={index} className="w-full rounded-md border p-2 shadow-md">
-            <h3 className="text-sm font-medium">
+          <div key={index} className="space-y-2">
+            <h4 className="text-sm font-medium">
               {moment(period.start).format("MMM D")} -{" "}
               {moment(period.end).format("MMM D")}
-            </h3>
+            </h4>
 
-            <HoursTipsTable data={results[index]} />
+            {hoursTipsBreakdowns[index].hoursBreakdown.length > 0 ? (
+              <DataTable
+                startDay={period.start.getDate()}
+                endDay={period.end.getDate()}
+                data={hoursTipsBreakdowns[index].hoursBreakdown}
+              />
+            ) : (
+              <div className="text-sm">No record found for this period</div>
+            )}
+
+            <Separator />
+          </div>
+        ))}
+      </div>
+
+      <div className="hidden space-y-2 rounded-md border p-2 shadow-md lg:block">
+        <h3 className="text-sm font-medium">Tips breakdown</h3>
+
+        {periods.map((period, index) => (
+          <div key={index} className="space-y-2">
+            <h4 className="text-sm font-medium">
+              {moment(period.start).format("MMM D")} -{" "}
+              {moment(period.end).format("MMM D")}
+            </h4>
+
+            {hoursTipsBreakdowns[index].tipsBreakdown.length > 0 ? (
+              <DataTable
+                startDay={period.start.getDate()}
+                endDay={period.end.getDate()}
+                data={hoursTipsBreakdowns[index].tipsBreakdown}
+              />
+            ) : (
+              <div className="text-sm">No record found for this period</div>
+            )}
+
+            <Separator />
           </div>
         ))}
       </div>

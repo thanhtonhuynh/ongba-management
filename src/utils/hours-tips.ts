@@ -71,6 +71,16 @@ export function getTodayBiweeklyPeriod(): DayRange {
   };
 }
 
+export function getDayRangeByMonthAndYear(
+  year: number,
+  month: number,
+): DayRange {
+  return {
+    start: new Date(year, month - 1, 1),
+    end: new Date(year, month, 0),
+  };
+}
+
 export function getPeriodsByMonthAndYear(
   year: number,
   month: number,
@@ -92,7 +102,6 @@ export function getPeriodsByMonthAndYear(
 
 export function getHoursTipsBreakdownInDayRange(
   dayRange: DayRange,
-  totalHoursTips: TotalHoursTips[],
   employeeShifts: EmployeeShift[],
 ) {
   const hoursBreakdown: BreakdownData[] = [];
@@ -101,35 +110,44 @@ export function getHoursTipsBreakdownInDayRange(
   const startDay = dayRange.start.getDate();
   const endDay = dayRange.end.getDate();
 
-  for (const employee of totalHoursTips) {
-    const hoursData = [];
-    const tipsData = [];
+  // Initialize the breakdown data with the employees, the keyData array (initialize to 0s), and the total hours and tips
+  for (const shift of employeeShifts) {
+    const index = hoursBreakdown.findIndex(
+      (data) => data.userId === shift.userId,
+    );
 
-    for (let i = startDay; i <= endDay; i++) {
-      const dayData = employeeShifts.filter(
-        (data) => data.userId === employee.userId && data.date.getDate() === i,
-      );
+    if (index === -1) {
+      hoursBreakdown.push({
+        userId: shift.userId,
+        userName: shift.user.name,
+        keyData: Array(endDay - startDay + 1).fill(0),
+        total: 0,
+      });
 
-      const hours = dayData.length > 0 ? dayData[0].hours : 0;
-      const tips = dayData.length > 0 ? dayData[0].tips : 0;
-
-      hoursData.push(hours);
-      tipsData.push(tips);
+      tipsBreakdown.push({
+        userId: shift.userId,
+        userName: shift.user.name,
+        keyData: Array(endDay - startDay + 1).fill(0),
+        total: 0,
+      });
     }
+  }
 
-    hoursBreakdown.push({
-      userId: employee.userId,
-      userName: employee.name,
-      keyData: hoursData,
-      total: employee.totalHours,
-    });
+  // Process the employee shifts
+  for (const shift of employeeShifts) {
+    const index = hoursBreakdown.findIndex(
+      (data) => data.userId === shift.userId,
+    );
 
-    tipsBreakdown.push({
-      userId: employee.userId,
-      userName: employee.name,
-      keyData: tipsData,
-      total: employee.totalTips,
-    });
+    const day = shift.date.getDate();
+    const hours = shift.hours;
+    const tips = shift.tips;
+
+    hoursBreakdown[index].keyData[day - startDay] = hours;
+    hoursBreakdown[index].total += hours;
+
+    tipsBreakdown[index].keyData[day - startDay] = tips;
+    tipsBreakdown[index].total += tips;
   }
 
   return {
