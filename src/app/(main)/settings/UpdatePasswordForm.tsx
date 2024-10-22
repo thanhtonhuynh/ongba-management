@@ -123,7 +123,7 @@ export function UpdatePasswordForm({ user }: ResetPasswordFormProps) {
             )}
           />
 
-          <LoadingButton type="submit" loading={isPending} className="w-full">
+          <LoadingButton type="submit" loading={isPending} variant={"outline"}>
             Update password
           </LoadingButton>
         </form>

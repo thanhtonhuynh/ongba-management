@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Form,
@@ -8,27 +8,28 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState, useTransition } from 'react';
-import { useForm } from 'react-hook-form';
-import { PasswordInput } from '@/components/PasswordInput';
-import { LoadingButton } from '@/components/LoadingButton';
-import { ErrorMessage } from '@/components/Message';
-import { signUpAction } from './actions';
-import { SignupSchema, SignupSchemaTypes } from '@/lib/auth/validation';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { PasswordInput } from "@/components/PasswordInput";
+import { LoadingButton } from "@/components/LoadingButton";
+import { ErrorMessage } from "@/components/Message";
+import { signUpAction } from "./actions";
+import { SignupSchema, SignupSchemaTypes } from "@/lib/auth/validation";
 
 export function SignUpForm() {
   const [error, setError] = useState<string>();
   const [isPending, startTransition] = useTransition();
   const form = useForm<SignupSchemaTypes>({
     resolver: zodResolver(SignupSchema),
+    mode: "onBlur",
     defaultValues: {
-      name: '',
-      username: '',
-      email: '',
-      password: '',
+      name: "",
+      username: "",
+      email: "",
+      password: "",
     },
   });
 
@@ -45,7 +46,7 @@ export function SignUpForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col w-1/2 space-y-4"
+        className="flex w-1/2 flex-col space-y-2"
       >
         {error && <ErrorMessage message={error} />}
 
@@ -55,6 +56,9 @@ export function SignUpForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Name</FormLabel>
+              <FormDescription>
+                Must be at least 2 characters long
+              </FormDescription>
               <FormControl>
                 <Input {...field} placeholder="Name" />
               </FormControl>
@@ -69,6 +73,9 @@ export function SignUpForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
+              <FormDescription>
+                Must be at least 6 characters long
+              </FormDescription>
               <FormControl>
                 <Input {...field} placeholder="Username" />
               </FormControl>
@@ -83,6 +90,10 @@ export function SignUpForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
+              <FormDescription>
+                Please use a real email address as you will need to use it to
+                reset your password
+              </FormDescription>
               <FormControl>
                 <Input {...field} type="email" placeholder="Email" />
               </FormControl>
@@ -98,7 +109,9 @@ export function SignUpForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormDescription>
-                Must be at least 8 characters long
+                Must be at least 8 characters long, contain at least one
+                uppercase letter, one lowercase letter, one number, and one
+                special character
               </FormDescription>
               <FormControl>
                 <PasswordInput {...field} placeholder="Password" />
