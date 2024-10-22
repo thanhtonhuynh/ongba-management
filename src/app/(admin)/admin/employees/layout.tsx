@@ -15,7 +15,7 @@ export default async function Layout({
       <div className="flex h-10 items-center space-x-2">
         <NavLinkAdmin href={"/admin/employees/active"}>Active</NavLinkAdmin>
         <NavLinkAdmin href={"/admin/employees/awaiting-verification"}>
-          Awaiting verification
+          Awaiting
         </NavLinkAdmin>
         <NavLinkAdmin href={"/admin/employees/deactivated"}>
           Deactivated
