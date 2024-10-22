@@ -56,7 +56,6 @@ export default async function Page({ searchParams }: PageProps) {
   const selectedMonth = parseInt(searchParams.month) || today.getMonth() + 1;
 
   const dateRange = getDayRangeByMonthAndYear(selectedYear, selectedMonth);
-  console.log(dateRange);
   const reports = await getReportsByDateRange(dateRange);
   const processedReports = processCashFlowData(reports);
 
