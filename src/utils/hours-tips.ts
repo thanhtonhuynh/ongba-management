@@ -18,7 +18,8 @@ export const populatePeriodSelectData = cache(async () => {
       latestYearMonths: [],
     };
 
-  const today = new Date();
+  const today = moment().tz("America/Vancouver").startOf("day").toDate();
+
   const firstYear = firstReportDate.getFullYear();
   const firstMonth = firstReportDate.getMonth();
 
@@ -35,9 +36,15 @@ export const populatePeriodSelectData = cache(async () => {
     firstYearMonths.push(i);
   }
 
-  const latestYearMonths: number[] = [];
-  for (let i = 0; i <= today.getMonth(); i++) {
-    latestYearMonths.push(i);
+  let latestYearMonths: number[] = [];
+  if (firstYear === today.getFullYear()) {
+    for (let i = firstMonth; i <= today.getMonth(); i++) {
+      latestYearMonths.push(i);
+    }
+  } else {
+    for (let i = 0; i <= today.getMonth(); i++) {
+      latestYearMonths.push(i);
+    }
   }
 
   return {
@@ -48,10 +55,7 @@ export const populatePeriodSelectData = cache(async () => {
 });
 
 export function getTodayBiweeklyPeriod(): DayRange {
-  const today = moment("2024-10-16T06:00:00.000Z")
-    .tz("America/Vancouver")
-    .startOf("day")
-    .toDate();
+  const today = moment().tz("America/Vancouver").startOf("day").toDate();
   const day = today.getDate();
 
   if (day < 16) {

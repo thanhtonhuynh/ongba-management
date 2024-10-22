@@ -12,10 +12,12 @@ import { User } from "@/lib/auth/session";
 import { createReportAction } from "./actions";
 import { CashCounterForm } from "./CashCounterForm";
 import { SaleDetailForm } from "./SaleDetailForm";
-import { CircleAlert, CircleCheck, MoveLeft, MoveRight } from "lucide-react";
+import { MoveLeft, MoveRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { ReportPreview } from "./ReportPreview";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const steps = [
   {
@@ -48,7 +50,6 @@ type NewReportPortalProps = {
 };
 
 export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
-  const [error, setError] = useState<string>();
   const [isPending, startTransition] = useTransition();
   const createReportForm = useForm<CreateReportSchemaInput>({
     resolver: zodResolver(CreateReportSchema),
@@ -90,6 +91,7 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [previousStep, setPreviousStep] = useState(0);
   const delta = currentStep - previousStep;
+  const router = useRouter();
 
   async function processForm(data: CreateReportSchemaInput) {
     const date = new Date();
@@ -97,7 +99,11 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
     const isoString = date.toISOString();
 
     const { error } = await createReportAction(data, isoString);
-    if (error) setError(error);
+    if (error) toast.error(error);
+    else {
+      toast.success("Your report has been submitted. Thank you!");
+      router.push("/");
+    }
   }
 
   async function nextStep() {
@@ -111,6 +117,7 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
       if (currentStep < steps.length - 1) {
         if (currentStep === steps.length - 2) {
           await createReportForm.handleSubmit(processForm)();
+          return;
         }
 
         setPreviousStep(currentStep);
@@ -122,7 +129,6 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
   function prevStep() {
     if (currentStep > 0) {
       if (currentStep === steps.length - 1) {
-        setError(undefined);
         setPreviousStep(currentStep);
         setCurrentStep((step) => step - 2);
         return;
@@ -195,29 +201,6 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
             <p>Please review the report before submitting.</p>
             <p>
               You can go back to make changes or click submit when you're ready.
-            </p>
-          </div>
-
-          <ReportPreview
-            createReportForm={createReportForm}
-            startCash={startCash}
-          />
-        </MotionContainer>
-      )}
-
-      {currentStep === 3 && (
-        <MotionContainer delta={delta}>
-          <div className="flex flex-col space-y-4">
-            <h2
-              className={`flex w-fit items-center gap-2 rounded p-1 px-2 text-lg font-semibold text-secondary ${error ? "bg-destructive" : "bg-green-500"}`}
-            >
-              {error ? <CircleAlert size={20} /> : <CircleCheck size={20} />}
-              {error ? "Report Submission Failed!" : "Report Submitted!"}
-            </h2>
-            <p className="text-sm">
-              {error
-                ? error
-                : "Your report has been submitted successfully. Good night!"}
             </p>
           </div>
 

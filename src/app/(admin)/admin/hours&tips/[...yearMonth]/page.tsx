@@ -1,11 +1,14 @@
-import { FULL_MONTHS } from "@/app/constants";
+import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasAccess } from "@/utils/access-control";
 import { getPeriodsByMonthAndYear } from "@/utils/hours-tips";
 import { notFound, redirect } from "next/navigation";
-import moment from "moment";
+import moment from "moment-timezone";
 import { HoursTipsTable } from "../_components/HoursTipsTable";
 import { getTotalHoursTipsInDayRange } from "@/data/employee";
+import { ErrorMessage } from "@/components/Message";
+import { getFirstReportDate } from "@/data/report";
+import { GoBackButton } from "@/components/GoBackButton";
 
 type Props = {
   params: {
@@ -20,19 +23,33 @@ export default async function Page({ params }: Props) {
   if (!hasAccess(user.role, "/admin/hours&tips")) return notFound();
   if (params.yearMonth.length !== 2) {
     return (
-      <p className="text-destructive">
-        404 - Please check the URL and try again.
-      </p>
+      <ErrorMessage
+        className="self-start"
+        message="Invalid year or month. Please check the URL and try again."
+      />
     );
   }
 
   const year = parseInt(params.yearMonth[0]);
   const month = parseInt(params.yearMonth[1]);
-  if (isNaN(year) || isNaN(month)) {
+
+  const today = moment().tz("America/Vancouver").startOf("day").toDate();
+  const currentYear = today.getFullYear();
+  const firstReportDate = await getFirstReportDate();
+  const firstYear = firstReportDate?.getFullYear() || currentYear;
+
+  if (
+    isNaN(year) ||
+    isNaN(month) ||
+    !NUM_MONTHS.includes(month) ||
+    year < firstYear ||
+    year > currentYear
+  ) {
     return (
-      <p className="text-destructive">
-        404 - Please check the URL and try again.dd
-      </p>
+      <ErrorMessage
+        className="self-start"
+        message="Invalid year or month. Please check the URL and try again."
+      />
     );
   }
 
@@ -44,6 +61,14 @@ export default async function Page({ params }: Props) {
 
   return (
     <div className="flex-1 space-y-4">
+      <GoBackButton
+        url={`/admin/hours&tips`}
+        variant={`outline`}
+        className="gap-1"
+      >
+        Current biweekly period
+      </GoBackButton>
+
       <h2 className="font-semibold">
         {FULL_MONTHS[month - 1]} {year}
       </h2>

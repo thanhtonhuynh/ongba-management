@@ -64,12 +64,6 @@ export async function updateEmployeeRole(userId: string, role: string) {
 // Get employees total biweekly hours and tips
 // Return userId, name, hours, and tips
 export async function getTotalHoursTipsInDayRange(dayRange: DayRange) {
-  // Start date of the day range
-  const startDate = new Date(dayRange.start);
-  // Add one day to the end date to include the entire day
-  const endDate = new Date(dayRange.end);
-  endDate.setDate(endDate.getDate() + 1);
-
   const hoursTipsData = await prisma.employeeShift.groupBy({
     by: ["userId"],
     _sum: {
@@ -77,7 +71,7 @@ export async function getTotalHoursTipsInDayRange(dayRange: DayRange) {
       tips: true,
     },
     where: {
-      date: { gte: startDate, lt: endDate },
+      date: { gte: dayRange.start, lte: dayRange.end },
     },
   });
 
@@ -99,15 +93,9 @@ export async function getTotalHoursTipsInDayRange(dayRange: DayRange) {
 
 // Get hours and tips breakdown for a specific day range
 export async function getIndividualHoursTipsInDayRange(dayRange: DayRange) {
-  // Start date of the day range
-  const startDate = new Date(dayRange.start);
-  // Add one day to the end date to include the entire day
-  const endDate = new Date(dayRange.end);
-  endDate.setDate(endDate.getDate() + 1);
-
   return await prisma.employeeShift.findMany({
     where: {
-      date: { gte: startDate, lt: endDate },
+      date: { gte: dayRange.start, lte: dayRange.end },
     },
     select: {
       userId: true,
