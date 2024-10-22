@@ -10,7 +10,8 @@ export default async function Page() {
   if (session) redirect("/");
 
   return (
-    <main className="flex h-[90vh] flex-col items-center justify-center">
+    // <main className="flex h-[90vh] flex-col items-center justify-center">
+    <main className="flex h-screen flex-col items-center justify-center">
       <Image
         src={ongbaLogo}
         alt="Ongba Logo"
