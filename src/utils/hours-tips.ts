@@ -36,7 +36,7 @@ export const populatePeriodSelectData = cache(async () => {
     firstYearMonths.push(i);
   }
 
-  let latestYearMonths: number[] = [];
+  const latestYearMonths: number[] = [];
   if (firstYear === today.getFullYear()) {
     for (let i = firstMonth; i <= today.getMonth(); i++) {
       latestYearMonths.push(i);
