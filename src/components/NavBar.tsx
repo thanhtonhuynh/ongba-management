@@ -3,7 +3,7 @@ import UserButton from "./UserButton";
 import { Button } from "./ui/button";
 import { getCurrentSession } from "@/lib/auth/session";
 import Image from "next/image";
-import ongbaLogo from "@/assets/ongbaIcon.png";
+import ongbaIcon from "@/assets/ongbaIcon.png";
 import { NavLink } from "./Nav";
 
 export default async function NavBar() {
@@ -15,7 +15,7 @@ export default async function NavBar() {
         <div className="flex items-center space-x-4">
           <Link href="/" className="flex items-center space-x-1 font-bold">
             <Image
-              src={ongbaLogo}
+              src={ongbaIcon}
               alt="Ongba Logo"
               width={40}
               height={40}
