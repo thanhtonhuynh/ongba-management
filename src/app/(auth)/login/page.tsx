@@ -20,7 +20,7 @@ export default async function Page() {
         className="aspect-square object-cover"
       />
 
-      <div className="flex h-full max-h-[35rem] w-full max-w-[40rem] flex-col items-center justify-center space-y-4 rounded-xl border p-4 py-8 shadow-xl">
+      <div className="flex w-full max-w-[40rem] flex-col items-center justify-center space-y-4 rounded-xl border p-4 py-8 shadow-xl">
         <h1 className="text-3xl font-bold">Login</h1>
 
         <LoginForm />

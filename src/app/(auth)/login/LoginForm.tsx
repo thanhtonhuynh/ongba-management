@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState, useTransition } from 'react';
-import { useForm } from 'react-hook-form';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -10,14 +10,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { LoadingButton } from '@/components/LoadingButton';
-import { PasswordInput } from '@/components/PasswordInput';
-import { ErrorMessage } from '@/components/Message';
-import Link from 'next/link';
-import { loginAction } from './actions';
-import { LoginSchema, LoginSchemaTypes } from '@/lib/auth/validation';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { LoadingButton } from "@/components/LoadingButton";
+import { PasswordInput } from "@/components/PasswordInput";
+import { ErrorMessage } from "@/components/Message";
+import Link from "next/link";
+import { loginAction } from "./actions";
+import { LoginSchema, LoginSchemaTypes } from "@/lib/auth/validation";
 
 export function LoginForm() {
   const [error, setError] = useState<string>();
@@ -25,8 +25,8 @@ export function LoginForm() {
   const form = useForm<LoginSchemaTypes>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      identifier: '',
-      password: '',
+      identifier: "",
+      password: "",
     },
   });
 
@@ -38,12 +38,15 @@ export function LoginForm() {
       if (error) setError(error);
     });
 
-    form.resetField('password');
+    form.resetField("password");
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-2/3">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex w-full flex-col space-y-4"
+      >
         {error && <ErrorMessage message={error} />}
 
         <FormField
