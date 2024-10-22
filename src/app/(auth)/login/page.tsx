@@ -14,7 +14,7 @@ export default async function Page() {
       <Image
         src={ongbaLogo}
         alt="Ongba Logo"
-        className="aspect-square h-36 w-36 object-cover md:h-64 md:w-64"
+        className="aspect-square h-64 w-64 object-cover"
       />
 
       <div className="flex w-full max-w-[40rem] flex-col items-center justify-center space-y-4 rounded-xl border p-4 py-8 shadow-xl">
