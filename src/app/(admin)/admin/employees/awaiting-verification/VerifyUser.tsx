@@ -35,7 +35,11 @@ export function VerifyUser({ user }: VerifyUserProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant={"outline"} size={`sm`} className="text-green-500">
+        <Button
+          variant={"outline"}
+          size={`sm`}
+          className="text-green-500 hover:bg-green-500 hover:text-secondary"
+        >
           Grant access
         </Button>
       </AlertDialogTrigger>
