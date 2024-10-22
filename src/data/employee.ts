@@ -92,7 +92,7 @@ export async function getTotalHoursTipsInDayRange(dayRange: DayRange) {
 }
 
 // Get hours and tips breakdown for a specific day range
-export async function getIndividualHoursTipsInDayRange(dayRange: DayRange) {
+export async function getEmployeeShiftsInDayRange(dayRange: DayRange) {
   return await prisma.employeeShift.findMany({
     where: {
       date: { gte: dayRange.start, lte: dayRange.end },

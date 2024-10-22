@@ -9,7 +9,7 @@ import {
   getUserMonthToDateHours,
   getUserMonthToDateTips,
 } from "@/data/employee";
-import { formatPriceWithDollarSign } from "@/lib/utils";
+import { formatPriceWithDollar } from "@/lib/utils";
 import { SaleReportCard } from "@/components/SaleReportCard";
 import { SaleReportCardProcessedData, SaleReportCardRawData } from "@/types";
 import { processReportDataForView } from "@/utils/report";
@@ -85,7 +85,7 @@ export default async function Home() {
         <div>
           Your month-to-date tips:{" "}
           <span className="font-bold">
-            {formatPriceWithDollarSign(userMonthToDateTips)}
+            {formatPriceWithDollar(userMonthToDateTips)}
           </span>
         </div>
 

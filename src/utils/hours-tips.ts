@@ -1,7 +1,7 @@
 import {
   BreakdownData,
   DayRange,
-  IndividualHoursTips,
+  EmployeeShift,
   TotalHoursTips,
 } from "@/types";
 import { getFirstReportDate } from "@/data/report";
@@ -93,7 +93,7 @@ export function getPeriodsByMonthAndYear(
 export function getHoursTipsBreakdownInDayRange(
   dayRange: DayRange,
   totalHoursTips: TotalHoursTips[],
-  individualHoursTips: IndividualHoursTips[],
+  employeeShifts: EmployeeShift[],
 ) {
   const hoursBreakdown: BreakdownData[] = [];
   const tipsBreakdown: BreakdownData[] = [];
@@ -106,7 +106,7 @@ export function getHoursTipsBreakdownInDayRange(
     const tipsData = [];
 
     for (let i = startDay; i <= endDay; i++) {
-      const dayData = individualHoursTips.filter(
+      const dayData = employeeShifts.filter(
         (data) => data.userId === employee.userId && data.date.getDate() === i,
       );
 

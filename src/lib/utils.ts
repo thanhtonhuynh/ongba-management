@@ -10,14 +10,16 @@ export function formatPrice(amount: number) {
     // style: "currency",
     currency: "USD",
     minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
   }).format(amount);
 }
 
-export function formatPriceWithDollarSign(amount: number) {
+export function formatPriceWithDollar(amount: number) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
     minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
   }).format(amount);
 }
 

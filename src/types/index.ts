@@ -83,7 +83,7 @@ export type TotalHoursTips = {
   totalTips: number;
 };
 
-export type IndividualHoursTips = {
+export type EmployeeShift = {
   userId: string;
   date: Date;
   hours: number;

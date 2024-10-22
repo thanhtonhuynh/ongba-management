@@ -6,6 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { formatPrice } from "@/lib/utils";
 import { BreakdownData } from "@/types";
 
 type DataTableProps = {
@@ -33,12 +34,14 @@ export async function DataTable({ startDay, endDay, data }: DataTableProps) {
         {data.map((employee) => (
           <TableRow key={employee.userId}>
             <TableCell>{employee.userName}</TableCell>
-            {employee.keyData.map((hours, index) => (
+            {employee.keyData.map((key, index) => (
               <TableCell className="text-center" key={index}>
-                {hours > 0 ? hours : "-"}
+                {key > 0 ? formatPrice(key) : "-"}
               </TableCell>
             ))}
-            <TableCell className="text-right">{employee.total}</TableCell>
+            <TableCell className="text-right">
+              {formatPrice(employee.total)}
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

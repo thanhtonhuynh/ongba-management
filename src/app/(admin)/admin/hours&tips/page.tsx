@@ -3,7 +3,7 @@ import { hasAccess } from "@/utils/access-control";
 import { notFound, redirect } from "next/navigation";
 import { HoursTipsTable } from "./_components/HoursTipsTable";
 import {
-  getIndividualHoursTipsInDayRange,
+  getEmployeeShiftsInDayRange,
   getTotalHoursTipsInDayRange,
 } from "@/data/employee";
 import {
@@ -19,15 +19,14 @@ export default async function Page() {
   if (user.accountStatus !== "active") return notFound();
   if (!hasAccess(user.role, "/admin/hours&tips")) return notFound();
 
-  const biweeklyPeriod = getTodayBiweeklyPeriod();
-  const totalHoursTips = await getTotalHoursTipsInDayRange(biweeklyPeriod);
-  const individualHoursTips =
-    await getIndividualHoursTipsInDayRange(biweeklyPeriod);
+  const todayBiweeklyPeriod = getTodayBiweeklyPeriod();
+  const totalHoursTips = await getTotalHoursTipsInDayRange(todayBiweeklyPeriod);
+  const employeeShifts = await getEmployeeShiftsInDayRange(todayBiweeklyPeriod);
 
   const { hoursBreakdown, tipsBreakdown } = getHoursTipsBreakdownInDayRange(
-    biweeklyPeriod,
+    todayBiweeklyPeriod,
     totalHoursTips,
-    individualHoursTips,
+    employeeShifts,
   );
 
   return (
@@ -35,8 +34,8 @@ export default async function Page() {
       <h2 className="gap-2 font-semibold sm:flex sm:items-baseline">
         <p>Current biweekly period:</p>
         <p className="text-sm font-medium">
-          {moment(biweeklyPeriod.start).format("MMM D, YYYY")} -{" "}
-          {moment(biweeklyPeriod.end).format("MMM D, YYYY")}
+          {moment(todayBiweeklyPeriod.start).format("MMM D, YYYY")} -{" "}
+          {moment(todayBiweeklyPeriod.end).format("MMM D, YYYY")}
         </p>
       </h2>
 
@@ -49,8 +48,8 @@ export default async function Page() {
       <div className="hidden rounded-md border p-2 shadow-md lg:block">
         <h3 className="text-sm font-medium">Hours breakdown</h3>
         <DataTable
-          startDay={biweeklyPeriod.start.getDate()}
-          endDay={biweeklyPeriod.end.getDate()}
+          startDay={todayBiweeklyPeriod.start.getDate()}
+          endDay={todayBiweeklyPeriod.end.getDate()}
           data={hoursBreakdown}
         />
       </div>
@@ -58,8 +57,8 @@ export default async function Page() {
       <div className="hidden rounded-md border p-2 shadow-md lg:block">
         <h3 className="text-sm font-medium">Tips breakdown</h3>
         <DataTable
-          startDay={biweeklyPeriod.start.getDate()}
-          endDay={biweeklyPeriod.end.getDate()}
+          startDay={todayBiweeklyPeriod.start.getDate()}
+          endDay={todayBiweeklyPeriod.end.getDate()}
           data={tipsBreakdown}
         />
       </div>
