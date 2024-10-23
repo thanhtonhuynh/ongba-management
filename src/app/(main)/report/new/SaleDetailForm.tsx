@@ -32,7 +32,12 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
               <FormItem>
                 <FormLabel className="font-semibold">Total sales</FormLabel>
                 <FormControl>
-                  <Input {...field} type="number" placeholder="0.00" />
+                  <Input
+                    {...field}
+                    type="number"
+                    placeholder="0.00"
+                    onFocus={(e) => e.target.select()}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -45,7 +50,12 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
               <FormItem>
                 <FormLabel className="font-semibold">Card net sales</FormLabel>
                 <FormControl>
-                  <Input {...field} type="number" placeholder="0.00" />
+                  <Input
+                    {...field}
+                    type="number"
+                    placeholder="0.00"
+                    onFocus={(e) => e.target.select()}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -61,7 +71,12 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
               <FormItem>
                 <FormLabel className="font-semibold">Uber Eats</FormLabel>
                 <FormControl>
-                  <Input {...field} type="number" placeholder="0.00" />
+                  <Input
+                    {...field}
+                    type="number"
+                    placeholder="0.00"
+                    onFocus={(e) => e.target.select()}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -75,7 +90,12 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
               <FormItem>
                 <FormLabel className="font-semibold">Door Dash</FormLabel>
                 <FormControl>
-                  <Input {...field} type="number" placeholder="0.00" />
+                  <Input
+                    {...field}
+                    type="number"
+                    placeholder="0.00"
+                    onFocus={(e) => e.target.select()}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -89,7 +109,12 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
               <FormItem>
                 <FormLabel className="font-semibold">Skip Dishes</FormLabel>
                 <FormControl>
-                  <Input {...field} type="number" placeholder="0.00" />
+                  <Input
+                    {...field}
+                    type="number"
+                    placeholder="0.00"
+                    onFocus={(e) => e.target.select()}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -103,7 +128,12 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
               <FormItem>
                 <FormLabel className="font-semibold">Online</FormLabel>
                 <FormControl>
-                  <Input {...field} type="number" placeholder="0.00" />
+                  <Input
+                    {...field}
+                    type="number"
+                    placeholder="0.00"
+                    onFocus={(e) => e.target.select()}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -118,7 +148,12 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
             <FormItem>
               <FormLabel className="font-semibold">Expenses</FormLabel>
               <FormControl>
-                <Input {...field} type="number" placeholder="0.00" />
+                <Input
+                  {...field}
+                  type="number"
+                  placeholder="0.00"
+                  onFocus={(e) => e.target.select()}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -147,7 +182,12 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
               <FormItem>
                 <FormLabel className="font-semibold">Card tips</FormLabel>
                 <FormControl>
-                  <Input {...field} type="number" placeholder="0.00" />
+                  <Input
+                    {...field}
+                    type="number"
+                    placeholder="0.00"
+                    onFocus={(e) => e.target.select()}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -161,7 +201,12 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
               <FormItem>
                 <FormLabel className="font-semibold">Cash tips</FormLabel>
                 <FormControl>
-                  <Input {...field} type="number" placeholder="0.00" />
+                  <Input
+                    {...field}
+                    type="number"
+                    placeholder="0.00"
+                    onFocus={(e) => e.target.select()}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -175,7 +220,12 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
               <FormItem>
                 <FormLabel className="font-semibold">Extra tips</FormLabel>
                 <FormControl>
-                  <Input {...field} type="number" placeholder="0.00" />
+                  <Input
+                    {...field}
+                    type="number"
+                    placeholder="0.00"
+                    onFocus={(e) => e.target.select()}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

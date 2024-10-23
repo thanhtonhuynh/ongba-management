@@ -76,6 +76,7 @@ export function CashCounterForm({
                           field.onChange(e);
                           calculateCashInTill();
                         }}
+                        onFocus={(e) => e.target.select()}
                       />
                     </FormControl>
                   </FormItem>
@@ -104,6 +105,7 @@ export function CashCounterForm({
                           field.onChange(e);
                           calculateCashInTill();
                         }}
+                        onFocus={(e) => e.target.select()}
                       />
                     </FormControl>
                   </FormItem>
@@ -132,6 +134,7 @@ export function CashCounterForm({
                           field.onChange(e);
                           calculateCashInTill();
                         }}
+                        onFocus={(e) => e.target.select()}
                       />
                     </FormControl>
                   </FormItem>
