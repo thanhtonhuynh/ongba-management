@@ -19,8 +19,6 @@ type SaleDetailFormProps = {
   form: UseFormReturn<CreateReportSchemaInput>;
 };
 export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
-  const addedEmployees = form.watch("employees");
-
   return (
     <Form {...form}>
       <form className="space-y-2">
@@ -254,20 +252,6 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
             </FormItem>
           )}
         />
-
-        {addedEmployees.length > 0 && (
-          <div className="mx-auto w-fit rounded border bg-muted p-4 shadow">
-            {addedEmployees.map((employee, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between space-x-4 border-b p-1 text-sm"
-              >
-                <p className="font-semibold">{employee.name}</p>
-                <p>{employee.fullDay ? "Full day" : "Half day"}</p>
-              </div>
-            ))}
-          </div>
-        )}
       </form>
     </Form>
   );
