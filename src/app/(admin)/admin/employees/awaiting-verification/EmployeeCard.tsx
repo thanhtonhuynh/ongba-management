@@ -1,12 +1,5 @@
 import { User } from "@/lib/auth/session";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { VerifyUser } from "./VerifyUser";
 
 type EmployeeCardProps = {
@@ -23,9 +16,9 @@ export function EmployeeCard({ user }: EmployeeCardProps) {
             {user.email}
           </span>
         </CardTitle>
-        <CardDescription className="text-xs">
+        {/* <CardDescription className="text-xs">
           <span className="capitalize">{user.role}</span>
-        </CardDescription>
+        </CardDescription> */}
       </CardHeader>
 
       <CardContent className="flex space-x-2 px-4 pb-2 pt-0">

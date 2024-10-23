@@ -3,13 +3,13 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { DeactivateUser } from "./DeactivateUser";
 import { ChangeUserRoleDialog } from "./ChangeUserRoleDialog";
 import { canDeactivateUser } from "@/utils/access-control";
+import { EmployeeRoleTag } from "@/components/EmployeeRoleTag";
 
 type EmployeeCardProps = {
   employee: User;
@@ -21,16 +21,12 @@ export async function EmployeeCard({ employee }: EmployeeCardProps) {
 
   return (
     <Card>
-      <CardHeader className="px-4 py-2">
-        <CardTitle className="text-sm">
-          {employee.name}{" "}
-          <span className="font-medium text-muted-foreground">
-            {employee.email}
-          </span>
+      <CardHeader className="mb-2 px-4 py-2">
+        <CardTitle className="flex items-center gap-2 text-sm">
+          {employee.name} <EmployeeRoleTag role={employee.role} />
         </CardTitle>
-        <CardDescription className="text-xs">
-          <span className="capitalize">{employee.role}</span>
-        </CardDescription>
+
+        <CardDescription>{employee.email}</CardDescription>
       </CardHeader>
 
       <CardContent className="flex justify-between space-x-2 px-4 pb-2 pt-0">

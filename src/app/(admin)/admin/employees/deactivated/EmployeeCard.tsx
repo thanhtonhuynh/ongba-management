@@ -3,11 +3,11 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { ReactivateUser } from "./ReactivateUser";
+import { EmployeeRoleTag } from "@/components/EmployeeRoleTag";
 
 type EmployeeCardProps = {
   user: User;
@@ -16,7 +16,7 @@ type EmployeeCardProps = {
 export function EmployeeCard({ user }: EmployeeCardProps) {
   return (
     <Card>
-      <CardHeader className="px-4 py-2">
+      <CardHeader className="mb-2 px-4 py-2">
         <CardTitle className="text-sm">
           {user.name}{" "}
           <span className="font-medium text-muted-foreground">
@@ -24,7 +24,7 @@ export function EmployeeCard({ user }: EmployeeCardProps) {
           </span>
         </CardTitle>
         <CardDescription className="text-xs">
-          <span className="capitalize">{user.role}</span>
+          <EmployeeRoleTag role={user.role} />
         </CardDescription>
       </CardHeader>
 

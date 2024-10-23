@@ -138,9 +138,9 @@ export function ChangeUserRoleDialog({
               )}
             />
 
-            <DialogFooter>
+            <DialogFooter className="gap-2 sm:space-x-0">
               <DialogClose asChild>
-                <Button variant={`outline`} type="button">
+                <Button variant={`ghost`} type="button">
                   Cancel
                 </Button>
               </DialogClose>
