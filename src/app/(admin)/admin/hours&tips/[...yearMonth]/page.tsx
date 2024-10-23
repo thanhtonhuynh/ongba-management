@@ -19,17 +19,15 @@ import { GoBackButton } from "@/components/GoBackButton";
 import { DataTable } from "../_components/DataTable";
 import { Separator } from "@/components/ui/separator";
 
-type Props = {
-  params: {
-    yearMonth: string[];
-  };
-};
+type Params = Promise<{ yearMonth: string[] }>;
 
-export default async function Page({ params }: Props) {
+export default async function Page(props: { params: Params }) {
   const { session, user } = await getCurrentSession();
   if (!session) redirect("/login");
   if (user.accountStatus !== "active") return notFound();
   if (!hasAccess(user.role, "/admin/hours&tips")) return notFound();
+
+  const params = await props.params;
   if (params.yearMonth.length !== 2) {
     return (
       <ErrorMessage

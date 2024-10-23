@@ -6,14 +6,13 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { ErrorMessage } from "@/components/Message";
 
-type PageProps = {
-  searchParams: {
-    resetLinkExpired?: boolean;
-  };
-};
-export default async function Page({
-  searchParams: { resetLinkExpired },
-}: PageProps) {
+type SearchParams = Promise<{ resetLinkExpired?: boolean }>;
+
+export default async function Page(props: { searchParams: SearchParams }) {
+  const searchParams = await props.searchParams;
+
+  const { resetLinkExpired } = searchParams;
+
   const { session } = await getCurrentSession();
   if (session) redirect("/");
 

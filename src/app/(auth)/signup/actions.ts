@@ -43,7 +43,7 @@ export async function signUpAction(data: SignupSchemaTypes) {
     const session = await createSession(sessionToken, user.id, {
       twoFactorVerified: false,
     });
-    setSessionTokenCookie(sessionToken, session.expiresAt);
+    await setSessionTokenCookie(sessionToken, session.expiresAt);
   } catch (error) {
     console.error(error);
     return { error: "Signup failed. Please try again." };

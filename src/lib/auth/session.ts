@@ -5,7 +5,7 @@ import {
 } from "@oslojs/encoding";
 import { Session } from "@prisma/client";
 import prisma from "@/lib/prisma";
-import { cookies } from "next/headers";
+import { cookies, type UnsafeUnwrappedCookies } from "next/headers";
 import { cache } from "react";
 
 const SESSION_TTL = 1000 * 60 * 60 * 24 * 30; // 30 days
@@ -74,7 +74,7 @@ export async function validateSessionToken(
  */
 export const getCurrentSession = cache(
   async (): Promise<SessionValidationResult> => {
-    const token = cookies().get("session")?.value ?? null;
+    const token = (await cookies()).get("session")?.value ?? null;
     if (token === null) {
       return { session: null, user: null };
     }
@@ -162,8 +162,8 @@ export async function invalidateUserSessionsExceptCurrent(
  * @param token - The session token
  * @param expiresAt - The expiration date for the session token
  */
-export function setSessionTokenCookie(token: string, expiresAt: Date) {
-  cookies().set("session", token, {
+export async function setSessionTokenCookie(token: string, expiresAt: Date) {
+  (await cookies()).set("session", token, {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
@@ -175,8 +175,8 @@ export function setSessionTokenCookie(token: string, expiresAt: Date) {
 /**
  * Delete the session token from the browser cookie
  */
-export function deleteSessionTokenCookie() {
-  cookies().set("session", "", {
+export async function deleteSessionTokenCookie() {
+  (await cookies()).set("session", "", {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",

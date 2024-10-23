@@ -1,10 +1,10 @@
 import {
   encodeBase32LowerCaseNoPadding,
   encodeHexLowerCase,
-} from '@oslojs/encoding';
-import prisma from '@/lib/prisma';
-import { sha256 } from '@oslojs/crypto/sha2';
-import { cookies } from 'next/headers';
+} from "@oslojs/encoding";
+import prisma from "@/lib/prisma";
+import { sha256 } from "@oslojs/crypto/sha2";
+import { cookies } from "next/headers";
 
 const PASSWORD_RESET_TOKEN_TTL = 1000 * 60 * 30; // 30 minutes
 // const PASSWORD_RESET_TOKEN_TTL = 3000; // 3 seconds
@@ -34,27 +34,30 @@ export async function createPasswordResetToken(userId: string, token: string) {
 
 export function sendPasswordResetEmail(email: string, token: string) {
   console.log(
-    `Sending password reset email to ${email} with link: ${process.env.BASE_URL}/reset-password/${token}`
+    `Sending password reset email to ${email} with link: ${process.env.BASE_URL}/reset-password/${token}`,
   );
 }
 
-export function setPasswordResetTokenCookie(token: string, expiresAt: Date) {
-  cookies().set('pw-reset', token, {
+export async function setPasswordResetTokenCookie(
+  token: string,
+  expiresAt: Date,
+) {
+  (await cookies()).set("pw-reset", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
     expires: expiresAt,
-    path: '/',
+    path: "/",
   });
 }
 
-export function deletePasswordResetTokenCookie() {
-  cookies().set('pw-reset', '', {
+export async function deletePasswordResetTokenCookie() {
+  (await cookies()).set("pw-reset", "", {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
     maxAge: 0,
-    path: '/',
+    path: "/",
   });
 }
 

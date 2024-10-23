@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
-export default function Page() {
-  const token = cookies().get("pw-reset")?.value;
+export default async function Page() {
+  const token = (await cookies()).get("pw-reset")?.value;
   if (!token) redirect("/login/forgot-password");
 
   return (

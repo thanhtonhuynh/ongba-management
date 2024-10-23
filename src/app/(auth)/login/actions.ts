@@ -38,7 +38,7 @@ export async function loginAction(data: LoginSchemaTypes) {
     const session = await createSession(sessionToken, existingUser.id, {
       twoFactorVerified: false,
     });
-    setSessionTokenCookie(sessionToken, session.expiresAt);
+    await setSessionTokenCookie(sessionToken, session.expiresAt);
 
     // if (!existingUser.emailVerified) {
     //   const emailVerificationRequest =

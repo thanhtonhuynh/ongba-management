@@ -14,18 +14,18 @@ import { getReportsByDateRange } from "@/data/report";
 import { CashFlowTable } from "./CashflowTable";
 import { processCashFlowData } from "@/utils/cashflow";
 
-type PageProps = {
-  searchParams: {
-    year: string;
-    month: string;
-  };
-};
+type SearchParams = Promise<{
+  year: string;
+  month: string;
+}>;
 
-export default async function Page({ searchParams }: PageProps) {
+export default async function Page(props: { searchParams: SearchParams }) {
   const { session, user } = await getCurrentSession();
   if (!session) redirect("/login");
   if (user.accountStatus !== "active") return notFound();
   if (!hasAccess(user.role, "/admin/cashflow")) return notFound();
+
+  const searchParams = await props.searchParams;
 
   const { years, firstYearMonths, latestYearMonths } =
     await populateMonthSelectData();

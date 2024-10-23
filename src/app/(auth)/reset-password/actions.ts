@@ -1,28 +1,28 @@
-'use server';
+"use server";
 
-import { cookies } from 'next/headers';
-import { invalidateUserSessions } from '@/lib/auth/session';
-import { updateUser, updateUserPassword } from '@/data/users';
+import { cookies } from "next/headers";
+import { invalidateUserSessions } from "@/lib/auth/session";
+import { updateUser, updateUserPassword } from "@/data/users";
 import {
   ResetPasswordSchema,
   ResetPasswordSchemaTypes,
-} from '@/lib/auth/validation';
+} from "@/lib/auth/validation";
 import {
   deletePasswordResetTokenCookie,
   invalidatePasswordResetToken,
   validatePasswordResetRequest,
-} from '@/lib/auth/password-reset';
+} from "@/lib/auth/password-reset";
 
 export async function resetPasswordAction(data: ResetPasswordSchemaTypes) {
   try {
-    const token = cookies().get('pw-reset')?.value || '';
+    const token = (await cookies()).get("pw-reset")?.value || "";
 
     const pwResetToken = await validatePasswordResetRequest(token);
 
     if (pwResetToken) await invalidatePasswordResetToken(pwResetToken.userId);
 
     if (!pwResetToken) {
-      return { error: 'Invalid or expired token' };
+      return { error: "Invalid or expired token" };
     }
 
     const { password, logOutOtherDevices } = ResetPasswordSchema.parse(data);
@@ -35,11 +35,11 @@ export async function resetPasswordAction(data: ResetPasswordSchemaTypes) {
 
     await updateUser(pwResetToken.userId, { emailVerified: true });
 
-    deletePasswordResetTokenCookie();
+    await deletePasswordResetTokenCookie();
 
     return { success: true };
   } catch (error) {
     console.error(error);
-    return { error: 'Something went wrong' };
+    return { error: "Something went wrong" };
   }
 }

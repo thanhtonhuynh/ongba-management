@@ -8,7 +8,6 @@ import {
 } from "@/lib/report/validation";
 import { isISOString } from "@/lib/utils";
 import { hasAccess } from "@/utils/access-control";
-import { revalidatePath } from "next/cache";
 
 export async function createReportAction(
   data: CreateReportSchemaInput,
@@ -33,7 +32,6 @@ export async function createReportAction(
 
     await upsertReport(parsedData, user.id, isoString);
 
-    revalidatePath("/");
     return {};
   } catch (error) {
     console.error(error);
