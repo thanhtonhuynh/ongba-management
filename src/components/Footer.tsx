@@ -5,7 +5,7 @@ import { Heart } from "lucide-react";
 
 export default async function Footer() {
   return (
-    <footer className="border-t bg-background px-3 py-8">
+    <footer className="mt-8 border-t bg-background px-3 py-8">
       <div className="mx-auto flex w-full max-w-7xl items-center gap-3">
         <Link href="/" className="flex items-center font-bold">
           <Image

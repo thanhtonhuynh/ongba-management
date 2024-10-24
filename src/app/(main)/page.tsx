@@ -38,7 +38,7 @@ export default async function Home() {
   }
 
   return (
-    <Container className="space-y-4">
+    <section className="space-y-4">
       <div className="grid grid-cols-1 space-y-4 md:grid-cols-2 md:space-x-4 md:space-y-0">
         <div className="space-y-4 rounded-md border p-4 shadow">
           <div>Good day, {user.name}!</div>
@@ -78,6 +78,6 @@ export default async function Home() {
       </div>
 
       <EmployeeAnalytics user={user} />
-    </Container>
+    </section>
   );
 }

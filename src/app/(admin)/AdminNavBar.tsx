@@ -46,7 +46,7 @@ export async function AdminNavBarMobile() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="absolute right-3 top-2 sm:hidden" asChild>
+      <DropdownMenuTrigger className="absolute right-3 top-0 sm:hidden" asChild>
         <Button
           size="icon"
           className="flex-none rounded-full border bg-background text-primary shadow-md hover:bg-muted"
