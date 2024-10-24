@@ -101,7 +101,7 @@ export default async function Page(props: { params: Params }) {
         <h3 className="text-sm font-medium">Hours breakdown</h3>
 
         {periods.map((period, index) => (
-          <div key={index} className="space-y-2">
+          <div key={index} className="space-y-3">
             <h4 className="text-sm font-medium">
               {moment(period.start).format("MMM D")} -{" "}
               {moment(period.end).format("MMM D")}
@@ -109,8 +109,7 @@ export default async function Page(props: { params: Params }) {
 
             {hoursTipsBreakdowns[index].hoursBreakdown.length > 0 ? (
               <DataTable
-                startDay={period.start.getDate()}
-                endDay={period.end.getDate()}
+                dateRange={period}
                 data={hoursTipsBreakdowns[index].hoursBreakdown}
               />
             ) : (
@@ -126,7 +125,7 @@ export default async function Page(props: { params: Params }) {
         <h3 className="text-sm font-medium">Tips breakdown</h3>
 
         {periods.map((period, index) => (
-          <div key={index} className="space-y-2">
+          <div key={index} className="space-y-3">
             <h4 className="text-sm font-medium">
               {moment(period.start).format("MMM D")} -{" "}
               {moment(period.end).format("MMM D")}
@@ -134,8 +133,7 @@ export default async function Page(props: { params: Params }) {
 
             {hoursTipsBreakdowns[index].tipsBreakdown.length > 0 ? (
               <DataTable
-                startDay={period.start.getDate()}
-                endDay={period.end.getDate()}
+                dateRange={period}
                 data={hoursTipsBreakdowns[index].tipsBreakdown}
               />
             ) : (

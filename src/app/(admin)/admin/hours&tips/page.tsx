@@ -45,22 +45,14 @@ export default async function Page() {
         <HoursTipsTable data={totalHoursTips} />
       </div>
 
-      <div className="rounded-md border p-2 shadow-md">
+      <div className="space-y-2 rounded-md border p-2 shadow-md">
         <h3 className="text-sm font-medium">Hours breakdown</h3>
-        <DataTable
-          startDay={todayBiweeklyPeriod.start.getDate()}
-          endDay={todayBiweeklyPeriod.end.getDate()}
-          data={hoursBreakdown}
-        />
+        <DataTable dateRange={todayBiweeklyPeriod} data={hoursBreakdown} />
       </div>
 
-      <div className="rounded-md border p-2 shadow-md">
+      <div className="space-y-2 rounded-md border p-2 shadow-md">
         <h3 className="text-sm font-medium">Tips breakdown</h3>
-        <DataTable
-          startDay={todayBiweeklyPeriod.start.getDate()}
-          endDay={todayBiweeklyPeriod.end.getDate()}
-          data={tipsBreakdown}
-        />
+        <DataTable dateRange={todayBiweeklyPeriod} data={tipsBreakdown} />
       </div>
     </div>
   );
