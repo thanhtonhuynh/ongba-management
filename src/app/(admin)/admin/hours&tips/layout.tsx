@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import { PeriodSelect } from "./_components/PeriodSelect";
+import { ViewPeriodsDialog } from "./_components/ViewPeriodsDialog";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 
 export default async function Layout({
@@ -7,8 +7,7 @@ export default async function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { years, firstYearMonths, latestYearMonths } =
-    await populateMonthSelectData();
+  const { years } = await populateMonthSelectData();
 
   return (
     <section className="space-y-4">
@@ -17,13 +16,7 @@ export default async function Layout({
 
         <Separator className="my-4 sm:hidden" />
 
-        {years.length > 0 && (
-          <PeriodSelect
-            years={years}
-            firstYearMonths={firstYearMonths}
-            latestYearMonths={latestYearMonths}
-          />
-        )}
+        {years.length > 0 && <ViewPeriodsDialog years={years} />}
       </div>
 
       <Separator className="my-4 hidden sm:block" />

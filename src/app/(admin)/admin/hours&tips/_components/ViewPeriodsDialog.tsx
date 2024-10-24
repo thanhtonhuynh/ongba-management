@@ -37,17 +37,11 @@ import {
 } from "@/lib/validations/hours&tips";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-type PeriodSelectProps = {
+type ViewPeriodsDialogProps = {
   years: number[];
-  firstYearMonths: number[];
-  latestYearMonths: number[];
 };
 
-export function PeriodSelect({
-  years,
-  firstYearMonths,
-  latestYearMonths,
-}: PeriodSelectProps) {
+export function ViewPeriodsDialog({ years }: ViewPeriodsDialogProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const form = useForm<ViewPastPeriodsInput>({
@@ -58,16 +52,6 @@ export function PeriodSelect({
     },
   });
   const [isPending, startTransition] = useTransition();
-
-  let displayedMonths = latestYearMonths;
-  const year = form.watch("year");
-  if (year === years[years.length - 1]) {
-    displayedMonths = firstYearMonths;
-  } else if (year === years[0]) {
-    displayedMonths = latestYearMonths;
-  } else {
-    displayedMonths = NUM_MONTHS;
-  }
 
   function onSubmit(data: ViewPastPeriodsInput) {
     startTransition(() => {
@@ -143,9 +127,9 @@ export function PeriodSelect({
                     </FormControl>
 
                     <SelectContent>
-                      {displayedMonths.map((month) => (
-                        <SelectItem key={month} value={month.toString()}>
-                          {FULL_MONTHS[month]}
+                      {NUM_MONTHS.map((month) => (
+                        <SelectItem key={month} value={(month - 1).toString()}>
+                          {FULL_MONTHS[month - 1]}
                         </SelectItem>
                       ))}
                     </SelectContent>
