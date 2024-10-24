@@ -25,7 +25,7 @@ export async function EmployeeAnalytics({ user }: EmployeeAnalyticsProps) {
   );
 
   return (
-    <div className="space-y-2 rounded-md border p-4 shadow">
+    <div className="space-y-3 rounded-md border p-4 shadow">
       <h1 className="font-semibold">For You</h1>
 
       <div className="gap-2 font-semibold sm:flex sm:items-baseline">
@@ -89,7 +89,12 @@ function UserShiftTable({
           <TableHead className="sticky left-0 bg-background"></TableHead>
           {Array.from({ length: endDay - startDay + 1 }).map((_, index) => (
             <TableHead className="text-center" key={index}>
-              {startDay + index}
+              <div className="flex flex-col gap-1">
+                <span>
+                  {moment(dateRange.start).add(index, "days").format("ddd")}
+                </span>
+                {startDay + index}
+              </div>
             </TableHead>
           ))}
           <TableHead className="text-right">Total</TableHead>
