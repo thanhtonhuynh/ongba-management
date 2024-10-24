@@ -49,28 +49,24 @@ export function PeriodSelect({
   latestYearMonths,
 }: PeriodSelectProps) {
   const [open, setOpen] = useState(false);
-  const [displayedMonths, setDisplayedMonths] =
-    useState<number[]>(latestYearMonths);
   const router = useRouter();
   const form = useForm<ViewPastPeriodsInput>({
     resolver: zodResolver(ViewPastPeriodsSchema),
     defaultValues: {
-      year: years[0] || new Date().getFullYear(),
-      month: displayedMonths[displayedMonths.length - 1],
+      year: new Date().getFullYear(),
+      month: new Date().getMonth(),
     },
   });
   const [isPending, startTransition] = useTransition();
 
-  function handleYearChange(year: number) {
-    if (year === years[years.length - 1]) {
-      setDisplayedMonths(firstYearMonths);
-    } else if (year === years[0]) {
-      setDisplayedMonths(latestYearMonths);
-    } else {
-      setDisplayedMonths(NUM_MONTHS);
-    }
-
-    form.setValue("year", year);
+  let displayedMonths = latestYearMonths;
+  const year = form.watch("year");
+  if (year === years[years.length - 1]) {
+    displayedMonths = firstYearMonths;
+  } else if (year === years[0]) {
+    displayedMonths = latestYearMonths;
+  } else {
+    displayedMonths = NUM_MONTHS;
   }
 
   function onSubmit(data: ViewPastPeriodsInput) {
@@ -108,13 +104,14 @@ export function PeriodSelect({
                   <FormLabel>Year</FormLabel>
                   <Select
                     value={field.value.toString()}
-                    onValueChange={(value) => handleYearChange(parseInt(value))}
+                    onValueChange={field.onChange}
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue />
+                        <SelectValue placeholder="Select a year" />
                       </SelectTrigger>
                     </FormControl>
+
                     <SelectContent>
                       {years.map((year) => (
                         <SelectItem key={year} value={year.toString()}>
