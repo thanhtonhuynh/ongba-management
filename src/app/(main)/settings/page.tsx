@@ -13,7 +13,7 @@ export default async function Page() {
   if (user.accountStatus !== "active") return notFound();
 
   return (
-    <Container className="space-y-4">
+    <section className="space-y-4">
       <div>
         <h1 className="text-xl font-semibold">Account settings</h1>
       </div>
@@ -27,6 +27,6 @@ export default async function Page() {
       <UpdateEmailForm user={user} />
 
       <UpdatePasswordForm user={user} />
-    </Container>
+    </section>
   );
 }

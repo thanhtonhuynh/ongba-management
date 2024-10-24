@@ -11,12 +11,14 @@ export default function Layout({
   return (
     <>
       <NavBar />
+
       <Container className="relative sm:space-y-4">
         <AdminNavBar />
         <AdminNavBarMobile />
 
         {children}
       </Container>
+
       <Footer />
     </>
   );

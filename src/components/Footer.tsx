@@ -6,7 +6,7 @@ import { Heart } from "lucide-react";
 export default async function Footer() {
   return (
     <footer className="border-t bg-background px-3 py-8">
-      <div className="mx-auto flex w-full max-w-6xl items-center gap-3">
+      <div className="mx-auto flex w-full max-w-7xl items-center gap-3">
         <Link href="/" className="flex items-center font-bold">
           <Image
             src={ongbaLogo}

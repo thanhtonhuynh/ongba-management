@@ -1,3 +1,4 @@
+import { Container } from "@/components/Container";
 import Footer from "@/components/Footer";
 import NavBar from "@/components/NavBar";
 
@@ -9,7 +10,7 @@ export default async function Layout({
   return (
     <>
       <NavBar />
-      {children}
+      <Container>{children}</Container>
       <Footer />
     </>
   );

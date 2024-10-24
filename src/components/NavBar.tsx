@@ -11,7 +11,7 @@ export default async function NavBar() {
 
   return (
     <header className="sticky top-0 z-10 border-b bg-background px-3 shadow-sm">
-      <nav className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-3">
+      <nav className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between gap-3">
         <div className="flex items-center space-x-4">
           <Link href="/" className="flex items-center space-x-1 font-bold">
             <Image
