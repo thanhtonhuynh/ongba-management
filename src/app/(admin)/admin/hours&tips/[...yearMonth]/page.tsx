@@ -78,7 +78,7 @@ export default async function Page(props: { params: Params }) {
   ];
 
   return (
-    <div className="flex-1 space-y-4 overflow-auto">
+    <div className="space-y-4">
       <GoBackButton
         url={`/admin/hours&tips`}
         variant={`outline`}

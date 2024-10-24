@@ -30,7 +30,7 @@ export default async function Page() {
   );
 
   return (
-    <div className="flex-1 space-y-4 overflow-auto">
+    <div className="space-y-4">
       <h2 className="gap-2 font-semibold sm:flex sm:items-baseline">
         <p>Current biweekly period:</p>
         <p className="text-sm font-medium">

@@ -12,13 +12,11 @@ export default async function Layout({
 
   return (
     <section className="space-y-4">
-      <div>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-xl font-semibold">Hours & Tips</h1>
-      </div>
 
-      <Separator className="my-4" />
+        <Separator className="my-4 sm:hidden" />
 
-      <div className="flex space-x-4">
         {years.length > 0 && (
           <PeriodSelect
             years={years}
@@ -26,9 +24,11 @@ export default async function Layout({
             latestYearMonths={latestYearMonths}
           />
         )}
-
-        {children}
       </div>
+
+      <Separator className="my-4 hidden sm:block" />
+
+      {children}
     </section>
   );
 }

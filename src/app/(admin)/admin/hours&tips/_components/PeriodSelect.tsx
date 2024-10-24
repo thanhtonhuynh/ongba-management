@@ -1,18 +1,41 @@
 "use client";
 
 import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
-import Link from "next/link";
+import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { LoadingButton } from "@/components/LoadingButton";
+import { useForm } from "react-hook-form";
+import {
+  ViewPastPeriodsInput,
+  ViewPastPeriodsSchema,
+} from "@/lib/validations/hours&tips";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type PeriodSelectProps = {
   years: number[];
@@ -25,12 +48,18 @@ export function PeriodSelect({
   firstYearMonths,
   latestYearMonths,
 }: PeriodSelectProps) {
-  const pathname = usePathname();
-  const [selectedYear, setSelectedYear] = useState<number>(
-    years[0] || new Date().getFullYear(),
-  );
+  const [open, setOpen] = useState(false);
   const [displayedMonths, setDisplayedMonths] =
     useState<number[]>(latestYearMonths);
+  const router = useRouter();
+  const form = useForm<ViewPastPeriodsInput>({
+    resolver: zodResolver(ViewPastPeriodsSchema),
+    defaultValues: {
+      year: years[0] || new Date().getFullYear(),
+      month: displayedMonths[displayedMonths.length - 1],
+    },
+  });
+  const [isPending, startTransition] = useTransition();
 
   function handleYearChange(year: number) {
     if (year === years[years.length - 1]) {
@@ -41,43 +70,109 @@ export function PeriodSelect({
       setDisplayedMonths(NUM_MONTHS);
     }
 
-    setSelectedYear(year);
+    form.setValue("year", year);
+  }
+
+  function onSubmit(data: ViewPastPeriodsInput) {
+    startTransition(() => {
+      router.push(`/admin/hours&tips/${data.year}/${data.month + 1}`);
+      setOpen(false);
+    });
   }
 
   return (
-    <div className="space-y-4">
-      <Select
-        value={selectedYear.toString()}
-        onValueChange={(value) => handleYearChange(parseInt(value))}
-      >
-        <SelectTrigger>
-          <SelectValue />
-        </SelectTrigger>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant={`outline`} size={`sm`}>
+          View past periods
+        </Button>
+      </DialogTrigger>
 
-        <SelectContent>
-          {years.map((year) => (
-            <SelectItem key={year} value={year.toString()}>
-              {year}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <DialogContent>
+        <DialogHeader className="space-y-3 text-left">
+          <DialogTitle>View past periods</DialogTitle>
 
-      <div className="flex flex-col items-start">
-        {displayedMonths.map((month) => (
-          <Button key={month} asChild variant={`link`}>
-            <Link
-              href={`/admin/hours&tips/${selectedYear}/${month + 1}`}
-              className={cn(
-                pathname === `/admin/hours&tips/${selectedYear}/${month + 1}` &&
-                  "bg-muted hover:no-underline",
+          <DialogDescription>
+            Select a year and month to view the hours and tips for the two
+            biweekly periods in that month.
+          </DialogDescription>
+        </DialogHeader>
+
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="year"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Year</FormLabel>
+                  <Select
+                    value={field.value.toString()}
+                    onValueChange={(value) => handleYearChange(parseInt(value))}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {years.map((year) => (
+                        <SelectItem key={year} value={year.toString()}>
+                          {year}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  <FormMessage />
+                </FormItem>
               )}
-            >
-              {FULL_MONTHS[month]}
-            </Link>
-          </Button>
-        ))}
-      </div>
-    </div>
+            />
+
+            <FormField
+              control={form.control}
+              name="month"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Month</FormLabel>
+                  <Select
+                    value={field.value.toString()}
+                    onValueChange={field.onChange}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a month" />
+                      </SelectTrigger>
+                    </FormControl>
+
+                    <SelectContent>
+                      {displayedMonths.map((month) => (
+                        <SelectItem key={month} value={month.toString()}>
+                          {FULL_MONTHS[month]}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <DialogFooter className="gap-2 sm:space-x-0">
+              <DialogClose asChild>
+                <Button variant={`ghost`} type="button">
+                  Cancel
+                </Button>
+              </DialogClose>
+
+              <LoadingButton loading={isPending} type="submit">
+                Done
+              </LoadingButton>
+            </DialogFooter>
+          </form>
+        </Form>
+      </DialogContent>
+    </Dialog>
   );
 }
