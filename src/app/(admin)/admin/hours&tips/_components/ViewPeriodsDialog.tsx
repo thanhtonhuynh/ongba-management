@@ -86,24 +86,24 @@ export function ViewPeriodsDialog({ years }: ViewPeriodsDialogProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Year</FormLabel>
-                  <FormControl>
-                    <Select
-                      value={field.value.toString()}
-                      onValueChange={field.onChange}
-                    >
+                  <Select
+                    value={field.value.toString()}
+                    onValueChange={field.onChange}
+                  >
+                    <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select a year" />
                       </SelectTrigger>
+                    </FormControl>
 
-                      <SelectContent className="max-h-56">
-                        {years.map((year) => (
-                          <SelectItem key={year} value={year.toString()}>
-                            {year}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
+                    <SelectContent className="max-h-56">
+                      {years.map((year) => (
+                        <SelectItem key={year} value={year.toString()}>
+                          {year}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -115,27 +115,24 @@ export function ViewPeriodsDialog({ years }: ViewPeriodsDialogProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Month</FormLabel>
-                  <FormControl>
-                    <Select
-                      value={field.value.toString()}
-                      onValueChange={field.onChange}
-                    >
+                  <Select
+                    value={field.value.toString()}
+                    onValueChange={field.onChange}
+                  >
+                    <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select a month" />
                       </SelectTrigger>
+                    </FormControl>
 
-                      <SelectContent className="max-h-56">
-                        {NUM_MONTHS.map((month) => (
-                          <SelectItem
-                            key={month}
-                            value={(month - 1).toString()}
-                          >
-                            {FULL_MONTHS[month - 1]}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
+                    <SelectContent className="max-h-56">
+                      {NUM_MONTHS.map((month) => (
+                        <SelectItem key={month} value={(month - 1).toString()}>
+                          {FULL_MONTHS[month - 1]}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
