@@ -44,7 +44,7 @@ export function CashFlowTable({ reports }: CashFlowTableProps) {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="">Date</TableHead>
+          <TableHead className="sticky left-0 bg-background">Date</TableHead>
           <TableHead className="text-center">Reported total</TableHead>
           <TableHead className="text-center">Card sales</TableHead>
           <TableHead className="text-center">Actual cash</TableHead>
@@ -60,7 +60,9 @@ export function CashFlowTable({ reports }: CashFlowTableProps) {
       <TableBody>
         {reports.map((report) => (
           <TableRow key={report.id}>
-            <TableCell className="">{report.date.getDate()}</TableCell>
+            <TableCell className="sticky left-0 bg-background">
+              {report.date.getDate()}
+            </TableCell>
             <TableCell className="text-center">
               {formatPrice(report.totalSales)}
             </TableCell>
@@ -92,7 +94,7 @@ export function CashFlowTable({ reports }: CashFlowTableProps) {
         ))}
 
         <TableRow>
-          <TableCell className="">Totals</TableCell>
+          <TableCell className="sticky left-0 bg-background">Totals</TableCell>
           <TableCell className="text-center">
             {formatPrice(totals.totalSales)}
           </TableCell>

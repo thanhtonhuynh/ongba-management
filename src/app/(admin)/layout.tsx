@@ -11,11 +11,11 @@ export default function Layout({
   return (
     <>
       <NavBar />
-      <Container className="relative flex flex-col sm:space-y-4 md:flex-row md:space-x-12 md:space-y-0 lg:max-w-screen-xl">
+      <Container className="relative sm:space-y-4">
         <AdminNavBar />
         <AdminNavBarMobile />
 
-        <div className="flex-1">{children}</div>
+        {children}
       </Container>
       <Footer />
     </>

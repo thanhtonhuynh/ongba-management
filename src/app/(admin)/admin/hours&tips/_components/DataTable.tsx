@@ -20,7 +20,7 @@ export async function DataTable({ startDay, endDay, data }: DataTableProps) {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="">Name</TableHead>
+          <TableHead className="sticky left-0 bg-background">Name</TableHead>
           {Array.from({ length: endDay - startDay + 1 }).map((_, index) => (
             <TableHead className="text-center" key={index}>
               {startDay + index}
@@ -33,7 +33,9 @@ export async function DataTable({ startDay, endDay, data }: DataTableProps) {
       <TableBody>
         {data.map((employee) => (
           <TableRow key={employee.userId}>
-            <TableCell>{employee.userName}</TableCell>
+            <TableCell className="sticky left-0 bg-background">
+              {employee.userName}
+            </TableCell>
             {employee.keyData.map((key, index) => (
               <TableCell className="text-center" key={index}>
                 {key > 0 ? formatPrice(key) : "-"}

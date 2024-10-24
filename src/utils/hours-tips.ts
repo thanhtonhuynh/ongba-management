@@ -1,9 +1,4 @@
-import {
-  BreakdownData,
-  DayRange,
-  EmployeeShift,
-  TotalHoursTips,
-} from "@/types";
+import { BreakdownData, DayRange, EmployeeShift } from "@/types";
 import { getFirstReportDate } from "@/data/report";
 import { cache } from "react";
 import moment from "moment-timezone";
@@ -151,7 +146,11 @@ export function getHoursTipsBreakdownInDayRange(
   }
 
   return {
-    hoursBreakdown,
-    tipsBreakdown,
+    hoursBreakdown: hoursBreakdown.sort((a, b) =>
+      a.userName.localeCompare(b.userName),
+    ),
+    tipsBreakdown: tipsBreakdown.sort((a, b) =>
+      a.userName.localeCompare(b.userName),
+    ),
   };
 }

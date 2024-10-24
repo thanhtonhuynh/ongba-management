@@ -76,7 +76,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
           />
         )}
 
-        <div className="flex-1 space-y-4">
+        <div className="flex-1 space-y-4 overflow-auto">
           <h2 className="flex items-center gap-2 font-semibold">
             {FULL_MONTHS[selectedMonth - 1]} {selectedYear}
             {selectedYear === today.getFullYear() &&

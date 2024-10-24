@@ -13,16 +13,7 @@ export function Nav({
   children: ReactNode;
   className?: string;
 }) {
-  return (
-    <nav
-      className={cn(
-        `flex space-x-2 md:flex-col md:space-x-0 md:space-y-1`,
-        className,
-      )}
-    >
-      {children}
-    </nav>
-  );
+  return <nav className={cn(`flex space-x-2`, className)}>{children}</nav>;
 }
 
 export function NavLink(props: Omit<ComponentProps<typeof Link>, "className">) {

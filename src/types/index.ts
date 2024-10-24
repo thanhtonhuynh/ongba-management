@@ -116,3 +116,10 @@ export type CashFlowData = CashFlowRawData & {
   actualCash: number;
   totalRevenue: number;
 };
+
+export type UserShift = {
+  id: string;
+  date: Date;
+  hours: number;
+  tips: number;
+};

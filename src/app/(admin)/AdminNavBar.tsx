@@ -16,7 +16,7 @@ export async function AdminNavBar() {
   if (!user) return null;
 
   return (
-    <aside className="hidden sm:block md:w-fit">
+    <aside className="hidden sm:block">
       <Nav>
         <NavLinkAdmin href={"/admin"}>Dashboard</NavLinkAdmin>
 

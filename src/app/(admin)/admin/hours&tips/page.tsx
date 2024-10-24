@@ -3,7 +3,7 @@ import { hasAccess } from "@/utils/access-control";
 import { notFound, redirect } from "next/navigation";
 import { HoursTipsTable } from "./_components/HoursTipsTable";
 import {
-  getEmployeeShiftsInDayRange,
+  getAllEmployeeShiftsInDayRange,
   getTotalHoursTipsInDayRange,
 } from "@/data/employee";
 import {
@@ -21,7 +21,8 @@ export default async function Page() {
 
   const todayBiweeklyPeriod = getTodayBiweeklyPeriod();
   const totalHoursTips = await getTotalHoursTipsInDayRange(todayBiweeklyPeriod);
-  const employeeShifts = await getEmployeeShiftsInDayRange(todayBiweeklyPeriod);
+  const employeeShifts =
+    await getAllEmployeeShiftsInDayRange(todayBiweeklyPeriod);
 
   const { hoursBreakdown, tipsBreakdown } = getHoursTipsBreakdownInDayRange(
     todayBiweeklyPeriod,
@@ -29,7 +30,7 @@ export default async function Page() {
   );
 
   return (
-    <div className="flex-1 space-y-4">
+    <div className="flex-1 space-y-4 overflow-auto">
       <h2 className="gap-2 font-semibold sm:flex sm:items-baseline">
         <p>Current biweekly period:</p>
         <p className="text-sm font-medium">
@@ -44,7 +45,7 @@ export default async function Page() {
         <HoursTipsTable data={totalHoursTips} />
       </div>
 
-      <div className="hidden rounded-md border p-2 shadow-md lg:block">
+      <div className="rounded-md border p-2 shadow-md">
         <h3 className="text-sm font-medium">Hours breakdown</h3>
         <DataTable
           startDay={todayBiweeklyPeriod.start.getDate()}
@@ -53,7 +54,7 @@ export default async function Page() {
         />
       </div>
 
-      <div className="hidden rounded-md border p-2 shadow-md lg:block">
+      <div className="rounded-md border p-2 shadow-md">
         <h3 className="text-sm font-medium">Tips breakdown</h3>
         <DataTable
           startDay={todayBiweeklyPeriod.start.getDate()}

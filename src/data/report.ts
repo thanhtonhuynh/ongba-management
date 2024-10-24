@@ -74,7 +74,7 @@ export async function upsertReport(
 }
 
 // Get report by date
-export async function getReportByDate(date: Date) {
+export const getReportByDate = cache(async (date: Date) => {
   const report = await prisma.saleReport.findUnique({
     where: { date },
     include: {
@@ -86,7 +86,7 @@ export async function getReportByDate(date: Date) {
   });
 
   return report;
-}
+});
 
 // Get first report date
 export const getFirstReportDate = cache(async () => {

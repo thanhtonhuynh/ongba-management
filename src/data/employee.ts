@@ -2,37 +2,19 @@ import prisma from "@/lib/prisma";
 import { DayRange } from "@/types";
 import { cache } from "react";
 
-// Get user month-to-date tips
-export async function getUserMonthToDateTips(userId: string) {
-  const today = new Date();
-
-  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-
-  const tips = await prisma.employeeShift.findMany({
+// Get current user employee shifts in date range
+export async function getUserShiftsInDateRange(
+  userId: string,
+  dateRange: DayRange,
+) {
+  return await prisma.employeeShift.findMany({
     where: {
       userId,
-      date: { gte: firstDayOfMonth, lte: today },
+      date: { gte: dateRange.start, lte: dateRange.end },
     },
+    select: { id: true, date: true, hours: true, tips: true },
+    orderBy: { date: "asc" },
   });
-
-  return tips.reduce((acc, tip) => acc + tip.tips, 0);
-}
-
-// Get user month-to-date hours
-export async function getUserMonthToDateHours(userId: string) {
-  const today = new Date();
-
-  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-
-  const workDays = await prisma.employeeShift.findMany({
-    where: {
-      userId,
-      date: { gte: firstDayOfMonth, lte: today },
-    },
-    select: { hours: true },
-  });
-
-  return workDays.reduce((acc, workDay) => acc + workDay.hours, 0);
 }
 
 // Get employees with optional status filter
@@ -92,7 +74,7 @@ export async function getTotalHoursTipsInDayRange(dayRange: DayRange) {
 }
 
 // Get hours and tips breakdown for a specific day range
-export async function getEmployeeShiftsInDayRange(dayRange: DayRange) {
+export async function getAllEmployeeShiftsInDayRange(dayRange: DayRange) {
   return await prisma.employeeShift.findMany({
     where: {
       date: { gte: dayRange.start, lte: dayRange.end },

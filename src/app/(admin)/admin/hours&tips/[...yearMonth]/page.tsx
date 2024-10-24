@@ -10,7 +10,7 @@ import { notFound, redirect } from "next/navigation";
 import moment from "moment-timezone";
 import { HoursTipsTable } from "../_components/HoursTipsTable";
 import {
-  getEmployeeShiftsInDayRange,
+  getAllEmployeeShiftsInDayRange,
   getTotalHoursTipsInDayRange,
 } from "@/data/employee";
 import { ErrorMessage } from "@/components/Message";
@@ -68,8 +68,8 @@ export default async function Page(props: { params: Params }) {
 
   const [firstPeriodEmployeeShifts, secondPeriodEmployeeShifts] =
     await Promise.all([
-      getEmployeeShiftsInDayRange(periods[0]),
-      getEmployeeShiftsInDayRange(periods[1]),
+      getAllEmployeeShiftsInDayRange(periods[0]),
+      getAllEmployeeShiftsInDayRange(periods[1]),
     ]);
 
   const hoursTipsBreakdowns = [
