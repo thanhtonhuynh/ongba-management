@@ -1,5 +1,4 @@
 import { Container } from "@/components/Container";
-import { getAllUsers } from "@/data/users";
 import { getCurrentSession } from "@/lib/auth/session";
 import { notFound, redirect } from "next/navigation";
 import { NewReportPortal } from "./NewReportPortal";

@@ -87,26 +87,26 @@ export function EmployeeInput({
         <div className="rounded-md border bg-muted p-4 sm:mx-auto sm:w-fit">
           {employees.map((employee, index) => (
             <div key={index}>
-              <div className="grid grid-cols-3 items-center gap-2 text-sm">
+              <div className="flex items-center justify-between gap-2 text-sm">
                 <p className="font-semibold">{employee.name}</p>
 
-                <p className="place-self-center">
-                  {employee.fullDay ? "Full day" : "Half day"}
-                </p>
+                <div className="flex items-center gap-4">
+                  <p>{employee.fullDay ? "Full day" : "Half day"}</p>
 
-                <Button
-                  className="place-self-end p-0 text-muted-foreground hover:text-primary"
-                  type="button"
-                  variant={"link"}
-                  onClick={() =>
-                    formSetValue(
-                      "employees",
-                      employees.filter((_, i) => i !== index),
-                    )
-                  }
-                >
-                  Remove
-                </Button>
+                  <Button
+                    className="p-0 text-muted-foreground hover:text-primary"
+                    type="button"
+                    variant={"link"}
+                    onClick={() =>
+                      formSetValue(
+                        "employees",
+                        employees.filter((_, i) => i !== index),
+                      )
+                    }
+                  >
+                    Remove
+                  </Button>
+                </div>
               </div>
 
               <Separator />
