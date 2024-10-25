@@ -35,6 +35,10 @@ export default async function Page(props: { searchParams: SearchParams }) {
             For security reasons, the link will expire in 30 minutes.
           </p>
 
+          <p className="text-sm text-gray-500">
+            Please allow a few minutes for the email to arrive.
+          </p>
+
           <ForgotPasswordForm />
 
           <Button className="w-full gap-1" variant={"outline"} asChild>
