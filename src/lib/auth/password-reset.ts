@@ -32,12 +32,6 @@ export async function createPasswordResetToken(userId: string, token: string) {
   });
 }
 
-export function sendPasswordResetEmail(email: string, token: string) {
-  console.log(
-    `Sending password reset email to ${email} with link: ${process.env.BASE_URL}/reset-password/${token}`,
-  );
-}
-
 export async function setPasswordResetTokenCookie(
   token: string,
   expiresAt: Date,

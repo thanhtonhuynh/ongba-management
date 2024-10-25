@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "email": "cp .env ./node_modules/react-email && email dev --dir src/components/email --port 3001",
     "postinstall": "prisma generate && npx prisma db seed"
   },
   "prisma": {
@@ -32,6 +33,7 @@
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.1",
+    "@react-email/components": "^0.0.25",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
@@ -42,6 +44,7 @@
     "moment-timezone": "^0.5.46",
     "next": "15.0.1",
     "next-themes": "^0.3.0",
+    "nodemailer": "^6.9.15",
     "react": "19.0.0-rc-69d4b800-20241021",
     "react-day-picker": "^8.10.1",
     "react-dom": "19.0.0-rc-69d4b800-20241021",
@@ -54,6 +57,7 @@
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/nodemailer": "^6.4.16",
     "@types/react": "npm:types-react@19.0.0-rc.1",
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
     "eslint": "^8",
