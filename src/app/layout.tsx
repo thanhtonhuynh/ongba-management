@@ -6,12 +6,12 @@ import { SessionProvider } from "@/contexts/SessionProvider";
 import { getCurrentSession } from "@/lib/auth/session";
 
 const geistSans = localFont({
-  src: "../../fonts/GeistVF.woff",
+  src: "../fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
 const geistMono = localFont({
-  src: "../../fonts/GeistMonoVF.woff",
+  src: "../fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
 });
@@ -30,7 +30,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} !p-0 antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} !p-0 font-sans antialiased`}
       >
         <SessionProvider value={{ session, user }}>
           {children}
