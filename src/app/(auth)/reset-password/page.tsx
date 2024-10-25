@@ -4,10 +4,13 @@ import { ResetPasswordForm } from "./ResetPasswordForm";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { getCurrentSession } from "@/lib/auth/session";
 
 export default async function Page() {
   const token = (await cookies()).get("pw-reset")?.value;
   if (!token) redirect("/login/forgot-password");
+  const { session } = await getCurrentSession();
+  if (session) redirect("/");
 
   return (
     <main className="flex h-[90vh] items-center justify-center">
