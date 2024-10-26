@@ -19,7 +19,7 @@ export function EmployeeCard({ user }: EmployeeCardProps) {
     <Card>
       <CardHeader className="mb-2 px-4 py-2">
         <CardTitle className="flex items-center gap-2 text-sm">
-          {user.image && <ProfilePicture image={user.image} size={30} />}
+          {user.image && <ProfilePicture image={user.image} size={40} />}
           {user.name}
           <EmployeeRoleTag role={user.role} />
         </CardTitle>

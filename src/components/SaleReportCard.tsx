@@ -25,7 +25,7 @@ export function SaleReportCard({ data }: SaleReportProps) {
 
         <div className="flex items-center space-x-1">
           {data.reporterImage && (
-            <ProfilePicture image={data.reporterImage} size={30} />
+            <ProfilePicture image={data.reporterImage} size={40} />
           )}
           <span className="font-medium">{data.reporterName}</span>
         </div>
@@ -128,7 +128,7 @@ export function SaleReportCard({ data }: SaleReportProps) {
       <div className="space-y-2">
         {data.employees.map((emp) => (
           <div key={emp.userId} className="flex items-center space-x-2">
-            {emp.image && <ProfilePicture image={emp.image} size={30} />}
+            {emp.image && <ProfilePicture image={emp.image} size={40} />}
             <span>{emp.name}:</span>
             <span>
               {data.totalPeople > 1

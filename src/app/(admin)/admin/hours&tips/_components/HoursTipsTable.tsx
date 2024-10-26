@@ -30,7 +30,7 @@ export async function HoursTipsTable({ data }: HoursTipsTableProps) {
           <TableRow key={employee.userId}>
             <TableCell className="flex items-center gap-2">
               {employee.image && (
-                <ProfilePicture image={employee.image} size={30} />
+                <ProfilePicture image={employee.image} size={40} />
               )}
               {employee.name}
             </TableCell>

@@ -25,7 +25,7 @@ export async function EmployeeCard({ employee }: EmployeeCardProps) {
       <CardHeader className="mb-2 px-4 py-2">
         <CardTitle className="flex items-center gap-2 text-sm">
           {employee.image && (
-            <ProfilePicture image={employee.image} size={30} />
+            <ProfilePicture image={employee.image} size={40} />
           )}
           {employee.name}
           <EmployeeRoleTag role={employee.role} />

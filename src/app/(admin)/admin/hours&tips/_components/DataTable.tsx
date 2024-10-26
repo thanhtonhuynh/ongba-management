@@ -46,7 +46,7 @@ export async function DataTable({ dateRange, data }: DataTableProps) {
           <TableRow key={employee.userId}>
             <TableCell className="sticky left-0 flex min-w-max items-center gap-2 bg-background">
               {employee.image && (
-                <ProfilePicture image={employee.image} size={30} />
+                <ProfilePicture image={employee.image} size={40} />
               )}
               <div className="whitespace-nowrap">{employee.userName}</div>
             </TableCell>
