@@ -24,7 +24,9 @@ export async function DataTable({ dateRange, data }: DataTableProps) {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="sticky left-0 bg-background">Name</TableHead>
+          <TableHead className="sticky left-0 min-w-max bg-background">
+            Name
+          </TableHead>
 
           {Array.from({ length: endDay - startDay + 1 }).map((_, index) => (
             <TableHead className="text-center" key={index}>
@@ -44,12 +46,12 @@ export async function DataTable({ dateRange, data }: DataTableProps) {
       <TableBody>
         {data.map((employee) => (
           <TableRow key={employee.userId}>
-            <TableCell className="sticky left-0 bg-background">
-              <div className="flex min-w-max items-center gap-2">
+            <TableCell className="sticky left-0 min-w-max bg-background">
+              <div className="flex items-center gap-2">
                 {employee.image && (
                   <ProfilePicture image={employee.image} size={40} />
                 )}
-                {employee.userName}
+                <span className="whitespace-nowrap">{employee.userName}</span>
               </div>
             </TableCell>
 
