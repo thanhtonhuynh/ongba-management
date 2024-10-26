@@ -25,7 +25,7 @@ export default function UserButton({ user }: UserButtonProps) {
       <DropdownMenuTrigger asChild>
         <Button
           size="icon"
-          className="flex-none rounded-full border bg-background text-primary shadow-md hover:bg-muted"
+          className="flex-none rounded-full border bg-background text-primary shadow-md hover:bg-muted hover:ring-1 hover:ring-border"
         >
           {user.image ? (
             <ProfilePicture image={user.image} size={50} />
