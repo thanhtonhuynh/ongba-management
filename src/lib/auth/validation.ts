@@ -2,6 +2,7 @@ import { z } from "zod";
 
 const trimmedString = z.string().trim();
 const requiredString = trimmedString.min(1, "Required");
+const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
 
 // Sign up
 export const SignupSchema = z.object({
@@ -87,6 +88,18 @@ export const UpdatePasswordSchema = z
     path: ["confirmNewPassword"],
   });
 export type UpdatePasswordSchemaInput = z.infer<typeof UpdatePasswordSchema>;
+
+// Update profile picture
+export const UpdateAvatarSchema = z.object({
+  image: z
+    .instanceof(File, { message: "Required" })
+    .refine((file) => file.type.startsWith("image/"), "Invalid file type")
+    .refine(
+      (file) => file.size <= MAX_IMAGE_SIZE,
+      "Please upload a picture less than 2MB",
+    ),
+});
+export type UpdateAvatarSchemaInput = z.infer<typeof UpdateAvatarSchema>;
 
 // Verification code
 export const VerificationCodeSchema = z.object({

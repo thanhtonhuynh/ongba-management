@@ -28,7 +28,17 @@ export default function UserButton({ user }: UserButtonProps) {
           size="icon"
           className="flex-none rounded-full border bg-background text-primary shadow-md hover:bg-muted"
         >
-          <UserRound size={20} />
+          {user.image ? (
+            <Image
+              src={user.image}
+              alt={user.name + " profile picture"}
+              width={50}
+              height={50}
+              className="aspect-square rounded-full bg-background object-cover"
+            />
+          ) : (
+            <UserRound size={20} />
+          )}
         </Button>
       </DropdownMenuTrigger>
 

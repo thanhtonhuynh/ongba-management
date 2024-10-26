@@ -13,6 +13,8 @@ import {
   invalidateUserSessionsExceptCurrent,
 } from "@/lib/auth/session";
 import {
+  UpdateAvatarSchema,
+  UpdateAvatarSchemaInput,
   UpdateEmailSchema,
   UpdateEmailSchemaInput,
   UpdateNameSchema,
@@ -22,6 +24,7 @@ import {
   UpdateUsernameSchema,
   UpdateUsernameSchemaInput,
 } from "@/lib/auth/validation";
+import { deleteImage, uploadImage } from "@/lib/firebase/storage";
 import { revalidatePath } from "next/cache";
 
 // Update name
@@ -132,5 +135,31 @@ export async function updatePasswordAction(data: UpdatePasswordSchemaInput) {
   } catch (error) {
     console.error(error);
     return { error: "Update password failed. Please try again." };
+  }
+}
+
+// Update avatar
+export async function updateAvatarAction(data: UpdateAvatarSchemaInput) {
+  try {
+    const { user } = await getCurrentSession();
+    if (!user || user.accountStatus !== "active") {
+      return { error: "Unauthorized." };
+    }
+
+    const { image } = UpdateAvatarSchema.parse(data);
+
+    if (user.image) {
+      await deleteImage(user.image);
+    }
+
+    const imageUrl = await uploadImage(user.id, image);
+
+    await updateUser(user.id, { image: imageUrl });
+
+    revalidatePath("/");
+    return {};
+  } catch (error) {
+    console.error(error);
+    return { error: "Update avatar failed. Please try again." };
   }
 }

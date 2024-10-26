@@ -6,6 +6,7 @@ import { UpdateNameForm } from "./UpdateNameForm";
 import { UpdateUsernameForm } from "./UpdateUsernameForm";
 import { UpdateEmailForm } from "./UpdateEmailForm";
 import { UpdatePasswordForm } from "./UpdatePasswordForm";
+import { UpdateAvatar } from "./UpdateAvatar";
 
 export default async function Page() {
   const { session, user } = await getCurrentSession();
@@ -19,6 +20,8 @@ export default async function Page() {
       </div>
 
       <Separator />
+
+      <UpdateAvatar user={user} />
 
       <UpdateNameForm user={user} />
 
