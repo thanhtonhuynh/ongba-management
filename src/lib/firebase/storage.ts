@@ -8,7 +8,10 @@ import { storage } from "./firebase";
 
 export async function uploadImage(userId: string, image: File) {
   try {
-    const storageRef = ref(storage, `avatars/${userId}-${image.name}`);
+    const storageRef = ref(
+      storage,
+      `${process.env.FIREBASE_IMAGE_FOLDER}/${userId}-${image.name}`,
+    );
     const snapshot = await uploadBytesResumable(storageRef, image);
     const downloadURL = await getDownloadURL(snapshot.ref);
     return downloadURL;
