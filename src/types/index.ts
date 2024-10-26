@@ -19,11 +19,13 @@ export type SaleEmployee = {
   userId: string;
   fullDay: boolean;
   name: string;
+  image?: string;
 };
 
 export interface SaleReportCardRawData {
   date: Date;
   reporterName: string;
+  reporterImage: string | null;
   totalSales: number;
   cardSales: number;
   expenses: number;
@@ -79,6 +81,7 @@ export type DayRange = {
 export type TotalHoursTips = {
   userId: string;
   name: string;
+  image: string;
   totalHours: number;
   totalTips: number;
 };
@@ -90,12 +93,14 @@ export type EmployeeShift = {
   tips: number;
   user: {
     name: string;
+    image: string | null;
   };
 };
 
 export type BreakdownData = {
   userId: string;
   userName: string;
+  image: string;
   keyData: number[];
   total: number;
 };

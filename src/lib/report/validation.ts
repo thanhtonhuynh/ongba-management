@@ -23,6 +23,7 @@ export const CreateReportSchema = z.object({
         userId: requiredString,
         fullDay: z.boolean(),
         name: requiredString,
+        image: trimmedString.url().optional(),
       }),
     )
     .min(1, "At least 1 employee is required"),

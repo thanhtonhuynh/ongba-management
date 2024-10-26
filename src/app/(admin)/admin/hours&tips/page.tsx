@@ -4,7 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import { HoursTipsTable } from "./_components/HoursTipsTable";
 import {
   getAllEmployeeShiftsInDayRange,
-  getTotalHoursTipsInDayRange,
+  // getTotalHoursTipsInDayRange,
 } from "@/data/employee";
 import {
   getHoursTipsBreakdownInDayRange,
@@ -12,6 +12,7 @@ import {
 } from "@/utils/hours-tips";
 import moment from "moment";
 import { DataTable } from "./_components/DataTable";
+import { TotalHoursTips } from "@/types";
 
 export default async function Page() {
   const { session, user } = await getCurrentSession();
@@ -20,7 +21,7 @@ export default async function Page() {
   if (!hasAccess(user.role, "/admin/hours&tips")) return notFound();
 
   const todayBiweeklyPeriod = getTodayBiweeklyPeriod();
-  const totalHoursTips = await getTotalHoursTipsInDayRange(todayBiweeklyPeriod);
+  // const totalHoursTips = await getTotalHoursTipsInDayRange(todayBiweeklyPeriod);
   const employeeShifts =
     await getAllEmployeeShiftsInDayRange(todayBiweeklyPeriod);
 
@@ -28,6 +29,22 @@ export default async function Page() {
     todayBiweeklyPeriod,
     employeeShifts,
   );
+
+  const totalHoursTips: TotalHoursTips[] = [];
+  for (const hourRecord of hoursBreakdown) {
+    const tipRecord = tipsBreakdown.find(
+      (tipRecord) => tipRecord.userId === hourRecord.userId,
+    );
+    if (tipRecord) {
+      totalHoursTips.push({
+        userId: hourRecord.userId,
+        name: hourRecord.userName,
+        image: hourRecord.image,
+        totalHours: hourRecord.total,
+        totalTips: tipRecord.total,
+      });
+    }
+  }
 
   return (
     <div className="space-y-4">

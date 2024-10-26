@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { ReactivateUser } from "./ReactivateUser";
 import { EmployeeRoleTag } from "@/components/EmployeeRoleTag";
+import { ProfilePicture } from "@/components/ProfilePicture";
 
 type EmployeeCardProps = {
   user: User;
@@ -17,15 +18,13 @@ export function EmployeeCard({ user }: EmployeeCardProps) {
   return (
     <Card>
       <CardHeader className="mb-2 px-4 py-2">
-        <CardTitle className="text-sm">
-          {user.name}{" "}
-          <span className="font-medium text-muted-foreground">
-            {user.email}
-          </span>
-        </CardTitle>
-        <CardDescription className="text-xs">
+        <CardTitle className="flex items-center gap-2 text-sm">
+          {user.image && <ProfilePicture image={user.image} size={30} />}
+          {user.name}
           <EmployeeRoleTag role={user.role} />
-        </CardDescription>
+        </CardTitle>
+
+        <CardDescription>{user.email}</CardDescription>
       </CardHeader>
 
       <CardContent className="flex space-x-2 px-4 pb-2 pt-0">

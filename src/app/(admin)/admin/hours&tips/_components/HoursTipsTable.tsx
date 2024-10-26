@@ -1,3 +1,4 @@
+import { ProfilePicture } from "@/components/ProfilePicture";
 import {
   Table,
   TableBody,
@@ -27,7 +28,12 @@ export async function HoursTipsTable({ data }: HoursTipsTableProps) {
       <TableBody>
         {data.map((employee) => (
           <TableRow key={employee.userId}>
-            <TableCell>{employee.name}</TableCell>
+            <TableCell className="flex items-center gap-2">
+              {employee.image && (
+                <ProfilePicture image={employee.image} size={30} />
+              )}
+              {employee.name}
+            </TableCell>
             <TableCell className="text-center">{employee.totalHours}</TableCell>
             <TableCell className="text-right">
               {formatPriceWithDollar(employee.totalTips)}

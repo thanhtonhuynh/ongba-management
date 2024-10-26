@@ -115,6 +115,7 @@ export function getHoursTipsBreakdownInDayRange(
       hoursBreakdown.push({
         userId: shift.userId,
         userName: shift.user.name,
+        image: shift.user.image || "",
         keyData: Array(endDay - startDay + 1).fill(0),
         total: 0,
       });
@@ -122,6 +123,7 @@ export function getHoursTipsBreakdownInDayRange(
       tipsBreakdown.push({
         userId: shift.userId,
         userName: shift.user.name,
+        image: shift.user.image || "",
         keyData: Array(endDay - startDay + 1).fill(0),
         total: 0,
       });

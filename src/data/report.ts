@@ -79,9 +79,13 @@ export const getReportByDate = cache(async (date: Date) => {
     where: { date },
     include: {
       employeeShifts: {
-        select: { userId: true, hours: true, user: { select: { name: true } } },
+        select: {
+          userId: true,
+          hours: true,
+          user: { select: { name: true, image: true } },
+        },
       },
-      reporter: { select: { name: true } },
+      reporter: { select: { name: true, image: true } },
     },
   });
 

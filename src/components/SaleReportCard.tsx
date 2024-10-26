@@ -5,6 +5,7 @@ import moment from "moment";
 import { Separator } from "./ui/separator";
 import { MoveRight } from "lucide-react";
 import { SaleReportCardProcessedData } from "@/types";
+import { ProfilePicture } from "./ProfilePicture";
 
 type SaleReportProps = {
   data: SaleReportCardProcessedData | undefined;
@@ -17,21 +18,17 @@ export function SaleReportCard({ data }: SaleReportProps) {
 
   return (
     <div className="w-full space-y-1 rounded border p-2 text-sm shadow">
-      <div>
-        <span className="font-semibold">Date: </span>
-        {moment(data.date).format("YYYY/MM/DD")}
-      </div>
+      <div className="flex items-center justify-between space-x-2 pb-1">
+        <div className="font-semibold">
+          {moment(data.date).format("ddd MMM Do, YYYY")}
+        </div>
 
-      <div className="flex justify-between space-x-2">
-        <p>
-          <span className="font-semibold">Day: </span>
-          {moment(data.date).format("ddd")}
-        </p>
-
-        <p>
-          <span className="font-semibold">By: </span>
-          {data.reporterName}
-        </p>
+        <div className="flex items-center space-x-1">
+          {data.reporterImage && (
+            <ProfilePicture image={data.reporterImage} size={30} />
+          )}
+          <span className="font-medium">{data.reporterName}</span>
+        </div>
       </div>
 
       <Separator />
@@ -122,21 +119,24 @@ export function SaleReportCard({ data }: SaleReportProps) {
 
       <Separator />
 
-      <div>
+      <div className="pb-1">
         <span className="font-semibold">Tips Breakdown: </span>{" "}
         {formatPrice(data.totalTips)} / {data.totalPeople} ={" "}
         {formatPrice(data.tipsPerPerson)}
       </div>
 
-      <div>
+      <div className="space-y-2">
         {data.employees.map((emp) => (
-          <div key={emp.userId}>
-            {emp.name}:{" "}
-            {data.totalPeople > 1
-              ? emp.fullDay
-                ? formatPrice(data.tipsPerPerson)
-                : formatPrice(data.tipsPerPerson / 2)
-              : formatPrice(data.totalTips)}
+          <div key={emp.userId} className="flex items-center space-x-2">
+            {emp.image && <ProfilePicture image={emp.image} size={30} />}
+            <span>{emp.name}:</span>
+            <span>
+              {data.totalPeople > 1
+                ? emp.fullDay
+                  ? formatPrice(data.tipsPerPerson)
+                  : formatPrice(data.tipsPerPerson / 2)
+                : formatPrice(data.totalTips)}
+            </span>
           </div>
         ))}
       </div>

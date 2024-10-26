@@ -22,6 +22,7 @@ export function ReportPreview({
     startCash,
     date: new Date(),
     reporterName: user?.name || "Unknown user",
+    reporterImage: user?.image || null,
   };
   const processedData = processReportDataForView(rawData);
 

@@ -1,14 +1,13 @@
 "use client";
 
+import { ProfilePicture } from "@/components/ProfilePicture";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -41,11 +40,16 @@ export function EmployeeInput({
       return;
     }
 
-    const employeeName = users.find((user) => user.id === userId)?.name || "";
+    const employee = users.find((user) => user.id === userId);
 
     formSetValue("employees", [
       ...employees,
-      { userId, fullDay, name: employeeName },
+      {
+        userId,
+        fullDay,
+        name: employee?.name || "",
+        image: employee?.image || undefined,
+      },
     ]);
   }
 
@@ -53,9 +57,10 @@ export function EmployeeInput({
     <div className="space-y-3">
       <div className="flex items-center space-x-4">
         <Select onValueChange={(value) => setUserId(value)}>
-          <SelectTrigger className="flex-1">
+          <SelectTrigger className="h-12 flex-1">
             <SelectValue placeholder="Select employee" />
           </SelectTrigger>
+
           <SelectContent>
             {users.map((user) => (
               <SelectItem
@@ -63,7 +68,12 @@ export function EmployeeInput({
                 value={user.id}
                 className="cursor-pointer"
               >
-                {user.name}
+                <div className="flex items-center space-x-2">
+                  {user.image && (
+                    <ProfilePicture image={user.image} size={30} />
+                  )}
+                  <span>{user.name}</span>
+                </div>
               </SelectItem>
             ))}
           </SelectContent>
@@ -88,7 +98,13 @@ export function EmployeeInput({
           {employees.map((employee, index) => (
             <div key={index}>
               <div className="flex items-center justify-between gap-2 text-sm">
-                <p className="font-semibold">{employee.name}</p>
+                <div className="flex items-center space-x-2">
+                  {employee.image && (
+                    <ProfilePicture image={employee.image} size={30} />
+                  )}
+
+                  <p className="font-semibold">{employee.name}</p>
+                </div>
 
                 <div className="flex items-center gap-4">
                   <p>{employee.fullDay ? "Full day" : "Half day"}</p>

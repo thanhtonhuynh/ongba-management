@@ -1,6 +1,4 @@
-import avatarPlaceholder from "@/assets/avatar_placeholder.png";
 import { Lock, LogOut, Settings, UserRound } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import {
@@ -15,6 +13,7 @@ import {
 import { User } from "@/lib/auth/session";
 import { logoutAction } from "@/app/(auth)/actions";
 import { hasAccess } from "@/utils/access-control";
+import { ProfilePicture } from "./ProfilePicture";
 
 interface UserButtonProps {
   user: User;
@@ -29,13 +28,7 @@ export default function UserButton({ user }: UserButtonProps) {
           className="flex-none rounded-full border bg-background text-primary shadow-md hover:bg-muted"
         >
           {user.image ? (
-            <Image
-              src={user.image}
-              alt={user.name + " profile picture"}
-              width={50}
-              height={50}
-              className="aspect-square rounded-full bg-background object-cover"
-            />
+            <ProfilePicture image={user.image} size={50} />
           ) : (
             <UserRound size={20} />
           )}

@@ -65,6 +65,7 @@ export async function getTotalHoursTipsInDayRange(dayRange: DayRange) {
     return {
       userId: data.userId,
       name: employee?.name || "Unknown",
+      image: employee?.image || "",
       totalHours: data._sum.hours || 0,
       totalTips: data._sum.tips || 0,
     };
@@ -84,7 +85,7 @@ export async function getAllEmployeeShiftsInDayRange(dayRange: DayRange) {
       date: true,
       hours: true,
       tips: true,
-      user: { select: { name: true } },
+      user: { select: { name: true, image: true } },
     },
   });
 }

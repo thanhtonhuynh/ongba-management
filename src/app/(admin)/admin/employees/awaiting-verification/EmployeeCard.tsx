@@ -16,9 +16,6 @@ export function EmployeeCard({ user }: EmployeeCardProps) {
             {user.email}
           </span>
         </CardTitle>
-        {/* <CardDescription className="text-xs">
-          <span className="capitalize">{user.role}</span>
-        </CardDescription> */}
       </CardHeader>
 
       <CardContent className="flex space-x-2 px-4 pb-2 pt-0">

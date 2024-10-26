@@ -10,6 +10,7 @@ import { DeactivateUser } from "./DeactivateUser";
 import { ChangeUserRoleDialog } from "./ChangeUserRoleDialog";
 import { canDeactivateUser } from "@/utils/access-control";
 import { EmployeeRoleTag } from "@/components/EmployeeRoleTag";
+import { ProfilePicture } from "@/components/ProfilePicture";
 
 type EmployeeCardProps = {
   employee: User;
@@ -23,7 +24,11 @@ export async function EmployeeCard({ employee }: EmployeeCardProps) {
     <Card>
       <CardHeader className="mb-2 px-4 py-2">
         <CardTitle className="flex items-center gap-2 text-sm">
-          {employee.name} <EmployeeRoleTag role={employee.role} />
+          {employee.image && (
+            <ProfilePicture image={employee.image} size={30} />
+          )}
+          {employee.name}
+          <EmployeeRoleTag role={employee.role} />
         </CardTitle>
 
         <CardDescription>{employee.email}</CardDescription>

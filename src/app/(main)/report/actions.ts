@@ -24,10 +24,12 @@ export async function searchReportAction(data: SearchReportInput) {
       userId: data.userId,
       fullDay: data.hours === report.fullDayHours,
       name: data.user.name,
+      image: data.user.image || undefined,
     }));
 
     const rawData: SaleReportCardRawData = {
       reporterName: report.reporter.name,
+      reporterImage: report.reporter.image,
       employees,
       ...report,
     };

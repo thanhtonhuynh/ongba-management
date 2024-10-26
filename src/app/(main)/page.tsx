@@ -1,4 +1,3 @@
-import { Container } from "@/components/Container";
 import { getCurrentSession } from "@/lib/auth/session";
 import { notFound, redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -26,10 +25,12 @@ export default async function Home() {
       userId: data.userId,
       fullDay: data.hours === todayReport.fullDayHours,
       name: data.user.name,
+      image: data.user.image || undefined,
     }));
 
     const rawData: SaleReportCardRawData = {
       reporterName: todayReport.reporter.name,
+      reporterImage: todayReport.reporter.image,
       employees,
       ...todayReport,
     };
