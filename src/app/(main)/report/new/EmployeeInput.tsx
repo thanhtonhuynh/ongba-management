@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { User } from "@/lib/auth/session";
-import { CreateReportSchemaInput } from "@/lib/report/validation";
+import { CreateReportSchemaInput } from "@/lib/validations/report";
 import { SaleEmployee } from "@/types";
 import { useState } from "react";
 import { UseFormSetValue } from "react-hook-form";

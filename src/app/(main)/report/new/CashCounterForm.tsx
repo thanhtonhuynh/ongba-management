@@ -8,7 +8,7 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { CreateReportSchemaInput } from "@/lib/report/validation";
+import { CreateReportSchemaInput } from "@/lib/validations/report";
 import { CashType } from "@/types";
 import { UseFormReturn } from "react-hook-form";
 

@@ -17,7 +17,7 @@ import { PasswordInput } from "@/components/PasswordInput";
 import { LoadingButton } from "@/components/LoadingButton";
 import { ErrorMessage } from "@/components/Message";
 import { signUpAction } from "./actions";
-import { SignupSchema, SignupSchemaTypes } from "@/lib/auth/validation";
+import { SignupSchema, SignupSchemaTypes } from "@/lib/validations/auth";
 
 export function SignUpForm() {
   const [error, setError] = useState<string>();

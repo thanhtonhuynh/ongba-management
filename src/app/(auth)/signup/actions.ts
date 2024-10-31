@@ -12,7 +12,7 @@ import {
   generateSessionToken,
   setSessionTokenCookie,
 } from "@/lib/auth/session";
-import { SignupSchema, SignupSchemaTypes } from "@/lib/auth/validation";
+import { SignupSchema, SignupSchemaTypes } from "@/lib/validations/auth";
 
 export async function signUpAction(data: SignupSchemaTypes) {
   try {

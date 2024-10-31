@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { CreateReportSchemaInput } from "@/lib/report/validation";
+import { CreateReportSchemaInput } from "@/lib/validations/report";
 import { getFullDayHours, getStartCash } from "./store";
 import { cache } from "react";
 import { DayRange } from "@/types";

@@ -10,7 +10,7 @@ import {
 import {
   ForgotPasswordSchema,
   ForgotPasswordSchemaTypes,
-} from "@/lib/auth/validation";
+} from "@/lib/validations/auth";
 import { sendEmail } from "@/lib/email";
 import { render } from "@react-email/components";
 

@@ -13,7 +13,7 @@ import { isRedirectError } from "next/dist/client/components/redirect";
 //   getUserEmailVerificationRequestByUserId,
 //   setEmailVerificationRequestCookie,
 // } from '@/lib/email-verification';
-import { LoginSchema, LoginSchemaTypes } from "@/lib/auth/validation";
+import { LoginSchema, LoginSchemaTypes } from "@/lib/validations/auth";
 
 export async function loginAction(data: LoginSchemaTypes) {
   try {

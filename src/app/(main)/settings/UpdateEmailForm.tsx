@@ -14,7 +14,7 @@ import { User } from "@/lib/auth/session";
 import {
   UpdateEmailSchema,
   UpdateEmailSchemaInput,
-} from "@/lib/auth/validation";
+} from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";

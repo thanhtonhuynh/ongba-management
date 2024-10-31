@@ -17,7 +17,7 @@ import { LoadingButton } from "@/components/LoadingButton";
 import {
   ForgotPasswordSchema,
   ForgotPasswordSchemaTypes,
-} from "@/lib/auth/validation";
+} from "@/lib/validations/auth";
 import { forgotPasswordAction } from "./actions";
 
 export function ForgotPasswordForm() {

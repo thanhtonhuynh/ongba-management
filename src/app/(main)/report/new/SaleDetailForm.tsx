@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { User } from "@/lib/auth/session";
-import { CreateReportSchemaInput } from "@/lib/report/validation";
+import { CreateReportSchemaInput } from "@/lib/validations/report";
 import { UseFormReturn } from "react-hook-form";
 import { EmployeeInput } from "./EmployeeInput";
 

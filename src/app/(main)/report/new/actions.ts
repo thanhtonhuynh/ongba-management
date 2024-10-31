@@ -5,7 +5,7 @@ import { getCurrentSession } from "@/lib/auth/session";
 import {
   CreateReportSchema,
   CreateReportSchemaInput,
-} from "@/lib/report/validation";
+} from "@/lib/validations/report";
 import { isISOString } from "@/lib/utils";
 import { hasAccess } from "@/utils/access-control";
 

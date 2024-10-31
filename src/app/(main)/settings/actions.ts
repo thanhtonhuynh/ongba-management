@@ -23,7 +23,7 @@ import {
   UpdatePasswordSchemaInput,
   UpdateUsernameSchema,
   UpdateUsernameSchemaInput,
-} from "@/lib/auth/validation";
+} from "@/lib/validations/auth";
 import { deleteImage, uploadImage } from "@/lib/firebase/storage";
 import { revalidatePath } from "next/cache";
 

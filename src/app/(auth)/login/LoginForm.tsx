@@ -17,7 +17,7 @@ import { PasswordInput } from "@/components/PasswordInput";
 import { ErrorMessage } from "@/components/Message";
 import Link from "next/link";
 import { loginAction } from "./actions";
-import { LoginSchema, LoginSchemaTypes } from "@/lib/auth/validation";
+import { LoginSchema, LoginSchemaTypes } from "@/lib/validations/auth";
 
 export function LoginForm() {
   const [error, setError] = useState<string>();

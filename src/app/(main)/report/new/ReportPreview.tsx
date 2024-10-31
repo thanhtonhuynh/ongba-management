@@ -2,7 +2,7 @@
 
 import { SaleReportCard } from "@/components/SaleReportCard";
 import { useSession } from "@/contexts/SessionProvider";
-import { CreateReportSchemaInput } from "@/lib/report/validation";
+import { CreateReportSchemaInput } from "@/lib/validations/report";
 import { SaleReportCardRawData } from "@/types";
 import { processReportDataForView } from "@/utils/report";
 import { UseFormReturn } from "react-hook-form";

@@ -1,6 +1,9 @@
 "use client";
 
-import { SearchReportInput, SearchReportSchema } from "@/lib/report/validation";
+import {
+  SearchReportInput,
+  SearchReportSchema,
+} from "@/lib/validations/report";
 import { SaleReportCardProcessedData } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";

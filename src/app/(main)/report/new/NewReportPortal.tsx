@@ -7,7 +7,7 @@ import { LoadingButton } from "@/components/LoadingButton";
 import {
   CreateReportSchema,
   CreateReportSchemaInput,
-} from "@/lib/report/validation";
+} from "@/lib/validations/report";
 import { User } from "@/lib/auth/session";
 import { createReportAction } from "./actions";
 import { CashCounterForm } from "./CashCounterForm";

@@ -6,7 +6,7 @@ import { updateUser, updateUserPassword } from "@/data/users";
 import {
   ResetPasswordSchema,
   ResetPasswordSchemaTypes,
-} from "@/lib/auth/validation";
+} from "@/lib/validations/auth";
 import {
   deletePasswordResetTokenCookie,
   invalidatePasswordResetToken,

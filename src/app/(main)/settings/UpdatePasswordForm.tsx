@@ -18,7 +18,7 @@ import { PasswordInput } from "@/components/PasswordInput";
 import {
   UpdatePasswordSchema,
   UpdatePasswordSchemaInput,
-} from "@/lib/auth/validation";
+} from "@/lib/validations/auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";

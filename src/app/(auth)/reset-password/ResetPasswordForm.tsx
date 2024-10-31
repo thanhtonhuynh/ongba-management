@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState, useTransition } from 'react';
-import { useForm } from 'react-hook-form';
-import { resetPasswordAction } from './actions';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { resetPasswordAction } from "./actions";
 import {
   Form,
   FormControl,
@@ -11,17 +11,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { ErrorMessage } from '@/components/Message';
-import { LoadingButton } from '@/components/LoadingButton';
-import { PasswordInput } from '@/components/PasswordInput';
+} from "@/components/ui/form";
+import { ErrorMessage } from "@/components/Message";
+import { LoadingButton } from "@/components/LoadingButton";
+import { PasswordInput } from "@/components/PasswordInput";
 import {
   ResetPasswordSchema,
   ResetPasswordSchemaTypes,
-} from '@/lib/auth/validation';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
-import { Checkbox } from '@/components/ui/checkbox';
+} from "@/lib/validations/auth";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export function ResetPasswordForm() {
   const [error, setError] = useState<string>();
@@ -29,8 +29,8 @@ export function ResetPasswordForm() {
   const form = useForm<ResetPasswordSchemaTypes>({
     resolver: zodResolver(ResetPasswordSchema),
     defaultValues: {
-      password: '',
-      confirmPassword: '',
+      password: "",
+      confirmPassword: "",
       logOutOtherDevices: true,
     },
   });
@@ -45,8 +45,8 @@ export function ResetPasswordForm() {
         setError(error);
         return;
       }
-      toast.success('Password reset successfully!');
-      router.push('/login');
+      toast.success("Password reset successfully!");
+      router.push("/login");
     });
   }
 

@@ -5,7 +5,7 @@ import {
 } from "@oslojs/encoding";
 import { Session } from "@prisma/client";
 import prisma from "@/lib/prisma";
-import { cookies, type UnsafeUnwrappedCookies } from "next/headers";
+import { cookies } from "next/headers";
 import { cache } from "react";
 
 const SESSION_TTL = 1000 * 60 * 60 * 24 * 30; // 30 days

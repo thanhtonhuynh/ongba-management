@@ -2,7 +2,10 @@
 
 import { getReportByDate } from "@/data/report";
 import { getCurrentSession } from "@/lib/auth/session";
-import { SearchReportInput, SearchReportSchema } from "@/lib/report/validation";
+import {
+  SearchReportInput,
+  SearchReportSchema,
+} from "@/lib/validations/report";
 import { SaleReportCardRawData } from "@/types";
 import { processReportDataForView } from "@/utils/report";
 
