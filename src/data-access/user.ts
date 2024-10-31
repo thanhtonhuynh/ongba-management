@@ -1,3 +1,4 @@
+import "server-only";
 import { hashPassword } from "@/lib/auth/password";
 import prisma from "@/lib/prisma";
 import { User } from "@/lib/auth/session";

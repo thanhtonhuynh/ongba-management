@@ -2,22 +2,19 @@ import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasAccess } from "@/utils/access-control";
 import {
-  getDayRangeByMonthAndYear,
   getHoursTipsBreakdownInDayRange,
   getPeriodsByMonthAndYear,
 } from "@/utils/hours-tips";
 import { notFound, redirect } from "next/navigation";
 import moment from "moment-timezone";
 import { HoursTipsTable } from "../_components/HoursTipsTable";
-import {
-  getAllEmployeeShiftsInDayRange,
-  getTotalHoursTipsInDayRange,
-} from "@/data/employee";
+import { getAllEmployeeShiftsInDayRange } from "@/data-access/employee";
 import { ErrorMessage } from "@/components/Message";
-import { getFirstReportDate } from "@/data/report";
+import { getFirstReportDate } from "@/data-access/report";
 import { GoBackButton } from "@/components/GoBackButton";
 import { DataTable } from "../_components/DataTable";
 import { Separator } from "@/components/ui/separator";
+import { TotalHoursTips } from "@/types";
 
 type Params = Promise<{ yearMonth: string[] }>;
 
@@ -60,11 +57,7 @@ export default async function Page(props: { params: Params }) {
     );
   }
 
-  const dayRange = getDayRangeByMonthAndYear(year, month);
-
   const periods = getPeriodsByMonthAndYear(year, month);
-
-  const totalHoursTips = await getTotalHoursTipsInDayRange(dayRange);
 
   const [firstPeriodEmployeeShifts, secondPeriodEmployeeShifts] =
     await Promise.all([
@@ -76,6 +69,24 @@ export default async function Page(props: { params: Params }) {
     getHoursTipsBreakdownInDayRange(periods[0], firstPeriodEmployeeShifts),
     getHoursTipsBreakdownInDayRange(periods[1], secondPeriodEmployeeShifts),
   ];
+
+  const totalHoursTips: TotalHoursTips[] = [];
+  for (const hoursTipsBreakdown of hoursTipsBreakdowns) {
+    for (const hourRecord of hoursTipsBreakdown.hoursBreakdown) {
+      const tipRecord = hoursTipsBreakdown.tipsBreakdown.find(
+        (tipRecord) => tipRecord.userId === hourRecord.userId,
+      );
+      if (tipRecord) {
+        totalHoursTips.push({
+          userId: hourRecord.userId,
+          name: hourRecord.userName,
+          image: hourRecord.image,
+          totalHours: hourRecord.total,
+          totalTips: tipRecord.total,
+        });
+      }
+    }
+  }
 
   return (
     <div className="space-y-4">

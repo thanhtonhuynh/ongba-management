@@ -1,6 +1,6 @@
 "use server";
 
-import { updateStoreSettings } from "@/data/store";
+import { updateStoreSettings } from "@/data-access/store";
 import { getCurrentSession } from "@/lib/auth/session";
 import {
   UpdateShiftHoursInput,

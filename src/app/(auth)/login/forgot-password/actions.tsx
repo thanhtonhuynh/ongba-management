@@ -1,7 +1,7 @@
 "use server";
 
 import ResetPasswordEmail from "@/components/emails/ResetPasswordEmail";
-import { getUserByEmail } from "@/data/users";
+import { getUserByEmail } from "@/data-access/user";
 import {
   createPasswordResetToken,
   generatePasswordResetToken,

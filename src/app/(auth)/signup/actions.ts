@@ -1,6 +1,10 @@
 "use server";
 
-import { createUser, getUserByEmail, getUserByUsername } from "@/data/users";
+import {
+  createUser,
+  getUserByEmail,
+  getUserByUsername,
+} from "@/data-access/user";
 import { redirect } from "next/navigation";
 // import {
 //   sendVerificationEmail,

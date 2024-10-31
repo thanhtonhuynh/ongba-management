@@ -10,7 +10,7 @@ import { MonthSelect } from "./MonthSelect";
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
 import { ErrorMessage } from "@/components/Message";
 import moment from "moment-timezone";
-import { getReportsByDateRange } from "@/data/report";
+import { getReportsByDateRange } from "@/data-access/report";
 import { CashFlowTable } from "./CashflowTable";
 import { processCashFlowData } from "@/utils/cashflow";
 

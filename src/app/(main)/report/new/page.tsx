@@ -1,9 +1,9 @@
 import { getCurrentSession } from "@/lib/auth/session";
 import { notFound, redirect } from "next/navigation";
 import { NewReportPortal } from "./NewReportPortal";
-import { getStartCash } from "@/data/store";
+import { getStartCash } from "@/data-access/store";
 import { hasAccess } from "@/utils/access-control";
-import { getEmployees } from "@/data/employee";
+import { getEmployees } from "@/data-access/employee";
 import { Separator } from "@/components/ui/separator";
 
 export default async function Page() {

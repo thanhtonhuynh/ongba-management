@@ -1,7 +1,6 @@
 "use server";
 
-import { updateEmployeeRole, updateEmployeeStatus } from "@/data/employee";
-import { getUserById } from "@/data/users";
+import { getUserById, updateUser } from "@/data-access/user";
 import { getCurrentSession } from "@/lib/auth/session";
 import {
   UpdateEmployeeRoleInput,
@@ -31,7 +30,7 @@ export async function deactivateUserAction(userId: string) {
       return { error: "Unauthorized" };
     }
 
-    await updateEmployeeStatus(userId, "deactivated");
+    await updateUser(userId, { accountStatus: "deactivated" });
 
     revalidatePath("/admin/employees/active");
     return {};
@@ -58,7 +57,7 @@ export async function updateUserRoleAction(data: UpdateEmployeeRoleInput) {
       return { error: "Unauthorized" };
     }
 
-    await updateEmployeeRole(userId, role);
+    await updateUser(userId, { role });
 
     revalidatePath("/admin/employees/active");
     return {};

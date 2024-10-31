@@ -2,7 +2,7 @@ import { Separator } from "@/components/ui/separator";
 import { getCurrentSession } from "@/lib/auth/session";
 import { notFound, redirect } from "next/navigation";
 import { ShiftHoursForm } from "./ShiftHoursForm";
-import { getShiftHours, getStartCash } from "@/data/store";
+import { getShiftHours, getStartCash } from "@/data-access/store";
 import { StartCashForm } from "./StartCashForm";
 import { hasAccess } from "@/utils/access-control";
 

@@ -2,7 +2,7 @@ import { getCurrentSession } from "@/lib/auth/session";
 import { notFound, redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { getReportByDate } from "@/data/report";
+import { getReportByDate } from "@/data-access/report";
 import { CircleCheck } from "lucide-react";
 import { SaleReportCard } from "@/components/SaleReportCard";
 import { SaleReportCardProcessedData, SaleReportCardRawData } from "@/types";

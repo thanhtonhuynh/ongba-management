@@ -1,6 +1,6 @@
 "use server";
 
-import { getReportByDate } from "@/data/report";
+import { getReportByDate } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import {
   SearchReportInput,

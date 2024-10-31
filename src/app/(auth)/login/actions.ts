@@ -6,7 +6,10 @@ import {
   generateSessionToken,
   setSessionTokenCookie,
 } from "@/lib/auth/session";
-import { getUserByEmailOrUsername, getUserPasswordHash } from "@/data/users";
+import {
+  getUserByEmailOrUsername,
+  getUserPasswordHash,
+} from "@/data-access/user";
 import { verifyPassword } from "@/lib/auth/password";
 import { isRedirectError } from "next/dist/client/components/redirect";
 // import {

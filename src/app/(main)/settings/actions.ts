@@ -6,7 +6,7 @@ import {
   getUserPasswordHash,
   updateUser,
   updateUserPassword,
-} from "@/data/users";
+} from "@/data-access/user";
 import { verifyPassword } from "@/lib/auth/password";
 import {
   getCurrentSession,

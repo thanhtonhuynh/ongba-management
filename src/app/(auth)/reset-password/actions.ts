@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 import { invalidateUserSessions } from "@/lib/auth/session";
-import { updateUser, updateUserPassword } from "@/data/users";
+import { updateUser, updateUserPassword } from "@/data-access/user";
 import {
   ResetPasswordSchema,
   ResetPasswordSchemaTypes,

@@ -1,6 +1,6 @@
 "use server";
 
-import { updateEmployeeStatus } from "@/data/employee";
+import { updateUser } from "@/data-access/user";
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasAccess } from "@/utils/access-control";
 import { revalidatePath } from "next/cache";
@@ -16,7 +16,7 @@ export async function reactivateUserAction(userId: string) {
       return { error: "Unauthorized" };
     }
 
-    await updateEmployeeStatus(userId, "active");
+    await updateUser(userId, { accountStatus: "active" });
 
     revalidatePath("/admin/employees/deactivated");
     return {};

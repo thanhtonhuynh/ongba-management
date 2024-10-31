@@ -1,4 +1,4 @@
-import { getUserShiftsInDateRange } from "@/data/employee";
+import { getUserShiftsInDateRange } from "@/data-access/employee";
 import { User } from "@/lib/auth/session";
 import { formatPriceWithDollar } from "@/lib/utils";
 import { DayRange, UserShift } from "@/types";

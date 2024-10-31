@@ -2,10 +2,7 @@ import { getCurrentSession } from "@/lib/auth/session";
 import { hasAccess } from "@/utils/access-control";
 import { notFound, redirect } from "next/navigation";
 import { HoursTipsTable } from "./_components/HoursTipsTable";
-import {
-  getAllEmployeeShiftsInDayRange,
-  // getTotalHoursTipsInDayRange,
-} from "@/data/employee";
+import { getAllEmployeeShiftsInDayRange } from "@/data-access/employee";
 import {
   getHoursTipsBreakdownInDayRange,
   getTodayBiweeklyPeriod,
@@ -21,7 +18,6 @@ export default async function Page() {
   if (!hasAccess(user.role, "/admin/hours&tips")) return notFound();
 
   const todayBiweeklyPeriod = getTodayBiweeklyPeriod();
-  // const totalHoursTips = await getTotalHoursTipsInDayRange(todayBiweeklyPeriod);
   const employeeShifts =
     await getAllEmployeeShiftsInDayRange(todayBiweeklyPeriod);
 

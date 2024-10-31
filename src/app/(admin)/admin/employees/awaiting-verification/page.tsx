@@ -1,4 +1,4 @@
-import { getEmployees } from "@/data/employee";
+import { getEmployees } from "@/data-access/employee";
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasAccess } from "@/utils/access-control";
 import { notFound, redirect } from "next/navigation";

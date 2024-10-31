@@ -1,3 +1,4 @@
+import "server-only";
 import prisma from "@/lib/prisma";
 import { CreateReportSchemaInput } from "@/lib/validations/report";
 import { getFullDayHours, getStartCash } from "./store";
