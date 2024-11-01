@@ -26,8 +26,9 @@ export async function signUpAction(data: SignupSchemaTypes) {
         key: "unauthenticated-global",
         limit: 10,
         interval: 10000,
-      })) ||
-      !(await rateLimitByIp({ key: "signup", limit: 3, interval: 30000 }))
+      }))
+      // })) ||
+      // !(await rateLimitByIp({ key: "signup", limit: 3, interval: 30000 }))
     ) {
       return { error: "Too many requests. Please try again later." };
     }
