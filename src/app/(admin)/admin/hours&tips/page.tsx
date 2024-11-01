@@ -47,8 +47,8 @@ export default async function Page() {
       <h2 className="gap-2 font-semibold sm:flex sm:items-baseline">
         <p>Current biweekly period:</p>
         <p className="text-sm font-medium">
-          {moment(todayBiweeklyPeriod.start).format("MMM D, YYYY HH:mm:ss")} -{" "}
-          {moment(todayBiweeklyPeriod.end).format("MMM D, YYYY HH:mm:ss")}
+          {moment(todayBiweeklyPeriod.start).format("MMM D, YYYY")} -{" "}
+          {moment(todayBiweeklyPeriod.end).format("MMM D, YYYY")}
         </p>
       </h2>
 
