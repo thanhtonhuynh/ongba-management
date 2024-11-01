@@ -18,7 +18,6 @@ export default async function Page() {
   if (!hasAccess(user.role, "/admin/hours&tips")) return notFound();
 
   const todayBiweeklyPeriod = getTodayBiweeklyPeriod();
-  console.log(todayBiweeklyPeriod);
   const employeeShifts =
     await getAllEmployeeShiftsInDayRange(todayBiweeklyPeriod);
 
