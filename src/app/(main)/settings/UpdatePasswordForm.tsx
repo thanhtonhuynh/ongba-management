@@ -20,18 +20,13 @@ import {
   UpdatePasswordSchemaInput,
 } from "@/lib/validations/auth";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";
-import { User } from "@/lib/auth/session";
 
-type ResetPasswordFormProps = {
-  user: User;
-};
-
-export function UpdatePasswordForm({ user }: ResetPasswordFormProps) {
+export function UpdatePasswordForm() {
   const [isPending, startTransition] = useTransition();
   const form = useForm<UpdatePasswordSchemaInput>({
     resolver: zodResolver(UpdatePasswordSchema),
+    mode: "onBlur",
     defaultValues: {
       currentPassword: "",
       newPassword: "",
@@ -39,7 +34,6 @@ export function UpdatePasswordForm({ user }: ResetPasswordFormProps) {
       logOutOtherDevices: true,
     },
   });
-  const router = useRouter();
 
   async function onSubmit(data: UpdatePasswordSchemaInput) {
     startTransition(async () => {
@@ -47,6 +41,8 @@ export function UpdatePasswordForm({ user }: ResetPasswordFormProps) {
       if (error) toast.error(error);
       else toast.success("Password updated.");
     });
+
+    form.reset();
   }
 
   return (

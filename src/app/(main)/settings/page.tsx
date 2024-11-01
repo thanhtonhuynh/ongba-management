@@ -1,4 +1,3 @@
-import { Container } from "@/components/Container";
 import { Separator } from "@/components/ui/separator";
 import { getCurrentSession } from "@/lib/auth/session";
 import { notFound, redirect } from "next/navigation";
@@ -29,7 +28,7 @@ export default async function Page() {
 
       <UpdateEmailForm user={user} />
 
-      <UpdatePasswordForm user={user} />
+      <UpdatePasswordForm />
     </section>
   );
 }
