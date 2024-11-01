@@ -17,9 +17,21 @@ import {
   setSessionTokenCookie,
 } from "@/lib/auth/session";
 import { SignupSchema, SignupSchemaTypes } from "@/lib/validations/auth";
+import { rateLimitByIp, rateLimitByKey } from "@/utils/rate-limiter";
 
 export async function signUpAction(data: SignupSchemaTypes) {
   try {
+    if (
+      !(await rateLimitByKey({
+        key: "unauthenticated-global",
+        limit: 10,
+        interval: 10000,
+      })) ||
+      !(await rateLimitByIp({ key: "signup", limit: 3, interval: 30000 }))
+    ) {
+      return { error: "Too many requests. Please try again later." };
+    }
+
     const { name, username, email, password } = SignupSchema.parse(data);
 
     const existingEmail = await getUserByEmail(email);
