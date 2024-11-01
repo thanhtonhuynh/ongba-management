@@ -17,10 +17,21 @@ import { isRedirectError } from "next/dist/client/components/redirect";
 //   setEmailVerificationRequestCookie,
 // } from '@/lib/email-verification';
 import { LoginSchema, LoginSchemaTypes } from "@/lib/validations/auth";
+import { rateLimitByKey, unauthenticatedRateLimit } from "@/utils/rate-limiter";
 
 export async function loginAction(data: LoginSchemaTypes) {
   try {
+    if (!(await unauthenticatedRateLimit())) {
+      return { error: "Too many requests. Please try again later." };
+    }
+
     const { identifier, password } = LoginSchema.parse(data);
+
+    if (
+      !(await rateLimitByKey({ key: identifier, limit: 3, interval: 10000 }))
+    ) {
+      return { error: "Too many requests. Please try again later." };
+    }
 
     const existingUser = await getUserByEmailOrUsername(identifier);
     if (!existingUser) {

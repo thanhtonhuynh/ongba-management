@@ -2,6 +2,7 @@ import "server-only";
 import { hashPassword } from "@/lib/auth/password";
 import prisma from "@/lib/prisma";
 import { User } from "@/lib/auth/session";
+import { cache } from "react";
 
 // Create User
 export async function createUser(
@@ -18,48 +19,48 @@ export async function createUser(
 }
 
 // Get All Users
-export async function getAllUsers() {
-  const users = await prisma.user.findMany();
-  return users as User[];
-}
+// export async function getAllUsers() {
+//   const users = await prisma.user.findMany();
+//   return users as User[];
+// }
 
 // Get User By ID
-export async function getUserById(userId: string) {
+export const getUserById = cache(async (userId: string) => {
   const user = await prisma.user.findUnique({ where: { id: userId } });
   return user as User | null;
-}
+});
 
 // Get User By Email
-export async function getUserByEmail(email: string) {
+export const getUserByEmail = cache(async (email: string) => {
   const user = await prisma.user.findUnique({ where: { email } });
   return user as User | null;
-}
+});
 
 // Get User By Username
-export async function getUserByUsername(username: string) {
+export const getUserByUsername = cache(async (username: string) => {
   const user = await prisma.user.findUnique({ where: { username } });
   return user as User | null;
-}
+});
 
 // Get User By Email Or Username
-export async function getUserByEmailOrUsername(identifier: string) {
+export const getUserByEmailOrUsername = cache(async (identifier: string) => {
   const user = await prisma.user.findFirst({
     where: {
       OR: [{ email: identifier }, { username: identifier }],
     },
   });
   return user as User | null;
-}
+});
 
 // Get User Password Hash
-export async function getUserPasswordHash(userId: string) {
+export const getUserPasswordHash = cache(async (userId: string) => {
   const user = await prisma.user.findUnique({
     where: { id: userId },
     select: { passwordHash: true },
   });
   if (!user) throw new Error("Invalid user ID");
   return user.passwordHash;
-}
+});
 
 // Update User
 export async function updateUser(userId: string, data: Partial<User>) {

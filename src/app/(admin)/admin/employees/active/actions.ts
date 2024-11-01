@@ -7,6 +7,7 @@ import {
   UpdateEmployeeRoleSchema,
 } from "@/lib/validations/employee";
 import { canDeactivateUser, hasAccess } from "@/utils/access-control";
+import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { revalidatePath } from "next/cache";
 
 export async function deactivateUserAction(userId: string) {
@@ -18,6 +19,10 @@ export async function deactivateUserAction(userId: string) {
       !hasAccess(user.role, "/admin/employees", "update")
     ) {
       return { error: "Unauthorized" };
+    }
+
+    if (!(await authenticatedRateLimit(user.id))) {
+      return { error: "Too many requests. Please try again later." };
     }
 
     const targetUser = await getUserById(userId);
@@ -49,6 +54,10 @@ export async function updateUserRoleAction(data: UpdateEmployeeRoleInput) {
       !hasAccess(user.role, "/admin/employees", "update")
     ) {
       return { error: "Unauthorized" };
+    }
+
+    if (!(await authenticatedRateLimit(user.id))) {
+      return { error: "Too many requests. Please try again later." };
     }
 
     const { userId, role } = UpdateEmployeeRoleSchema.parse(data);

@@ -10,12 +10,20 @@ import {
 import moment from "moment";
 import { DataTable } from "./_components/DataTable";
 import { TotalHoursTips } from "@/types";
+import { authenticatedRateLimit } from "@/utils/rate-limiter";
+import { ErrorMessage } from "@/components/Message";
 
 export default async function Page() {
   const { session, user } = await getCurrentSession();
   if (!session) redirect("/login");
   if (user.accountStatus !== "active") return notFound();
   if (!hasAccess(user.role, "/admin/hours&tips")) return notFound();
+
+  if (!(await authenticatedRateLimit(user.id))) {
+    return (
+      <ErrorMessage message="Too many requests. Please try again later." />
+    );
+  }
 
   const todayBiweeklyPeriod = getTodayBiweeklyPeriod();
   const employeeShifts =

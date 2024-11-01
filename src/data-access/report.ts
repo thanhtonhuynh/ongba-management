@@ -103,7 +103,7 @@ export const getFirstReportDate = cache(async () => {
 });
 
 // Get reports by date range
-export async function getReportsByDateRange(dateRange: DayRange) {
+export const getReportsByDateRange = cache(async (dateRange: DayRange) => {
   const reports = await prisma.saleReport.findMany({
     where: {
       date: { gte: dateRange.start, lte: dateRange.end },
@@ -123,4 +123,4 @@ export async function getReportsByDateRange(dateRange: DayRange) {
   });
 
   return reports;
-}
+});

@@ -8,6 +8,7 @@ import {
 } from "@/lib/validations/report";
 import { isISOString } from "@/lib/utils";
 import { hasAccess } from "@/utils/access-control";
+import { authenticatedRateLimit, rateLimitByKey } from "@/utils/rate-limiter";
 
 export async function createReportAction(
   data: CreateReportSchemaInput,
@@ -21,6 +22,20 @@ export async function createReportAction(
       !hasAccess(user.role, "/report/new")
     ) {
       return { error: "Unauthorized." };
+    }
+
+    if (!(await authenticatedRateLimit(user.id))) {
+      return { error: "Too many requests. Please try again later." };
+    }
+
+    if (
+      !(await rateLimitByKey({
+        key: `${user.id}-create-report`,
+        limit: 3,
+        interval: 30000,
+      }))
+    ) {
+      return { error: "Too many requests. Please try again later." };
     }
 
     const parsedData = CreateReportSchema.parse(data);

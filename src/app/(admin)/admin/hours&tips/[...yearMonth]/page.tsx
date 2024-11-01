@@ -15,6 +15,7 @@ import { GoBackButton } from "@/components/GoBackButton";
 import { DataTable } from "../_components/DataTable";
 import { Separator } from "@/components/ui/separator";
 import { TotalHoursTips } from "@/types";
+import { authenticatedRateLimit } from "@/utils/rate-limiter";
 
 type Params = Promise<{ yearMonth: string[] }>;
 
@@ -24,13 +25,16 @@ export default async function Page(props: { params: Params }) {
   if (user.accountStatus !== "active") return notFound();
   if (!hasAccess(user.role, "/admin/hours&tips")) return notFound();
 
+  if (!(await authenticatedRateLimit(user.id))) {
+    return (
+      <ErrorMessage message="Too many requests. Please try again later." />
+    );
+  }
+
   const params = await props.params;
   if (params.yearMonth.length !== 2) {
     return (
-      <ErrorMessage
-        className="self-start"
-        message="Invalid year or month. Please check the URL and try again."
-      />
+      <ErrorMessage message="Invalid year or month. Please check the URL and try again." />
     );
   }
 
@@ -50,10 +54,7 @@ export default async function Page(props: { params: Params }) {
     year > currentYear
   ) {
     return (
-      <ErrorMessage
-        className="self-start"
-        message="Invalid year or month. Please check the URL and try again."
-      />
+      <ErrorMessage message="Invalid year or month. Please check the URL and try again." />
     );
   }
 

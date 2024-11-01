@@ -13,6 +13,7 @@ import moment from "moment-timezone";
 import { getReportsByDateRange } from "@/data-access/report";
 import { CashFlowTable } from "./CashflowTable";
 import { processCashFlowData } from "@/utils/cashflow";
+import { authenticatedRateLimit } from "@/utils/rate-limiter";
 
 type SearchParams = Promise<{
   year: string;
@@ -24,6 +25,12 @@ export default async function Page(props: { searchParams: SearchParams }) {
   if (!session) redirect("/login");
   if (user.accountStatus !== "active") return notFound();
   if (!hasAccess(user.role, "/admin/cashflow")) return notFound();
+
+  if (!(await authenticatedRateLimit(user.id))) {
+    return (
+      <ErrorMessage message="Too many requests. Please try again later." />
+    );
+  }
 
   const searchParams = await props.searchParams;
 

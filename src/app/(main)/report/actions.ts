@@ -7,6 +7,7 @@ import {
   SearchReportSchema,
 } from "@/lib/validations/report";
 import { SaleReportCardRawData } from "@/types";
+import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { processReportDataForView } from "@/utils/report";
 
 export async function searchReportAction(data: SearchReportInput) {
@@ -14,6 +15,13 @@ export async function searchReportAction(data: SearchReportInput) {
     const { user } = await getCurrentSession();
     if (!user || user.accountStatus !== "active") {
       return { error: "Unauthorized.", processedReport: null };
+    }
+
+    if (!(await authenticatedRateLimit(user.id))) {
+      return {
+        error: "Too many requests. Please try again later.",
+        processedReport: null,
+      };
     }
 
     const { date } = SearchReportSchema.parse(data);

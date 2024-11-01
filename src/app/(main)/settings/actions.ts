@@ -26,6 +26,7 @@ import {
 } from "@/lib/validations/auth";
 import { deleteImage, uploadImage } from "@/lib/firebase/storage";
 import { revalidatePath } from "next/cache";
+import { authenticatedRateLimit } from "@/utils/rate-limiter";
 
 // Update name
 export async function updateNameAction(data: UpdateNameSchemaInput) {
@@ -33,6 +34,10 @@ export async function updateNameAction(data: UpdateNameSchemaInput) {
     const { user } = await getCurrentSession();
     if (!user || user.accountStatus !== "active") {
       return { error: "Unauthorized." };
+    }
+
+    if (!(await authenticatedRateLimit(user.id))) {
+      return { error: "Too many requests. Please try again later." };
     }
 
     const { name } = UpdateNameSchema.parse(data);
@@ -53,6 +58,10 @@ export async function updateUsernameAction(data: UpdateUsernameSchemaInput) {
     const { user } = await getCurrentSession();
     if (!user || user.accountStatus !== "active") {
       return { error: "Unauthorized." };
+    }
+
+    if (!(await authenticatedRateLimit(user.id))) {
+      return { error: "Too many requests. Please try again later." };
     }
 
     const { username } = UpdateUsernameSchema.parse(data);
@@ -84,6 +93,10 @@ export async function updateEmailAction(data: UpdateEmailSchemaInput) {
       return { error: "Unauthorized." };
     }
 
+    if (!(await authenticatedRateLimit(user.id))) {
+      return { error: "Too many requests. Please try again later." };
+    }
+
     const { email } = UpdateEmailSchema.parse(data);
 
     if (email === user.email) {
@@ -111,6 +124,10 @@ export async function updatePasswordAction(data: UpdatePasswordSchemaInput) {
     const { session, user } = await getCurrentSession();
     if (!user || user.accountStatus !== "active") {
       return { error: "Unauthorized." };
+    }
+
+    if (!(await authenticatedRateLimit(user.id))) {
+      return { error: "Too many requests. Please try again later." };
     }
 
     const { currentPassword, newPassword, logOutOtherDevices } =
@@ -144,6 +161,10 @@ export async function updateAvatarAction(data: UpdateAvatarSchemaInput) {
     const { user } = await getCurrentSession();
     if (!user || user.accountStatus !== "active") {
       return { error: "Unauthorized." };
+    }
+
+    if (!(await authenticatedRateLimit(user.id))) {
+      return { error: "Too many requests. Please try again later." };
     }
 
     const { image } = UpdateAvatarSchema.parse(data);

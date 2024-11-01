@@ -36,8 +36,6 @@ export async function rateLimitByIp({
     return false;
   }
 
-  console.log("ip", ip);
-
   return await rateLimitByKey({ key: `${ip}:${key}`, limit, interval });
 }
 
@@ -64,4 +62,20 @@ export async function rateLimitByKey({
   }
 
   return true;
+}
+
+export async function authenticatedRateLimit(userId: string) {
+  return await rateLimitByKey({
+    key: `${userId}-global`,
+    limit: 10,
+    interval: 10000,
+  });
+}
+
+export async function unauthenticatedRateLimit() {
+  return await rateLimitByKey({
+    key: "unauthenticated-global",
+    limit: 10,
+    interval: 10000,
+  });
 }

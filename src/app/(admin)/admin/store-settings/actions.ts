@@ -9,6 +9,7 @@ import {
   UpdateStartCashSchema,
 } from "@/lib/validations/store";
 import { hasAccess } from "@/utils/access-control";
+import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { revalidatePath } from "next/cache";
 
 export async function updateShiftHours(data: UpdateShiftHoursInput) {
@@ -20,6 +21,10 @@ export async function updateShiftHours(data: UpdateShiftHoursInput) {
       !hasAccess(user.role, "/admin/store-settings", "update")
     ) {
       return { error: "Unauthorized." };
+    }
+
+    if (!(await authenticatedRateLimit(user.id))) {
+      return { error: "Too many requests. Please try again later." };
     }
 
     const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } =
@@ -52,6 +57,10 @@ export async function updateStartCash(data: UpdateStartCashInput) {
       !hasAccess(user.role, "/admin/store-settings", "update")
     ) {
       return { error: "Unauthorized." };
+    }
+
+    if (!(await authenticatedRateLimit(user.id))) {
+      return { error: "Too many requests. Please try again later." };
     }
 
     const { startCash } = UpdateStartCashSchema.parse(data);

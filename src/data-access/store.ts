@@ -1,8 +1,9 @@
 import "server-only";
 import prisma from "@/lib/prisma";
 import { StoreSettings } from "@prisma/client";
+import { cache } from "react";
 
-export async function getShiftHours() {
+export const getShiftHours = cache(async () => {
   const storeSettings = await prisma.storeSettings.findFirst();
 
   if (!storeSettings) {
@@ -18,9 +19,9 @@ export async function getShiftHours() {
     saturday: storeSettings.saturdayShift,
     sunday: storeSettings.sundayShift,
   };
-}
+});
 
-export async function getFullDayHours(day: string) {
+export const getFullDayHours = cache(async (day: string) => {
   const storeSettings = await prisma.storeSettings.findFirst();
 
   if (!storeSettings) {
@@ -34,9 +35,9 @@ export async function getFullDayHours(day: string) {
   if (day === "friday") return storeSettings.fridayShift;
   if (day === "saturday") return storeSettings.saturdayShift;
   return storeSettings.sundayShift;
-}
+});
 
-export async function getStartCash() {
+export const getStartCash = cache(async () => {
   const storeSettings = await prisma.storeSettings.findFirst();
 
   if (!storeSettings) {
@@ -44,7 +45,7 @@ export async function getStartCash() {
   }
 
   return storeSettings.startCash;
-}
+});
 
 export async function updateStoreSettings(data: Partial<StoreSettings>) {
   const storeSettings = await prisma.storeSettings.findFirst();

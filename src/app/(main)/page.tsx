@@ -11,11 +11,19 @@ import { hasAccess } from "@/utils/access-control";
 import { ClientTimeDisplay } from "@/components/ClientTimeDisplay";
 import moment from "moment-timezone";
 import { EmployeeAnalytics } from "./EmployeeAnalytics";
+import { authenticatedRateLimit } from "@/utils/rate-limiter";
+import { ErrorMessage } from "@/components/Message";
 
 export default async function Home() {
   const { session, user } = await getCurrentSession();
   if (!session) redirect("/login");
   if (user.accountStatus !== "active") return notFound();
+
+  if (!(await authenticatedRateLimit(user.id))) {
+    return (
+      <ErrorMessage message="Too many requests. Please try again later." />
+    );
+  }
 
   const today = moment().tz("America/Vancouver").startOf("day").toDate();
   const todayReport = await getReportByDate(today);
