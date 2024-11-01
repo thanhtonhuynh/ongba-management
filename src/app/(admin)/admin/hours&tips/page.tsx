@@ -18,6 +18,7 @@ export default async function Page() {
   if (!hasAccess(user.role, "/admin/hours&tips")) return notFound();
 
   const todayBiweeklyPeriod = getTodayBiweeklyPeriod();
+  console.log(todayBiweeklyPeriod);
   const employeeShifts =
     await getAllEmployeeShiftsInDayRange(todayBiweeklyPeriod);
 
@@ -47,8 +48,8 @@ export default async function Page() {
       <h2 className="gap-2 font-semibold sm:flex sm:items-baseline">
         <p>Current biweekly period:</p>
         <p className="text-sm font-medium">
-          {moment(todayBiweeklyPeriod.start).format("MMM D, YYYY")} -{" "}
-          {moment(todayBiweeklyPeriod.end).format("MMM D, YYYY")}
+          {moment(todayBiweeklyPeriod.start).format("MMM D, YYYY HH:mm:ss")} -{" "}
+          {moment(todayBiweeklyPeriod.end).format("MMM D, YYYY HH:mm:ss")}
         </p>
       </h2>
 
