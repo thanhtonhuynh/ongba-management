@@ -13,7 +13,7 @@ export default async function Footer() {
             alt="Ongba Logo"
             width={30}
             height={30}
-            className="aspect-square object-cover"
+            className="aspect-square object-cover dark:invert"
           />
           ONGBA
         </Link>
