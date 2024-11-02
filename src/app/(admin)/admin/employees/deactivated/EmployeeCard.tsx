@@ -16,7 +16,7 @@ type EmployeeCardProps = {
 
 export function EmployeeCard({ user }: EmployeeCardProps) {
   return (
-    <Card>
+    <Card className="flex flex-col justify-center">
       <CardHeader className="mb-2 px-4 py-2">
         <CardTitle className="flex items-center gap-2 text-sm">
           {user.image && <ProfilePicture image={user.image} size={40} />}

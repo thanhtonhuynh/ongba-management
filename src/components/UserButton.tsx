@@ -14,6 +14,7 @@ import { User } from "@/lib/auth/session";
 import { logoutAction } from "@/app/(auth)/actions";
 import { hasAccess } from "@/utils/access-control";
 import { ProfilePicture } from "./ProfilePicture";
+import { ModeToggle } from "./ModeToggle";
 
 interface UserButtonProps {
   user: User;
@@ -44,6 +45,7 @@ export default function UserButton({ user }: UserButtonProps) {
         </DropdownMenuLabel>
 
         <DropdownMenuSeparator />
+
         {user.accountStatus === "active" && (
           <>
             <DropdownMenuGroup>
@@ -67,6 +69,14 @@ export default function UserButton({ user }: UserButtonProps) {
             <DropdownMenuSeparator />
           </>
         )}
+
+        <DropdownMenuGroup className="sm:hidden">
+          <DropdownMenuItem asChild>
+            <ModeToggle />
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+
+        <DropdownMenuSeparator className="sm:hidden" />
 
         <DropdownMenuItem asChild>
           <form action={logoutAction}>

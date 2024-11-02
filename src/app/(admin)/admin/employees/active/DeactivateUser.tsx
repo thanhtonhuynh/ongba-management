@@ -38,7 +38,7 @@ export function DeactivateUser({ user }: DeactivateUserProps) {
         <Button
           variant={"outline"}
           size={`sm`}
-          className="text-destructive hover:bg-destructive hover:text-secondary"
+          className="border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
         >
           Deactivate
         </Button>

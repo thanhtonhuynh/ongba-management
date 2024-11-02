@@ -21,7 +21,7 @@ export async function EmployeeCard({ employee }: EmployeeCardProps) {
   if (!user) return null;
 
   return (
-    <Card>
+    <Card className="flex flex-col justify-center">
       <CardHeader className="mb-2 px-4 py-2">
         <CardTitle className="flex items-center gap-2 text-sm">
           {employee.image && (

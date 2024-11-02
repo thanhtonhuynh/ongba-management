@@ -38,7 +38,7 @@ export function ReactivateUser({ user }: ReactivateUser) {
         <Button
           variant={"outline"}
           size={`sm`}
-          className="text-yellow-600 hover:bg-yellow-500 hover:text-white"
+          className="border-warning text-warning hover:bg-warning hover:text-warning-foreground"
         >
           Reactivate
         </Button>
@@ -53,7 +53,7 @@ export function ReactivateUser({ user }: ReactivateUser) {
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
-            className="bg-yellow-500 hover:bg-yellow-400"
+            className="bg-warning hover:bg-warning/80 text-warning-foreground"
             onClick={handleReactivate}
             disabled={isPending}
           >

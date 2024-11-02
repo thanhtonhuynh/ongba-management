@@ -38,7 +38,7 @@ export function VerifyUser({ user }: VerifyUserProps) {
         <Button
           variant={"outline"}
           size={`sm`}
-          className="text-green-500 hover:bg-green-500 hover:text-secondary"
+          className="border-success text-success hover:bg-success hover:text-success-foreground"
         >
           Grant access
         </Button>
@@ -54,7 +54,7 @@ export function VerifyUser({ user }: VerifyUserProps) {
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
-            className="bg-green-500 hover:bg-green-400"
+            className="bg-success hover:bg-success/80 text-success-foreground"
             onClick={handleVerify}
             disabled={isPending}
           >

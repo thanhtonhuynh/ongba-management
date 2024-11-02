@@ -8,7 +8,7 @@ type EmployeeCardProps = {
 
 export function EmployeeCard({ user }: EmployeeCardProps) {
   return (
-    <Card>
+    <Card className="flex flex-col justify-center">
       <CardHeader className="px-4 py-2">
         <CardTitle className="text-sm">
           {user.name}{" "}

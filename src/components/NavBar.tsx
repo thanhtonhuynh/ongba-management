@@ -5,6 +5,7 @@ import { getCurrentSession } from "@/lib/auth/session";
 import Image from "next/image";
 import ongbaIcon from "@/assets/ongbaIcon.png";
 import { NavLink } from "./Nav";
+import { ModeToggle } from "./ModeToggle";
 
 export default async function NavBar() {
   const { user } = await getCurrentSession();
@@ -19,7 +20,7 @@ export default async function NavBar() {
               alt="Ongba Logo"
               width={40}
               height={40}
-              className="aspect-square object-cover"
+              className="aspect-square object-cover dark:invert"
             />
             <span className="text-xl tracking-wider">ONGBA</span>
           </Link>
@@ -27,13 +28,19 @@ export default async function NavBar() {
           <NavLink href={`/report`}>Sale Reports</NavLink>
         </div>
 
-        {user ? (
-          <UserButton user={user} />
-        ) : (
-          <Button asChild>
-            <Link href={`/login`}>Login</Link>
-          </Button>
-        )}
+        <div className="flex items-center space-x-2">
+          <div className="hidden sm:block">
+            <ModeToggle />
+          </div>
+
+          {user ? (
+            <UserButton user={user} />
+          ) : (
+            <Button asChild>
+              <Link href={`/login`}>Login</Link>
+            </Button>
+          )}
+        </div>
       </nav>
     </header>
   );

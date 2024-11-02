@@ -8,10 +8,10 @@ export function EmployeeRoleTag({ role }: EmployeeRoleTagProps) {
   return (
     <span
       className={cn(
-        `select-none rounded-full border px-2 py-[1px] text-xs font-medium capitalize`,
-        role === "admin" && "border-brick text-brick",
-        role === "manager" && "border-prosper text-prosper",
-        (role === "chef" || role === "server") && "border-primary text-primary",
+        `select-none rounded-full px-2 py-[2px] text-xs font-medium capitalize`,
+        role === "admin" && "bg-muted text-yellow-500",
+        role === "manager" && "bg-muted text-blue-500",
+        (role === "chef" || role === "server") && "bg-muted text-primary",
         role === "unassigned role" && "bg-muted text-muted-foreground",
       )}
     >

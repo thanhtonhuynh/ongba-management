@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import { SessionProvider } from "@/contexts/SessionProvider";
 import { getCurrentSession } from "@/lib/auth/session";
+import { ThemeProvider } from "@/contexts/ThemeProvider";
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
@@ -28,14 +29,16 @@ export default async function RootLayout({
   const { session, user } = await getCurrentSession();
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} !p-0 font-sans antialiased`}
       >
-        <SessionProvider value={{ session, user }}>
-          {children}
-          <Toaster richColors />
-        </SessionProvider>
+        <ThemeProvider>
+          <SessionProvider value={{ session, user }}>
+            {children}
+          </SessionProvider>
+        </ThemeProvider>
+        <Toaster richColors />
       </body>
     </html>
   );
