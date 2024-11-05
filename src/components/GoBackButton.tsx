@@ -18,7 +18,7 @@ export function GoBackButton({ className, url, ...props }: GoBackButtonProps) {
       {...props}
       onClick={() => (url ? router.push(url) : router.back())}
     >
-      <ArrowLeft size={15} />
+      <ArrowLeft size={props.size === "sm" ? 12 : 15} />
       {props.children}
     </Button>
   );

@@ -25,11 +25,14 @@ export function NavLink(props: Omit<ComponentProps<typeof Link>, "className">) {
     <Button
       asChild
       variant={`link`}
-      className={cn("font-normal", !isActive && "text-muted-foreground")}
+      className={cn(
+        "ml-2 px-2 text-blue-500 transition-colors",
+        !isActive && "font-normal text-muted-foreground hover:text-primary",
+      )}
     >
       <Link
         {...props}
-        className={cn(isActive && "cursor-default bg-muted hover:no-underline")}
+        className={cn("hover:no-underline", isActive && "cursor-default")}
       />
     </Button>
   );

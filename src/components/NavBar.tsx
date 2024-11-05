@@ -13,8 +13,8 @@ export default async function NavBar() {
   return (
     <header className="sticky top-0 z-10 mb-4 border-b bg-background px-3 shadow-sm">
       <nav className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between gap-3">
-        <div className="flex items-center space-x-4">
-          <Link href="/" className="flex items-center space-x-1 font-bold">
+        <div className="flex items-center">
+          <Link href="/" className="mr-4 flex items-center space-x-1 font-bold">
             <Image
               src={ongbaIcon}
               alt="Ongba Logo"
@@ -26,6 +26,8 @@ export default async function NavBar() {
           </Link>
 
           <NavLink href={`/report`}>Sale Reports</NavLink>
+
+          <NavLink href={`/my-shifts`}>My Shifts</NavLink>
         </div>
 
         <div className="flex items-center space-x-2">
