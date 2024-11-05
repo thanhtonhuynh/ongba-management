@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form";
 import moment from "moment";
 import { Calendar } from "@/components/ui/calendar";
-import { LoadingButton } from "@/components/LoadingButton";
+import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { ErrorMessage } from "@/components/Message";
 import { SaleReportCard } from "@/components/SaleReportCard";
 

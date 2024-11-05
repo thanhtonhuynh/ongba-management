@@ -13,7 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { LoadingButton } from "@/components/LoadingButton";
+import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { PasswordInput } from "@/components/PasswordInput";
 import {
   UpdatePasswordSchema,

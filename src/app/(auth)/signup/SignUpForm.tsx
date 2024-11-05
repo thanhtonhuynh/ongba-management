@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { PasswordInput } from "@/components/PasswordInput";
-import { LoadingButton } from "@/components/LoadingButton";
+import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { ErrorMessage } from "@/components/Message";
 import { signUpAction } from "./actions";
 import { SignupSchema, SignupSchemaTypes } from "@/lib/validations/auth";

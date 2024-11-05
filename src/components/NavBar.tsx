@@ -1,5 +1,5 @@
 import Link from "next/link";
-import UserButton from "./UserButton";
+import UserButton from "@/components/buttons/UserButton";
 import { Button } from "./ui/button";
 import { getCurrentSession } from "@/lib/auth/session";
 import Image from "next/image";

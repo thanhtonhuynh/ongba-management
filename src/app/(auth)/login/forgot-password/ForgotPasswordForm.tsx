@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { LoadingButton } from "@/components/LoadingButton";
+import { LoadingButton } from "@/components/buttons/LoadingButton";
 import {
   ForgotPasswordSchema,
   ForgotPasswordSchemaTypes,

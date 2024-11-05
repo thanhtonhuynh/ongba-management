@@ -29,7 +29,7 @@ import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
 import { useRouter } from "next/navigation";
-import { LoadingButton } from "@/components/LoadingButton";
+import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { useForm } from "react-hook-form";
 import {
   ViewPastPeriodsInput,

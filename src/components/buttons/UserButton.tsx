@@ -1,6 +1,6 @@
 import { Lock, LogOut, Settings, UserRound } from "lucide-react";
 import Link from "next/link";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,12 +9,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import { User } from "@/lib/auth/session";
 import { logoutAction } from "@/app/(auth)/actions";
 import { hasAccess } from "@/utils/access-control";
-import { ProfilePicture } from "./ProfilePicture";
-import { ModeToggle } from "./ModeToggle";
+import { ProfilePicture } from "@/components/ProfilePicture";
+import { ModeToggle } from "@/components/ModeToggle";
 
 interface UserButtonProps {
   user: User;

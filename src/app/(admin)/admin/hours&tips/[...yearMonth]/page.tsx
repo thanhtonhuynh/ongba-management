@@ -11,7 +11,7 @@ import { HoursTipsTable } from "../_components/HoursTipsTable";
 import { getAllEmployeeShiftsInDayRange } from "@/data-access/employee";
 import { ErrorMessage } from "@/components/Message";
 import { getFirstReportDate } from "@/data-access/report";
-import { GoBackButton } from "@/components/GoBackButton";
+import { GoBackButton } from "@/components/buttons/GoBackButton";
 import { DataTable } from "../_components/DataTable";
 import { Separator } from "@/components/ui/separator";
 import { TotalHoursTips } from "@/types";

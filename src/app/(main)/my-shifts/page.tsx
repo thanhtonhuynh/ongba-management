@@ -1,9 +1,9 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
-import { GoBackButton } from "@/components/GoBackButton";
+import { GoBackButton } from "@/components/buttons/GoBackButton";
 import { ErrorMessage } from "@/components/Message";
 import { Separator } from "@/components/ui/separator";
 import { UserShiftTable } from "@/components/UserShiftTable";
-import { ViewPeriodsDialog } from "@/components/ViewPeriodsDialog";
+import { ViewPeriodsDialog } from "@/app/(main)/my-shifts/ViewPeriodsDialog";
 import { getUserShiftsInDateRange } from "@/data-access/employee";
 import { getCurrentSession } from "@/lib/auth/session";
 import { formatPriceWithDollar } from "@/lib/utils";
@@ -13,7 +13,7 @@ import {
   populateMonthSelectData,
 } from "@/utils/hours-tips";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import { ArrowRight, ChevronRight, MoveRight } from "lucide-react";
+import { MoveRight } from "lucide-react";
 import moment from "moment";
 import { notFound, redirect } from "next/navigation";
 

@@ -36,7 +36,7 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { updateUserRoleAction } from "./actions";
 import { toast } from "sonner";
-import { LoadingButton } from "@/components/LoadingButton";
+import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { useSession } from "@/contexts/SessionProvider";
 
 type ChangeUserRoleDialogProps = {

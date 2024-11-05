@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/form";
 import { ErrorMessage, SuccessMessage } from "@/components/Message";
 import { Input } from "@/components/ui/input";
-import { LoadingButton } from "@/components/LoadingButton";
+import { LoadingButton } from "@/components/buttons/LoadingButton";
 
 type ShiftHoursFormProps = {
   currentStartCash: number;
