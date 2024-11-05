@@ -13,21 +13,21 @@ import { CashType } from "@/types";
 import { UseFormReturn } from "react-hook-form";
 
 const moneyValues = new Map([
-  ["coin2", { label: "$2", value: 2 }],
-  ["coin1", { label: "$1", value: 1 }],
+  ["coin2", { label: "$2", value: 2.0 }],
+  ["coin1", { label: "$1", value: 1.0 }],
   ["coin25c", { label: "25c", value: 0.25 }],
   ["coin10c", { label: "10c", value: 0.1 }],
   ["coin5c", { label: "5c", value: 0.05 }],
-  ["bill100", { label: "$100", value: 100 }],
-  ["bill50", { label: "$50", value: 50 }],
-  ["bill20", { label: "$20", value: 20 }],
-  ["bill10", { label: "$10", value: 10 }],
-  ["bill5", { label: "$5", value: 5 }],
-  ["roll2", { label: "$2", value: 50 }],
-  ["roll1", { label: "$1", value: 25 }],
-  ["roll25c", { label: "25c", value: 10 }],
-  ["roll10c", { label: "10c", value: 5 }],
-  ["roll5c", { label: "5c", value: 2 }],
+  ["bill100", { label: "$100", value: 100.0 }],
+  ["bill50", { label: "$50", value: 50.0 }],
+  ["bill20", { label: "$20", value: 20.0 }],
+  ["bill10", { label: "$10", value: 10.0 }],
+  ["bill5", { label: "$5", value: 5.0 }],
+  ["roll2", { label: "$2", value: 50.0 }],
+  ["roll1", { label: "$1", value: 25.0 }],
+  ["roll25c", { label: "25c", value: 10.0 }],
+  ["roll10c", { label: "10c", value: 5.0 }],
+  ["roll5c", { label: "5c", value: 2.0 }],
 ]);
 
 const MoneyFields = Array.from(moneyValues.keys()) as CashType[];
@@ -49,7 +49,7 @@ export function CashCounterForm({
     for (const field of MoneyFields) {
       total += cashCounterForm.getValues(field) * moneyValues.get(field)!.value;
     }
-    createReportForm.setValue("cashInTill", total);
+    createReportForm.setValue("cashInTill", Math.round(total * 100) / 100);
   }
 
   return (
@@ -156,7 +156,7 @@ export function CashCounterForm({
                 <FormControl>
                   <Input
                     type="number"
-                    value={field.value}
+                    value={field.value.toFixed(2)}
                     onChange={field.onChange}
                   />
                 </FormControl>
