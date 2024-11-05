@@ -121,18 +121,21 @@ export function SaleReportCard({ data }: SaleReportProps) {
             label="Cash in Till"
             data={data.cashInTill}
             blockCn="bg-muted"
+            secondaryData
           />
           <span>-</span>
           <ReportBlock
             label="Start Cash"
             data={data.startCash}
             blockCn="bg-muted"
+            secondaryData
           />
           <span>-</span>
           <ReportBlock
             label="Actual Cash"
             data={data.actualCash}
             blockCn="bg-muted"
+            secondaryData
           />
         </div>
       </div>
@@ -147,12 +150,14 @@ export function SaleReportCard({ data }: SaleReportProps) {
             label="Taken from Till"
             data={data.cashInTill - data.startCash}
             blockCn="bg-muted"
+            secondaryData
           />
           <span>+</span>
           <ReportBlock
             label="Cash Tips"
             data={data.cashTips}
             blockCn="bg-muted"
+            secondaryData
           />
         </div>
       </div>
