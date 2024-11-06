@@ -45,14 +45,14 @@ export function SaleReportCard({ data }: SaleReportProps) {
           <ReportBlock
             label="Card sales"
             data={data.cardSales}
-            blockCn="bg-muted flex gap-1"
+            blockCn="bg-muted flex gap-1 shadow-sm"
             secondaryData
           />
 
           <ReportBlock
             label="Cash sales"
             data={data.cashSales}
-            blockCn="bg-muted flex gap-1"
+            blockCn="bg-muted flex gap-1 shadow-sm"
             secondaryData
           />
         </div>
@@ -67,25 +67,25 @@ export function SaleReportCard({ data }: SaleReportProps) {
           <ReportBlock
             label="UberEats"
             data={data.uberEatsSales}
-            blockCn="bg-muted flex gap-1"
+            blockCn="bg-muted flex gap-1 shadow-sm"
             secondaryData
           />
           <ReportBlock
             label="DoorDash"
             data={data.doorDashSales}
-            blockCn="bg-muted flex gap-1"
+            blockCn="bg-muted flex gap-1 shadow-sm"
             secondaryData
           />
           <ReportBlock
             label="Ritual"
             data={data.onlineSales}
-            blockCn="bg-muted flex gap-1"
+            blockCn="bg-muted flex gap-1 shadow-sm"
             secondaryData
           />
           <ReportBlock
             label="SkipDishes"
             data={data.skipTheDishesSales}
-            blockCn="bg-muted flex gap-1"
+            blockCn="bg-muted flex gap-1 shadow-sm"
             secondaryData
           />
         </div>
@@ -100,7 +100,7 @@ export function SaleReportCard({ data }: SaleReportProps) {
           {data.expensesReason && (
             <ReportBlock
               data={data.expensesReason}
-              blockCn="bg-muted flex gap-1"
+              blockCn="bg-muted flex gap-1 shadow-sm"
             />
           )}
         </div>
@@ -120,21 +120,21 @@ export function SaleReportCard({ data }: SaleReportProps) {
           <ReportBlock
             label="Cash in Till"
             data={data.cashInTill}
-            blockCn="bg-muted"
+            blockCn="bg-muted  shadow-sm"
             secondaryData
           />
           <span>-</span>
           <ReportBlock
             label="Start Cash"
             data={data.startCash}
-            blockCn="bg-muted"
+            blockCn="bg-muted shadow-sm"
             secondaryData
           />
           <span>-</span>
           <ReportBlock
             label="Actual Cash"
             data={data.actualCash}
-            blockCn="bg-muted"
+            blockCn="bg-muted shadow-sm"
             secondaryData
           />
         </div>
@@ -149,14 +149,14 @@ export function SaleReportCard({ data }: SaleReportProps) {
           <ReportBlock
             label="Taken from Till"
             data={data.cashInTill - data.startCash}
-            blockCn="bg-muted"
+            blockCn="bg-muted shadow-sm"
             secondaryData
           />
           <span>+</span>
           <ReportBlock
             label="Cash Tips"
             data={data.cashTips}
-            blockCn="bg-muted"
+            blockCn="bg-muted shadow-sm"
             secondaryData
           />
         </div>
@@ -171,19 +171,19 @@ export function SaleReportCard({ data }: SaleReportProps) {
           <ReportBlock
             label="Card Tips"
             data={data.cardTips}
-            blockCn="bg-muted flex gap-1"
+            blockCn="bg-muted flex gap-1 shadow-sm"
             secondaryData
           />
           <ReportBlock
             label="Cash Tips"
             data={data.cashTips}
-            blockCn="bg-muted flex gap-1"
+            blockCn="bg-muted flex gap-1 shadow-sm"
             secondaryData
           />
           <ReportBlock
             label="Extra Tips"
             data={data.extraTips}
-            blockCn="bg-muted flex gap-1"
+            blockCn="bg-muted flex gap-1 shadow-sm"
             secondaryData
           />
         </div>
@@ -204,7 +204,7 @@ export function SaleReportCard({ data }: SaleReportProps) {
           {data.employees.map((emp) => (
             <div
               key={emp.userId}
-              className="flex items-center space-x-2 rounded-lg bg-muted px-2 py-1"
+              className="flex items-center space-x-2 rounded-lg bg-muted px-2 py-1 shadow-sm"
             >
               {emp.image && <ProfilePicture image={emp.image} size={40} />}
               <span className="font-medium">{emp.name}</span>
