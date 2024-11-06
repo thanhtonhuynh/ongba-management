@@ -47,7 +47,7 @@ export async function DataTable({ dateRange, data }: DataTableProps) {
         {data.map((employee) => (
           <TableRow key={employee.userId}>
             <TableCell className="sticky left-0 min-w-max max-w-max bg-background">
-              <div className="flex min-w-max max-w-max items-center gap-2 bg-background">
+              <div className="flex items-center gap-2 bg-background">
                 {employee.image && (
                   <ProfilePicture image={employee.image} size={40} />
                 )}
