@@ -1,12 +1,14 @@
 "use client";
 
 import {
-  BILL_FIELDS,
-  COIN_FIELDS,
   MONEY_FIELDS,
   MONEY_VALUES,
+  BILL_FIELDS,
+  COIN_FIELDS,
   ROLL_FIELDS,
 } from "@/app/constants";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -14,44 +16,59 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { CreateReportSchemaInput } from "@/lib/validations/report";
-import { CashType } from "@/types";
-import { UseFormReturn } from "react-hook-form";
+import { Input } from "./ui/input";
+import { formatPriceWithDollar } from "@/lib/utils";
 
-type CashCounterFormProps = {
-  createReportForm: UseFormReturn<CreateReportSchemaInput>;
-  cashCounterForm: UseFormReturn<{ [key in CashType]: number }>;
-};
+export function CashCounter() {
+  const form = useForm({
+    defaultValues: {
+      coin5c: 0,
+      coin10c: 0,
+      coin25c: 0,
+      coin1: 0,
+      coin2: 0,
+      bill5: 0,
+      bill10: 0,
+      bill20: 0,
+      bill50: 0,
+      bill100: 0,
+      roll5c: 0,
+      roll10c: 0,
+      roll25c: 0,
+      roll1: 0,
+      roll2: 0,
+    },
+  });
+  const [total, setTotal] = useState(0);
 
-export function CashCounterForm({
-  createReportForm,
-  cashCounterForm,
-}: CashCounterFormProps) {
   function calculateCashInTill() {
-    let total = 0;
-    for (const field of MONEY_FIELDS) {
-      total +=
-        cashCounterForm.getValues(field) * MONEY_VALUES.get(field)!.value;
-    }
-    createReportForm.setValue("cashInTill", Math.round(total * 100) / 100);
+    setTotal(
+      MONEY_FIELDS.reduce((acc, field) => {
+        return acc + form.getValues(field) * MONEY_VALUES.get(field)!.value;
+      }, 0),
+    );
   }
 
   return (
-    <Form {...cashCounterForm}>
+    <Form {...form}>
       <form className="space-y-3">
-        <h2 className="text-sm font-semibold">Cash in till</h2>
+        <div className="mx-auto w-fit rounded-md border p-2 text-sm shadow">
+          <h2 className="font-semibold">Total Cash in Till</h2>
+          <p className="font-medium text-blue-500">
+            {formatPriceWithDollar(total)}
+          </p>
+        </div>
 
         <div className="rounded-md border p-2 shadow">
-          <h3 className="text-sm font-semibold">Bills</h3>
+          <h2 className="text-sm font-semibold">Bills</h2>
           <div className="flex justify-center space-x-2">
             {BILL_FIELDS.map((key) => (
               <FormField
                 key={key}
                 name={key}
-                control={cashCounterForm.control}
+                control={form.control}
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="space-y-1">
                     <FormLabel>{MONEY_VALUES.get(key)!.label}</FormLabel>
                     <FormControl>
                       <Input
@@ -72,15 +89,15 @@ export function CashCounterForm({
         </div>
 
         <div className="rounded-md border p-2 shadow">
-          <h3 className="text-sm font-semibold">Coins</h3>
+          <h2 className="text-sm font-semibold">Coins</h2>
           <div className="flex justify-center space-x-2">
             {COIN_FIELDS.map((key) => (
               <FormField
                 key={key}
                 name={key}
-                control={cashCounterForm.control}
+                control={form.control}
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="space-y-1">
                     <FormLabel>{MONEY_VALUES.get(key)!.label}</FormLabel>
                     <FormControl>
                       <Input
@@ -101,15 +118,15 @@ export function CashCounterForm({
         </div>
 
         <div className="rounded-md border p-2 shadow">
-          <h3 className="text-sm font-semibold">Rolls</h3>
+          <h2 className="text-sm font-semibold">Rolls</h2>
           <div className="flex justify-center space-x-2">
             {ROLL_FIELDS.map((key) => (
               <FormField
                 key={key}
                 name={key}
-                control={cashCounterForm.control}
+                control={form.control}
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="space-y-1">
                     <FormLabel>{MONEY_VALUES.get(key)!.label}</FormLabel>
                     <FormControl>
                       <Input
@@ -127,27 +144,6 @@ export function CashCounterForm({
               />
             ))}
           </div>
-        </div>
-
-        <div className="mx-auto w-fit">
-          <FormField
-            name="cashInTill"
-            control={createReportForm.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-semibold">
-                  Total Cash in Till
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    value={field.value.toFixed(2)}
-                    onChange={field.onChange}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
         </div>
       </form>
     </Form>

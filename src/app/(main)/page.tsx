@@ -13,6 +13,7 @@ import moment from "moment-timezone";
 import { EmployeeAnalytics } from "./EmployeeAnalytics";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { ErrorMessage } from "@/components/Message";
+import { CashCounter } from "@/components/CashCounter";
 
 export default async function Home() {
   const { session, user } = await getCurrentSession();
@@ -91,6 +92,8 @@ export default async function Home() {
       </div>
 
       <EmployeeAnalytics user={user} />
+
+      <CashCounter />
     </section>
   );
 }

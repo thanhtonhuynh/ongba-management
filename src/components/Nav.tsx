@@ -26,7 +26,7 @@ export function NavLink(props: Omit<ComponentProps<typeof Link>, "className">) {
       asChild
       variant={`link`}
       className={cn(
-        "ml-2 px-2 text-blue-500 transition-colors",
+        "px-2 text-blue-500 transition-colors",
         !isActive && "font-normal text-muted-foreground hover:text-primary",
       )}
     >

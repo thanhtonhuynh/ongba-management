@@ -12,9 +12,9 @@ export default async function NavBar() {
 
   return (
     <header className="sticky top-0 z-10 mb-4 border-b bg-background px-3 shadow-sm">
-      <nav className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between gap-3">
-        <div className="flex items-center">
-          <Link href="/" className="mr-4 flex items-center space-x-1 font-bold">
+      <nav className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 pt-2 sm:py-2">
+        <div className="flex items-center space-x-4">
+          <Link href="/" className="flex items-center space-x-1 font-bold">
             <Image
               src={ongbaIcon}
               alt="Ongba Logo"
@@ -25,9 +25,11 @@ export default async function NavBar() {
             <span className="text-xl tracking-wider">ONGBA</span>
           </Link>
 
-          <NavLink href={`/report`}>Sale Reports</NavLink>
-
-          <NavLink href={`/my-shifts`}>My Shifts</NavLink>
+          <div className="hidden sm:block sm:space-x-1">
+            <NavLink href={`/report`}>Sale Reports</NavLink>
+            <NavLink href={`/cash-counter`}>Cash Counter</NavLink>
+            <NavLink href={`/my-shifts`}>My Shifts</NavLink>
+          </div>
         </div>
 
         <div className="flex items-center space-x-2">
@@ -44,6 +46,12 @@ export default async function NavBar() {
           )}
         </div>
       </nav>
+
+      <div className="mb-1 flex justify-center space-x-2 sm:hidden">
+        <NavLink href={`/report`}>Sale Reports</NavLink>
+        <NavLink href={`/cash-counter`}>Cash Counter</NavLink>
+        <NavLink href={`/my-shifts`}>My Shifts</NavLink>
+      </div>
     </header>
   );
 }

@@ -1,3 +1,5 @@
+import { CashType } from "@/types";
+
 export const NUM_MONTHS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 export const FULL_MONTHS = [
@@ -14,3 +16,26 @@ export const FULL_MONTHS = [
   "November",
   "December",
 ];
+
+export const MONEY_VALUES = new Map([
+  ["bill100", { label: "$100", value: 100.0 }],
+  ["bill50", { label: "$50", value: 50.0 }],
+  ["bill20", { label: "$20", value: 20.0 }],
+  ["bill10", { label: "$10", value: 10.0 }],
+  ["bill5", { label: "$5", value: 5.0 }],
+  ["coin2", { label: "$2", value: 2.0 }],
+  ["coin1", { label: "$1", value: 1.0 }],
+  ["coin25c", { label: "25c", value: 0.25 }],
+  ["coin10c", { label: "10c", value: 0.1 }],
+  ["coin5c", { label: "5c", value: 0.05 }],
+  ["roll2", { label: "$2", value: 50.0 }],
+  ["roll1", { label: "$1", value: 25.0 }],
+  ["roll25c", { label: "25c", value: 10.0 }],
+  ["roll10c", { label: "10c", value: 5.0 }],
+  ["roll5c", { label: "5c", value: 2.0 }],
+]);
+
+export const MONEY_FIELDS = Array.from(MONEY_VALUES.keys()) as CashType[];
+export const COIN_FIELDS = MONEY_FIELDS.filter((key) => key.startsWith("coin"));
+export const BILL_FIELDS = MONEY_FIELDS.filter((key) => key.startsWith("bill"));
+export const ROLL_FIELDS = MONEY_FIELDS.filter((key) => key.startsWith("roll"));
