@@ -12,7 +12,7 @@ export async function verifyUserAction(userId: string) {
     if (
       !user ||
       user.accountStatus !== "active" ||
-      !hasAccess(user.role, "/admin/employees", "update")
+      !hasAccess(user.role, "/employees", "update")
     ) {
       return { error: "Unauthorized" };
     }

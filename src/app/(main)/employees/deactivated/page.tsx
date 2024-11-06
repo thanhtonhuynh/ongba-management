@@ -10,7 +10,7 @@ export default async function Page() {
   const { session, user } = await getCurrentSession();
   if (!session) redirect("/login");
   if (user.accountStatus !== "active") return notFound();
-  if (!hasAccess(user.role, "/admin/employees")) return notFound();
+  if (!hasAccess(user.role, "/employees", "update")) return notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
     return (
@@ -18,12 +18,12 @@ export default async function Page() {
     );
   }
 
-  const employees = await getEmployees("active");
+  const employees = await getEmployees("deactivated");
 
   return (
     <section className="grid gap-2 md:grid-cols-2">
       {employees.map((employee) => (
-        <EmployeeCard key={employee.id} employee={employee} />
+        <EmployeeCard key={employee.id} user={employee} />
       ))}
     </section>
   );

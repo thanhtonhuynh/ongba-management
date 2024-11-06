@@ -1,6 +1,5 @@
 import Link from "next/link";
 import UserButton from "@/components/buttons/UserButton";
-import { Button } from "./ui/button";
 import { getCurrentSession } from "@/lib/auth/session";
 import Image from "next/image";
 import ongbaIcon from "@/assets/ongbaIcon.png";
@@ -9,6 +8,7 @@ import { ModeToggle } from "./ModeToggle";
 
 export default async function NavBar() {
   const { user } = await getCurrentSession();
+  if (!user) return null;
 
   return (
     <header className="sticky top-0 z-10 mb-4 border-b bg-background px-3 shadow-sm">
@@ -37,13 +37,7 @@ export default async function NavBar() {
             <ModeToggle />
           </div>
 
-          {user ? (
-            <UserButton user={user} />
-          ) : (
-            <Button asChild>
-              <Link href={`/login`}>Login</Link>
-            </Button>
-          )}
+          <UserButton user={user} />
         </div>
       </nav>
 

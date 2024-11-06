@@ -24,7 +24,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const { session, user } = await getCurrentSession();
   if (!session) redirect("/login");
   if (user.accountStatus !== "active") return notFound();
-  if (!hasAccess(user.role, "/admin/cashflow")) return notFound();
+  if (!hasAccess(user.role, "/admin")) return notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
     return (

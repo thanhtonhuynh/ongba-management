@@ -6,28 +6,13 @@ type AccessControl = {
 
 const accessControl: AccessControl = {
   "/admin": {
-    read: ["admin", "manager"],
-  },
-  "/admin/dashboard": {
-    read: ["admin"],
-  },
-  "/admin/employees": {
-    read: ["admin", "manager"],
-    update: ["admin", "manager"],
-    delete: ["admin"],
-  },
-  "/admin/store-settings": {
-    read: ["admin"],
-    update: ["admin"],
-  },
-  "/admin/hours&tips": {
-    read: ["admin"],
-  },
-  "/admin/cashflow": {
     read: ["admin"],
   },
   "/report/new": {
     read: ["admin", "manager", "server"],
+  },
+  "/employees": {
+    update: ["admin", "manager"],
   },
 };
 
@@ -41,7 +26,7 @@ export function hasAccess(role: string, path: string, action?: string) {
   return accessControl[path][action].includes(role);
 }
 
-export function canDeactivateUser(userRole: string, targetRole: string) {
+export function canUpdateUser(userRole: string, targetRole: string) {
   if (
     (targetRole === "admin" || targetRole === "manager") &&
     userRole !== "admin"

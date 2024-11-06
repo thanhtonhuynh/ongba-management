@@ -10,7 +10,7 @@ export default async function Page() {
   const { session, user } = await getCurrentSession();
   if (!session) redirect("/login");
   if (user.accountStatus !== "active") return notFound();
-  if (!hasAccess(user.role, "/admin/employees")) return notFound();
+  if (!hasAccess(user.role, "/employees", "update")) return notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
     return (

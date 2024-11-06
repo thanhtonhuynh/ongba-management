@@ -1,4 +1,4 @@
-import { Lock, LogOut, Settings, UserRound } from "lucide-react";
+import { Lock, LogOut, Settings, UserRound, Users } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -57,6 +57,13 @@ export default function UserButton({ user }: UserButtonProps) {
                   </Link>
                 </DropdownMenuItem>
               )}
+
+              <DropdownMenuItem asChild>
+                <Link href="/employees" className="cursor-pointer">
+                  <Users className="mr-2 h-4 w-4" />
+                  Employees
+                </Link>
+              </DropdownMenuItem>
 
               <DropdownMenuItem asChild>
                 <Link href="/settings" className="cursor-pointer">

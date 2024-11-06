@@ -6,7 +6,7 @@ import {
   UpdateEmployeeRoleInput,
   UpdateEmployeeRoleSchema,
 } from "@/lib/validations/employee";
-import { canDeactivateUser, hasAccess } from "@/utils/access-control";
+import { canUpdateUser, hasAccess } from "@/utils/access-control";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { revalidatePath } from "next/cache";
 
@@ -16,7 +16,7 @@ export async function deactivateUserAction(userId: string) {
     if (
       !user ||
       user.accountStatus !== "active" ||
-      !hasAccess(user.role, "/admin/employees", "update")
+      !hasAccess(user.role, "/employees", "update")
     ) {
       return { error: "Unauthorized" };
     }
@@ -31,7 +31,7 @@ export async function deactivateUserAction(userId: string) {
       return { error: "Deactivation failed. Please try again." };
     }
 
-    if (!canDeactivateUser(user.role, targetUser.role)) {
+    if (!canUpdateUser(user.role, targetUser.role)) {
       return { error: "Unauthorized" };
     }
 
@@ -51,7 +51,7 @@ export async function updateUserRoleAction(data: UpdateEmployeeRoleInput) {
     if (
       !user ||
       user.accountStatus !== "active" ||
-      !hasAccess(user.role, "/admin/employees", "update")
+      !hasAccess(user.role, "/employees", "update")
     ) {
       return { error: "Unauthorized" };
     }
@@ -62,7 +62,7 @@ export async function updateUserRoleAction(data: UpdateEmployeeRoleInput) {
 
     const { userId, role } = UpdateEmployeeRoleSchema.parse(data);
 
-    if (user.role !== "admin" && (role === "admin" || role === "manager")) {
+    if (!canUpdateUser(user.role, role)) {
       return { error: "Unauthorized" };
     }
 
