@@ -51,9 +51,9 @@ export function NavLinkAdmin(
     <Link
       {...props}
       className={cn(
-        "rounded-md px-4 py-2 text-sm font-medium transition-colors",
-        isActive && "bg-muted",
-        !isActive && "hover:underline",
+        "rounded-md p-2 text-sm text-muted-foreground transition-colors",
+        isActive && "cursor-default font-medium text-blue-500",
+        !isActive && "hover:text-primary",
       )}
     />
   );

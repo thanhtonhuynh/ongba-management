@@ -141,7 +141,7 @@ export function CashCounterForm({
                 <FormControl>
                   <Input
                     type="number"
-                    value={field.value.toFixed(2)}
+                    value={field.value}
                     onChange={field.onChange}
                   />
                 </FormControl>

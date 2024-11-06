@@ -3,7 +3,7 @@ import { AdminNavBar, AdminNavBarMobile } from "./AdminNavBar";
 import Footer from "@/components/Footer";
 import NavBar from "@/components/NavBar";
 
-export default function Layout({
+export default async function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;

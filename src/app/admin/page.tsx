@@ -1,8 +1,13 @@
+import { FULL_MONTHS } from "@/app/constants";
 import { ErrorMessage } from "@/components/Message";
 import { Separator } from "@/components/ui/separator";
+import { getReportsByDateRange } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
+import { formatPriceWithDollar } from "@/lib/utils";
 import { hasAccess } from "@/utils/access-control";
+import { getDayRangeByMonthAndYear } from "@/utils/hours-tips";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
+import moment from "moment-timezone";
 import { notFound, redirect } from "next/navigation";
 
 export default async function Page() {
@@ -11,21 +16,9 @@ export default async function Page() {
   if (user.accountStatus !== "active") return notFound();
   if (!hasAccess(user.role, "/admin")) return notFound();
 
-  if (!(await authenticatedRateLimit(user.id))) {
-    return (
-      <ErrorMessage message="Too many requests. Please try again later." />
-    );
+  if (hasAccess(user.role, "/admin/dashboard")) {
+    redirect("/admin/dashboard");
+  } else {
+    redirect("/admin/employees");
   }
-
-  return (
-    <section className="space-y-4">
-      <div>
-        <h1 className="text-xl font-semibold">Dashboard</h1>
-      </div>
-
-      <Separator className="my-4" />
-
-      <div className="italic">Work in progress...</div>
-    </section>
-  );
 }

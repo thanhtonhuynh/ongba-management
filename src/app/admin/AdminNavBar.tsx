@@ -17,8 +17,10 @@ export async function AdminNavBar() {
 
   return (
     <aside className="hidden sm:block">
-      <Nav>
-        <NavLinkAdmin href={"/admin"}>Dashboard</NavLinkAdmin>
+      <Nav className="space-x-4">
+        {hasAccess(user.role, "/admin/dashboard") && (
+          <NavLinkAdmin href={"/admin/dashboard"}>Dashboard</NavLinkAdmin>
+        )}
 
         {hasAccess(user.role, "/admin/hours&tips") && (
           <NavLinkAdmin href={`/admin/hours&tips`}>Hours & Tips</NavLinkAdmin>
@@ -32,7 +34,7 @@ export async function AdminNavBar() {
 
         {hasAccess(user.role, "/admin/store-settings") && (
           <NavLinkAdmin href={`/admin/store-settings`}>
-            Store settings
+            Store Settings
           </NavLinkAdmin>
         )}
       </Nav>
@@ -56,11 +58,13 @@ export async function AdminNavBarMobile() {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-48">
-        <DropdownMenuItem asChild>
-          <Link href="/admin" className="cursor-pointer">
-            Dashboard
-          </Link>
-        </DropdownMenuItem>
+        {hasAccess(user.role, "/admin/dashboard") && (
+          <DropdownMenuItem asChild>
+            <Link href="/admin/dashboard" className="cursor-pointer">
+              Dashboard
+            </Link>
+          </DropdownMenuItem>
+        )}
 
         {hasAccess(user.role, "/admin/hours&tips") && (
           <DropdownMenuItem asChild>

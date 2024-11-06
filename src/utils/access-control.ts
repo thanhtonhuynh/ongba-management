@@ -8,6 +8,9 @@ const accessControl: AccessControl = {
   "/admin": {
     read: ["admin", "manager"],
   },
+  "/admin/dashboard": {
+    read: ["admin"],
+  },
   "/admin/employees": {
     read: ["admin", "manager"],
     update: ["admin", "manager"],
