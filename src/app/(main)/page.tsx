@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getReportByDate } from "@/data-access/report";
-import { CircleCheck } from "lucide-react";
+import { CircleCheck, ClipboardPen, ClipboardPlus } from "lucide-react";
 import { SaleReportCard } from "@/components/SaleReportCard";
 import { SaleReportCardProcessedData, SaleReportCardRawData } from "@/types";
 import { processReportDataForView } from "@/utils/report";
@@ -65,9 +65,13 @@ export default async function Home() {
 
           {hasAccess(user.role, "/report/new") && (
             <>
-              <Button className="w-fit" asChild>
-                <Link href={`report/new`}>Create new sale report</Link>
+              <Button className="flex w-fit items-center gap-2" asChild>
+                <Link href={`report/new`}>
+                  <ClipboardPen size={16} />
+                  Create new sale report
+                </Link>
               </Button>
+
               <div className="text-sm text-muted-foreground">
                 <span className="font-semibold">Note:</span> There can only be
                 <span className="font-semibold"> ONE </span>
