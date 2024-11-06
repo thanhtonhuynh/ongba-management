@@ -16,7 +16,7 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { Input } from "./ui/input";
+import { Input } from "@/components/ui/input";
 import { formatPriceWithDollar } from "@/lib/utils";
 
 export function CashCounter() {

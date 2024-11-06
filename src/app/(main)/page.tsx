@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getReportByDate } from "@/data-access/report";
-import { CircleCheck, ClipboardPen, ClipboardPlus } from "lucide-react";
+import { CircleCheck, ClipboardPen } from "lucide-react";
 import { SaleReportCard } from "@/components/SaleReportCard";
 import { SaleReportCardProcessedData, SaleReportCardRawData } from "@/types";
 import { processReportDataForView } from "@/utils/report";
@@ -13,7 +13,6 @@ import moment from "moment-timezone";
 import { EmployeeAnalytics } from "./EmployeeAnalytics";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { ErrorMessage } from "@/components/Message";
-import { CashCounter } from "@/components/CashCounter";
 
 export default async function Home() {
   const { session, user } = await getCurrentSession();
@@ -92,8 +91,6 @@ export default async function Home() {
       </div>
 
       <EmployeeAnalytics user={user} />
-
-      <CashCounter />
     </section>
   );
 }

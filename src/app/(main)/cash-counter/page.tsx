@@ -1,4 +1,4 @@
-import { CashCounter } from "@/components/CashCounter";
+import { CashCounter } from "@/app/(main)/cash-counter/CashCounter";
 import { ErrorMessage } from "@/components/Message";
 import { Separator } from "@/components/ui/separator";
 import { getCurrentSession } from "@/lib/auth/session";
