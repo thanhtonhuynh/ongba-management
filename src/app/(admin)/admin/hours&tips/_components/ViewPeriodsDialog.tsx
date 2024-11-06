@@ -36,6 +36,7 @@ import {
   ViewPastPeriodsSchema,
 } from "@/lib/validations/hours&tips";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CalendarClock } from "lucide-react";
 
 type ViewPeriodsDialogProps = {
   years: number[];
@@ -63,7 +64,8 @@ export function ViewPeriodsDialog({ years }: ViewPeriodsDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant={`outline`} size={`sm`}>
+        <Button size={`sm`} className="flex items-center gap-2">
+          <CalendarClock size={15} />
           View past periods
         </Button>
       </DialogTrigger>
