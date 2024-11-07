@@ -34,7 +34,7 @@ export function SaleReportCard({ data }: SaleReportProps) {
 
       <Separator />
 
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-8">
+      <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-8">
         <div className="space-y-2">
           <ReportBlock label="Total Sales" data={data.totalSales} />
 
