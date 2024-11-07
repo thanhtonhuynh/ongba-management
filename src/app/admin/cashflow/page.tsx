@@ -68,9 +68,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
 
   return (
     <section className="space-y-4">
-      <div>
-        <h1 className="text-xl font-semibold">Cashflow</h1>
-      </div>
+      <h1 className="text-2xl font-bold">Cashflow</h1>
 
       <Separator className="my-4" />
 
