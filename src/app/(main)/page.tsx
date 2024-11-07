@@ -8,8 +8,7 @@ import { SaleReportCard } from "@/components/SaleReportCard";
 import { SaleReportCardProcessedData, SaleReportCardRawData } from "@/types";
 import { processReportDataForView } from "@/utils/report";
 import { hasAccess } from "@/utils/access-control";
-import { ClientTimeDisplay } from "@/components/ClientTimeDisplay";
-import moment from "moment-timezone";
+import moment from "moment";
 import { EmployeeAnalytics } from "./EmployeeAnalytics";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { ErrorMessage } from "@/components/Message";
@@ -48,47 +47,45 @@ export default async function Home() {
 
   return (
     <section className="space-y-4">
-      <div className="grid grid-cols-1 space-y-4">
-        <div className="text-right font-medium text-muted-foreground">
-          {moment().tz("America/Vancouver").format("dddd, MMMM D, YYYY HH:mm")}
-        </div>
+      <div className="text-sm font-medium text-muted-foreground">
+        {moment().tz("America/Vancouver").format("dddd, MMMM D, YYYY")}
+      </div>
 
-        <div className="space-y-4 rounded-md border p-4 shadow">
-          <div>Good day, {user.name}!</div>
-
-          {todayReport && (
-            <div className="flex w-fit items-center gap-2 rounded border-l-2 border-l-blue-500 bg-muted px-2 py-1 font-medium">
-              <CircleCheck size={17} className="text-blue-500" />
-              Today's report has been submitted.
-            </div>
-          )}
-
-          {hasAccess(user.role, "/report/new") && (
-            <>
-              <Button className="flex w-fit items-center gap-2" asChild>
-                <Link href={`report/new`}>
-                  <ClipboardPen size={16} />
-                  Create new sale report
-                </Link>
-              </Button>
-
-              <div className="text-sm text-muted-foreground">
-                <span className="font-semibold">Note:</span> There can only be
-                <span className="font-semibold"> ONE </span>
-                sale report per day. Submitting a new report will overwrite the
-                existing one.
-              </div>
-            </>
-          )}
-        </div>
+      <div className="space-y-4 rounded-md border p-4 shadow">
+        <div>Good day, {user.name}!</div>
 
         {todayReport && (
-          <div className="space-y-4 rounded-md border p-4 shadow">
-            <h1>Today's Sale Report</h1>
-            <SaleReportCard data={processedTodayReportData} />
+          <div className="flex w-fit items-center gap-2 rounded border-l-2 border-l-blue-500 bg-muted px-2 py-1 font-medium">
+            <CircleCheck size={17} className="text-blue-500" />
+            Today's report has been submitted!
           </div>
         )}
+
+        {hasAccess(user.role, "/report/new") && (
+          <>
+            <Button className="flex w-fit items-center gap-2" asChild>
+              <Link href={`report/new`}>
+                <ClipboardPen size={16} />
+                Create new sale report
+              </Link>
+            </Button>
+
+            <div className="text-sm text-muted-foreground">
+              <span className="font-semibold">Note:</span> There can only be
+              <span className="font-semibold"> ONE </span>
+              sale report per day. Submitting a new report will overwrite the
+              existing one.
+            </div>
+          </>
+        )}
       </div>
+
+      {todayReport && (
+        <div className="space-y-4 rounded-md border p-4 shadow">
+          <h1>Today's Sale Report</h1>
+          <SaleReportCard data={processedTodayReportData} />
+        </div>
+      )}
 
       <EmployeeAnalytics user={user} />
     </section>
