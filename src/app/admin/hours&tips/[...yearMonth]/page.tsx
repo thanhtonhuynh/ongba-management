@@ -17,6 +17,7 @@ import { Separator } from "@/components/ui/separator";
 import { TotalHoursTips } from "@/types";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { CalendarDays, MoveRight } from "lucide-react";
+import { CurrentTag } from "@/components/CurrentTag";
 
 type Params = Promise<{ yearMonth: string[] }>;
 
@@ -101,9 +102,11 @@ export default async function Page(props: { params: Params }) {
         Back to current biweekly period
       </GoBackButton>
 
-      <h2 className="flex items-baseline gap-2 text-xl">
-        <span>{FULL_MONTHS[month - 1]}</span>
-        <span className="text-base text-muted-foreground">{year}</span>
+      <h2 className="flex items-center gap-2">
+        {FULL_MONTHS[month - 1]} {year}
+        {year === today.getFullYear() && month === today.getMonth() + 1 && (
+          <CurrentTag />
+        )}
       </h2>
 
       <div className="w-fit rounded-md border px-2 py-4 shadow-md">

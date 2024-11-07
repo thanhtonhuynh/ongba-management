@@ -14,6 +14,7 @@ import { getReportsByDateRange } from "@/data-access/report";
 import { CashFlowTable } from "./CashflowTable";
 import { processCashFlowData } from "@/utils/cashflow";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
+import { CurrentTag } from "@/components/CurrentTag";
 
 type SearchParams = Promise<{
   year: string;
@@ -85,11 +86,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
           <h2 className="flex items-center gap-2">
             {FULL_MONTHS[selectedMonth - 1]} {selectedYear}
             {selectedYear === today.getFullYear() &&
-              selectedMonth === today.getMonth() + 1 && (
-                <span className="rounded-md border bg-muted px-2 py-1 text-xs">
-                  Current
-                </span>
-              )}
+              selectedMonth === today.getMonth() + 1 && <CurrentTag />}
           </h2>
 
           <CashFlowTable reports={processedReports} />

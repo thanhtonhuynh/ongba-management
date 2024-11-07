@@ -120,6 +120,6 @@ body {
   }
 
   h2 {
-    @apply font-semibold;
+    @apply text-xl font-semibold;
   }
 }

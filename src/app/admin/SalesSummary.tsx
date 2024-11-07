@@ -9,6 +9,7 @@ import { formatPriceWithDollar } from "@/lib/utils";
 import { summarizeReports } from "@/utils/report";
 import { ViewPeriodsDialog } from "./ViewPeriodsDialog";
 import { GoBackButton } from "@/components/buttons/GoBackButton";
+import { CurrentTag } from "@/components/CurrentTag";
 
 type SalesSummaryProps = {
   year: number;
@@ -26,7 +27,7 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-3">
-        <h2 className="text-xl">Sales Summary</h2>
+        <h2>Sales Summary</h2>
         {years.length > 0 && <ViewPeriodsDialog years={years} />}
       </div>
 
@@ -45,9 +46,7 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
       <div className="flex items-center gap-2 font-semibold">
         {FULL_MONTHS[month - 1]} {year}
         {year === today.getFullYear() && month === today.getMonth() + 1 && (
-          <span className="rounded-md border bg-muted px-2 py-1 text-xs">
-            Current
-          </span>
+          <CurrentTag />
         )}
       </div>
 

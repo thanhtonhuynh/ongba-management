@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import moment from "moment";
 import { notFound, redirect } from "next/navigation";
+import { CurrentTag } from "@/components/CurrentTag";
 
 type SearchParams = Promise<{
   year: string;
@@ -99,15 +100,12 @@ export default async function Page(props: { searchParams: SearchParams }) {
         </GoBackButton>
       )}
 
-      <h2 className="flex items-center gap-2 text-lg">
-        <span>{FULL_MONTHS[selectedMonth - 1]}</span>
-        <span className="text-sm text-muted-foreground">{selectedYear}</span>
+      <h2 className="flex items-center gap-2">
+        <span>
+          {FULL_MONTHS[selectedMonth - 1]} {selectedYear}
+        </span>
         {selectedYear === today.getFullYear() &&
-          selectedMonth === today.getMonth() + 1 && (
-            <span className="rounded-md border bg-muted px-2 py-1 text-xs">
-              Current
-            </span>
-          )}
+          selectedMonth === today.getMonth() + 1 && <CurrentTag />}
       </h2>
 
       <div className="flex justify-center space-x-2">

@@ -40,8 +40,6 @@ export function CashCounterForm({
   return (
     <Form {...cashCounterForm}>
       <form className="space-y-3">
-        <h2 className="text-sm">Cash in till</h2>
-
         <div className="rounded-md border p-2 shadow">
           <h3 className="text-sm font-semibold">Bills</h3>
           <div className="flex justify-center space-x-2">
