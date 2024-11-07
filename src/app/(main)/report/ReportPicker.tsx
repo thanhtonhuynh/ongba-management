@@ -17,7 +17,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import moment from "moment";
 import { Calendar } from "@/components/ui/calendar";
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { ErrorMessage } from "@/components/Message";
@@ -107,11 +106,8 @@ export function ReportPicker() {
           {error && <ErrorMessage message={error} />}
 
           {processedReport && (
-            <div className="space-y-4">
-              <h2 className="font-semibold">
-                Sales Report for{" "}
-                {moment(processedReport.date).format("MMM D, YYYY")}
-              </h2>
+            <div className="space-y-2">
+              <h2 className="font-semibold">Sales Report</h2>
 
               <SaleReportCard data={processedReport} />
             </div>

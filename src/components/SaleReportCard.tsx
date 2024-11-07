@@ -16,9 +16,9 @@ export function SaleReportCard({ data }: SaleReportProps) {
   }
 
   return (
-    <div className="space-y-2 text-sm">
-      <div className="flex items-center justify-between space-x-2 rounded bg-muted px-2 py-1">
-        <div className="font-medium">
+    <div className="space-y-3 text-sm">
+      <div className="flex items-center justify-between">
+        <div className="rounded-lg border bg-muted px-2">
           {moment(data.date).format("ddd MMM D, YYYY")}
         </div>
 
@@ -30,8 +30,10 @@ export function SaleReportCard({ data }: SaleReportProps) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-8">
-        <div className="space-y-2">
+      <Separator />
+
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-8">
+        <div className="space-y-3">
           <ReportBlock label="Total Sales" data={data.totalSales} />
 
           <Separator />
@@ -55,7 +57,7 @@ export function SaleReportCard({ data }: SaleReportProps) {
 
           <ReportBlock label="Online Sales" data={data.otherSales} />
 
-          <div className="flex gap-4 md:gap-8">
+          <div className="flex gap-6 sm:gap-8">
             <ReportBlock
               label="UberEats"
               data={data.uberEatsSales}
@@ -82,7 +84,7 @@ export function SaleReportCard({ data }: SaleReportProps) {
           <ReportBlock
             label="Expenses"
             data={`${formatPriceWithDollar(data.expenses)} ${
-              data.expensesReason && `(${data.expensesReason})`
+              data.expensesReason && ` - ${data.expensesReason}`
             }`}
           />
 
@@ -127,7 +129,7 @@ export function SaleReportCard({ data }: SaleReportProps) {
 
         <Separator className="md:hidden" />
 
-        <div className="space-y-2">
+        <div className="space-y-3">
           <ReportBlock label="Total Tips" data={data.totalTips} />
 
           <div className="flex gap-8">
@@ -186,8 +188,9 @@ function ReportBlock({
       {label && (
         <p
           className={cn(
-            "font-semibold",
-            secondaryData && "font-medium text-muted-foreground",
+            "font-bold",
+            // secondaryData && "font-medium text-muted-foreground",
+            secondaryData && "font-medium",
           )}
         >
           {label}
@@ -197,6 +200,7 @@ function ReportBlock({
       <p
         className={cn(
           // "text-blue-500",
+          "text-muted-foreground",
           secondaryData && "text-muted-foreground",
         )}
       >

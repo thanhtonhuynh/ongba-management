@@ -8,7 +8,7 @@ const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
 export const SignupSchema = z.object({
   name: trimmedString
     .min(2, "Name must be at least 2 characters")
-    .max(50, "Name must not exceed 50 characters")
+    .max(20, "Name must not exceed 20 characters")
     .transform((data) => {
       return data
         .split(" ")
@@ -43,6 +43,7 @@ export type LoginSchemaTypes = z.infer<typeof LoginSchema>;
 export const UpdateNameSchema = z.object({
   name: trimmedString
     .min(2, "Name must be at least 2 characters")
+    .max(20, "Name must not exceed 20 characters")
     .transform((data) => {
       return data
         .split(" ")
