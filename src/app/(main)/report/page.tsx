@@ -10,7 +10,7 @@ export default async function Page() {
 
   return (
     <section className="space-y-4">
-      <h1 className="text-2xl font-bold">View Report</h1>
+      <h1>View Report</h1>
 
       <Separator />
 

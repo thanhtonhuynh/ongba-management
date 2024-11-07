@@ -25,7 +25,7 @@ export async function EmployeeAnalytics({ user }: EmployeeAnalyticsProps) {
   return (
     <div className="space-y-5 rounded-md border p-4 shadow">
       <div className="space-y-3">
-        <h1 className="font-bold">For You</h1>
+        <h1>For You</h1>
 
         <div className="space-y-2 font-semibold sm:flex sm:items-center sm:space-x-4 sm:space-y-0">
           <p>Current biweekly period</p>

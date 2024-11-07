@@ -10,7 +10,7 @@ export default async function Page() {
   return (
     <main className="flex h-screen flex-col items-center justify-center">
       <div className="flex w-full max-w-[40rem] flex-col items-center justify-center space-y-4 rounded-xl border p-4 py-8 shadow-xl">
-        <h1 className="text-3xl font-bold">Sign Up</h1>
+        <h1>Sign Up</h1>
 
         <SignUpForm />
 

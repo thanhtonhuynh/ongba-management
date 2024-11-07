@@ -57,7 +57,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
 
   return (
     <section className="space-y-4">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
+      <h1>Dashboard</h1>
 
       <Separator />
 

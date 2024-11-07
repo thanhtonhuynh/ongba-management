@@ -82,7 +82,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
   return (
     <section className="space-y-4">
       <div className="flex flex-row items-center justify-between">
-        <h1 className="text-2xl font-bold">My Shifts</h1>
+        <h1>My Shifts</h1>
         {years.length > 0 && <ViewPeriodsDialog years={years} />}
       </div>
 

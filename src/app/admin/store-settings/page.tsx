@@ -25,7 +25,7 @@ export default async function Page() {
 
   return (
     <section className="space-y-4">
-      <h1 className="text-2xl font-bold">Store settings</h1>
+      <h1>Store settings</h1>
 
       <Separator className="my-4" />
 

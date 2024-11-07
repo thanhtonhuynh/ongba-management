@@ -14,9 +14,7 @@ export default async function Page() {
 
   return (
     <section className="space-y-4">
-      <div>
-        <h1 className="text-2xl font-bold">Account settings</h1>
-      </div>
+      <h1>Account settings</h1>
 
       <Separator />
 

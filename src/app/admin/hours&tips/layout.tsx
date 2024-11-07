@@ -12,7 +12,7 @@ export default async function Layout({
   return (
     <section className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-2xl font-bold">Hours & Tips</h1>
+        <h1>Hours & Tips</h1>
 
         <Separator className="my-4 sm:hidden" />
 

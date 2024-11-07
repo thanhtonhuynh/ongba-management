@@ -12,7 +12,7 @@ export default async function Layout({
 
   return (
     <section className="space-y-4">
-      <h1 className="text-2xl font-bold">Employees</h1>
+      <h1>Employees</h1>
 
       <div>
         {user && hasAccess(user.role, "/employees", "update") && (

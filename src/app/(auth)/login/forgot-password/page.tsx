@@ -23,7 +23,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
           <ErrorMessage message="The reset password link has expired. Please request a new one." />
         )}
 
-        <h1 className="text-3xl font-bold">Forgot your password?</h1>
+        <h1>Forgot your password?</h1>
 
         <div className="flex w-2/3 flex-col space-y-4">
           <p className="text-sm text-gray-500">
