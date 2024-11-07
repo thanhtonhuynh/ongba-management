@@ -13,7 +13,12 @@ import {
   populateMonthSelectData,
 } from "@/utils/hours-tips";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import { MoveRight } from "lucide-react";
+import {
+  CalendarClock,
+  CalendarDays,
+  CircleDollarSign,
+  MoveRight,
+} from "lucide-react";
 import moment from "moment";
 import { notFound, redirect } from "next/navigation";
 
@@ -77,7 +82,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
   return (
     <section className="space-y-4">
       <div className="flex flex-row items-center justify-between">
-        <h1 className="text-xl font-bold">My Shifts</h1>
+        <h1 className="text-2xl font-bold">My Shifts</h1>
         {years.length > 0 && <ViewPeriodsDialog years={years} />}
       </div>
 
@@ -106,16 +111,24 @@ export default async function Page(props: { searchParams: SearchParams }) {
       </h2>
 
       <div className="flex justify-center space-x-2">
-        <div className="flex h-20 w-32 flex-col items-center justify-center rounded-md border p-2 shadow">
-          <p className="font-semibold">Total Hours</p>
-          <p className="text-blue-500">
+        <div className="flex h-24 w-40 flex-col items-center justify-center space-y-2 rounded-md border p-2 shadow">
+          <p className="flex items-center gap-2 font-semibold">
+            <CalendarClock size={18} />
+            <span>Total Hours</span>
+          </p>
+
+          <p className="font-medium text-blue-500">
             {userShifts.reduce((acc, shift) => acc + shift.hours, 0)}
           </p>
         </div>
 
-        <div className="flex h-20 w-32 flex-col items-center justify-center rounded-md border p-2 shadow">
-          <p className="font-semibold">Total Tips</p>
-          <p className="text-blue-500">
+        <div className="flex h-24 w-40 flex-col items-center justify-center space-y-2 rounded-md border p-2 shadow">
+          <p className="flex items-center gap-2 font-semibold">
+            <CircleDollarSign size={18} />
+            <span>Total Tips</span>
+          </p>
+
+          <p className="font-medium text-blue-500">
             {formatPriceWithDollar(
               userShifts.reduce((acc, shift) => acc + shift.tips, 0),
             )}
@@ -125,7 +138,8 @@ export default async function Page(props: { searchParams: SearchParams }) {
 
       {periods.map((period, index) => (
         <div key={index} className="space-y-2 rounded-md border p-4 shadow">
-          <h3 className="flex items-center space-x-2 font-medium">
+          <h3 className="flex w-fit items-center space-x-2 rounded border-l-2 border-l-blue-500 bg-muted px-2 py-1 text-sm font-medium">
+            <CalendarDays size={15} className="text-blue-500" />
             <span>{moment(period.start).format("MMM D")}</span>
             <MoveRight size={15} />
             <span>{moment(period.end).format("MMM D")}</span>

@@ -135,7 +135,7 @@ export function CashCounterForm({
             control={createReportForm.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-semibold">
+                <FormLabel className="font-semibold text-blue-500">
                   Total Cash in Till
                 </FormLabel>
                 <FormControl>
@@ -143,6 +143,7 @@ export function CashCounterForm({
                     type="number"
                     value={field.value}
                     onChange={field.onChange}
+                    className="text-blue-500"
                   />
                 </FormControl>
               </FormItem>

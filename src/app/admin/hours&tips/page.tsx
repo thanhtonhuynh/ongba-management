@@ -12,6 +12,7 @@ import { DataTable } from "./_components/DataTable";
 import { TotalHoursTips } from "@/types";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { ErrorMessage } from "@/components/Message";
+import { MoveRight } from "lucide-react";
 
 export default async function Page() {
   const { session, user } = await getCurrentSession();
@@ -52,27 +53,34 @@ export default async function Page() {
 
   return (
     <div className="space-y-4">
-      <h2 className="gap-2 font-semibold sm:flex sm:items-baseline">
-        <p>Current biweekly period:</p>
-        <p className="text-sm font-medium">
-          {moment(todayBiweeklyPeriod.start).format("MMM D, YYYY")} -{" "}
-          {moment(todayBiweeklyPeriod.end).format("MMM D, YYYY")}
+      <h2 className="gap-2 space-y-2 text-xl font-semibold sm:flex sm:items-baseline sm:space-x-2 sm:space-y-0">
+        <p className="">Current biweekly period</p>
+        <p className="flex items-center justify-center space-x-2 text-base text-muted-foreground">
+          <span>{moment(todayBiweeklyPeriod.start).format("MMM D, YYYY")}</span>
+          <MoveRight size={15} />
+          <span>{moment(todayBiweeklyPeriod.end).format("MMM D, YYYY")}</span>
         </p>
       </h2>
 
-      <div className="w-fit rounded-md border p-2 shadow-md">
-        <h3 className="text-sm font-medium">Total hours and tips</h3>
+      <div className="w-fit rounded-md border px-2 py-4 shadow-md">
+        <h3 className="border-l-2 border-l-blue-500 px-2 font-semibold">
+          Total hours and tips
+        </h3>
 
         <HoursTipsTable data={totalHoursTips} />
       </div>
 
-      <div className="space-y-2 rounded-md border p-2 shadow-md">
-        <h3 className="text-sm font-medium">Hours breakdown</h3>
+      <div className="space-y-2 rounded-md border px-2 py-4 shadow-md">
+        <h3 className="border-l-2 border-l-blue-500 px-2 font-semibold">
+          Hours breakdown
+        </h3>
         <DataTable dateRange={todayBiweeklyPeriod} data={hoursBreakdown} />
       </div>
 
-      <div className="space-y-2 rounded-md border p-2 shadow-md">
-        <h3 className="text-sm font-medium">Tips breakdown</h3>
+      <div className="space-y-2 rounded-md border px-2 py-4 shadow-md">
+        <h3 className="border-l-2 border-l-blue-500 px-2 font-semibold">
+          Tips breakdown
+        </h3>
         <DataTable dateRange={todayBiweeklyPeriod} data={tipsBreakdown} />
       </div>
     </div>

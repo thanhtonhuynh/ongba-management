@@ -26,7 +26,7 @@ export default async function Page() {
   return (
     <section className="flex flex-col items-center">
       <div className="flex w-full max-w-[50rem] flex-col space-y-4 rounded-md border px-4 py-8 shadow-xl">
-        <h1 className="text-xl font-bold">Create sale report</h1>
+        <h1 className="text-2xl font-bold">Create sale report</h1>
 
         <Separator />
 

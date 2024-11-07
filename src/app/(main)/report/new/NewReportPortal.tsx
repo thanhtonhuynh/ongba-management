@@ -12,7 +12,7 @@ import { User } from "@/lib/auth/session";
 import { createReportAction } from "./actions";
 import { CashCounterForm } from "./CashCounterForm";
 import { SaleDetailForm } from "./SaleDetailForm";
-import { MoveLeft, MoveRight } from "lucide-react";
+import { MoveLeft, MoveRight, TriangleAlert } from "lucide-react";
 import { motion } from "framer-motion";
 import { ReportPreview } from "./ReportPreview";
 import { Button } from "@/components/ui/button";
@@ -101,8 +101,8 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
     const { error } = await createReportAction(data, isoString);
     if (error) toast.error(error);
     else {
-      toast.success("Your report has been submitted. Thank you!");
       router.push("/");
+      toast.success("Your report has been submitted. Thank you!");
     }
   }
 
@@ -145,19 +145,19 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
           {steps.map((step, index) => (
             <li key={step.name} className="flex-1">
               {currentStep > index ? (
-                <div className="flex w-full flex-col border-l-0 border-t-4 border-primary py-2 pl-4 transition-colors md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-2">
+                <div className="flex w-full flex-col border-l-0 border-t-4 border-primary py-2 pl-4 transition-colors md:border-l-0 md:pb-0 md:pl-0 md:pt-2">
                   <span className="hidden text-sm font-semibold md:block">
                     {step.name}
                   </span>
                 </div>
               ) : currentStep === index ? (
-                <div className="flex w-full flex-col border-l-0 border-t-4 border-primary py-2 pl-4 md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-2">
+                <div className="flex w-full flex-col border-l-0 border-t-4 border-blue-500 py-2 pl-4 text-blue-500 md:border-l-0 md:pb-0 md:pl-0 md:pt-2">
                   <span className="hidden text-sm font-semibold md:block">
                     {step.name}
                   </span>
                 </div>
               ) : (
-                <div className="flex w-full flex-col border-l-0 border-t-4 border-muted py-2 pl-4 transition-colors md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-2">
+                <div className="flex w-full flex-col border-l-0 border-t-4 border-muted py-2 pl-4 transition-colors md:border-l-0 md:pb-0 md:pl-0 md:pt-2">
                   <span className="hidden text-sm font-semibold md:block">
                     {step.name}
                   </span>
@@ -170,7 +170,7 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
 
       {currentStep === 0 && (
         <MotionContainer delta={delta}>
-          <h2 className="text-center text-lg font-semibold md:hidden">
+          <h2 className="pt-2 text-center text-lg font-semibold md:hidden">
             Sale Details
           </h2>
 
@@ -180,7 +180,7 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
 
       {currentStep === 1 && (
         <MotionContainer delta={delta}>
-          <h2 className="text-center text-lg font-semibold md:hidden">
+          <h2 className="pt-2 text-center text-lg font-semibold md:hidden">
             Count Cash
           </h2>
 
@@ -193,13 +193,17 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
 
       {currentStep === 2 && (
         <MotionContainer delta={delta}>
-          <h2 className="text-center text-lg font-semibold md:hidden">
+          <h2 className="pt-2 text-center text-lg font-semibold md:hidden">
             Review
           </h2>
 
-          <div className="text-sm text-muted-foreground">
-            <p>Please review the report before submitting.</p>
-            <p>
+          <div className="space-y-2 text-sm">
+            <p className="flex w-fit items-center gap-2 border-l-2 border-l-warning bg-muted px-2 py-1 font-medium">
+              <TriangleAlert size={15} className="text-warning" />
+              Please review the report before submitting.
+            </p>
+
+            <p className="text-muted-foreground">
               You can go back to make changes or click submit when you're ready.
             </p>
           </div>
@@ -253,7 +257,7 @@ function MotionContainer({
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
     >
-      <div className="space-y-2">{children}</div>
+      <div className="space-y-4">{children}</div>
     </motion.div>
   );
 }

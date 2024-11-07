@@ -16,6 +16,7 @@ import { DataTable } from "../_components/DataTable";
 import { Separator } from "@/components/ui/separator";
 import { TotalHoursTips } from "@/types";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
+import { CalendarDays, MoveRight } from "lucide-react";
 
 type Params = Promise<{ yearMonth: string[] }>;
 
@@ -95,64 +96,78 @@ export default async function Page(props: { params: Params }) {
         url={`/admin/hours&tips`}
         variant={`outline`}
         className="gap-1"
+        size={"sm"}
       >
-        Current biweekly period
+        Back to current biweekly period
       </GoBackButton>
 
-      <h2 className="font-semibold">
-        {FULL_MONTHS[month - 1]} {year}
+      <h2 className="flex items-baseline gap-2 text-xl font-semibold">
+        <span>{FULL_MONTHS[month - 1]}</span>
+        <span className="text-base text-muted-foreground">{year}</span>
       </h2>
 
-      <div className="w-fit rounded-md border p-2 shadow-md">
-        <h3 className="text-sm font-medium">Total hours and tips</h3>
+      <div className="w-fit rounded-md border px-2 py-4 shadow-md">
+        <h3 className="px-2 font-semibold">Total hours and tips</h3>
 
         <HoursTipsTable data={totalHoursTips} />
       </div>
 
-      <div className="space-y-2 rounded-md border p-2 shadow-md">
-        <h3 className="text-sm font-medium">Hours breakdown</h3>
+      <div className="space-y-4 rounded-md border px-2 py-4 shadow-md">
+        <h3 className="px-2 font-semibold">Hours breakdown</h3>
 
         {periods.map((period, index) => (
-          <div key={index} className="space-y-3">
-            <h4 className="text-sm font-medium">
-              {moment(period.start).format("MMM D")} -{" "}
-              {moment(period.end).format("MMM D")}
+          <div key={index} className="space-y-2">
+            <h4 className="flex w-fit items-center space-x-2 rounded border-l-2 border-l-blue-500 bg-muted px-2 py-1 text-sm font-medium">
+              <CalendarDays size={15} className="text-blue-500" />
+              <span>{moment(period.start).format("MMM D")}</span>
+              <MoveRight size={15} />
+              <span>{moment(period.end).format("MMM D")}</span>
             </h4>
 
             {hoursTipsBreakdowns[index].hoursBreakdown.length > 0 ? (
-              <DataTable
-                dateRange={period}
-                data={hoursTipsBreakdowns[index].hoursBreakdown}
-              />
-            ) : (
-              <div className="text-sm">No record found for this period</div>
-            )}
+              <>
+                <DataTable
+                  dateRange={period}
+                  data={hoursTipsBreakdowns[index].hoursBreakdown}
+                />
 
-            <Separator />
+                <Separator />
+              </>
+            ) : (
+              <div className="p-2 text-sm text-muted-foreground">
+                No record found for this period
+              </div>
+            )}
           </div>
         ))}
       </div>
 
-      <div className="space-y-2 rounded-md border p-2 shadow-md">
-        <h3 className="text-sm font-medium">Tips breakdown</h3>
+      <div className="space-y-4 rounded-md border px-2 py-4 shadow-md">
+        <h3 className="px-2 font-semibold">Tips breakdown</h3>
 
         {periods.map((period, index) => (
-          <div key={index} className="space-y-3">
-            <h4 className="text-sm font-medium">
-              {moment(period.start).format("MMM D")} -{" "}
-              {moment(period.end).format("MMM D")}
+          <div key={index} className="space-y-2">
+            <h4 className="flex w-fit items-center space-x-2 rounded border-l-2 border-l-blue-500 bg-muted px-2 py-1 text-sm font-medium">
+              <CalendarDays size={15} className="text-blue-500" />
+              <span>{moment(period.start).format("MMM D")}</span>
+              <MoveRight size={15} />
+              <span>{moment(period.end).format("MMM D")}</span>
             </h4>
 
             {hoursTipsBreakdowns[index].tipsBreakdown.length > 0 ? (
-              <DataTable
-                dateRange={period}
-                data={hoursTipsBreakdowns[index].tipsBreakdown}
-              />
-            ) : (
-              <div className="text-sm">No record found for this period</div>
-            )}
+              <>
+                <DataTable
+                  dateRange={period}
+                  data={hoursTipsBreakdowns[index].tipsBreakdown}
+                />
 
-            <Separator />
+                <Separator />
+              </>
+            ) : (
+              <div className="p-2 text-sm text-muted-foreground">
+                No record found for this period
+              </div>
+            )}
           </div>
         ))}
       </div>
