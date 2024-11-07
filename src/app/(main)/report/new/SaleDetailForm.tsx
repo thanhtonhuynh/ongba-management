@@ -67,7 +67,7 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-semibold">Uber Eats</FormLabel>
+                <FormLabel className="font-semibold">UberEats</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -86,26 +86,7 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-semibold">Door Dash</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    placeholder="0.00"
-                    onFocus={(e) => e.target.select()}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            name="skipTheDishesSales"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-semibold">Skip Dishes</FormLabel>
+                <FormLabel className="font-semibold">DoorDash</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -124,7 +105,25 @@ export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-semibold">Online</FormLabel>
+                <FormLabel className="font-semibold">Ritual (online)</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="number"
+                    placeholder="0.00"
+                    onFocus={(e) => e.target.select()}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="skipTheDishesSales"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-semibold">Skip the Dishes</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
