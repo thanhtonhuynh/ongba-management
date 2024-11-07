@@ -27,7 +27,7 @@ export async function EmployeeAnalytics({ user }: EmployeeAnalyticsProps) {
       <div className="space-y-3">
         <h1 className="text-xl">For You</h1>
 
-        <div className="space-y-2 font-semibold sm:flex sm:items-center sm:space-x-4 sm:space-y-0">
+        <div className="space-y-2 sm:flex sm:items-center sm:space-x-4 sm:space-y-0">
           <p>Current biweekly period</p>
 
           <p className="flex w-fit items-center space-x-2 rounded border-l-2 border-l-blue-500 bg-muted px-2 py-1 text-sm font-medium">
