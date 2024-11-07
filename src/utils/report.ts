@@ -1,4 +1,8 @@
-import { SaleReportCardProcessedData, SaleReportCardRawData } from "@/types";
+import {
+  CashFlowRawData,
+  SaleReportCardProcessedData,
+  SaleReportCardRawData,
+} from "@/types";
 
 export function processReportDataForView(
   rawData: SaleReportCardRawData,
@@ -48,4 +52,30 @@ export function processReportDataForView(
   };
 
   return processedData;
+}
+
+export function summarizeReports(reports: CashFlowRawData[]) {
+  return reports.reduce(
+    (acc, report) => {
+      acc.totalSales += report.totalSales;
+      acc.onlineSales +=
+        report.uberEatsSales +
+        report.doorDashSales +
+        report.skipTheDishesSales +
+        report.onlineSales;
+      acc.uberEatsSales += report.uberEatsSales;
+      acc.doorDashSales += report.doorDashSales;
+      acc.skipTheDishesSales += report.skipTheDishesSales;
+      acc.ritualSales += report.onlineSales;
+      return acc;
+    },
+    {
+      totalSales: 0,
+      onlineSales: 0,
+      uberEatsSales: 0,
+      doorDashSales: 0,
+      skipTheDishesSales: 0,
+      ritualSales: 0,
+    },
+  );
 }
