@@ -12,7 +12,8 @@ import { DataTable } from "./_components/DataTable";
 import { TotalHoursTips } from "@/types";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { ErrorMessage } from "@/components/Message";
-import { CalendarDays, MoveRight } from "lucide-react";
+import { MoveRight } from "lucide-react";
+import { CurrentTag } from "@/components/CurrentTag";
 
 export default async function Page() {
   const { session, user } = await getCurrentSession();
@@ -53,14 +54,11 @@ export default async function Page() {
 
   return (
     <div className="space-y-4">
-      <h2 className="gap-2 space-y-2 sm:flex sm:items-center sm:space-x-2 sm:space-y-0">
-        <p className="">Current biweekly period</p>
-        <p className="mx-auto flex w-fit items-center justify-center space-x-2 rounded border-l-2 border-l-blue-500 bg-muted px-2 py-1 text-base font-medium">
-          <CalendarDays size={15} className="text-blue-500" />
-          <span>{moment(todayBiweeklyPeriod.start).format("MMM D, YYYY")}</span>
-          <MoveRight size={15} />
-          <span>{moment(todayBiweeklyPeriod.end).format("MMM D, YYYY")}</span>
-        </p>
+      <h2 className="flex items-center gap-2">
+        <span>{moment(todayBiweeklyPeriod.start).format("MMM D, YYYY")}</span>
+        <MoveRight size={17} />
+        <span>{moment(todayBiweeklyPeriod.end).format("MMM D, YYYY")}</span>
+        <CurrentTag />
       </h2>
 
       <div className="w-fit rounded-md border px-2 py-4 shadow-md">
