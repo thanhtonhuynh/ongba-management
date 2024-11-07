@@ -89,7 +89,7 @@ export function SaleReportCard({ data }: SaleReportProps) {
           <ReportBlock
             label="Expenses"
             data={`${formatPriceWithDollar(data.expenses)} ${
-              data.expensesReason && `${data.expensesReason}`
+              data.expensesReason && `- ${data.expensesReason}`
             }`}
           />
 
@@ -199,37 +199,15 @@ function ReportBlock({
   data,
   secondaryData,
 }: {
-  label?: string;
+  label: string;
   data: number | string;
   secondaryData?: boolean;
 }) {
   return (
-    <div
-      className={
-        cn()
-        // !secondaryData &&
-        // "rounded border-l-2 border-l-primary bg-muted px-2 py-1",
-      }
-    >
-      {label && (
-        <p
-          className={cn(
-            "font-bold",
-            // secondaryData && "font-medium text-muted-foreground",
-            secondaryData && "font-medium",
-          )}
-        >
-          {label}
-        </p>
-      )}
+    <div>
+      <p className={cn("font-bold", secondaryData && "font-medium")}>{label}</p>
 
-      <p
-        className={cn(
-          // "text-blue-500",
-          "text-muted-foreground",
-          secondaryData && "text-muted-foreground",
-        )}
-      >
+      <p className="text-muted-foreground">
         {typeof data === "number" ? formatPriceWithDollar(data) : data}
       </p>
     </div>

@@ -12,7 +12,7 @@ export const CreateReportSchema = z.object({
   skipTheDishesSales: z.coerce.number().gte(0, "Invalid"),
   onlineSales: z.coerce.number().gte(0, "Invalid"),
   expenses: z.coerce.number().gte(0, "Invalid"),
-  expensesReason: trimmedString.optional(),
+  expensesReason: trimmedString.toLowerCase().optional(),
   cardTips: z.coerce.number().gte(0, "Invalid"),
   cashTips: z.coerce.number().gte(0, "Invalid"),
   extraTips: z.coerce.number().gte(0, "Invalid"),
