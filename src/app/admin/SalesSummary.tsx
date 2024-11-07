@@ -30,7 +30,7 @@ export async function SalesSummary() {
       acc.uberEatsSales += report.uberEatsSales;
       acc.doorDashSales += report.doorDashSales;
       acc.skipTheDishesSales += report.skipTheDishesSales;
-      acc.onlineSales += report.onlineSales;
+      acc.ritualSales += report.onlineSales;
       return acc;
     },
     {
