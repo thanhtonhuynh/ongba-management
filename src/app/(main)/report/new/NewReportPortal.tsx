@@ -198,7 +198,7 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
           </h2>
 
           <div className="space-y-2 text-sm">
-            <p className="flex w-fit items-center gap-2 border-l-2 border-l-warning bg-muted px-2 py-1 font-medium">
+            <p className="flex w-fit items-center gap-2 rounded border-l-2 border-l-warning bg-muted px-2 py-1 font-medium">
               <TriangleAlert size={15} className="text-warning" />
               Please review the report before submitting.
             </p>
