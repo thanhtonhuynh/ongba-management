@@ -53,14 +53,14 @@ export function CashCounter() {
     <Form {...form}>
       <form className="space-y-3">
         <div className="mx-auto w-fit rounded-md border p-2 text-sm shadow">
-          <h2 className="font-semibold">Total Cash in Till</h2>
+          <h2>Total Cash in Till</h2>
           <p className="font-medium text-blue-500">
             {formatPriceWithDollar(total)}
           </p>
         </div>
 
         <div className="rounded-md border p-2 shadow">
-          <h2 className="text-sm font-semibold">Bills</h2>
+          <h2 className="text-sm">Bills</h2>
           <div className="flex justify-center space-x-2">
             {BILL_FIELDS.map((key) => (
               <FormField
@@ -89,7 +89,7 @@ export function CashCounter() {
         </div>
 
         <div className="rounded-md border p-2 shadow">
-          <h2 className="text-sm font-semibold">Coins</h2>
+          <h2 className="text-sm">Coins</h2>
           <div className="flex justify-center space-x-2">
             {COIN_FIELDS.map((key) => (
               <FormField
@@ -118,7 +118,7 @@ export function CashCounter() {
         </div>
 
         <div className="rounded-md border p-2 shadow">
-          <h2 className="text-sm font-semibold">Rolls</h2>
+          <h2 className="text-sm">Rolls</h2>
           <div className="flex justify-center space-x-2">
             {ROLL_FIELDS.map((key) => (
               <FormField

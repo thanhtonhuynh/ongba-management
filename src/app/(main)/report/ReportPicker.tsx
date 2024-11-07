@@ -107,7 +107,7 @@ export function ReportPicker() {
 
           {processedReport && (
             <div className="space-y-2">
-              <h2 className="font-semibold">Sales Report</h2>
+              <h2>Sales Report</h2>
 
               <SaleReportCard data={processedReport} />
             </div>

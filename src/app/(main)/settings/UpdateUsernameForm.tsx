@@ -46,7 +46,7 @@ export function UpdateUsernameForm({ user }: UpdateUsernameFormProps) {
 
   return (
     <div className="space-y-2 rounded-md border p-4 shadow-md">
-      <h2 className="font-semibold">Username</h2>
+      <h2>Username</h2>
 
       <div className="space-y-1 text-sm text-muted-foreground">
         <p>

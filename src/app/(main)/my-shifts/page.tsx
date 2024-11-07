@@ -99,7 +99,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
         </GoBackButton>
       )}
 
-      <h2 className="flex items-center gap-2 text-lg font-semibold">
+      <h2 className="flex items-center gap-2 text-lg">
         <span>{FULL_MONTHS[selectedMonth - 1]}</span>
         <span className="text-sm text-muted-foreground">{selectedYear}</span>
         {selectedYear === today.getFullYear() &&

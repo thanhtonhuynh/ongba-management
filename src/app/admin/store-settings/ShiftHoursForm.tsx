@@ -61,7 +61,7 @@ export function ShiftHoursForm({ currentShiftHours }: ShiftHoursFormProps) {
 
   return (
     <div className="space-y-2 rounded-md border p-4 shadow-md">
-      <h2 className="font-semibold">Work hours</h2>
+      <h2>Work hours</h2>
 
       <div className="space-y-1 text-sm text-muted-foreground">
         <p>

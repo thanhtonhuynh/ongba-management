@@ -53,7 +53,7 @@ export default async function Page() {
 
   return (
     <div className="space-y-4">
-      <h2 className="gap-2 space-y-2 text-xl font-semibold sm:flex sm:items-baseline sm:space-x-2 sm:space-y-0">
+      <h2 className="gap-2 space-y-2 text-xl sm:flex sm:items-baseline sm:space-x-2 sm:space-y-0">
         <p className="">Current biweekly period</p>
         <p className="flex items-center justify-center space-x-2 text-base text-muted-foreground">
           <span>{moment(todayBiweeklyPeriod.start).format("MMM D, YYYY")}</span>

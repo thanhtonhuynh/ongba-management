@@ -26,7 +26,7 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-3">
-        <h2 className="text-xl font-semibold">Sales Summary</h2>
+        <h2 className="text-xl">Sales Summary</h2>
         {years.length > 0 && <ViewPeriodsDialog years={years} />}
       </div>
 

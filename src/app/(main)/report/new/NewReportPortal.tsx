@@ -170,9 +170,7 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
 
       {currentStep === 0 && (
         <MotionContainer delta={delta}>
-          <h2 className="pt-2 text-center text-lg font-semibold md:hidden">
-            Sale Details
-          </h2>
+          <h2 className="pt-2 text-center text-lg md:hidden">Sale Details</h2>
 
           <SaleDetailForm users={users} form={createReportForm} />
         </MotionContainer>
@@ -180,9 +178,7 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
 
       {currentStep === 1 && (
         <MotionContainer delta={delta}>
-          <h2 className="pt-2 text-center text-lg font-semibold md:hidden">
-            Count Cash
-          </h2>
+          <h2 className="pt-2 text-center text-lg md:hidden">Count Cash</h2>
 
           <CashCounterForm
             createReportForm={createReportForm}
@@ -193,9 +189,7 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
 
       {currentStep === 2 && (
         <MotionContainer delta={delta}>
-          <h2 className="pt-2 text-center text-lg font-semibold md:hidden">
-            Review
-          </h2>
+          <h2 className="pt-2 text-center text-lg md:hidden">Review</h2>
 
           <div className="space-y-2 text-sm">
             <p className="flex w-fit items-center gap-2 rounded border-l-2 border-l-warning bg-muted px-2 py-1 font-medium">

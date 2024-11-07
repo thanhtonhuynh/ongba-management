@@ -101,7 +101,7 @@ export default async function Page(props: { params: Params }) {
         Back to current biweekly period
       </GoBackButton>
 
-      <h2 className="flex items-baseline gap-2 text-xl font-semibold">
+      <h2 className="flex items-baseline gap-2 text-xl">
         <span>{FULL_MONTHS[month - 1]}</span>
         <span className="text-base text-muted-foreground">{year}</span>
       </h2>

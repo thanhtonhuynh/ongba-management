@@ -54,7 +54,7 @@ export function StartCashForm({ currentStartCash }: ShiftHoursFormProps) {
 
   return (
     <div className="space-y-2 rounded-md border p-4 shadow-md">
-      <h2 className="font-semibold">Start cash</h2>
+      <h2>Start cash</h2>
 
       <div className="space-y-1 text-sm text-muted-foreground">
         <p>Update the start cash amount.</p>

@@ -48,7 +48,7 @@ export function UpdateAvatar({ user }: UpdateAvatarFormProps) {
       </div>
 
       <div className="space-y-2">
-        <h2 className="font-semibold">Profile picture</h2>
+        <h2>Profile picture</h2>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">

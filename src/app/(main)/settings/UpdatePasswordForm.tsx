@@ -47,7 +47,7 @@ export function UpdatePasswordForm() {
 
   return (
     <div className="space-y-2 rounded-md border p-4 shadow-md">
-      <h2 className="font-semibold">Password</h2>
+      <h2>Password</h2>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
