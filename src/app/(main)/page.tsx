@@ -82,7 +82,7 @@ export default async function Home() {
 
       {todayReport && (
         <div className="space-y-4 rounded-md border p-4 shadow">
-          <h1>Today's Sale Report</h1>
+          <h1 className="text-xl">Today's Sale Report</h1>
           <SaleReportCard data={processedTodayReportData} />
         </div>
       )}

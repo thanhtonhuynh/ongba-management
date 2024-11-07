@@ -50,11 +50,11 @@ export function ReportPicker() {
     });
   }
   return (
-    <div className={`grid space-y-4 md:grid-cols-2 md:space-x-4 md:space-y-0`}>
+    <div className={`space-y-4`}>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4 self-start rounded-md border p-4 shadow"
+          className="space-y-4 rounded-md border p-4 shadow"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
@@ -67,11 +67,12 @@ export function ReportPicker() {
             name="date"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-base">
+                <FormLabel className="text-base font-semibold">
                   Pick a date to search for a sales report
                 </FormLabel>
                 <FormControl>
                   <Calendar
+                    className="mx-auto max-w-3xl"
                     mode="single"
                     selected={field.value}
                     onDayFocus={(date) => {

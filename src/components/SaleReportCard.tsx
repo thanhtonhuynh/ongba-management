@@ -16,10 +16,10 @@ export function SaleReportCard({ data }: SaleReportProps) {
   }
 
   return (
-    <div className="w-full space-y-2 rounded border p-2 text-sm shadow">
-      <div className="flex items-center justify-between space-x-2">
+    <div className="space-y-2 text-sm">
+      <div className="flex items-center justify-between space-x-2 rounded bg-muted px-2 py-1">
         <div className="font-medium">
-          {moment(data.date).format("ddd MMM Do, YYYY")}
+          {moment(data.date).format("ddd MMM D, YYYY")}
         </div>
 
         <div className="flex items-center space-x-1 text-muted-foreground">
@@ -30,193 +30,142 @@ export function SaleReportCard({ data }: SaleReportProps) {
         </div>
       </div>
 
-      <Separator />
+      <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-8">
+        <div className="space-y-2">
+          <ReportBlock label="Total Sales" data={data.totalSales} />
 
-      <div className="flex gap-2 border-l-[3px] border-l-green-500">
-        <ReportBlock label="Total Sales" data={data.totalSales} />
-      </div>
+          <Separator />
 
-      <Separator />
+          <ReportBlock label="In-store Sales" data={data.inStoreSales} />
 
-      <div className="grid grid-cols-3 items-center gap-2">
-        <ReportBlock label="In-store Sales" data={data.inStoreSales} />
-
-        <div className="col-span-2 space-y-1">
-          <ReportBlock
-            label="Card sales"
-            data={data.cardSales}
-            blockCn="bg-muted flex gap-1 shadow-sm"
-            secondaryData
-          />
-
-          <ReportBlock
-            label="Cash sales"
-            data={data.cashSales}
-            blockCn="bg-muted flex gap-1 shadow-sm"
-            secondaryData
-          />
-        </div>
-      </div>
-
-      <Separator />
-
-      <div className="grid grid-cols-3 items-center gap-2">
-        <ReportBlock label="Online Sales" data={data.otherSales} />
-
-        <div className="col-span-2 space-y-1">
-          <ReportBlock
-            label="UberEats"
-            data={data.uberEatsSales}
-            blockCn="bg-muted flex gap-1 shadow-sm"
-            secondaryData
-          />
-          <ReportBlock
-            label="DoorDash"
-            data={data.doorDashSales}
-            blockCn="bg-muted flex gap-1 shadow-sm"
-            secondaryData
-          />
-          <ReportBlock
-            label="Ritual"
-            data={data.onlineSales}
-            blockCn="bg-muted flex gap-1 shadow-sm"
-            secondaryData
-          />
-          <ReportBlock
-            label="SkipDishes"
-            data={data.skipTheDishesSales}
-            blockCn="bg-muted flex gap-1 shadow-sm"
-            secondaryData
-          />
-        </div>
-      </div>
-
-      <Separator />
-
-      <div className="grid grid-cols-3 items-center gap-2">
-        <ReportBlock label="Expenses" data={data.expenses} />
-
-        <div className="col-span-2 space-y-1">
-          {data.expensesReason && (
+          <div className="flex gap-8">
             <ReportBlock
-              data={data.expensesReason}
-              blockCn="bg-muted flex gap-1 shadow-sm"
+              label="Card sales"
+              data={data.cardSales}
+              secondaryData
             />
-          )}
-        </div>
-      </div>
+            <ReportBlock
+              label="Cash sales"
+              data={data.cashSales}
+              secondaryData
+            />
+          </div>
 
-      <Separator />
+          <Separator />
 
-      <div
-        className={cn(
-          `flex flex-col gap-2 border-l-[3px]`,
-          data.cashDifference < -3.0 ? "border-l-orange-500" : "border-l-0",
-        )}
-      >
-        <ReportBlock label="Cash Difference" data={data.cashDifference} />
+          <ReportBlock label="Online Sales" data={data.otherSales} />
 
-        <div className="flex items-center gap-2 px-2 pb-1">
+          <div className="flex gap-4 md:gap-8">
+            <ReportBlock
+              label="UberEats"
+              data={data.uberEatsSales}
+              secondaryData
+            />
+
+            <ReportBlock
+              label="DoorDash"
+              data={data.doorDashSales}
+              secondaryData
+            />
+
+            <ReportBlock label="Ritual" data={data.onlineSales} secondaryData />
+
+            <ReportBlock
+              label="SkipDishes"
+              data={data.skipTheDishesSales}
+              secondaryData
+            />
+          </div>
+
+          <Separator />
+
           <ReportBlock
-            label="Cash in Till"
-            data={data.cashInTill}
-            blockCn="bg-muted  shadow-sm"
-            secondaryData
+            label="Expenses"
+            data={`${formatPriceWithDollar(data.expenses)} ${
+              data.expensesReason && `(${data.expensesReason})`
+            }`}
           />
-          <span>-</span>
-          <ReportBlock
-            label="Start Cash"
-            data={data.startCash}
-            blockCn="bg-muted shadow-sm"
-            secondaryData
-          />
-          <span>-</span>
-          <ReportBlock
-            label="Actual Cash"
-            data={data.actualCash}
-            blockCn="bg-muted shadow-sm"
-            secondaryData
-          />
-        </div>
-      </div>
 
-      <Separator />
+          <Separator />
 
-      <div className="flex flex-col gap-2">
-        <ReportBlock label="Cash Out" data={data.cashOut} />
+          <ReportBlock label="Cash Difference" data={data.cashDifference} />
 
-        <div className="flex items-center gap-2 px-2 pb-1">
-          <ReportBlock
-            label="Taken from Till"
-            data={data.cashInTill - data.startCash}
-            blockCn="bg-muted shadow-sm"
-            secondaryData
-          />
-          <span>+</span>
-          <ReportBlock
-            label="Cash Tips"
-            data={data.cashTips}
-            blockCn="bg-muted shadow-sm"
-            secondaryData
-          />
-        </div>
-      </div>
+          <div className="flex items-center gap-4">
+            <ReportBlock
+              label="Cash in Till"
+              data={data.cashInTill}
+              secondaryData
+            />
+            <span>-</span>
+            <ReportBlock
+              label="Start Cash"
+              data={data.startCash}
+              secondaryData
+            />
+            <span>-</span>
+            <ReportBlock
+              label="Actual Cash"
+              data={data.actualCash}
+              secondaryData
+            />
+          </div>
 
-      <Separator />
+          <Separator />
 
-      <div className="grid grid-cols-3 items-center gap-2">
-        <ReportBlock label="Total Tips" data={data.totalTips} />
+          <ReportBlock label="Cash Out" data={data.cashOut} />
 
-        <div className="col-span-2 space-y-1">
-          <ReportBlock
-            label="Card Tips"
-            data={data.cardTips}
-            blockCn="bg-muted flex gap-1 shadow-sm"
-            secondaryData
-          />
-          <ReportBlock
-            label="Cash Tips"
-            data={data.cashTips}
-            blockCn="bg-muted flex gap-1 shadow-sm"
-            secondaryData
-          />
-          <ReportBlock
-            label="Extra Tips"
-            data={data.extraTips}
-            blockCn="bg-muted flex gap-1 shadow-sm"
-            secondaryData
-          />
-        </div>
-      </div>
-
-      <Separator />
-
-      <div className="flex flex-col gap-2">
-        <div className="rounded-lg px-2 py-1">
-          <p className="font-semibold">Tips Breakdown</p>
-          <p className="text-muted-foreground">
-            {formatPriceWithDollar(data.totalTips)} / {data.totalPeople} ={" "}
-            {formatPriceWithDollar(data.tipsPerPerson)}
-          </p>
+          <div className="flex items-center gap-4">
+            <ReportBlock
+              label="Taken from Till"
+              data={data.cashInTill - data.startCash}
+              secondaryData
+            />
+            <span>+</span>
+            <ReportBlock label="Cash Tips" data={data.cashTips} secondaryData />
+          </div>
         </div>
 
-        <div className="space-y-1 px-2 pb-1">
-          {data.employees.map((emp) => (
-            <div
-              key={emp.userId}
-              className="flex items-center space-x-2 rounded-lg bg-muted px-2 py-1 shadow-sm"
-            >
-              {emp.image && <ProfilePicture image={emp.image} size={40} />}
-              <span className="font-medium">{emp.name}</span>
-              <span className="text-muted-foreground">
-                {data.totalPeople > 1
-                  ? emp.fullDay
-                    ? formatPriceWithDollar(data.tipsPerPerson)
-                    : formatPriceWithDollar(data.tipsPerPerson / 2)
-                  : formatPriceWithDollar(data.totalTips)}
-              </span>
-            </div>
-          ))}
+        <Separator className="md:hidden" />
+
+        <div className="space-y-2">
+          <ReportBlock label="Total Tips" data={data.totalTips} />
+
+          <div className="flex gap-8">
+            <ReportBlock label="Card Tips" data={data.cardTips} secondaryData />
+            <ReportBlock label="Cash Tips" data={data.cashTips} secondaryData />
+            <ReportBlock
+              label="Extra Tips"
+              data={data.extraTips}
+              secondaryData
+            />
+          </div>
+
+          <Separator />
+
+          <ReportBlock
+            label="Tips Breakdown"
+            data={`${formatPriceWithDollar(data.totalTips)} / ${data.totalPeople} =
+              ${formatPriceWithDollar(data.tipsPerPerson)}`}
+          />
+
+          <div className="space-y-1">
+            {data.employees.map((emp) => (
+              <div
+                key={emp.userId}
+                className="flex h-12 items-center space-x-2 rounded bg-muted px-2 shadow-sm"
+              >
+                {emp.image && <ProfilePicture image={emp.image} size={40} />}
+                <span className="font-medium">{emp.name}</span>
+                <span className="text-muted-foreground">
+                  {data.totalPeople > 1
+                    ? emp.fullDay
+                      ? formatPriceWithDollar(data.tipsPerPerson)
+                      : formatPriceWithDollar(data.tipsPerPerson / 2)
+                    : formatPriceWithDollar(data.totalTips)}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -226,27 +175,31 @@ export function SaleReportCard({ data }: SaleReportProps) {
 function ReportBlock({
   label,
   data,
-  blockCn,
   secondaryData,
 }: {
   label?: string;
   data: number | string;
-  blockCn?: string;
   secondaryData?: boolean;
 }) {
   return (
-    <div className={cn(`rounded-lg px-2 py-1`, blockCn)}>
+    <div>
       {label && (
         <p
           className={cn(
-            "flex items-center gap-1",
-            secondaryData ? "font-medium" : "font-semibold",
+            "font-semibold",
+            secondaryData && "font-medium text-muted-foreground",
           )}
         >
           {label}
         </p>
       )}
-      <p className="text-muted-foreground">
+
+      <p
+        className={cn(
+          // "text-blue-500",
+          secondaryData && "text-muted-foreground",
+        )}
+      >
         {typeof data === "number" ? formatPriceWithDollar(data) : data}
       </p>
     </div>
