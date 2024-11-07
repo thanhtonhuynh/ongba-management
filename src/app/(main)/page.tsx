@@ -48,17 +48,17 @@ export default async function Home() {
 
   return (
     <section className="space-y-4">
-      <div className="grid grid-cols-1 space-y-4 md:grid-cols-2 md:space-x-4 md:space-y-0">
+      <div className="grid grid-cols-1 space-y-4">
+        <div className="text-right font-medium text-muted-foreground">
+          {moment().tz("America/Vancouver").format("dddd, MMMM D, YYYY HH:mm")}
+        </div>
+
         <div className="space-y-4 rounded-md border p-4 shadow">
           <div>Good day, {user.name}!</div>
 
-          <div>
-            Today is <ClientTimeDisplay className="font-bold" />
-          </div>
-
           {todayReport && (
-            <div className="flex items-center gap-2">
-              <CircleCheck size={17} className="text-green-500" />
+            <div className="flex w-fit items-center gap-2 rounded border-l-2 border-l-blue-500 bg-muted px-2 py-1 font-medium">
+              <CircleCheck size={17} className="text-blue-500" />
               Today's report has been submitted.
             </div>
           )}
