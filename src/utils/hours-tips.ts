@@ -59,7 +59,7 @@ export function getTodayBiweeklyPeriod(): DayRange {
     return {
       start: new Date(today.getFullYear(), today.getMonth(), 1, 7),
       // end: new Date(today.getFullYear(), today.getMonth(), 15, 7),
-      end: moment(today).tz("America/Vancouver").day(15).toDate(),
+      end: moment(today).tz("America/Vancouver").date(15).toDate(),
     };
   }
 
