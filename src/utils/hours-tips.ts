@@ -83,30 +83,34 @@ export function getPeriodsByMonthAndYear(
   const periods: DayRange[] = [];
 
   periods.push({
-    // start: moment(new Date(year, month - 1, 1))
-    //   .tz("America/Vancouver")
-    //   // .startOf("month")
-    //   .toDate(),
     start: moment()
+      .tz("America/Vancouver")
       .year(year)
       .month(month - 1)
-      .tz("America/Vancouver")
-      .startOf("month")
+      .date(1)
       .toDate(),
-    // end: new Date(year, month - 1, 15, 7),
-    end: moment(new Date(year, month - 1, 15))
+    end: moment()
       .tz("America/Vancouver")
+      .year(year)
+      .month(month - 1)
+      .date(15)
       .toDate(),
   });
 
   periods.push({
     // start: new Date(year, month - 1, 16, 7),
     // end: new Date(year, month, 0, 7),
-    start: moment(new Date(year, month - 1, 16))
+    start: moment()
       .tz("America/Vancouver")
+      .year(year)
+      .month(month - 1)
+      .date(16)
       .toDate(),
-    end: moment(new Date(year, month, 0))
+    end: moment()
       .tz("America/Vancouver")
+      .year(year)
+      .month(month - 1)
+      .endOf("month")
       .toDate(),
   });
 
