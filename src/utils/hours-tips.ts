@@ -53,7 +53,7 @@ export function getTodayBiweeklyPeriod(): DayRange {
   const today = moment().tz("America/Vancouver").startOf("day").toDate();
   const day = today.getDate();
 
-  if (day < 16) {
+  if (day <= 15) {
     return {
       start: moment(today).tz("America/Vancouver").startOf("month").toDate(),
       end: moment(today).tz("America/Vancouver").date(15).toDate(),
@@ -112,8 +112,6 @@ export function getPeriodsByMonthAndYear(
   });
 
   periods.push({
-    // start: new Date(year, month - 1, 16, 7),
-    // end: new Date(year, month, 0, 7),
     start: moment()
       .year(year)
       .month(month)

@@ -61,7 +61,6 @@ export default async function Page(props: { params: Params }) {
   }
 
   const periods = getPeriodsByMonthAndYear(year, month - 1);
-  console.log("periods", periods);
 
   const [firstPeriodEmployeeShifts, secondPeriodEmployeeShifts] =
     await Promise.all([
