@@ -1,7 +1,7 @@
 import { BreakdownData, DayRange, EmployeeShift } from "@/types";
 import { getFirstReportDate } from "@/data-access/report";
 import { cache } from "react";
-import moment from "moment";
+import moment from "moment-timezone";
 
 export const populateMonthSelectData = cache(async () => {
   const firstReportDate = await getFirstReportDate();
