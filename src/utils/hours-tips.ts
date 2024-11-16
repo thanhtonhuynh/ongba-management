@@ -52,20 +52,17 @@ export const populateMonthSelectData = cache(async () => {
 export function getTodayBiweeklyPeriod(): DayRange {
   const today = moment().tz("America/Vancouver").startOf("day").toDate();
   const day = today.getDate();
-  console.log("day", day);
-  console.log("today", today);
 
   if (day < 16) {
     return {
-      start: new Date(today.getFullYear(), today.getMonth(), 1, 7),
-      // end: new Date(today.getFullYear(), today.getMonth(), 15, 7),
+      start: moment(today).tz("America/Vancouver").startOf("month").toDate(),
       end: moment(today).tz("America/Vancouver").date(15).toDate(),
     };
   }
 
   return {
-    start: new Date(today.getFullYear(), today.getMonth(), 16, 7),
-    end: new Date(today.getFullYear(), today.getMonth() + 1, 0, 7),
+    start: moment(today).tz("America/Vancouver").date(16).toDate(),
+    end: moment(today).tz("America/Vancouver").endOf("month").toDate(),
   };
 }
 
@@ -86,13 +83,30 @@ export function getPeriodsByMonthAndYear(
   const periods: DayRange[] = [];
 
   periods.push({
-    start: new Date(year, month - 1, 1, 7),
-    end: new Date(year, month - 1, 15, 7),
+    start: moment(new Date(year, month - 1, 1))
+      .tz("America/Vancouver")
+      // .startOf("month")
+      .toDate(),
+    // start: moment()
+    //   .year(year)
+    //   .month(month - 1)
+    //   .startOf("month")
+    //   .toDate(),
+    // end: new Date(year, month - 1, 15, 7),
+    end: moment(new Date(year, month - 1, 15))
+      .tz("America/Vancouver")
+      .toDate(),
   });
 
   periods.push({
-    start: new Date(year, month - 1, 16, 7),
-    end: new Date(year, month, 0, 7),
+    // start: new Date(year, month - 1, 16, 7),
+    // end: new Date(year, month, 0, 7),
+    start: moment(new Date(year, month - 1, 16))
+      .tz("America/Vancouver")
+      .toDate(),
+    end: moment(new Date(year, month, 0))
+      .tz("America/Vancouver")
+      .toDate(),
   });
 
   return periods;
