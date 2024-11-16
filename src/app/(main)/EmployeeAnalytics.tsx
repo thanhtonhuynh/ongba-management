@@ -17,7 +17,6 @@ type EmployeeAnalyticsProps = {
 
 export async function EmployeeAnalytics({ user }: EmployeeAnalyticsProps) {
   const todayBiweeklyPeriod = getTodayBiweeklyPeriod();
-  console.log("todayBiweeklyperiod", todayBiweeklyPeriod);
   const userShifts = await getUserShiftsInDateRange(
     user.id,
     todayBiweeklyPeriod,

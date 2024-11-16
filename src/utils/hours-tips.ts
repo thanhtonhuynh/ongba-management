@@ -1,7 +1,7 @@
 import { BreakdownData, DayRange, EmployeeShift } from "@/types";
 import { getFirstReportDate } from "@/data-access/report";
 import { cache } from "react";
-import moment from "moment-timezone";
+import moment from "moment";
 
 export const populateMonthSelectData = cache(async () => {
   const firstReportDate = await getFirstReportDate();
@@ -52,22 +52,7 @@ export const populateMonthSelectData = cache(async () => {
 export function getTodayBiweeklyPeriod(): DayRange {
   const today = moment().tz("America/Vancouver").toDate();
   const day = today.getDate();
-  console.log(
-    "1: ",
-    moment().tz("America/Vancouver").date(1).startOf("day").toDate(),
-  );
-  console.log(
-    "15: ",
-    moment().tz("America/Vancouver").date(15).startOf("day").toDate(),
-  );
-  console.log(
-    "16: ",
-    moment().tz("America/Vancouver").date(16).startOf("day").toDate(),
-  );
-  console.log(
-    "end: ",
-    moment().tz("America/Vancouver").endOf("month").startOf("day").toDate(),
-  );
+
   if (day <= 15) {
     return {
       start: moment().tz("America/Vancouver").date(1).startOf("day").toDate(),
