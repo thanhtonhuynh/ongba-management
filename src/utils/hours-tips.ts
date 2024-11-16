@@ -74,8 +74,8 @@ export function getDayRangeByMonthAndYear(
     start: moment()
       .year(year)
       .month(month)
-      .date(1)
       .tz("America/Vancouver")
+      .date(1)
       .toDate(),
     end: moment()
       .year(year)
@@ -96,14 +96,14 @@ export function getPeriodsByMonthAndYear(
     start: moment()
       .year(year)
       .month(month)
-      .date(1)
       .tz("America/Vancouver")
+      .date(1)
       .toDate(),
     end: moment()
       .year(year)
       .month(month)
-      .date(15)
       .tz("America/Vancouver")
+      .date(15)
       .toDate(),
   });
 
@@ -113,14 +113,14 @@ export function getPeriodsByMonthAndYear(
     start: moment()
       .year(year)
       .month(month)
-      .date(16)
       .tz("America/Vancouver")
+      .date(16)
       .toDate(),
     end: moment()
       .year(year)
       .month(month)
-      .endOf("month")
       .tz("America/Vancouver")
+      .endOf("month")
       .toDate(),
   });
 
