@@ -19,7 +19,7 @@ type SalesSummaryProps = {
 export async function SalesSummary({ year, month }: SalesSummaryProps) {
   const { years } = await populateMonthSelectData();
   const today = moment().tz("America/Vancouver").startOf("day").toDate();
-  const dateRange = getDayRangeByMonthAndYear(year, month);
+  const dateRange = getDayRangeByMonthAndYear(year, month - 1);
   const reports = await getReportsByDateRange(dateRange);
   const sumData = summarizeReports(reports);
   const instoreSales = sumData.totalSales - sumData.onlineSales;

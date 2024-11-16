@@ -69,8 +69,8 @@ export default async function Page(props: { searchParams: SearchParams }) {
     selectedMonth = today.getMonth() + 1;
   }
 
-  const dateRange = getDayRangeByMonthAndYear(selectedYear, selectedMonth);
-  const periods = getPeriodsByMonthAndYear(selectedYear, selectedMonth);
+  const dateRange = getDayRangeByMonthAndYear(selectedYear, selectedMonth - 1);
+  const periods = getPeriodsByMonthAndYear(selectedYear, selectedMonth - 1);
   const userShifts = await getUserShiftsInDateRange(user.id, dateRange);
 
   const firstPeriodShifts = userShifts.filter(
