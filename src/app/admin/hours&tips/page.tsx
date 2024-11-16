@@ -28,7 +28,6 @@ export default async function Page() {
   }
 
   const todayBiweeklyPeriod = getTodayBiweeklyPeriod();
-  console.log("todayBiweeklyPeriod", todayBiweeklyPeriod);
   const employeeShifts =
     await getAllEmployeeShiftsInDayRange(todayBiweeklyPeriod);
 

@@ -50,19 +50,38 @@ export const populateMonthSelectData = cache(async () => {
 });
 
 export function getTodayBiweeklyPeriod(): DayRange {
-  const today = moment().tz("America/Vancouver").startOf("day").toDate();
+  const today = moment().tz("America/Vancouver").toDate();
   const day = today.getDate();
-
+  console.log(
+    "1: ",
+    moment().tz("America/Vancouver").date(1).startOf("day").toDate(),
+  );
+  console.log(
+    "15: ",
+    moment().tz("America/Vancouver").date(15).startOf("day").toDate(),
+  );
+  console.log(
+    "16: ",
+    moment().tz("America/Vancouver").date(16).startOf("day").toDate(),
+  );
+  console.log(
+    "end: ",
+    moment().tz("America/Vancouver").endOf("month").startOf("day").toDate(),
+  );
   if (day <= 15) {
     return {
-      start: moment(today).tz("America/Vancouver").startOf("month").toDate(),
-      end: moment(today).tz("America/Vancouver").date(15).toDate(),
+      start: moment().tz("America/Vancouver").date(1).startOf("day").toDate(),
+      end: moment().tz("America/Vancouver").date(15).startOf("day").toDate(),
     };
   }
 
   return {
-    start: moment(today).tz("America/Vancouver").date(16).toDate(),
-    end: moment(today).tz("America/Vancouver").endOf("month").toDate(),
+    start: moment().tz("America/Vancouver").date(16).startOf("day").toDate(),
+    end: moment()
+      .tz("America/Vancouver")
+      .endOf("month")
+      .startOf("day")
+      .toDate(),
   };
 }
 
