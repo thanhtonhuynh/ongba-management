@@ -1,23 +1,23 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
+import { GoBackButton } from "@/components/buttons/GoBackButton";
+import { CurrentTag } from "@/components/CurrentTag";
+import { ErrorMessage } from "@/components/Message";
+import { Separator } from "@/components/ui/separator";
+import { getAllEmployeeShiftsInDayRange } from "@/data-access/employee";
+import { getFirstReportDate } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
+import { TotalHoursTips } from "@/types";
 import { hasAccess } from "@/utils/access-control";
 import {
   getHoursTipsBreakdownInDayRange,
   getPeriodsByMonthAndYear,
 } from "@/utils/hours-tips";
-import { notFound, redirect } from "next/navigation";
-import moment from "moment-timezone";
-import { HoursTipsTable } from "../_components/HoursTipsTable";
-import { getAllEmployeeShiftsInDayRange } from "@/data-access/employee";
-import { ErrorMessage } from "@/components/Message";
-import { getFirstReportDate } from "@/data-access/report";
-import { GoBackButton } from "@/components/buttons/GoBackButton";
-import { DataTable } from "../_components/DataTable";
-import { Separator } from "@/components/ui/separator";
-import { TotalHoursTips } from "@/types";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { CalendarDays, MoveRight } from "lucide-react";
-import { CurrentTag } from "@/components/CurrentTag";
+import moment from "moment-timezone";
+import { notFound, redirect } from "next/navigation";
+import { DataTable } from "../_components/DataTable";
+import { HoursTipsTable } from "../_components/HoursTipsTable";
 
 type Params = Promise<{ yearMonth: string[] }>;
 
@@ -75,18 +75,39 @@ export default async function Page(props: { params: Params }) {
 
   const totalHoursTips: TotalHoursTips[] = [];
   for (const hoursTipsBreakdown of hoursTipsBreakdowns) {
-    for (const hourRecord of hoursTipsBreakdown.hoursBreakdown) {
-      const tipRecord = hoursTipsBreakdown.tipsBreakdown.find(
-        (tipRecord) => tipRecord.userId === hourRecord.userId,
+    for (const data of hoursTipsBreakdown.hoursBreakdown) {
+      const index = totalHoursTips.findIndex(
+        (total) => total.userId === data.userId,
       );
-      if (tipRecord) {
+
+      if (index === -1) {
         totalHoursTips.push({
-          userId: hourRecord.userId,
-          name: hourRecord.userName,
-          image: hourRecord.image,
-          totalHours: hourRecord.total,
-          totalTips: tipRecord.total,
+          userId: data.userId,
+          name: data.userName,
+          image: data.image,
+          totalHours: data.total,
+          totalTips: 0,
         });
+      } else {
+        totalHoursTips[index].totalHours += data.total;
+      }
+    }
+
+    for (const data of hoursTipsBreakdown.tipsBreakdown) {
+      const index = totalHoursTips.findIndex(
+        (total) => total.userId === data.userId,
+      );
+
+      if (index === -1) {
+        totalHoursTips.push({
+          userId: data.userId,
+          name: data.userName,
+          image: data.image,
+          totalHours: 0,
+          totalTips: data.total,
+        });
+      } else {
+        totalHoursTips[index].totalTips += data.total;
       }
     }
   }
