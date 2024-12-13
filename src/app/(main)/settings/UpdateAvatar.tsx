@@ -1,13 +1,13 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
+import { ProfilePicture } from "@/components/ProfilePicture";
 import {
   Form,
   FormControl,
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -19,9 +19,8 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { updateAvatarAction } from "./actions";
 import { toast } from "sonner";
-import { ProfilePicture } from "@/components/ProfilePicture";
+import { updateAvatarAction } from "./actions";
 
 type UpdateAvatarFormProps = {
   user: User;
@@ -31,6 +30,7 @@ export function UpdateAvatar({ user }: UpdateAvatarFormProps) {
   const [isPending, startTransition] = useTransition();
   const form = useForm<UpdateAvatarSchemaInput>({
     resolver: zodResolver(UpdateAvatarSchema),
+    mode: "onBlur",
   });
 
   async function onSubmit(data: UpdateAvatarSchemaInput) {
@@ -58,7 +58,7 @@ export function UpdateAvatar({ user }: UpdateAvatarFormProps) {
               render={({ field: { value, onChange, ...fieldProps } }) => (
                 <FormItem>
                   <FormDescription>
-                    Image size must be less than 2MB and in JPEG, PNG, JPG, or
+                    Image size must be less than 5MB and in JPEG, PNG, JPG, or
                     WEBP format.
                   </FormDescription>
                   <FormControl>

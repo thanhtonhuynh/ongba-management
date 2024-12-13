@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const trimmedString = z.string().trim();
 const requiredString = trimmedString.min(1, "Required");
-const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
 
 // Sign up
 export const SignupSchema = z.object({
@@ -97,7 +97,7 @@ export const UpdateAvatarSchema = z.object({
     .refine((file) => file.type.startsWith("image/"), "Invalid file type")
     .refine(
       (file) => file.size <= MAX_IMAGE_SIZE,
-      "Please upload a picture less than 2MB",
+      "Please upload a picture less than 5MB",
     ),
 });
 export type UpdateAvatarSchemaInput = z.infer<typeof UpdateAvatarSchema>;
