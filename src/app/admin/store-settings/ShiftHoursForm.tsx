@@ -8,7 +8,9 @@ import { ShiftHours, Weekday } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { updateShiftHours } from "./actions";
+// import { updateShiftHours } from "./actions";
+import { LoadingButton } from "@/components/buttons/LoadingButton";
+import { ErrorMessage, SuccessMessage } from "@/components/Message";
 import {
   Form,
   FormControl,
@@ -17,9 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { ErrorMessage, SuccessMessage } from "@/components/Message";
 import { Input } from "@/components/ui/input";
-import { LoadingButton } from "@/components/buttons/LoadingButton";
 
 type ShiftHoursFormProps = {
   currentShiftHours: ShiftHours;
@@ -45,17 +45,15 @@ export function ShiftHoursForm({ currentShiftHours }: ShiftHoursFormProps) {
 
   async function onSubmit(data: UpdateShiftHoursInput) {
     startTransition(async () => {
-      const { error } = await updateShiftHours(data);
-
-      if (error) {
-        setError(error);
-      } else {
-        setSuccess(true);
-
-        setTimeout(() => {
-          setSuccess(false);
-        }, 5000);
-      }
+      // const { error } = await updateShiftHours(data);
+      // if (error) {
+      //   setError(error);
+      // } else {
+      //   setSuccess(true);
+      //   setTimeout(() => {
+      //     setSuccess(false);
+      //   }, 5000);
+      // }
     });
   }
 
