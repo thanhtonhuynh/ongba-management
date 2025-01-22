@@ -1,9 +1,9 @@
-import "server-only";
 import prisma from "@/lib/prisma";
 import { CreateReportSchemaInput } from "@/lib/validations/report";
-import { getFullDayHours, getStartCash } from "./store";
-import { cache } from "react";
 import { DayRange } from "@/types";
+import { cache } from "react";
+import "server-only";
+import { getStartCash } from "./store";
 
 // Upsert a report
 export async function upsertReport(
@@ -15,23 +15,17 @@ export async function upsertReport(
   const { employees, ...reportData } = data;
 
   const date = new Date(isoString);
-  const totalTips = cardTips + cashTips + extraTips;
-  const totalPeople = employees.reduce(
-    (acc, emp) => acc + (emp.fullDay ? 1 : 0.5),
-    0,
-  );
-  const tipsPerPerson = totalTips / (totalPeople >= 1 ? totalPeople : 1);
 
-  const fullDayHours = await getFullDayHours(
-    date.toLocaleDateString("en-US", { weekday: "long" }).toLowerCase(),
-  );
+  const totalTips = cardTips + cashTips + extraTips;
+  const totalHours = employees.reduce((acc, emp) => acc + emp.hour, 0);
+  const tipsPerHour = totalTips / totalHours;
+
   const startCash = await getStartCash();
 
   const report = await prisma.saleReport.upsert({
     where: { date },
     create: {
       date,
-      fullDayHours,
       startCash,
       ...reportData,
       userId,
@@ -39,18 +33,12 @@ export async function upsertReport(
         create: employees.map((emp) => ({
           date,
           userId: emp.userId,
-          tips:
-            totalPeople > 1
-              ? emp.fullDay
-                ? tipsPerPerson
-                : tipsPerPerson / 2
-              : totalTips,
-          hours: emp.fullDay ? fullDayHours : fullDayHours / 2,
+          tips: tipsPerHour * emp.hour,
+          hours: emp.hour,
         })),
       },
     },
     update: {
-      fullDayHours,
       startCash,
       ...reportData,
       userId,
@@ -59,13 +47,8 @@ export async function upsertReport(
         create: employees.map((emp) => ({
           date,
           userId: emp.userId,
-          tips:
-            totalPeople > 1
-              ? emp.fullDay
-                ? tipsPerPerson
-                : tipsPerPerson / 2
-              : totalTips,
-          hours: emp.fullDay ? fullDayHours : fullDayHours / 2,
+          tips: tipsPerHour * emp.hour,
+          hours: emp.hour,
         })),
       },
     },
@@ -83,6 +66,7 @@ export const getReportByDate = cache(async (date: Date) => {
         select: {
           userId: true,
           hours: true,
+          // tips: true,
           user: { select: { name: true, image: true } },
         },
       },

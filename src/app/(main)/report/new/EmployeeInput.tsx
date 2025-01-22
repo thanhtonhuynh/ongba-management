@@ -2,8 +2,7 @@
 
 import { ProfilePicture } from "@/components/ProfilePicture";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -31,12 +30,16 @@ export function EmployeeInput({
   formSetValue,
 }: EmployeeInputProps) {
   const [userId, setUserId] = useState<string>();
-  const [fullDay, setFullDay] = useState<boolean>(false);
+  const [hour, setHour] = useState<number>(0.0);
 
   function addEmployee() {
     if (!userId) return;
     if (employees.some((employee) => employee.userId === userId)) {
       toast.error("Employee already added");
+      return;
+    }
+    if (hour <= 0) {
+      toast.error("Invalid hour");
       return;
     }
 
@@ -46,7 +49,7 @@ export function EmployeeInput({
       ...employees,
       {
         userId,
-        fullDay,
+        hour,
         name: employee?.name || "",
         image: employee?.image || undefined,
       },
@@ -78,17 +81,18 @@ export function EmployeeInput({
             ))}
           </SelectContent>
         </Select>
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            name="full-day"
-            id="full-day"
-            onClick={() => setFullDay(!fullDay)}
-          />
-          <Label htmlFor="full-day" className="cursor-pointer font-semibold">
-            Full day
-          </Label>
-        </div>
-        <Button type="button" variant={`outline`} onClick={addEmployee}>
+
+        <Input
+          className="h-12 w-20"
+          id="emp-hour"
+          type="number"
+          placeholder="0.00"
+          value={hour}
+          onFocus={(e) => e.target.select()}
+          onChange={(e) => setHour(Number(e.target.value))}
+        />
+
+        <Button type="button" onClick={addEmployee}>
           Add
         </Button>
       </div>
@@ -107,7 +111,7 @@ export function EmployeeInput({
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <p>{employee.fullDay ? "Full day" : "Half day"}</p>
+                  <p>{employee.hour}</p>
 
                   <Button
                     className="p-0 text-muted-foreground hover:text-primary"

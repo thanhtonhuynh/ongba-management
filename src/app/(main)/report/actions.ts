@@ -33,7 +33,7 @@ export async function searchReportAction(data: SearchReportInput) {
 
     const employees = report.employeeShifts.map((data) => ({
       userId: data.userId,
-      fullDay: data.hours === report.fullDayHours,
+      hour: data.hours,
       name: data.user.name,
       image: data.user.image || undefined,
     }));

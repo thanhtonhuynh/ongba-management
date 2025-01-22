@@ -93,7 +93,7 @@ model SaleReport {
   extraTips          Float
   cashInTill         Float
   startCash          Float
-  fullDayHours       Float
+  // fullDayHours       Float
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

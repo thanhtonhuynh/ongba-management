@@ -1,12 +1,11 @@
+import { ErrorMessage } from "@/components/Message";
 import { Separator } from "@/components/ui/separator";
+import { getStartCash } from "@/data-access/store";
 import { getCurrentSession } from "@/lib/auth/session";
-import { notFound, redirect } from "next/navigation";
-import { ShiftHoursForm } from "./ShiftHoursForm";
-import { getShiftHours, getStartCash } from "@/data-access/store";
-import { StartCashForm } from "./StartCashForm";
 import { hasAccess } from "@/utils/access-control";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import { ErrorMessage } from "@/components/Message";
+import { notFound, redirect } from "next/navigation";
+import { StartCashForm } from "./StartCashForm";
 
 export default async function Page() {
   const { session, user } = await getCurrentSession();
@@ -20,7 +19,7 @@ export default async function Page() {
     );
   }
 
-  const currentShiftHours = await getShiftHours();
+  // const currentShiftHours = await getShiftHours();
   const currentStartCash = await getStartCash();
 
   return (
@@ -29,7 +28,7 @@ export default async function Page() {
 
       <Separator className="my-4" />
 
-      <ShiftHoursForm currentShiftHours={currentShiftHours} />
+      {/* <ShiftHoursForm currentShiftHours={currentShiftHours} /> */}
 
       <StartCashForm currentStartCash={currentStartCash} />
     </section>

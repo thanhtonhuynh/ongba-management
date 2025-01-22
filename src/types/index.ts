@@ -17,7 +17,7 @@ export type CashType =
 
 export type SaleEmployee = {
   userId: string;
-  fullDay: boolean;
+  hour: number;
   name: string;
   image?: string;
 };
@@ -50,8 +50,8 @@ export interface SaleReportCardProcessedData extends SaleReportCardRawData {
   totalTips: number;
   cashDifference: number;
   cashOut: number;
-  totalPeople: number;
-  tipsPerPerson: number;
+  totalHours: number;
+  tipsPerHour: number;
 }
 
 export type Weekday =

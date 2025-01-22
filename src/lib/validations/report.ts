@@ -21,7 +21,7 @@ export const CreateReportSchema = z.object({
     .array(
       z.object({
         userId: requiredString,
-        fullDay: z.boolean(),
+        hour: z.coerce.number().gt(0, "Invalid"),
         name: requiredString,
         image: trimmedString.url().optional(),
       }),

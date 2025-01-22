@@ -1,23 +1,23 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
 import { LoadingButton } from "@/components/buttons/LoadingButton";
+import { Button } from "@/components/ui/button";
+import { User } from "@/lib/auth/session";
 import {
   CreateReportSchema,
   CreateReportSchemaInput,
 } from "@/lib/validations/report";
-import { User } from "@/lib/auth/session";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
+import { MoveLeft, MoveRight, TriangleAlert } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { createReportAction } from "./actions";
 import { CashCounterForm } from "./CashCounterForm";
-import { SaleDetailForm } from "./SaleDetailForm";
-import { MoveLeft, MoveRight, TriangleAlert } from "lucide-react";
-import { motion } from "framer-motion";
 import { ReportPreview } from "./ReportPreview";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { SaleDetailForm } from "./SaleDetailForm";
 
 const steps = [
   {

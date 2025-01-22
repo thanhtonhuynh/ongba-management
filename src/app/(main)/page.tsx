@@ -1,17 +1,17 @@
-import { getCurrentSession } from "@/lib/auth/session";
-import { notFound, redirect } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { getReportByDate } from "@/data-access/report";
-import { CircleCheck, ClipboardPen } from "lucide-react";
-import { SaleReportCard } from "@/components/SaleReportCard";
-import { SaleReportCardProcessedData, SaleReportCardRawData } from "@/types";
-import { processReportDataForView } from "@/utils/report";
-import { hasAccess } from "@/utils/access-control";
-import moment from "moment";
-import { EmployeeAnalytics } from "./EmployeeAnalytics";
-import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { ErrorMessage } from "@/components/Message";
+import { SaleReportCard } from "@/components/SaleReportCard";
+import { Button } from "@/components/ui/button";
+import { getReportByDate } from "@/data-access/report";
+import { getCurrentSession } from "@/lib/auth/session";
+import { SaleReportCardProcessedData, SaleReportCardRawData } from "@/types";
+import { hasAccess } from "@/utils/access-control";
+import { authenticatedRateLimit } from "@/utils/rate-limiter";
+import { processReportDataForView } from "@/utils/report";
+import { CircleCheck, ClipboardPen } from "lucide-react";
+import moment from "moment";
+import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
+import { EmployeeAnalytics } from "./EmployeeAnalytics";
 
 export default async function Home() {
   const { session, user } = await getCurrentSession();
@@ -30,7 +30,7 @@ export default async function Home() {
   if (todayReport) {
     const employees = todayReport.employeeShifts.map((data) => ({
       userId: data.userId,
-      fullDay: data.hours === todayReport.fullDayHours,
+      hour: data.hours,
       name: data.user.name,
       image: data.user.image || undefined,
     }));

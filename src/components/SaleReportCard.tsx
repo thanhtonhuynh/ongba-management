@@ -1,11 +1,11 @@
 "use client";
 
 import { cn, formatPriceWithDollar } from "@/lib/utils";
-import moment from "moment";
-import { Separator } from "./ui/separator";
 import { SaleReportCardProcessedData } from "@/types";
+import { Calendar, Dot } from "lucide-react";
+import moment from "moment";
 import { ProfilePicture } from "./ProfilePicture";
-import { Calendar } from "lucide-react";
+import { Separator } from "./ui/separator";
 
 type SaleReportProps = {
   data: SaleReportCardProcessedData | undefined;
@@ -165,29 +165,36 @@ export function SaleReportCard({ data }: SaleReportProps) {
           <Separator />
 
           <ReportBlock
-            label="Tips Breakdown"
-            data={`${formatPriceWithDollar(data.totalTips)} / ${data.totalPeople} =
-              ${formatPriceWithDollar(data.tipsPerPerson)}`}
+            label="Tips per Hour"
+            data={`${formatPriceWithDollar(data.totalTips)} / ${data.totalHours} =
+              ${formatPriceWithDollar(data.tipsPerHour)}`}
           />
 
-          <div className="space-y-2 px-8">
+          <ul className="space-y-1">
             {data.employees.map((emp) => (
-              <div
+              <li
                 key={emp.userId}
-                className="flex h-12 items-center space-x-2 rounded px-2 shadow"
+                className="flex h-12 items-center justify-between space-x-2 rounded px-2 shadow"
               >
-                {emp.image && <ProfilePicture image={emp.image} size={40} />}
-                <span className="font-medium">{emp.name}</span>
-                <span className="text-muted-foreground">
-                  {data.totalPeople > 1
-                    ? emp.fullDay
-                      ? formatPriceWithDollar(data.tipsPerPerson)
-                      : formatPriceWithDollar(data.tipsPerPerson / 2)
-                    : formatPriceWithDollar(data.totalTips)}
-                </span>
-              </div>
+                <div className="flex items-center space-x-2">
+                  {emp.image && <ProfilePicture image={emp.image} size={40} />}
+                  <span>{emp.name}</span>
+                </div>
+
+                <div className="flex items-center">
+                  <span>
+                    {emp.hour} {emp.hour > 1 ? "hours" : "hour"}
+                  </span>
+
+                  <Dot size={15} />
+
+                  <span className="font-medium">
+                    {formatPriceWithDollar(emp.hour * data.tipsPerHour)}
+                  </span>
+                </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     </div>
@@ -205,9 +212,11 @@ function ReportBlock({
 }) {
   return (
     <div>
-      <p className={cn("font-bold", secondaryData && "font-medium")}>{label}</p>
+      <p className={cn("font-semibold", secondaryData && "font-normal")}>
+        {label}
+      </p>
 
-      <p className="text-muted-foreground">
+      <p className="font-medium text-muted-foreground">
         {typeof data === "number" ? formatPriceWithDollar(data) : data}
       </p>
     </div>
