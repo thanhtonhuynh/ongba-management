@@ -1,20 +1,22 @@
+import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
+import { CurrentTag } from "@/components/CurrentTag";
+import { ErrorMessage } from "@/components/Message";
+import { Separator } from "@/components/ui/separator";
+import { getReportsByDateRange } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasAccess } from "@/utils/access-control";
-import { notFound, redirect } from "next/navigation";
-import { Separator } from "@/components/ui/separator";
+import { processCashFlowData, processYearCashFlowData } from "@/utils/cashflow";
 import {
   getDayRangeByMonthAndYear,
+  getDayRangeByYear,
   populateMonthSelectData,
 } from "@/utils/hours-tips";
-import { MonthSelect } from "./MonthSelect";
-import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
-import { ErrorMessage } from "@/components/Message";
-import moment from "moment-timezone";
-import { getReportsByDateRange } from "@/data-access/report";
-import { CashFlowTable } from "./CashflowTable";
-import { processCashFlowData } from "@/utils/cashflow";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import { CurrentTag } from "@/components/CurrentTag";
+import moment from "moment-timezone";
+import { notFound, redirect } from "next/navigation";
+import { CashFlowTable } from "./CashflowTable";
+import { MonthSelect } from "./MonthSelect";
+import { YearCashFlowTable } from "./year-cash-flow-table";
 
 type SearchParams = Promise<{
   year: string;
@@ -67,6 +69,10 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const reports = await getReportsByDateRange(dateRange);
   const processedReports = processCashFlowData(reports);
 
+  const yearDayRange = getDayRangeByYear(selectedYear);
+  const yearReports = await getReportsByDateRange(yearDayRange);
+  const yearProcessedReports = processYearCashFlowData(yearReports);
+
   return (
     <section className="space-y-4">
       <h1>Cashflow</h1>
@@ -82,14 +88,20 @@ export default async function Page(props: { searchParams: SearchParams }) {
           />
         )}
 
-        <div className="flex-1 space-y-4 overflow-auto">
-          <h2 className="flex items-center gap-2">
-            {FULL_MONTHS[selectedMonth - 1]} {selectedYear}
-            {selectedYear === today.getFullYear() &&
-              selectedMonth === today.getMonth() + 1 && <CurrentTag />}
-          </h2>
+        <div className="flex-1 space-y-8 overflow-auto">
+          <div className="space-y-4">
+            <h2 className="flex items-center gap-2">
+              {FULL_MONTHS[selectedMonth - 1]} {selectedYear}
+              {selectedYear === today.getFullYear() &&
+                selectedMonth === today.getMonth() + 1 && <CurrentTag />}
+            </h2>
+            <CashFlowTable reports={processedReports} />
+          </div>
 
-          <CashFlowTable reports={processedReports} />
+          <div className="space-y-4">
+            <h2>Year {selectedYear} Summary</h2>
+            <YearCashFlowTable data={yearProcessedReports} />
+          </div>
         </div>
       </div>
     </section>

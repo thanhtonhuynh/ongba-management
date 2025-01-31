@@ -128,3 +128,15 @@ export type UserShift = {
   hours: number;
   tips: number;
 };
+
+export type YearCashFlowData = {
+  month: number;
+  totalSales: number;
+  totalUberEatsSales: number;
+  totalDoorDashSales: number;
+  totalSkipTheDishesSales: number;
+  totalOnlineSales: number;
+  totalExpenses: number;
+  totalInStoreSales: number;
+  netIncome: number;
+};

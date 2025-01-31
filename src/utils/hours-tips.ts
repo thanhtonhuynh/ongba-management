@@ -1,7 +1,7 @@
-import { BreakdownData, DayRange, EmployeeShift } from "@/types";
 import { getFirstReportDate } from "@/data-access/report";
-import { cache } from "react";
+import { BreakdownData, DayRange, EmployeeShift } from "@/types";
 import moment from "moment-timezone";
+import { cache } from "react";
 
 export const populateMonthSelectData = cache(async () => {
   const firstReportDate = await getFirstReportDate();
@@ -87,6 +87,23 @@ export function getDayRangeByMonthAndYear(
       .month(month)
       .tz("America/Vancouver")
       .endOf("month")
+      .startOf("day")
+      .toDate(),
+  };
+}
+
+export function getDayRangeByYear(year: number): DayRange {
+  return {
+    start: moment()
+      .year(year)
+      .tz("America/Vancouver")
+      .startOf("year")
+      .startOf("day")
+      .toDate(),
+    end: moment()
+      .year(year)
+      .tz("America/Vancouver")
+      .endOf("year")
       .startOf("day")
       .toDate(),
   };
