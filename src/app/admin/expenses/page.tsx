@@ -55,7 +55,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
     }
   }
 
-  const today = moment().tz("America/Vancouver").startOf("day").toDate();
+  const today = moment.tz("America/Vancouver").startOf("day").toDate();
   const selectedYear = parseInt(searchParams.year) || today.getFullYear();
 
   const expenses = await getExpensesByYear(selectedYear);
