@@ -25,10 +25,10 @@ export default async function Layout({
   }
 
   return (
-    <>
+    <div className="relative mx-auto flex min-h-screen w-full max-w-screen-2xl flex-col bg-background">
       <NavBar />
 
-      <Container className="relative sm:space-y-4">
+      <Container className="relative flex-1 sm:space-y-4">
         <AdminNavBar />
         <AdminNavBarMobile />
 
@@ -36,6 +36,6 @@ export default async function Layout({
       </Container>
 
       <Footer />
-    </>
+    </div>
   );
 }

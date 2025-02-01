@@ -1,12 +1,12 @@
+import { ErrorMessage } from "@/components/Message";
+import { Separator } from "@/components/ui/separator";
+import { getEmployees } from "@/data-access/employee";
+import { getStartCash } from "@/data-access/store";
 import { getCurrentSession } from "@/lib/auth/session";
+import { hasAccess } from "@/utils/access-control";
+import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { notFound, redirect } from "next/navigation";
 import { NewReportPortal } from "./NewReportPortal";
-import { getStartCash } from "@/data-access/store";
-import { hasAccess } from "@/utils/access-control";
-import { getEmployees } from "@/data-access/employee";
-import { Separator } from "@/components/ui/separator";
-import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import { ErrorMessage } from "@/components/Message";
 
 export default async function Page() {
   const { session, user } = await getCurrentSession();
@@ -24,14 +24,12 @@ export default async function Page() {
   const startCash = await getStartCash();
 
   return (
-    <section className="flex flex-col items-center">
-      <div className="flex w-full max-w-[50rem] flex-col space-y-4 rounded-md border px-4 py-8 shadow-xl">
-        <h1>Create sale report</h1>
+    <section className="flex flex-1 flex-col space-y-4">
+      <h1>Create sale report</h1>
 
-        <Separator />
+      <Separator />
 
-        <NewReportPortal users={users} startCash={startCash} />
-      </div>
+      <NewReportPortal users={users} startCash={startCash} />
     </section>
   );
 }

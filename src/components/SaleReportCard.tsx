@@ -177,7 +177,7 @@ export function SaleReportCard({ data }: SaleReportProps) {
                 className="flex h-12 items-center justify-between space-x-2 rounded px-2 shadow"
               >
                 <div className="flex items-center space-x-2">
-                  {emp.image && <ProfilePicture image={emp.image} size={40} />}
+                  {emp.image && <ProfilePicture image={emp.image} size={30} />}
                   <span>{emp.name}</span>
                 </div>
 

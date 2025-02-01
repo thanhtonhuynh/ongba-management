@@ -10,10 +10,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
 import { User } from "@/lib/auth/session";
 import { CreateReportSchemaInput } from "@/lib/validations/report";
 import { SaleEmployee } from "@/types";
+import { Dot } from "lucide-react";
 import { useState } from "react";
 import { UseFormSetValue } from "react-hook-form";
 import { toast } from "sonner";
@@ -98,41 +98,44 @@ export function EmployeeInput({
       </div>
 
       {employees.length > 0 && (
-        <div className="rounded-md border bg-muted p-4 sm:mx-auto sm:w-fit">
+        <ul className="space-y-1 lg:mx-auto lg:w-1/2">
           {employees.map((employee, index) => (
-            <div key={index}>
-              <div className="flex items-center justify-between gap-2 text-sm">
-                <div className="flex items-center space-x-2">
-                  {employee.image && (
-                    <ProfilePicture image={employee.image} size={30} />
-                  )}
-
-                  <p className="font-semibold">{employee.name}</p>
-                </div>
-
-                <div className="flex items-center gap-4">
-                  <p>{employee.hour}</p>
-
-                  <Button
-                    className="p-0 text-muted-foreground hover:text-primary"
-                    type="button"
-                    variant={"link"}
-                    onClick={() =>
-                      formSetValue(
-                        "employees",
-                        employees.filter((_, i) => i !== index),
-                      )
-                    }
-                  >
-                    Remove
-                  </Button>
-                </div>
+            <li
+              key={index}
+              className="flex h-12 items-center justify-between space-x-2 rounded px-2 text-sm shadow"
+            >
+              <div className="flex items-center space-x-2">
+                {employee.image && (
+                  <ProfilePicture image={employee.image} size={30} />
+                )}
+                <span>{employee.name}</span>
               </div>
 
-              <Separator />
-            </div>
+              <div className="flex items-center">
+                <p>
+                  {employee.hour}
+                  {employee.hour === 1 ? " hour" : " hours"}
+                </p>
+
+                <Dot size={15} />
+
+                <Button
+                  className="p-0 text-muted-foreground hover:text-primary"
+                  type="button"
+                  variant={"link"}
+                  onClick={() =>
+                    formSetValue(
+                      "employees",
+                      employees.filter((_, i) => i !== index),
+                    )
+                  }
+                >
+                  Remove
+                </Button>
+              </div>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </div>
   );

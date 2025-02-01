@@ -139,75 +139,73 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
   }
 
   return (
-    <>
-      <nav className="h-1 pt-2 md:h-fit">
-        <ol className="flex space-x-8">
-          {steps.map((step, index) => (
-            <li key={step.name} className="flex-1">
-              {currentStep > index ? (
-                <div className="flex w-full flex-col border-l-0 border-t-4 border-primary py-2 pl-4 transition-colors md:border-l-0 md:pb-0 md:pl-0 md:pt-2">
-                  <span className="hidden text-sm font-semibold md:block">
-                    {step.name}
-                  </span>
-                </div>
-              ) : currentStep === index ? (
-                <div className="flex w-full flex-col border-l-0 border-t-4 border-blue-500 py-2 pl-4 text-blue-500 md:border-l-0 md:pb-0 md:pl-0 md:pt-2">
-                  <span className="hidden text-sm font-semibold md:block">
-                    {step.name}
-                  </span>
-                </div>
-              ) : (
-                <div className="flex w-full flex-col border-l-0 border-t-4 border-muted py-2 pl-4 transition-colors md:border-l-0 md:pb-0 md:pl-0 md:pt-2">
-                  <span className="hidden text-sm font-semibold md:block">
-                    {step.name}
-                  </span>
-                </div>
-              )}
-            </li>
-          ))}
-        </ol>
-      </nav>
+    <div className="flex flex-1 flex-col justify-between gap-8">
+      <div>
+        <nav className="h-1 pt-2 md:h-fit">
+          <ol className="flex space-x-8">
+            {steps.map((step, index) => (
+              <li key={step.name} className="flex-1">
+                {currentStep > index ? (
+                  <div className="flex w-full flex-col border-l-0 border-t-4 border-primary py-2 pl-4 transition-colors md:border-l-0 md:pb-0 md:pl-0 md:pt-2">
+                    <span className="hidden text-sm font-semibold md:block">
+                      {step.name}
+                    </span>
+                  </div>
+                ) : currentStep === index ? (
+                  <div className="flex w-full flex-col border-l-0 border-t-4 border-blue-500 py-2 pl-4 text-blue-500 md:border-l-0 md:pb-0 md:pl-0 md:pt-2">
+                    <span className="hidden text-sm font-semibold md:block">
+                      {step.name}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="flex w-full flex-col border-l-0 border-t-4 border-muted py-2 pl-4 transition-colors md:border-l-0 md:pb-0 md:pl-0 md:pt-2">
+                    <span className="hidden text-sm font-semibold md:block">
+                      {step.name}
+                    </span>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ol>
+        </nav>
 
-      {currentStep === 0 && (
-        <MotionContainer delta={delta}>
-          <h2 className="pt-2 text-center md:hidden">Sale Details</h2>
+        {currentStep === 0 && (
+          <MotionContainer delta={delta}>
+            <h2 className="pt-4 text-center md:hidden">Sale Details</h2>
+            <SaleDetailForm users={users} form={createReportForm} />
+          </MotionContainer>
+        )}
 
-          <SaleDetailForm users={users} form={createReportForm} />
-        </MotionContainer>
-      )}
+        {currentStep === 1 && (
+          <MotionContainer delta={delta}>
+            <h2 className="pt-4 text-center md:hidden">Count Cash</h2>
+            <CashCounterForm
+              createReportForm={createReportForm}
+              cashCounterForm={cashCounterForm}
+            />
+          </MotionContainer>
+        )}
 
-      {currentStep === 1 && (
-        <MotionContainer delta={delta}>
-          <h2 className="pt-2 text-center md:hidden">Count Cash</h2>
-
-          <CashCounterForm
-            createReportForm={createReportForm}
-            cashCounterForm={cashCounterForm}
-          />
-        </MotionContainer>
-      )}
-
-      {currentStep === 2 && (
-        <MotionContainer delta={delta}>
-          <h2 className="pt-2 text-center md:hidden">Review</h2>
-
-          <div className="space-y-2 text-sm">
-            <p className="flex w-fit items-center gap-2 rounded border-l-2 border-l-warning bg-muted px-2 py-1 font-medium">
-              <TriangleAlert size={15} className="text-warning" />
-              Please review the report before submitting.
-            </p>
-
-            <p className="text-muted-foreground">
-              You can go back to make changes or click submit when you're ready.
-            </p>
-          </div>
-
-          <ReportPreview
-            createReportForm={createReportForm}
-            startCash={startCash}
-          />
-        </MotionContainer>
-      )}
+        {currentStep === 2 && (
+          <MotionContainer delta={delta}>
+            <h2 className="pt-4 text-center md:hidden">Review</h2>
+            <div className="space-y-2 text-sm">
+              <p className="flex w-fit items-center gap-2 rounded border-l-2 border-l-warning bg-muted px-2 py-1 font-medium">
+                <TriangleAlert size={15} className="text-warning" />
+                Please review the report before submitting.
+              </p>
+              <p className="text-muted-foreground">
+                You can go back to make changes or click submit when you're
+                ready.
+              </p>
+            </div>
+            <ReportPreview
+              createReportForm={createReportForm}
+              startCash={startCash}
+            />
+          </MotionContainer>
+        )}
+      </div>
 
       <div className="flex justify-between">
         <Button
@@ -234,7 +232,7 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
           </LoadingButton>
         )}
       </div>
-    </>
+    </div>
   );
 }
 
