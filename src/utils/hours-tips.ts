@@ -55,18 +55,18 @@ export function getDayRangeByMonthAndYear(
 ): DayRange {
   return {
     start: moment()
+      .tz("America/Vancouver")
       .year(year)
       .month(month)
       .date(1)
       .startOf("day")
-      .tz("America/Vancouver")
       .toDate(),
     end: moment()
+      .tz("America/Vancouver")
       .year(year)
       .month(month)
       .endOf("month")
       .startOf("day")
-      .tz("America/Vancouver")
       .toDate(),
   };
 }
@@ -95,17 +95,36 @@ export function getPeriodsByMonthAndYear(
   const periods: DayRange[] = [];
 
   periods.push({
-    start: moment().year(year).month(month).date(1).startOf("day").toDate(),
-    end: moment().year(year).month(month).date(15).startOf("day").toDate(),
+    start: moment()
+      .year(year)
+      .month(month)
+      .date(1)
+      .startOf("day")
+      .tz("America/Vancouver")
+      .toDate(),
+    end: moment()
+      .year(year)
+      .month(month)
+      .date(15)
+      .startOf("day")
+      .tz("America/Vancouver")
+      .toDate(),
   });
 
   periods.push({
-    start: moment().year(year).month(month).date(16).startOf("day").toDate(),
+    start: moment()
+      .year(year)
+      .month(month)
+      .date(16)
+      .startOf("day")
+      .tz("America/Vancouver")
+      .toDate(),
     end: moment()
       .year(year)
       .month(month)
       .endOf("month")
       .startOf("day")
+      .tz("America/Vancouver")
       .toDate(),
   });
 

@@ -2,12 +2,12 @@ import { ErrorMessage } from "@/components/Message";
 import { Separator } from "@/components/ui/separator";
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasAccess } from "@/utils/access-control";
-import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import { notFound, redirect } from "next/navigation";
-import { SalesSummary } from "./SalesSummary";
 import { populateMonthSelectData } from "@/utils/hours-tips";
+import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import moment from "moment";
+import { notFound, redirect } from "next/navigation";
 import { NUM_MONTHS } from "../constants";
+import { SalesSummary } from "./SalesSummary";
 
 type SearchParams = Promise<{
   year: string;
@@ -31,7 +31,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
 
   let selectedYear: number;
   let selectedMonth: number;
-  const today = moment().tz("America/Vancouver").startOf("day").toDate();
+  const today = moment.tz("America/Vancouver").startOf("day").toDate();
 
   if (searchParams.year && searchParams.month) {
     selectedYear = parseInt(searchParams.year);
