@@ -43,8 +43,9 @@ export default async function Page(props: { params: Params }) {
   const year = parseInt(params.yearMonth[0]);
   const month = parseInt(params.yearMonth[1]);
 
-  const today = moment().tz("America/Vancouver").startOf("day").toDate();
-  console.log(today);
+  const today = moment.tz("America/Vancouver").startOf("day").toDate();
+  console.log("today", today);
+  console.log(year, " ", month);
   const currentYear = today.getFullYear();
   const firstReportDate = await getFirstReportDate();
   const firstYear = firstReportDate?.getFullYear() || currentYear;
@@ -62,6 +63,7 @@ export default async function Page(props: { params: Params }) {
   }
 
   const periods = getPeriodsByMonthAndYear(year, month - 1);
+  console.log(periods);
 
   const [firstPeriodEmployeeShifts, secondPeriodEmployeeShifts] =
     await Promise.all([
