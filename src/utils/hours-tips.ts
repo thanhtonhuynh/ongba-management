@@ -98,14 +98,14 @@ export function getPeriodsByMonthAndYear(
     start: moment()
       .year(year)
       .month(month)
-      .tz("America/Vancouver")
+      // .tz("America/Vancouver")
       .date(1)
       .startOf("day")
       .toDate(),
     end: moment()
       .year(year)
       .month(month)
-      .tz("America/Vancouver")
+      // .tz("America/Vancouver")
       .date(15)
       .startOf("day")
       .toDate(),
@@ -115,14 +115,14 @@ export function getPeriodsByMonthAndYear(
     start: moment()
       .year(year)
       .month(month)
-      .tz("America/Vancouver")
+      // .tz("America/Vancouver")
       .date(16)
       .startOf("day")
       .toDate(),
     end: moment()
       .year(year)
       .month(month)
-      .tz("America/Vancouver")
+      // .tz("America/Vancouver")
       .endOf("month")
       .startOf("day")
       .toDate(),
