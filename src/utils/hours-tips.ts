@@ -9,14 +9,11 @@ export const populateMonthSelectData = cache(async () => {
   if (!firstReportDate)
     return {
       years: [],
-      firstYearMonths: [],
-      latestYearMonths: [],
     };
 
   const today = moment().tz("America/Vancouver").startOf("day").toDate();
 
   const firstYear = firstReportDate.getFullYear();
-  const firstMonth = firstReportDate.getMonth();
 
   const years: number[] = [];
   let year = firstYear;
@@ -26,26 +23,8 @@ export const populateMonthSelectData = cache(async () => {
   }
   years.reverse();
 
-  const firstYearMonths: number[] = [];
-  for (let i = firstMonth; i < 12; i++) {
-    firstYearMonths.push(i);
-  }
-
-  const latestYearMonths: number[] = [];
-  if (firstYear === today.getFullYear()) {
-    for (let i = firstMonth; i <= today.getMonth(); i++) {
-      latestYearMonths.push(i);
-    }
-  } else {
-    for (let i = 0; i <= today.getMonth(); i++) {
-      latestYearMonths.push(i);
-    }
-  }
-
   return {
     years,
-    firstYearMonths,
-    latestYearMonths,
   };
 });
 

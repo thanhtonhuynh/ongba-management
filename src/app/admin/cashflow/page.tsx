@@ -37,35 +37,43 @@ export default async function Page(props: { searchParams: SearchParams }) {
 
   const searchParams = await props.searchParams;
 
-  const { years, firstYearMonths, latestYearMonths } =
-    await populateMonthSelectData();
+  const { years } = await populateMonthSelectData();
 
-  if (searchParams.year && searchParams.month) {
+  const today = moment().tz("America/Vancouver").startOf("day").toDate();
+  let selectedYear = today.getFullYear();
+  let selectedMonth = today.getMonth();
+
+  if (searchParams.year) {
     const year = parseInt(searchParams.year);
-    const month = parseInt(searchParams.month);
 
-    if (
-      isNaN(year) ||
-      isNaN(month) ||
-      !years.includes(year) ||
-      !NUM_MONTHS.includes(month) ||
-      (year === years[0] && !latestYearMonths.includes(month - 1)) ||
-      (year === years[years.length - 1] && !firstYearMonths.includes(month - 1))
-    ) {
+    if (isNaN(year) || !years.includes(year)) {
       return (
         <ErrorMessage
           className="self-start"
-          message="Invalid year or month. Please check the URL and try again."
+          message="Invalid year. No data available for this year."
         />
       );
     }
+    selectedYear = year;
   }
 
-  const today = moment().tz("America/Vancouver").startOf("day").toDate();
-  const selectedYear = parseInt(searchParams.year) || today.getFullYear();
-  const selectedMonth = parseInt(searchParams.month) || today.getMonth() + 1;
+  if (searchParams.year && searchParams.month) {
+    const month = parseInt(searchParams.month);
 
-  const dateRange = getDayRangeByMonthAndYear(selectedYear, selectedMonth - 1);
+    if (isNaN(month) || !NUM_MONTHS.includes(month)) {
+      return (
+        <ErrorMessage
+          className="self-start"
+          message="Invalid month. Please check the URL and try again."
+        />
+      );
+    }
+    selectedMonth = parseInt(searchParams.month) - 1;
+  } else if (searchParams.year && !searchParams.month) {
+    selectedMonth = 0;
+  }
+
+  const dateRange = getDayRangeByMonthAndYear(selectedYear, selectedMonth);
   const reports = await getReportsByDateRange(dateRange);
   const processedReports = processCashFlowData(reports);
 
@@ -83,17 +91,17 @@ export default async function Page(props: { searchParams: SearchParams }) {
         {years.length > 0 && (
           <MonthSelect
             years={years}
-            firstYearMonths={firstYearMonths}
-            latestYearMonths={latestYearMonths}
+            selectedYear={selectedYear}
+            selectedMonth={selectedMonth}
           />
         )}
 
         <div className="flex-1 space-y-8 overflow-auto">
           <div className="space-y-4">
             <h2 className="flex items-center gap-2">
-              {FULL_MONTHS[selectedMonth - 1]} {selectedYear}
+              {FULL_MONTHS[selectedMonth]} {selectedYear}
               {selectedYear === today.getFullYear() &&
-                selectedMonth === today.getMonth() + 1 && <CurrentTag />}
+                selectedMonth === today.getMonth() && <CurrentTag />}
             </h2>
             <CashFlowTable reports={processedReports} />
           </div>

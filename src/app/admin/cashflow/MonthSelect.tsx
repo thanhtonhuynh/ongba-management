@@ -1,5 +1,7 @@
 "use client";
 
+import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -7,48 +9,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
-import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type MonthSelectProps = {
   years: number[];
-  firstYearMonths: number[];
-  latestYearMonths: number[];
+  selectedYear: number;
+  selectedMonth: number;
 };
 
 export function MonthSelect({
   years,
-  firstYearMonths,
-  latestYearMonths,
+  selectedYear,
+  selectedMonth,
 }: MonthSelectProps) {
-  const pathname = usePathname();
-  const [selectedYear, setSelectedYear] = useState<number>(
-    years[0] || new Date().getFullYear(),
-  );
-  const [displayedMonths, setDisplayedMonths] =
-    useState<number[]>(latestYearMonths);
-
-  function handleYearChange(year: number) {
-    if (year === years[years.length - 1]) {
-      setDisplayedMonths(firstYearMonths);
-    } else if (year === years[0]) {
-      setDisplayedMonths(latestYearMonths);
-    } else {
-      setDisplayedMonths(NUM_MONTHS);
-    }
-
-    setSelectedYear(year);
-  }
+  const router = useRouter();
 
   return (
     <div className="space-y-4">
       <Select
         value={selectedYear.toString()}
-        onValueChange={(value) => handleYearChange(parseInt(value))}
+        onValueChange={(value) => {
+          router.push(`/admin/cashflow?year=${value}`);
+        }}
       >
         <SelectTrigger>
           <SelectValue />
@@ -64,17 +48,17 @@ export function MonthSelect({
       </Select>
 
       <div className="flex flex-col items-start">
-        {displayedMonths.map((month) => (
-          <Button key={month} asChild variant={`link`}>
-            <Link
-              href={`/admin/cashflow?year=${selectedYear}&month=${month + 1}`}
-              className={cn(
-                pathname ===
-                  `/admin/cashflow?year=${selectedYear}&month=${month + 1}` &&
-                  "bg-muted hover:no-underline",
-              )}
-            >
-              {FULL_MONTHS[month]}
+        {NUM_MONTHS.map((month) => (
+          <Button
+            key={month}
+            variant={`link`}
+            className={cn(
+              month - 1 === selectedMonth && "bg-muted hover:no-underline",
+            )}
+            disabled={month - 1 === selectedMonth}
+          >
+            <Link href={`/admin/cashflow?year=${selectedYear}&month=${month}`}>
+              {FULL_MONTHS[month - 1]}
             </Link>
           </Button>
         ))}
