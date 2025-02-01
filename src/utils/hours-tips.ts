@@ -1,5 +1,6 @@
 import { getFirstReportDate } from "@/data-access/report";
 import { BreakdownData, DayRange, EmployeeShift } from "@/types";
+import { TZDate } from "@date-fns/tz";
 import moment from "moment-timezone";
 import { cache } from "react";
 
@@ -29,10 +30,13 @@ export const populateMonthSelectData = cache(async () => {
 });
 
 export function getTodayBiweeklyPeriod(): DayRange {
-  const today = moment().tz("America/Vancouver").toDate();
-  const day = today.getDate();
+  // const today = moment().tz("America/Vancouver").toDate();
+  // console.log(today);
+  // const day = today.getDay();
 
-  if (day <= 15) {
+  const today = new TZDate(new Date(), "America/Vancouver").getDate();
+
+  if (today <= 15) {
     return {
       start: moment().tz("America/Vancouver").date(1).startOf("day").toDate(),
       end: moment().tz("America/Vancouver").date(15).startOf("day").toDate(),
