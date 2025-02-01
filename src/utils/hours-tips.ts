@@ -30,10 +30,6 @@ export const populateMonthSelectData = cache(async () => {
 });
 
 export function getTodayBiweeklyPeriod(): DayRange {
-  // const today = moment().tz("America/Vancouver").toDate();
-  // console.log(today);
-  // const day = today.getDay();
-
   const today = new TZDate(new Date(), "America/Vancouver").getDate();
 
   if (today <= 15) {
