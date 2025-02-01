@@ -1,19 +1,19 @@
-import { getCurrentSession } from "@/lib/auth/session";
-import { hasAccess } from "@/utils/access-control";
-import { notFound, redirect } from "next/navigation";
-import { HoursTipsTable } from "./_components/HoursTipsTable";
+import { CurrentTag } from "@/components/CurrentTag";
+import { ErrorMessage } from "@/components/Message";
 import { getAllEmployeeShiftsInDayRange } from "@/data-access/employee";
+import { getCurrentSession } from "@/lib/auth/session";
+import { TotalHoursTips } from "@/types";
+import { hasAccess } from "@/utils/access-control";
 import {
   getHoursTipsBreakdownInDayRange,
   getTodayBiweeklyPeriod,
 } from "@/utils/hours-tips";
-import moment from "moment";
-import { DataTable } from "./_components/DataTable";
-import { TotalHoursTips } from "@/types";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import { ErrorMessage } from "@/components/Message";
 import { MoveRight } from "lucide-react";
-import { CurrentTag } from "@/components/CurrentTag";
+import moment from "moment";
+import { notFound, redirect } from "next/navigation";
+import { DataTable } from "./_components/DataTable";
+import { HoursTipsTable } from "./_components/HoursTipsTable";
 
 export default async function Page() {
   const { session, user } = await getCurrentSession();
@@ -28,6 +28,7 @@ export default async function Page() {
   }
 
   const todayBiweeklyPeriod = getTodayBiweeklyPeriod();
+  console.log(todayBiweeklyPeriod);
   const employeeShifts =
     await getAllEmployeeShiftsInDayRange(todayBiweeklyPeriod);
 
