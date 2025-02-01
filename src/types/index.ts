@@ -1,3 +1,5 @@
+import { Expense } from "@prisma/client";
+
 export type CashType =
   | "coin5c"
   | "coin10c"
@@ -139,4 +141,10 @@ export type YearCashFlowData = {
   totalExpenses: number;
   totalInStoreSales: number;
   netIncome: number;
+};
+
+export type MonthlyExpense = {
+  month: number;
+  monthExpenses: Expense[];
+  totalExpenses: number;
 };

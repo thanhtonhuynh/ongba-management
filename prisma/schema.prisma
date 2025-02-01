@@ -119,3 +119,14 @@ model EmployeeShift {
 
   @@unique([userId, date])
 }
+
+model Expense {
+  id      String         @id @default(auto()) @map("_id") @db.ObjectId
+  date    DateTime       @unique
+  entries ExpenseEntry[]
+}
+
+type ExpenseEntry {
+  amount Float
+  reason String
+}

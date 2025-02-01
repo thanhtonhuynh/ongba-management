@@ -1,10 +1,9 @@
+import { ErrorMessage } from "@/components/Message";
 import { getEmployees } from "@/data-access/employee";
 import { getCurrentSession } from "@/lib/auth/session";
-import { hasAccess } from "@/utils/access-control";
+import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { notFound, redirect } from "next/navigation";
 import { EmployeeCard } from "./EmployeeCard";
-import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import { ErrorMessage } from "@/components/Message";
 
 export default async function Page() {
   const { session, user } = await getCurrentSession();

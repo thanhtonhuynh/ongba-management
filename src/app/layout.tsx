@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
-import { Toaster } from "sonner";
 import { SessionProvider } from "@/contexts/SessionProvider";
-import { getCurrentSession } from "@/lib/auth/session";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
+import { getCurrentSession } from "@/lib/auth/session";
+import type { Metadata, Viewport } from "next";
+import localFont from "next/font/local";
+import { Toaster } from "sonner";
+import "./globals.css";
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
@@ -19,6 +19,10 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Ongba Management System",
+};
+
+export const viewport: Viewport = {
+  maximumScale: 1,
 };
 
 export default async function RootLayout({

@@ -19,6 +19,8 @@ export function AdminNavBar() {
 
         <NavLinkAdmin href={`/admin/cashflow`}>Cashflow</NavLinkAdmin>
 
+        <NavLinkAdmin href={`/admin/expenses`}>Expenses</NavLinkAdmin>
+
         <NavLinkAdmin href={`/admin/store-settings`}>
           Store Settings
         </NavLinkAdmin>
@@ -55,6 +57,12 @@ export function AdminNavBarMobile() {
         <DropdownMenuItem asChild>
           <Link href={`/admin/cashflow`} className="cursor-pointer">
             Cashflow
+          </Link>
+        </DropdownMenuItem>
+
+        <DropdownMenuItem asChild>
+          <Link href={`/admin/expenses`} className="cursor-pointer">
+            Expenses
           </Link>
         </DropdownMenuItem>
 
