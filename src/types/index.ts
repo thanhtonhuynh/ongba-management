@@ -138,9 +138,11 @@ export type YearCashFlowData = {
   totalDoorDashSales: number;
   totalSkipTheDishesSales: number;
   totalOnlineSales: number;
-  totalExpenses: number;
+  totalInstoreExpenses: number;
   totalInStoreSales: number;
   netIncome: number;
+  totalMonthMainExpenses: number;
+  totalExpenses: number;
 };
 
 export type MonthlyExpense = {

@@ -1,12 +1,12 @@
-import Link from "next/link";
-import Image from "next/image";
 import ongbaLogo from "@/assets/ongbaIcon.png";
 import { Heart } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 export default async function Footer() {
   return (
     <footer className="mt-8 border-t bg-background px-3 py-8">
-      <div className="mx-auto flex w-full max-w-7xl items-center gap-3">
+      <div className="mx-auto flex w-full max-w-screen-2xl items-center gap-3">
         <Link href="/" className="flex items-center font-bold">
           <Image
             src={ongbaLogo}

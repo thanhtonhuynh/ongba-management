@@ -2,6 +2,7 @@ import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
 import { CurrentTag } from "@/components/CurrentTag";
 import { ErrorMessage } from "@/components/Message";
 import { Separator } from "@/components/ui/separator";
+import { getExpensesByYear } from "@/data-access/expenses";
 import { getReportsByDateRange } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasAccess } from "@/utils/access-control";
@@ -78,8 +79,14 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const processedReports = processCashFlowData(reports);
 
   const yearDayRange = getDayRangeByYear(selectedYear);
-  const yearReports = await getReportsByDateRange(yearDayRange);
-  const yearProcessedReports = processYearCashFlowData(yearReports);
+  const [yearReports, yearMainExpenses] = await Promise.all([
+    getReportsByDateRange(yearDayRange),
+    getExpensesByYear(selectedYear),
+  ]);
+  const yearProcessedReports = processYearCashFlowData(
+    yearReports,
+    yearMainExpenses,
+  );
 
   return (
     <section className="space-y-4">

@@ -22,6 +22,8 @@ export function YearCashFlowTable({ data }: Props) {
       acc.totalSkipTheDishesSales += monthData.totalSkipTheDishesSales;
       acc.totalOnlineSales += monthData.totalOnlineSales;
       acc.totalInStoreSales += monthData.totalInStoreSales;
+      acc.totalInstoreExpenses += monthData.totalInstoreExpenses;
+      acc.totalMonthMainExpenses += monthData.totalMonthMainExpenses;
       acc.totalExpenses += monthData.totalExpenses;
       acc.netIncome += monthData.netIncome;
       return acc;
@@ -33,6 +35,8 @@ export function YearCashFlowTable({ data }: Props) {
       totalSkipTheDishesSales: 0,
       totalOnlineSales: 0,
       totalInStoreSales: 0,
+      totalInstoreExpenses: 0,
+      totalMonthMainExpenses: 0,
       totalExpenses: 0,
       netIncome: 0,
     },
@@ -50,7 +54,9 @@ export function YearCashFlowTable({ data }: Props) {
           <TableHead className="text-center">SkipDishes</TableHead>
           <TableHead className="text-center">Total sales</TableHead>
           <TableHead className="text-center">In-store expenses</TableHead>
-          <TableHead className="text-center">Net income</TableHead>
+          <TableHead className="text-center">Main expenses</TableHead>
+          <TableHead className="text-center">Total expenses</TableHead>
+          <TableHead className="text-right">Net income</TableHead>
         </TableRow>
       </TableHeader>
 
@@ -79,38 +85,52 @@ export function YearCashFlowTable({ data }: Props) {
               {formatPrice(monthData.totalSales)}
             </TableCell>
             <TableCell className="text-center">
-              {formatPrice(monthData.totalExpenses)}
+              {formatPrice(monthData.totalInstoreExpenses)}
             </TableCell>
             <TableCell className="text-center">
+              {formatPrice(monthData.totalMonthMainExpenses)}
+            </TableCell>
+            <TableCell className="text-center">
+              {formatPrice(monthData.totalExpenses)}
+            </TableCell>
+            <TableCell className="text-right">
               {formatPrice(monthData.netIncome)}
             </TableCell>
           </TableRow>
         ))}
 
         <TableRow>
-          <TableCell className="sticky left-0 bg-background">Totals</TableCell>
-          <TableCell className="text-center">
+          <TableCell className="sticky left-0 bg-background font-bold">
+            Totals
+          </TableCell>
+          <TableCell className="text-center font-bold">
             {formatPrice(yearTotal.totalInStoreSales)}
           </TableCell>
-          <TableCell className="text-center">
+          <TableCell className="text-center font-bold">
             {formatPrice(yearTotal.totalUberEatsSales)}
           </TableCell>
-          <TableCell className="text-center">
+          <TableCell className="text-center font-bold">
             {formatPrice(yearTotal.totalOnlineSales)}
           </TableCell>
-          <TableCell className="text-center">
+          <TableCell className="text-center font-bold">
             {formatPrice(yearTotal.totalDoorDashSales)}
           </TableCell>
-          <TableCell className="text-center">
+          <TableCell className="text-center font-bold">
             {formatPrice(yearTotal.totalSkipTheDishesSales)}
           </TableCell>
-          <TableCell className="text-center">
+          <TableCell className="text-center font-bold">
             {formatPrice(yearTotal.totalSales)}
           </TableCell>
-          <TableCell className="text-center">
+          <TableCell className="text-center font-bold">
+            {formatPrice(yearTotal.totalInstoreExpenses)}
+          </TableCell>
+          <TableCell className="text-center font-bold">
+            {formatPrice(yearTotal.totalMonthMainExpenses)}
+          </TableCell>
+          <TableCell className="text-center font-bold">
             {formatPrice(yearTotal.totalExpenses)}
           </TableCell>
-          <TableCell className="text-center">
+          <TableCell className="text-right font-bold">
             {formatPrice(yearTotal.netIncome)}
           </TableCell>
         </TableRow>
