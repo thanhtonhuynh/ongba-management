@@ -54,12 +54,19 @@ export function getDayRangeByMonthAndYear(
   month: number,
 ): DayRange {
   return {
-    start: moment().year(year).month(month).date(1).startOf("day").toDate(),
+    start: moment()
+      .year(year)
+      .month(month)
+      .date(1)
+      .startOf("day")
+      .tz("America/Vancouver")
+      .toDate(),
     end: moment()
       .year(year)
       .month(month)
       .endOf("month")
       .startOf("day")
+      .tz("America/Vancouver")
       .toDate(),
   };
 }
