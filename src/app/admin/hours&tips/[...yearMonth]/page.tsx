@@ -44,6 +44,7 @@ export default async function Page(props: { params: Params }) {
   const month = parseInt(params.yearMonth[1]);
 
   const today = moment.tz("America/Vancouver").startOf("day").toDate();
+  console.log(today);
   const currentYear = today.getFullYear();
   const firstReportDate = await getFirstReportDate();
   const firstYear = firstReportDate?.getFullYear() || currentYear;

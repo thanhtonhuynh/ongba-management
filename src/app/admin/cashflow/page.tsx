@@ -41,7 +41,6 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const { years } = await populateMonthSelectData();
 
   const today = moment.tz("America/Vancouver").startOf("day").toDate();
-  console.log(today);
   let selectedYear = today.getFullYear();
   let selectedMonth = today.getMonth();
 
@@ -76,7 +75,6 @@ export default async function Page(props: { searchParams: SearchParams }) {
   }
 
   const dayRange = getDayRangeByMonthAndYear(selectedYear, selectedMonth);
-  console.log(dayRange);
   const reports = await getReportsByDateRange(dayRange);
   const processedReports = processCashFlowData(reports);
 
