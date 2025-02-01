@@ -47,17 +47,21 @@ export function MonthSelect({
         </SelectContent>
       </Select>
 
-      <div className="flex flex-col items-start">
+      <div className="flex flex-col items-start gap-1">
         {NUM_MONTHS.map((month) => (
           <Button
             key={month}
             variant={`link`}
             className={cn(
+              "h-fit p-0",
               month - 1 === selectedMonth && "bg-muted hover:no-underline",
             )}
             disabled={month - 1 === selectedMonth}
           >
-            <Link href={`/admin/cashflow?year=${selectedYear}&month=${month}`}>
+            <Link
+              className="px-4 py-2"
+              href={`/admin/cashflow?year=${selectedYear}&month=${month}`}
+            >
               {FULL_MONTHS[month - 1]}
             </Link>
           </Button>
