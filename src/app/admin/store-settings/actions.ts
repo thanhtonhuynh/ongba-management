@@ -52,7 +52,7 @@ export async function updateStartCash(data: UpdateStartCashInput) {
     if (
       !user ||
       user.accountStatus !== "active" ||
-      !hasAccess(user.role, "/admin/store-settings", "update")
+      !hasAccess(user.role, "/admin")
     ) {
       return { error: "Unauthorized." };
     }
