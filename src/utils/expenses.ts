@@ -5,9 +5,9 @@ export function reshapeExpenses(expenses: Expense[]): MonthlyExpense[] {
   const data = Array(12)
     .fill(null)
     .map((_, month) => {
-      const monthExpenses = expenses.filter(
-        (expense) => expense.date.getMonth() === month,
-      );
+      const monthExpenses = expenses
+        .filter((expense) => expense.date.getMonth() === month)
+        .sort((a, b) => a.date.getDate() - b.date.getDate());
       const entries = monthExpenses.flatMap((expense) => expense.entries);
       const totalExpenses = entries.reduce(
         (acc, entry) => acc + entry.amount,
