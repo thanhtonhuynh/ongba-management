@@ -11,8 +11,8 @@ export default async function NavBar() {
   if (!user) return null;
 
   return (
-    <header className="sticky top-0 z-10 mb-4 border-b bg-background px-3 shadow-sm">
-      <nav className="mx-auto flex w-full max-w-screen-2xl items-center justify-between gap-3 py-2">
+    <header className="sticky top-0 z-10 mb-4 border-b bg-background px-3 shadow-xs">
+      <nav className="mx-auto flex w-full max-w-(--breakpoint-2xl) items-center justify-between gap-3 py-2">
         <div className="flex items-center space-x-4">
           <Link href="/" className="flex items-center space-x-1 font-bold">
             <Image

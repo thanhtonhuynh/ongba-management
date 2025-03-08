@@ -23,7 +23,7 @@ export async function EmployeeAnalytics({ user }: EmployeeAnalyticsProps) {
   );
 
   return (
-    <div className="space-y-5 rounded-md border p-4 shadow">
+    <div className="space-y-5 rounded-md border p-4 shadow-sm">
       <div className="space-y-3">
         <h1 className="text-xl">For You</h1>
 
@@ -42,7 +42,7 @@ export async function EmployeeAnalytics({ user }: EmployeeAnalyticsProps) {
       </div>
 
       <div className="flex justify-center space-x-8 text-sm">
-        <div className="flex h-20 w-40 flex-col items-center justify-center space-y-2 rounded-md border p-2 shadow">
+        <div className="flex h-20 w-40 flex-col items-center justify-center space-y-2 rounded-md border p-2 shadow-sm">
           <p className="flex items-center gap-2 font-semibold">
             <CalendarClock size={17} />
             <span>Total Hours</span>
@@ -52,7 +52,7 @@ export async function EmployeeAnalytics({ user }: EmployeeAnalyticsProps) {
           </p>
         </div>
 
-        <div className="flex h-20 w-40 flex-col items-center justify-center space-y-2 rounded-md border p-2 shadow">
+        <div className="flex h-20 w-40 flex-col items-center justify-center space-y-2 rounded-md border p-2 shadow-sm">
           <p className="flex items-center gap-2 font-semibold">
             <CircleDollarSign size={17} />
             <span>Total Tips</span>

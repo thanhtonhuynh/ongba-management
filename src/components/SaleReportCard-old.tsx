@@ -17,7 +17,7 @@
 //   }
 
 //   return (
-//     <div className="w-full space-y-1 rounded border p-2 text-sm shadow">
+//     <div className="w-full space-y-1 rounded border p-2 text-sm shadow-sm">
 //       <div className="flex items-center justify-between space-x-2 pb-1">
 //         <div className="font-semibold">
 //           {moment(data.date).format("ddd MMM Do, YYYY")}

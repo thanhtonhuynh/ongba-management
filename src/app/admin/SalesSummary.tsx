@@ -53,14 +53,14 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
       <h3 className="font-medium">Overview</h3>
 
       <div className="grid gap-2 md:grid-cols-3">
-        <div className="flex flex-col justify-center space-y-3 rounded-md border p-4 shadow">
+        <div className="flex flex-col justify-center space-y-3 rounded-md border p-4 shadow-sm">
           <p className="font-semibold">Total Sales</p>
           <p className="font-medium text-muted-foreground">
             {formatPriceWithDollar(sumData.totalSales)}
           </p>
         </div>
 
-        <div className="space-y-3 rounded-md border p-4 shadow">
+        <div className="space-y-3 rounded-md border p-4 shadow-sm">
           <p className="font-medium">In-store Sales</p>
 
           <div className="space-y-1 text-muted-foreground">
@@ -77,7 +77,7 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
           </div>
         </div>
 
-        <div className="space-y-3 rounded-md border p-4 shadow">
+        <div className="space-y-3 rounded-md border p-4 shadow-sm">
           <p className="font-medium">Online Sales</p>
 
           <div className="space-y-1 text-muted-foreground">
@@ -103,7 +103,7 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
       <h3 className="font-medium">Online Sales</h3>
 
       <div className="grid gap-2 md:grid-cols-4">
-        <div className="space-y-2 rounded-md border p-4 text-muted-foreground shadow">
+        <div className="space-y-2 rounded-md border p-4 text-muted-foreground shadow-sm">
           <p className="font-medium text-green-600">UberEats</p>
 
           <div className="space-y-1">
@@ -126,7 +126,7 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
           </div>
         </div>
 
-        <div className="space-y-2 rounded-md border p-4 text-muted-foreground shadow">
+        <div className="space-y-2 rounded-md border p-4 text-muted-foreground shadow-sm">
           <p className="font-medium text-red-600">DoorDash</p>
 
           <div className="space-y-1">
@@ -149,7 +149,7 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
           </div>
         </div>
 
-        <div className="space-y-2 rounded-md border p-4 text-muted-foreground shadow">
+        <div className="space-y-2 rounded-md border p-4 text-muted-foreground shadow-sm">
           <p className="font-medium text-sky-500">Ritual</p>
 
           <div className="space-y-1">
@@ -171,7 +171,7 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
           </div>
         </div>
 
-        <div className="space-y-2 rounded-md border p-4 text-muted-foreground shadow">
+        <div className="space-y-2 rounded-md border p-4 text-muted-foreground shadow-sm">
           <p className="font-medium text-orange-500">SkipTheDishes</p>
 
           <div className="space-y-1">

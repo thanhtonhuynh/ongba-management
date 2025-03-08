@@ -46,7 +46,7 @@ export default async function Page(props: { params: Params }) {
 
       <Separator />
 
-      <div className="my-4 space-y-4 rounded-md bg-destructive/10 p-4 shadow">
+      <div className="my-4 space-y-4 rounded-md bg-destructive/10 p-4 shadow-sm">
         <h3 className="font-semibold text-destructive">Danger zone</h3>
         <DeleteExpenseButton expense={expense} />
       </div>

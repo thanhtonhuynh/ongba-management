@@ -87,7 +87,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
           <Accordion type="single" collapsible key={monthlyExpense.month}>
             <AccordionItem
               value="item-1"
-              className="rounded-md border px-4 shadow"
+              className="rounded-md border px-4 shadow-sm"
             >
               <AccordionTrigger>
                 {FULL_MONTHS[monthlyExpense.month]}

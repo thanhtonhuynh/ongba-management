@@ -174,7 +174,7 @@ export function SaleReportCard({ data }: SaleReportProps) {
             {data.employees.map((emp) => (
               <li
                 key={emp.userId}
-                className="flex h-12 items-center justify-between space-x-2 rounded px-2 shadow"
+                className="flex h-12 items-center justify-between space-x-2 rounded px-2 shadow-sm"
               >
                 <div className="flex items-center space-x-2">
                   {emp.image && <ProfilePicture image={emp.image} size={30} />}

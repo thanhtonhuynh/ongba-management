@@ -109,7 +109,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
       </h2>
 
       <div className="flex justify-center space-x-2">
-        <div className="flex h-24 w-40 flex-col items-center justify-center space-y-2 rounded-md border p-2 shadow">
+        <div className="flex h-24 w-40 flex-col items-center justify-center space-y-2 rounded-md border p-2 shadow-sm">
           <p className="flex items-center gap-2 font-semibold">
             <CalendarClock size={18} />
             <span>Total Hours</span>
@@ -120,7 +120,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
           </p>
         </div>
 
-        <div className="flex h-24 w-40 flex-col items-center justify-center space-y-2 rounded-md border p-2 shadow">
+        <div className="flex h-24 w-40 flex-col items-center justify-center space-y-2 rounded-md border p-2 shadow-sm">
           <p className="flex items-center gap-2 font-semibold">
             <CircleDollarSign size={18} />
             <span>Total Tips</span>
@@ -135,7 +135,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
       </div>
 
       {periods.map((period, index) => (
-        <div key={index} className="space-y-2 rounded-md border p-4 shadow">
+        <div key={index} className="space-y-2 rounded-md border p-4 shadow-sm">
           <h3 className="flex w-fit items-center space-x-2 rounded border-l-2 border-l-blue-500 bg-muted px-2 py-1 text-sm font-medium">
             <CalendarDays size={15} className="text-blue-500" />
             <span>{moment(period.start).format("MMM D")}</span>

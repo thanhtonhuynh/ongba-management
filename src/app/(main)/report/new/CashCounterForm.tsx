@@ -40,7 +40,7 @@ export function CashCounterForm({
   return (
     <Form {...cashCounterForm}>
       <form className="space-y-3">
-        <div className="rounded-md border p-2 shadow">
+        <div className="rounded-md border p-2 shadow-sm">
           <h3 className="text-sm font-semibold">Bills</h3>
           <div className="flex justify-center space-x-2">
             {BILL_FIELDS.map((key) => (
@@ -69,7 +69,7 @@ export function CashCounterForm({
           </div>
         </div>
 
-        <div className="rounded-md border p-2 shadow">
+        <div className="rounded-md border p-2 shadow-sm">
           <h3 className="text-sm font-semibold">Coins</h3>
           <div className="flex justify-center space-x-2">
             {COIN_FIELDS.map((key) => (
@@ -98,7 +98,7 @@ export function CashCounterForm({
           </div>
         </div>
 
-        <div className="rounded-md border p-2 shadow">
+        <div className="rounded-md border p-2 shadow-sm">
           <h3 className="text-sm font-semibold">Rolls</h3>
           <div className="flex justify-center space-x-2">
             {ROLL_FIELDS.map((key) => (

@@ -13,7 +13,7 @@ export function ProfilePicture({
       alt={"User profile picture"}
       width={size}
       height={size}
-      className="aspect-square rounded-full border bg-background object-cover shadow-sm"
+      className="aspect-square rounded-full border bg-background object-cover shadow-xs"
     />
   );
 }

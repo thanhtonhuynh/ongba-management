@@ -6,7 +6,7 @@ import Link from "next/link";
 export default async function Footer() {
   return (
     <footer className="mt-8 border-t bg-background px-3 py-8">
-      <div className="mx-auto flex w-full max-w-screen-2xl items-center gap-3">
+      <div className="mx-auto flex w-full max-w-(--breakpoint-2xl) items-center gap-3">
         <Link href="/" className="flex items-center font-bold">
           <Image
             src={ongbaLogo}

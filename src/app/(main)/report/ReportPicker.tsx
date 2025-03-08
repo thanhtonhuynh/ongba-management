@@ -53,7 +53,7 @@ export function ReportPicker() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4 rounded-md border p-4 shadow"
+          className="space-y-4 rounded-md border p-4 shadow-sm"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
@@ -102,7 +102,7 @@ export function ReportPicker() {
       </Form>
 
       {(error || processedReport) && (
-        <div className="rounded-md border p-4 shadow">
+        <div className="rounded-md border p-4 shadow-sm">
           {error && <ErrorMessage message={error} />}
 
           {processedReport && (

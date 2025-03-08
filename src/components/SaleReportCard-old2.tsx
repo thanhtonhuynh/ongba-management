@@ -16,7 +16,7 @@
 //   }
 
 //   return (
-//     <div className="w-full space-y-2 rounded border p-2 text-sm shadow">
+//     <div className="w-full space-y-2 rounded border p-2 text-sm shadow-sm">
 //       <div className="flex items-center justify-between space-x-2">
 //         <div className="font-medium">
 //           {moment(data.date).format("ddd MMM Do, YYYY")}
@@ -45,14 +45,14 @@
 //           <ReportBlock
 //             label="Card sales"
 //             data={data.cardSales}
-//             blockCn="bg-muted flex gap-1 shadow-sm"
+//             blockCn="bg-muted flex gap-1 shadow-xs"
 //             secondaryData
 //           />
 
 //           <ReportBlock
 //             label="Cash sales"
 //             data={data.cashSales}
-//             blockCn="bg-muted flex gap-1 shadow-sm"
+//             blockCn="bg-muted flex gap-1 shadow-xs"
 //             secondaryData
 //           />
 //         </div>
@@ -67,25 +67,25 @@
 //           <ReportBlock
 //             label="UberEats"
 //             data={data.uberEatsSales}
-//             blockCn="bg-muted flex gap-1 shadow-sm"
+//             blockCn="bg-muted flex gap-1 shadow-xs"
 //             secondaryData
 //           />
 //           <ReportBlock
 //             label="DoorDash"
 //             data={data.doorDashSales}
-//             blockCn="bg-muted flex gap-1 shadow-sm"
+//             blockCn="bg-muted flex gap-1 shadow-xs"
 //             secondaryData
 //           />
 //           <ReportBlock
 //             label="Ritual"
 //             data={data.onlineSales}
-//             blockCn="bg-muted flex gap-1 shadow-sm"
+//             blockCn="bg-muted flex gap-1 shadow-xs"
 //             secondaryData
 //           />
 //           <ReportBlock
 //             label="SkipDishes"
 //             data={data.skipTheDishesSales}
-//             blockCn="bg-muted flex gap-1 shadow-sm"
+//             blockCn="bg-muted flex gap-1 shadow-xs"
 //             secondaryData
 //           />
 //         </div>
@@ -100,7 +100,7 @@
 //           {data.expensesReason && (
 //             <ReportBlock
 //               data={data.expensesReason}
-//               blockCn="bg-muted flex gap-1 shadow-sm"
+//               blockCn="bg-muted flex gap-1 shadow-xs"
 //             />
 //           )}
 //         </div>
@@ -120,21 +120,21 @@
 //           <ReportBlock
 //             label="Cash in Till"
 //             data={data.cashInTill}
-//             blockCn="bg-muted  shadow-sm"
+//             blockCn="bg-muted  shadow-xs"
 //             secondaryData
 //           />
 //           <span>-</span>
 //           <ReportBlock
 //             label="Start Cash"
 //             data={data.startCash}
-//             blockCn="bg-muted shadow-sm"
+//             blockCn="bg-muted shadow-xs"
 //             secondaryData
 //           />
 //           <span>-</span>
 //           <ReportBlock
 //             label="Actual Cash"
 //             data={data.actualCash}
-//             blockCn="bg-muted shadow-sm"
+//             blockCn="bg-muted shadow-xs"
 //             secondaryData
 //           />
 //         </div>
@@ -149,14 +149,14 @@
 //           <ReportBlock
 //             label="Taken from Till"
 //             data={data.cashInTill - data.startCash}
-//             blockCn="bg-muted shadow-sm"
+//             blockCn="bg-muted shadow-xs"
 //             secondaryData
 //           />
 //           <span>+</span>
 //           <ReportBlock
 //             label="Cash Tips"
 //             data={data.cashTips}
-//             blockCn="bg-muted shadow-sm"
+//             blockCn="bg-muted shadow-xs"
 //             secondaryData
 //           />
 //         </div>
@@ -171,19 +171,19 @@
 //           <ReportBlock
 //             label="Card Tips"
 //             data={data.cardTips}
-//             blockCn="bg-muted flex gap-1 shadow-sm"
+//             blockCn="bg-muted flex gap-1 shadow-xs"
 //             secondaryData
 //           />
 //           <ReportBlock
 //             label="Cash Tips"
 //             data={data.cashTips}
-//             blockCn="bg-muted flex gap-1 shadow-sm"
+//             blockCn="bg-muted flex gap-1 shadow-xs"
 //             secondaryData
 //           />
 //           <ReportBlock
 //             label="Extra Tips"
 //             data={data.extraTips}
-//             blockCn="bg-muted flex gap-1 shadow-sm"
+//             blockCn="bg-muted flex gap-1 shadow-xs"
 //             secondaryData
 //           />
 //         </div>
@@ -204,7 +204,7 @@
 //           {data.employees.map((emp) => (
 //             <div
 //               key={emp.userId}
-//               className="flex items-center space-x-2 rounded-lg bg-muted px-2 py-1 shadow-sm"
+//               className="flex items-center space-x-2 rounded-lg bg-muted px-2 py-1 shadow-xs"
 //             >
 //               {emp.image && <ProfilePicture image={emp.image} size={40} />}
 //               <span className="font-medium">{emp.name}</span>

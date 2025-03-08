@@ -1,6 +1,7 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  serverExternalPackages: ["@node-rs/argon2"],
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  experimental: { serverActions: { bodySizeLimit: "5mb" } },
   images: {
     remotePatterns: [
       {
@@ -10,11 +11,7 @@ const nextConfig = {
       },
     ],
   },
-  experimental: {
-    serverActions: {
-      bodySizeLimit: "5mb",
-    },
-  },
+  reactStrictMode: false,
 };
 
 export default nextConfig;

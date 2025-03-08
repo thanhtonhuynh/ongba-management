@@ -51,7 +51,7 @@ export default async function Home() {
         {moment().tz("America/Vancouver").format("dddd, MMMM D, YYYY")}
       </div>
 
-      <div className="space-y-4 rounded-md border p-4 shadow">
+      <div className="space-y-4 rounded-md border p-4 shadow-sm">
         <div>Good day, {user.name}!</div>
 
         {todayReport && (
@@ -81,7 +81,7 @@ export default async function Home() {
       </div>
 
       {todayReport && (
-        <div className="space-y-4 rounded-md border p-4 shadow">
+        <div className="space-y-4 rounded-md border p-4 shadow-sm">
           <h1 className="text-xl">Today's Sale Report</h1>
           <SaleReportCard data={processedTodayReportData} />
         </div>

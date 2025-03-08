@@ -14,7 +14,7 @@ export default async function Layout({
   if (user.accountStatus !== "active") return notFound();
 
   return (
-    <div className="relative mx-auto flex min-h-screen w-full max-w-screen-2xl flex-col bg-background">
+    <div className="relative mx-auto flex min-h-screen w-full max-w-(--breakpoint-2xl) flex-col bg-background">
       <NavBar />
       <Container className="flex flex-1 flex-col">{children}</Container>
       <Footer />

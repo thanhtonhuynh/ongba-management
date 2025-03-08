@@ -102,7 +102,7 @@ export function EmployeeInput({
           {employees.map((employee, index) => (
             <li
               key={index}
-              className="flex h-12 items-center justify-between space-x-2 rounded px-2 text-sm shadow"
+              className="flex h-12 items-center justify-between space-x-2 rounded px-2 text-sm shadow-sm"
             >
               <div className="flex items-center space-x-2">
                 {employee.image && (
