@@ -1,10 +1,12 @@
+import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { SessionProvider } from "@/contexts/SessionProvider";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
 import { getCurrentSession } from "@/lib/auth/session";
 import type { Metadata, Viewport } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
-import { Geist, Geist_Mono } from "next/font/google";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 
@@ -29,10 +31,16 @@ export default async function RootLayout({
       >
         <ThemeProvider>
           <SessionProvider value={{ session, user }}>
-            {children}
+            <SidebarProvider>
+              <AppSidebar />
+              <main className="flex flex-1 flex-col">
+                <SidebarTrigger />
+                {children}
+              </main>
+              <Toaster richColors />
+            </SidebarProvider>
           </SessionProvider>
         </ThemeProvider>
-        <Toaster richColors />
       </body>
     </html>
   );
