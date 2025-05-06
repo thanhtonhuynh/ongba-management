@@ -21,7 +21,7 @@ type SaleDetailFormProps = {
 export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
   return (
     <Form {...form}>
-      <form className="space-y-2">
+      <form className="flex flex-col gap-4">
         <div className="grid grid-cols-2 gap-2">
           <FormField
             name="totalSales"

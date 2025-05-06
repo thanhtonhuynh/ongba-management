@@ -1,9 +1,10 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
 import { GoBackButton } from "@/components/buttons/GoBackButton";
+import { Container } from "@/components/Container";
+import { CurrentTag } from "@/components/CurrentTag";
+import { Header } from "@/components/header";
 import { ErrorMessage } from "@/components/Message";
-import { Separator } from "@/components/ui/separator";
 import { UserShiftTable } from "@/components/UserShiftTable";
-import { ViewPeriodsDialog } from "@/app/(main)/my-shifts/ViewPeriodsDialog";
 import { getUserShiftsInDateRange } from "@/data-access/employee";
 import { getCurrentSession } from "@/lib/auth/session";
 import { formatPriceWithDollar } from "@/lib/utils";
@@ -21,7 +22,8 @@ import {
 } from "lucide-react";
 import moment from "moment";
 import { notFound, redirect } from "next/navigation";
-import { CurrentTag } from "@/components/CurrentTag";
+import { Fragment } from "react";
+import { ViewPeriodsDialog } from "./ViewPeriodsDialog";
 
 type SearchParams = Promise<{
   year: string;
@@ -81,74 +83,76 @@ export default async function Page(props: { searchParams: SearchParams }) {
   );
 
   return (
-    <section className="space-y-4">
-      <div className="flex flex-row items-center justify-between">
-        <h1>My Shifts</h1>
-        {years.length > 0 && <ViewPeriodsDialog years={years} />}
-      </div>
+    <Fragment>
+      <Header>
+        <div className="flex flex-row items-center justify-between">
+          <h1>My Shifts</h1>
+        </div>
+      </Header>
 
-      <Separator />
-
-      {searchParams.year && searchParams.month && (
-        <GoBackButton
-          url={`/my-shifts`}
-          variant={`outline`}
-          className="gap-1"
-          size={"sm"}
-        >
-          Back to current
-        </GoBackButton>
-      )}
-
-      <h2 className="flex items-center gap-2">
-        <span>
-          {FULL_MONTHS[selectedMonth - 1]} {selectedYear}
-        </span>
-        {selectedYear === today.getFullYear() &&
-          selectedMonth === today.getMonth() + 1 && <CurrentTag />}
-      </h2>
-
-      <div className="flex justify-center space-x-2">
-        <div className="flex h-24 w-40 flex-col items-center justify-center space-y-2 rounded-md border p-2 shadow-sm">
-          <p className="flex items-center gap-2 font-semibold">
-            <CalendarClock size={18} />
-            <span>Total Hours</span>
-          </p>
-
-          <p className="font-medium text-blue-500">
-            {userShifts.reduce((acc, shift) => acc + shift.hours, 0)}
-          </p>
+      <Container>
+        <div className="flex justify-between gap-2">
+          {searchParams.year && searchParams.month && (
+            <GoBackButton
+              url={`/my-shifts`}
+              variant={`outline`}
+              className="gap-2"
+            >
+              Back to current
+            </GoBackButton>
+          )}
+          {years.length > 0 && <ViewPeriodsDialog years={years} />}
         </div>
 
-        <div className="flex h-24 w-40 flex-col items-center justify-center space-y-2 rounded-md border p-2 shadow-sm">
-          <p className="flex items-center gap-2 font-semibold">
-            <CircleDollarSign size={18} />
-            <span>Total Tips</span>
-          </p>
+        <h2 className="flex items-center gap-2">
+          <span>
+            {FULL_MONTHS[selectedMonth - 1]} {selectedYear}
+          </span>
+          {selectedYear === today.getFullYear() &&
+            selectedMonth === today.getMonth() + 1 && <CurrentTag />}
+        </h2>
 
-          <p className="font-medium text-blue-500">
-            {formatPriceWithDollar(
-              userShifts.reduce((acc, shift) => acc + shift.tips, 0),
-            )}
-          </p>
+        <div className="flex justify-center space-x-2">
+          <div className="flex h-24 w-40 flex-col items-center justify-center space-y-2 rounded-md border p-2 shadow-sm">
+            <p className="flex items-center gap-2 font-semibold">
+              <CalendarClock size={18} />
+              <span>Total Hours</span>
+            </p>
+            <p className="font-medium text-blue-500">
+              {userShifts.reduce((acc, shift) => acc + shift.hours, 0)}
+            </p>
+          </div>
+          <div className="flex h-24 w-40 flex-col items-center justify-center space-y-2 rounded-md border p-2 shadow-sm">
+            <p className="flex items-center gap-2 font-semibold">
+              <CircleDollarSign size={18} />
+              <span>Total Tips</span>
+            </p>
+            <p className="font-medium text-blue-500">
+              {formatPriceWithDollar(
+                userShifts.reduce((acc, shift) => acc + shift.tips, 0),
+              )}
+            </p>
+          </div>
         </div>
-      </div>
 
-      {periods.map((period, index) => (
-        <div key={index} className="space-y-2 rounded-md border p-4 shadow-sm">
-          <h3 className="flex w-fit items-center space-x-2 rounded border-l-2 border-l-blue-500 bg-muted px-2 py-1 text-sm font-medium">
-            <CalendarDays size={15} className="text-blue-500" />
-            <span>{moment(period.start).format("MMM D")}</span>
-            <MoveRight size={15} />
-            <span>{moment(period.end).format("MMM D")}</span>
-          </h3>
-
-          <UserShiftTable
-            dateRange={period}
-            userShifts={index === 0 ? firstPeriodShifts : secondPeriodShifts}
-          />
-        </div>
-      ))}
-    </section>
+        {periods.map((period, index) => (
+          <div
+            key={index}
+            className="space-y-2 rounded-md border p-4 shadow-sm"
+          >
+            <h3 className="bg-muted flex w-fit items-center space-x-2 rounded border-l-2 border-l-blue-500 px-2 py-1 text-sm font-medium">
+              <CalendarDays size={15} className="text-blue-500" />
+              <span>{moment(period.start).format("MMM D")}</span>
+              <MoveRight size={15} />
+              <span>{moment(period.end).format("MMM D")}</span>
+            </h3>
+            <UserShiftTable
+              dateRange={period}
+              userShifts={index === 0 ? firstPeriodShifts : secondPeriodShifts}
+            />
+          </div>
+        ))}
+      </Container>
+    </Fragment>
   );
 }

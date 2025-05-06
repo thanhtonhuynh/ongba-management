@@ -2,7 +2,6 @@
 
 import { logoutAction } from "@/app/(auth)/actions";
 import ongbaIcon from "@/assets/ongbaIcon.png";
-import { ProfilePicture } from "@/components/ProfilePicture";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -19,7 +18,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarSeparator,
-  useSidebar,
 } from "@/components/ui/sidebar";
 import { useSession } from "@/contexts/SessionProvider";
 import { ChevronUp, LogOut, User2 } from "lucide-react";
@@ -33,12 +31,11 @@ import { StaffMenuGroup } from "./staff-menu-group";
 
 export function AppSidebar() {
   const { user } = useSession();
-  const { toggleSidebar, state } = useSidebar();
 
   if (!user) return null;
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar variant="inset" collapsible="icon">
       <SidebarHeader className="">
         <SidebarMenu>
           <SidebarMenuItem>
@@ -77,20 +74,26 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild className="h-fit cursor-pointer">
-                <SidebarMenuButton className="break-all">
-                  {user?.image ? (
-                    <ProfilePicture image={user.image} size={40} />
-                  ) : (
-                    <User2 size={17} />
-                  )}
-                  <div>
-                    <p className="line-clamp-1 text-sm font-bold">
-                      {user?.name}
-                    </p>
+                <SidebarMenuButton className="group-data-[collapsible=icon]:p-0!">
+                  <span className="relative flex size-8 shrink-0 items-center justify-center shadow-xs">
+                    {user?.image ? (
+                      <Image
+                        src={user?.image}
+                        alt={"User profile picture"}
+                        fill
+                        sizes="40px"
+                        className="aspect-square size-full rounded-lg border object-cover shadow-xs"
+                      />
+                    ) : (
+                      <User2 className="size-4 border" />
+                    )}
+                  </span>
+                  <div className="flex-1">
+                    <p className="truncate text-sm font-bold">{user?.name}</p>
                     <p className="text-muted-foreground text-xs font-medium capitalize">
                       {user?.role}
                     </p>
-                    <p className="text-muted-foreground line-clamp-1 text-xs">
+                    <p className="text-muted-foreground truncate text-xs">
                       {user?.email}
                     </p>
                   </div>

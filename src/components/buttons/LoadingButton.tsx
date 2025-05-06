@@ -1,17 +1,18 @@
 import { cn } from "@/lib/utils";
-import { Button, ButtonProps } from "../ui/button";
+import { VariantProps } from "class-variance-authority";
 import { Loader2 } from "lucide-react";
-
-interface LoadingButtonProps extends ButtonProps {
-  loading: boolean;
-}
+import { Button, buttonVariants } from "../ui/button";
 
 export function LoadingButton({
   loading,
   disabled,
   className,
   ...props
-}: LoadingButtonProps) {
+}: React.ComponentProps<"button"> &
+  VariantProps<typeof buttonVariants> & {
+    asChild?: boolean;
+    loading: boolean;
+  }) {
   return (
     <Button
       disabled={loading || disabled}

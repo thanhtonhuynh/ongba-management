@@ -6,8 +6,9 @@
 @theme inline {
   --font-geist-sans: var(--font-geist-sans);
   --font-geist-mono: var(--font-geist-mono);
-  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
-    Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-mono:
+    var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -220,7 +221,7 @@
   }
 
   h1 {
-    @apply text-2xl font-bold;
+    @apply text-xl font-bold uppercase;
   }
 
   h2 {

@@ -1,15 +1,17 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Button, ButtonProps } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-interface GoBackButtonProps extends ButtonProps {
+export function GoBackButton({
+  className,
+  url,
+  ...props
+}: React.ComponentProps<typeof Button> & {
   url?: string;
-}
-
-export function GoBackButton({ className, url, ...props }: GoBackButtonProps) {
+}) {
   const router = useRouter();
 
   return (

@@ -1,3 +1,5 @@
+import { Container } from "@/components/Container";
+import { Header } from "@/components/header";
 import { ErrorMessage } from "@/components/Message";
 import { SaleReportCard } from "@/components/SaleReportCard";
 import { Button } from "@/components/ui/button";
@@ -8,15 +10,16 @@ import { hasAccess } from "@/utils/access-control";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { processReportDataForView } from "@/utils/report";
 import { CircleCheck, ClipboardPen } from "lucide-react";
-import moment from "moment";
+import moment from "moment-timezone";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
+import { Fragment } from "react";
 import { EmployeeAnalytics } from "./EmployeeAnalytics";
 
 export default async function Home() {
   const { session, user } = await getCurrentSession();
   if (!session) redirect("/login");
-  if (user.accountStatus !== "active") return notFound();
+  if (user.accountStatus !== "active") notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
     return (
@@ -46,48 +49,53 @@ export default async function Home() {
   }
 
   return (
-    <section className="space-y-4">
-      <div className="text-sm font-medium text-muted-foreground">
-        {moment().tz("America/Vancouver").format("dddd, MMMM D, YYYY")}
-      </div>
+    <Fragment>
+      <Header>
+        <div className="text-muted-foreground text-sm font-medium">
+          {moment().tz("America/Vancouver").format("dddd, MMMM D, YYYY")}
+        </div>
+      </Header>
+      <Container className="">
+        <section className="space-y-4">
+          <div className="space-y-4 rounded-md border p-4 shadow-sm">
+            <div>Good day, {user.name}!</div>
 
-      <div className="space-y-4 rounded-md border p-4 shadow-sm">
-        <div>Good day, {user.name}!</div>
+            {todayReport && (
+              <div className="bg-muted flex w-fit items-center gap-2 rounded border-l-2 border-l-blue-500 px-2 py-1 font-medium">
+                <CircleCheck size={17} className="text-blue-500" />
+                Today's report has been submitted!
+              </div>
+            )}
+
+            {hasAccess(user.role, "/report/new") && (
+              <>
+                <Button className="flex w-fit items-center gap-2" asChild>
+                  <Link href={`report/new`}>
+                    <ClipboardPen size={16} />
+                    Create new sale report
+                  </Link>
+                </Button>
+
+                <div className="text-muted-foreground text-sm">
+                  <span className="font-semibold">Note:</span> There can only be
+                  <span className="font-semibold"> ONE </span>
+                  sale report per day. Submitting a new report will overwrite
+                  the existing one.
+                </div>
+              </>
+            )}
+          </div>
+        </section>
 
         {todayReport && (
-          <div className="flex w-fit items-center gap-2 rounded border-l-2 border-l-blue-500 bg-muted px-2 py-1 font-medium">
-            <CircleCheck size={17} className="text-blue-500" />
-            Today's report has been submitted!
-          </div>
+          <section className="space-y-4 rounded-md border p-4 shadow-sm">
+            <h1 className="text-xl">Today's Sale Report</h1>
+            <SaleReportCard data={processedTodayReportData} />
+          </section>
         )}
 
-        {hasAccess(user.role, "/report/new") && (
-          <>
-            <Button className="flex w-fit items-center gap-2" asChild>
-              <Link href={`report/new`}>
-                <ClipboardPen size={16} />
-                Create new sale report
-              </Link>
-            </Button>
-
-            <div className="text-sm text-muted-foreground">
-              <span className="font-semibold">Note:</span> There can only be
-              <span className="font-semibold"> ONE </span>
-              sale report per day. Submitting a new report will overwrite the
-              existing one.
-            </div>
-          </>
-        )}
-      </div>
-
-      {todayReport && (
-        <div className="space-y-4 rounded-md border p-4 shadow-sm">
-          <h1 className="text-xl">Today's Sale Report</h1>
-          <SaleReportCard data={processedTodayReportData} />
-        </div>
-      )}
-
-      <EmployeeAnalytics user={user} />
-    </section>
+        <EmployeeAnalytics user={user} />
+      </Container>
+    </Fragment>
   );
 }

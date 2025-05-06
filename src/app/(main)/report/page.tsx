@@ -1,7 +1,9 @@
+import { Container } from "@/components/Container";
+import { Header } from "@/components/header";
 import { getCurrentSession } from "@/lib/auth/session";
 import { notFound, redirect } from "next/navigation";
+import { Fragment } from "react";
 import { ReportPicker } from "./ReportPicker";
-import { Separator } from "@/components/ui/separator";
 
 export default async function Page() {
   const { session, user } = await getCurrentSession();
@@ -9,12 +11,16 @@ export default async function Page() {
   if (user.accountStatus !== "active") return notFound();
 
   return (
-    <section className="space-y-4">
-      <h1>Sales Report Lookup</h1>
+    <Fragment>
+      <Header>
+        <h1>Past report lookup</h1>
+      </Header>
 
-      <Separator />
-
-      <ReportPicker />
-    </section>
+      <Container>
+        <section className="">
+          <ReportPicker />
+        </section>
+      </Container>
+    </Fragment>
   );
 }

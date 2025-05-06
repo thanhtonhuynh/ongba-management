@@ -1,5 +1,17 @@
 "use client";
 
+import { LoadingButton } from "@/components/buttons/LoadingButton";
+import { ErrorMessage } from "@/components/Message";
+import { SaleReportCard } from "@/components/SaleReportCard";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import {
   SearchReportInput,
   SearchReportSchema,
@@ -9,18 +21,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { searchReportAction } from "./actions";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Calendar } from "@/components/ui/calendar";
-import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { ErrorMessage } from "@/components/Message";
-import { SaleReportCard } from "@/components/SaleReportCard";
 
 export function ReportPicker() {
   const [processedReport, setProcessedReport] =
@@ -87,7 +87,6 @@ export function ReportPicker() {
                     disabled={(date) =>
                       date > new Date() || date < new Date("1900-01-01")
                     }
-                    initialFocus
                   />
                 </FormControl>
                 <FormMessage />

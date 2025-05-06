@@ -1,8 +1,8 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
+import { Calendar } from "@/components/calendar";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
   FormControl,
@@ -116,7 +116,7 @@ export function ExpensesForm({ expense }: Props) {
                 entries.remove(index);
               }}
               className={cn(
-                "mt-2 hover:text-destructive",
+                "hover:text-destructive mt-2",
                 index === 0 && "mt-8",
               )}
             >

@@ -1,7 +1,9 @@
 import { CashCounter } from "@/app/(main)/cash-counter/CashCounter";
-import { Separator } from "@/components/ui/separator";
+import { Container } from "@/components/Container";
+import { Header } from "@/components/header";
 import { getCurrentSession } from "@/lib/auth/session";
 import { notFound, redirect } from "next/navigation";
+import { Fragment } from "react";
 
 export default async function Page() {
   const { session, user } = await getCurrentSession();
@@ -9,12 +11,14 @@ export default async function Page() {
   if (user.accountStatus !== "active") return notFound();
 
   return (
-    <section className="space-y-4">
-      <h1>Cash Counter</h1>
+    <Fragment>
+      <Header>
+        <h1>Cash Counter</h1>
+      </Header>
 
-      <Separator />
-
-      <CashCounter />
-    </section>
+      <Container>
+        <CashCounter />
+      </Container>
+    </Fragment>
   );
 }

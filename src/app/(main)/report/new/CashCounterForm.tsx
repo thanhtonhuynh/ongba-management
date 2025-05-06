@@ -39,8 +39,8 @@ export function CashCounterForm({
 
   return (
     <Form {...cashCounterForm}>
-      <form className="space-y-3">
-        <div className="rounded-md border p-2 shadow-sm">
+      <form className="flex flex-col gap-4">
+        <div className="rounded-md border p-4 shadow-sm">
           <h3 className="text-sm font-semibold">Bills</h3>
           <div className="flex justify-center space-x-2">
             {BILL_FIELDS.map((key) => (
@@ -69,7 +69,7 @@ export function CashCounterForm({
           </div>
         </div>
 
-        <div className="rounded-md border p-2 shadow-sm">
+        <div className="rounded-md border p-4 shadow-sm">
           <h3 className="text-sm font-semibold">Coins</h3>
           <div className="flex justify-center space-x-2">
             {COIN_FIELDS.map((key) => (
@@ -98,7 +98,7 @@ export function CashCounterForm({
           </div>
         </div>
 
-        <div className="rounded-md border p-2 shadow-sm">
+        <div className="rounded-md border p-4 shadow-sm">
           <h3 className="text-sm font-semibold">Rolls</h3>
           <div className="flex justify-center space-x-2">
             {ROLL_FIELDS.map((key) => (
@@ -127,7 +127,7 @@ export function CashCounterForm({
           </div>
         </div>
 
-        <div className="mx-auto w-fit">
+        <div className="w-full max-w-xs self-center">
           <FormField
             name="cashInTill"
             control={createReportForm.control}

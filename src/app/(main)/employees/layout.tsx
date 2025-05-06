@@ -1,7 +1,10 @@
-import { Separator } from "@/components/ui/separator";
+import { Container } from "@/components/Container";
+import { Header } from "@/components/header";
 import { Nav, NavLink } from "@/components/Nav";
+import { Separator } from "@/components/ui/separator";
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasAccess } from "@/utils/access-control";
+import { Fragment } from "react";
 
 export default async function Layout({
   children,
@@ -11,24 +14,27 @@ export default async function Layout({
   const { user } = await getCurrentSession();
 
   return (
-    <section className="space-y-4">
-      <h1>Employees</h1>
+    <Fragment>
+      <Header>
+        <h1>Employees</h1>
+      </Header>
 
-      <div>
-        {user && hasAccess(user.role, "/employees", "update") && (
-          <Nav className="flex items-center space-x-4">
-            <NavLink href={"/employees/active"}>Active</NavLink>
-            <NavLink href={"/employees/awaiting-verification"}>
-              Awaiting
-            </NavLink>
-            <NavLink href={"/employees/deactivated"}>Deactivated</NavLink>
-          </Nav>
-        )}
+      <Container>
+        <div>
+          {user && hasAccess(user.role, "/employees", "update") && (
+            <Nav className="flex items-center space-x-4">
+              <NavLink href={"/employees/active"}>Active</NavLink>
+              <NavLink href={"/employees/awaiting-verification"}>
+                Awaiting
+              </NavLink>
+              <NavLink href={"/employees/deactivated"}>Deactivated</NavLink>
+            </Nav>
+          )}
+          <Separator />
+        </div>
 
-        <Separator />
-      </div>
-
-      {children}
-    </section>
+        {children}
+      </Container>
+    </Fragment>
   );
 }

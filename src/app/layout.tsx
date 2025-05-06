@@ -1,5 +1,7 @@
 import { AppSidebar } from "@/components/app-sidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { TailwindScreenSizeIndicator } from "@/components/dev/tw-screen-size-indicator";
+import Footer from "@/components/Footer";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { SessionProvider } from "@/contexts/SessionProvider";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
 import { getCurrentSession } from "@/lib/auth/session";
@@ -27,20 +29,21 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} font-geist-sans p-0! antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} font-geist-sans antialiased`}
       >
         <ThemeProvider>
           <SessionProvider value={{ session, user }}>
             <SidebarProvider>
               <AppSidebar />
-              <main className="flex flex-1 flex-col">
-                <SidebarTrigger />
-                {children}
-              </main>
-              <Toaster richColors />
+              <SidebarInset className="w-[calc(100svw-var(--sidebar-width))]">
+                <div className="relative flex flex-1 flex-col">{children}</div>
+                <Footer />
+                <Toaster richColors />
+              </SidebarInset>
             </SidebarProvider>
           </SessionProvider>
         </ThemeProvider>
+        <TailwindScreenSizeIndicator />
       </body>
     </html>
   );

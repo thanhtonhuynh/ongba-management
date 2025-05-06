@@ -1,11 +1,13 @@
+import { Container } from "@/components/Container";
+import { Header } from "@/components/header";
 import { ErrorMessage } from "@/components/Message";
-import { Separator } from "@/components/ui/separator";
 import { getEmployees } from "@/data-access/employee";
 import { getStartCash } from "@/data-access/store";
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasAccess } from "@/utils/access-control";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { notFound, redirect } from "next/navigation";
+import { Fragment } from "react";
 import { NewReportPortal } from "./NewReportPortal";
 
 export default async function Page() {
@@ -24,12 +26,16 @@ export default async function Page() {
   const startCash = await getStartCash();
 
   return (
-    <section className="flex flex-1 flex-col space-y-4">
-      <h1>Create sale report</h1>
+    <Fragment>
+      <Header>
+        <h1>Create sale report</h1>
+      </Header>
 
-      <Separator />
-
-      <NewReportPortal users={users} startCash={startCash} />
-    </section>
+      <Container>
+        <section className="max-w-5xl">
+          <NewReportPortal users={users} startCash={startCash} />
+        </section>
+      </Container>
+    </Fragment>
   );
 }

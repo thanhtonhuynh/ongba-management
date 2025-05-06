@@ -1,9 +1,9 @@
 "use client";
 
-import { MoonIcon, SunIcon, DesktopIcon } from "@radix-ui/react-icons";
-import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { DesktopIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
+import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 export function ModeToggle() {
@@ -15,7 +15,7 @@ export function ModeToggle() {
   if (!mounted) return null;
 
   return (
-    <div className="space-x-1 rounded-full p-1 sm:border">
+    <div className="space-x-1 rounded-full border p-1">
       <Button
         variant="ghost"
         size="icon"
