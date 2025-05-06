@@ -1,13 +1,8 @@
 "use client";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
+import { LoadingButton } from "@/components/buttons/LoadingButton";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -19,24 +14,29 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState, useTransition } from "react";
-import { Button } from "@/components/ui/button";
-import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
-import { useRouter } from "next/navigation";
-import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { useForm } from "react-hook-form";
 import {
   ViewPastPeriodsInput,
   ViewPastPeriodsSchema,
 } from "@/lib/validations/hours&tips";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarClock } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
 
 type ViewPeriodsDialogProps = {
   years: number[];
@@ -56,7 +56,7 @@ export function ViewPeriodsDialog({ years }: ViewPeriodsDialogProps) {
 
   function onSubmit(data: ViewPastPeriodsInput) {
     startTransition(() => {
-      router.push(`/admin/hours&tips/${data.year}/${data.month + 1}`);
+      router.push(`/hours&tips/${data.year}/${data.month + 1}`);
       setOpen(false);
     });
   }

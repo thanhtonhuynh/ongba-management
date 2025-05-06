@@ -31,7 +31,7 @@ export function MonthSelect({
       <Select
         value={selectedYear.toString()}
         onValueChange={(value) => {
-          router.push(`/admin/cashflow?year=${value}`);
+          router.push(`/cashflow?year=${value}`);
         }}
       >
         <SelectTrigger>
@@ -60,7 +60,7 @@ export function MonthSelect({
           >
             <Link
               className="px-4 py-2"
-              href={`/admin/cashflow?year=${selectedYear}&month=${month}`}
+              href={`/cashflow?year=${selectedYear}&month=${month}`}
             >
               {FULL_MONTHS[month - 1]}
             </Link>

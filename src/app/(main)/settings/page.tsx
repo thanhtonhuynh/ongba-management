@@ -1,11 +1,13 @@
-import { Separator } from "@/components/ui/separator";
+import { Container } from "@/components/Container";
+import { Header } from "@/components/header";
 import { getCurrentSession } from "@/lib/auth/session";
 import { notFound, redirect } from "next/navigation";
-import { UpdateNameForm } from "./UpdateNameForm";
-import { UpdateUsernameForm } from "./UpdateUsernameForm";
-import { UpdateEmailForm } from "./UpdateEmailForm";
-import { UpdatePasswordForm } from "./UpdatePasswordForm";
+import { Fragment } from "react";
 import { UpdateAvatar } from "./UpdateAvatar";
+import { UpdateEmailForm } from "./UpdateEmailForm";
+import { UpdateNameForm } from "./UpdateNameForm";
+import { UpdatePasswordForm } from "./UpdatePasswordForm";
+import { UpdateUsernameForm } from "./UpdateUsernameForm";
 
 export default async function Page() {
   const { session, user } = await getCurrentSession();
@@ -13,20 +15,18 @@ export default async function Page() {
   if (user.accountStatus !== "active") return notFound();
 
   return (
-    <section className="space-y-4">
-      <h1>Account settings</h1>
+    <Fragment>
+      <Header>
+        <h1>Account settings</h1>
+      </Header>
 
-      <Separator />
-
-      <UpdateAvatar user={user} />
-
-      <UpdateNameForm user={user} />
-
-      <UpdateUsernameForm user={user} />
-
-      <UpdateEmailForm user={user} />
-
-      <UpdatePasswordForm />
-    </section>
+      <Container>
+        <UpdateAvatar user={user} />
+        <UpdateNameForm user={user} />
+        <UpdateUsernameForm user={user} />
+        <UpdateEmailForm user={user} />
+        <UpdatePasswordForm />
+      </Container>
+    </Fragment>
   );
 }

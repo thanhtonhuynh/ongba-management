@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -7,9 +8,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
@@ -78,7 +78,7 @@ export function PeriodSelect({
         {displayedMonths.map((month) => (
           <Button key={month} asChild variant={`link`}>
             <Link
-              href={`/admin/hours&tips/${selectedYear}/${FULL_MONTHS[month].toLowerCase()}`}
+              href={`/hours&tips/${selectedYear}/${FULL_MONTHS[month].toLowerCase()}`}
             >
               {FULL_MONTHS[month]}
             </Link>

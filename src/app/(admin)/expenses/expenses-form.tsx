@@ -1,8 +1,8 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { Calendar } from "@/components/calendar";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
   FormControl,
@@ -115,10 +115,7 @@ export function ExpensesForm({ expense }: Props) {
               onClick={() => {
                 entries.remove(index);
               }}
-              className={cn(
-                "hover:text-destructive mt-2",
-                index === 0 && "mt-8",
-              )}
+              className={cn("hover:text-destructive", index === 0 && "mt-6")}
             >
               <Trash className="size-4" />
             </Button>

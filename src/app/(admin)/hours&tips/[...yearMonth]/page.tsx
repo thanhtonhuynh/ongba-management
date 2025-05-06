@@ -115,7 +115,7 @@ export default async function Page(props: { params: Params }) {
   return (
     <div className="space-y-4">
       <GoBackButton
-        url={`/admin/hours&tips`}
+        url={`/hours&tips`}
         variant={`outline`}
         className="gap-1"
         size={"sm"}
@@ -141,7 +141,7 @@ export default async function Page(props: { params: Params }) {
 
         {periods.map((period, index) => (
           <div key={index} className="space-y-2">
-            <h4 className="flex w-fit items-center space-x-2 rounded border-l-2 border-l-blue-500 bg-muted px-2 py-1 text-sm font-medium">
+            <h4 className="bg-muted flex w-fit items-center space-x-2 rounded border-l-2 border-l-blue-500 px-2 py-1 text-sm font-medium">
               <CalendarDays size={15} className="text-blue-500" />
               <span>{moment(period.start).format("MMM D")}</span>
               <MoveRight size={15} />
@@ -158,7 +158,7 @@ export default async function Page(props: { params: Params }) {
                 <Separator />
               </>
             ) : (
-              <div className="p-2 text-sm text-muted-foreground">
+              <div className="text-muted-foreground p-2 text-sm">
                 No record found for this period
               </div>
             )}
@@ -171,7 +171,7 @@ export default async function Page(props: { params: Params }) {
 
         {periods.map((period, index) => (
           <div key={index} className="space-y-2">
-            <h4 className="flex w-fit items-center space-x-2 rounded border-l-2 border-l-blue-500 bg-muted px-2 py-1 text-sm font-medium">
+            <h4 className="bg-muted flex w-fit items-center space-x-2 rounded border-l-2 border-l-blue-500 px-2 py-1 text-sm font-medium">
               <CalendarDays size={15} className="text-blue-500" />
               <span>{moment(period.start).format("MMM D")}</span>
               <MoveRight size={15} />
@@ -188,7 +188,7 @@ export default async function Page(props: { params: Params }) {
                 <Separator />
               </>
             ) : (
-              <div className="p-2 text-sm text-muted-foreground">
+              <div className="text-muted-foreground p-2 text-sm">
                 No record found for this period
               </div>
             )}

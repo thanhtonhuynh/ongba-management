@@ -1,4 +1,6 @@
 import { GoBackButton } from "@/components/buttons/GoBackButton";
+import { Container } from "@/components/Container";
+import { Header } from "@/components/header";
 import { Separator } from "@/components/ui/separator";
 import { getExpenseById } from "@/data-access/expenses";
 import { getCurrentSession } from "@/lib/auth/session";
@@ -6,6 +8,7 @@ import { formatPriceWithDollar } from "@/lib/utils";
 import { hasAccess } from "@/utils/access-control";
 import { format } from "date-fns";
 import { notFound, redirect } from "next/navigation";
+import { Fragment } from "react";
 import { ExpensesForm } from "../expenses-form";
 import { DeleteExpenseButton } from "./delete-expense-button";
 
@@ -27,29 +30,33 @@ export default async function Page(props: { params: Params }) {
   );
 
   return (
-    <section className="flex flex-col gap-4">
-      <GoBackButton size={"sm"} className="h-7 w-fit px-4" />
+    <Fragment>
+      <Header>
+        <h1>Expense on {format(expense.date, "MMMM d, yyyy")}</h1>
+      </Header>
 
-      <h1>Expense on {format(expense.date, "MMMM d, yyyy")}</h1>
+      <Container>
+        <GoBackButton size={"sm"} className="h-7 w-fit px-4" />
 
-      <div>
-        Total spend:{" "}
-        <span className="font-bold">{formatPriceWithDollar(totalSpend)}</span>
-      </div>
+        <div>
+          Total spend:{" "}
+          <span className="font-bold">{formatPriceWithDollar(totalSpend)}</span>
+        </div>
 
-      <Separator />
+        <Separator />
 
-      <div className="my-4 space-y-2">
-        <h3 className="font-semibold">Edit details</h3>
-        <ExpensesForm expense={expense} />
-      </div>
+        <div className="my-4 space-y-2">
+          <h3 className="font-semibold">Edit details</h3>
+          <ExpensesForm expense={expense} />
+        </div>
 
-      <Separator />
+        <Separator />
 
-      <div className="my-4 space-y-4 rounded-md bg-destructive/10 p-4 shadow-sm">
-        <h3 className="font-semibold text-destructive">Danger zone</h3>
-        <DeleteExpenseButton expense={expense} />
-      </div>
-    </section>
+        <div className="bg-destructive/10 my-4 space-y-4 rounded-md p-4 shadow-sm">
+          <h3 className="text-destructive font-semibold">Danger zone</h3>
+          <DeleteExpenseButton expense={expense} />
+        </div>
+      </Container>
+    </Fragment>
   );
 }

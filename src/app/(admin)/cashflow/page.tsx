@@ -1,7 +1,8 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
+import { Container } from "@/components/Container";
 import { CurrentTag } from "@/components/CurrentTag";
+import { Header } from "@/components/header";
 import { ErrorMessage } from "@/components/Message";
-import { Separator } from "@/components/ui/separator";
 import { getExpensesByYear } from "@/data-access/expenses";
 import { getReportsByDateRange } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
@@ -15,6 +16,7 @@ import {
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import moment from "moment-timezone";
 import { notFound, redirect } from "next/navigation";
+import { Fragment } from "react";
 import { CashFlowTable } from "./CashflowTable";
 import { MonthSelect } from "./MonthSelect";
 import { YearCashFlowTable } from "./year-cash-flow-table";
@@ -89,36 +91,37 @@ export default async function Page(props: { searchParams: SearchParams }) {
   );
 
   return (
-    <section className="space-y-4">
-      <h1>Cashflow</h1>
+    <Fragment>
+      <Header>
+        <h1>Cashflow</h1>
+      </Header>
 
-      <Separator className="my-4" />
+      <Container>
+        <div className="flex space-x-4">
+          {years.length > 0 && (
+            <MonthSelect
+              years={years}
+              selectedYear={selectedYear}
+              selectedMonth={selectedMonth}
+            />
+          )}
 
-      <div className="flex space-x-4">
-        {years.length > 0 && (
-          <MonthSelect
-            years={years}
-            selectedYear={selectedYear}
-            selectedMonth={selectedMonth}
-          />
-        )}
-
-        <div className="flex-1 space-y-8 overflow-auto">
-          <div className="space-y-4">
-            <h2 className="flex items-center gap-2">
-              {FULL_MONTHS[selectedMonth]} {selectedYear}
-              {selectedYear === today.getFullYear() &&
-                selectedMonth === today.getMonth() && <CurrentTag />}
-            </h2>
-            <CashFlowTable reports={processedReports} />
-          </div>
-
-          <div className="space-y-4">
-            <h2>Year {selectedYear} Summary</h2>
-            <YearCashFlowTable data={yearProcessedReports} />
+          <div className="flex-1 space-y-8 overflow-auto">
+            <div className="space-y-4">
+              <h2 className="flex items-center gap-2">
+                {FULL_MONTHS[selectedMonth]} {selectedYear}
+                {selectedYear === today.getFullYear() &&
+                  selectedMonth === today.getMonth() && <CurrentTag />}
+              </h2>
+              <CashFlowTable reports={processedReports} />
+            </div>
+            <div className="space-y-4">
+              <h2>Year {selectedYear} Summary</h2>
+              <YearCashFlowTable data={yearProcessedReports} />
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </Container>
+    </Fragment>
   );
 }

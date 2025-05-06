@@ -7,6 +7,7 @@ import { getReportByDate } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import { SaleReportCardProcessedData, SaleReportCardRawData } from "@/types";
 import { hasAccess } from "@/utils/access-control";
+import { populateMonthSelectData } from "@/utils/hours-tips";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { processReportDataForView } from "@/utils/report";
 import { CircleCheck, ClipboardPen } from "lucide-react";
@@ -14,9 +15,16 @@ import moment from "moment-timezone";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
+import { SalesSummary } from "../(admin)/SalesSummary";
+import { NUM_MONTHS } from "../constants";
 import { EmployeeAnalytics } from "./EmployeeAnalytics";
 
-export default async function Home() {
+type SearchParams = Promise<{
+  year: string;
+  month: string;
+}>;
+
+export default async function Home(props: { searchParams: SearchParams }) {
   const { session, user } = await getCurrentSession();
   if (!session) redirect("/login");
   if (user.accountStatus !== "active") notFound();
@@ -26,6 +34,9 @@ export default async function Home() {
       <ErrorMessage message="Too many requests. Please try again later." />
     );
   }
+
+  const searchParams = await props.searchParams;
+  const { years } = await populateMonthSelectData();
 
   const today = moment().tz("America/Vancouver").startOf("day").toDate();
   const todayReport = await getReportByDate(today);
@@ -48,6 +59,30 @@ export default async function Home() {
     processedTodayReportData = processReportDataForView(rawData);
   }
 
+  let selectedYear: number;
+  let selectedMonth: number;
+  if (searchParams.year && searchParams.month) {
+    selectedYear = parseInt(searchParams.year);
+    selectedMonth = parseInt(searchParams.month);
+
+    if (
+      isNaN(selectedYear) ||
+      isNaN(selectedMonth) ||
+      !years.includes(selectedYear) ||
+      !NUM_MONTHS.includes(selectedMonth)
+    ) {
+      return (
+        <ErrorMessage
+          className="self-start"
+          message="Invalid year or month. Please check the URL and try again."
+        />
+      );
+    }
+  } else {
+    selectedYear = today.getFullYear();
+    selectedMonth = today.getMonth() + 1;
+  }
+
   return (
     <Fragment>
       <Header>
@@ -55,7 +90,8 @@ export default async function Home() {
           {moment().tz("America/Vancouver").format("dddd, MMMM D, YYYY")}
         </div>
       </Header>
-      <Container className="">
+
+      <Container>
         <section className="space-y-4">
           <div className="space-y-4 rounded-md border p-4 shadow-sm">
             <div>Good day, {user.name}!</div>
@@ -95,6 +131,8 @@ export default async function Home() {
         )}
 
         <EmployeeAnalytics user={user} />
+
+        <SalesSummary year={selectedYear} month={selectedMonth} />
       </Container>
     </Fragment>
   );

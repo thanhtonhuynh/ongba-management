@@ -1,12 +1,10 @@
-import NavBar from "@/components/NavBar";
 import { CircleAlert } from "lucide-react";
 
 export default async function NotFound() {
   return (
     <>
-      <NavBar />
       <main className="flex h-[80vh] items-center justify-center">
-        <div className="flex items-center justify-center gap-4 rounded-lg border border-destructive px-6 py-8 text-destructive shadow-lg">
+        <div className="border-destructive text-destructive flex items-center justify-center gap-4 rounded-lg border px-6 py-8 shadow-lg">
           <CircleAlert size={32} />
 
           <div className="flex flex-col gap-4">

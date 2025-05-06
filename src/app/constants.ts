@@ -58,7 +58,7 @@ export const staffMenuItems = [
 ];
 
 export const adminMenuItems = [
-  { title: "Hours & Tips", url: "/hours&tips", icon: Hourglass },
+  { title: "Hours & tips", url: "/hours&tips", icon: Hourglass },
   { title: "Cashflow", url: "/cashflow", icon: Landmark },
   { title: "Expenses", url: "/expenses", icon: ShoppingBasket },
   { title: "Store settings", url: "/store-settings", icon: Store },
