@@ -19,7 +19,7 @@ export default async function Page() {
   const employees = await getEmployees("active");
 
   return (
-    <section className="grid gap-2 md:grid-cols-2">
+    <section className="grid gap-6 md:grid-cols-2">
       {employees.map((employee) => (
         <EmployeeCard key={employee.id} employee={employee} />
       ))}

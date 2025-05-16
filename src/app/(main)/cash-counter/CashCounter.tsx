@@ -1,14 +1,12 @@
 "use client";
 
 import {
-  MONEY_FIELDS,
-  MONEY_VALUES,
   BILL_FIELDS,
   COIN_FIELDS,
+  MONEY_FIELDS,
+  MONEY_VALUES,
   ROLL_FIELDS,
 } from "@/app/constants";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -18,6 +16,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { formatPriceWithDollar } from "@/lib/utils";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export function CashCounter() {
   const form = useForm({
@@ -51,17 +51,17 @@ export function CashCounter() {
 
   return (
     <Form {...form}>
-      <form className="space-y-3">
-        <div className="mx-auto w-fit rounded-md border p-4 text-sm shadow-sm">
-          <h2 className="text-base">Total Cash in Till</h2>
+      <form className="space-y-8">
+        <div className="mx-auto w-fit space-y-2 rounded-lg border px-6 py-4 text-sm shadow-sm">
+          <h6 className="uppercase">Total</h6>
           <p className="font-medium text-blue-500">
             {formatPriceWithDollar(total)}
           </p>
         </div>
 
-        <div className="rounded-md border p-2 shadow-sm">
+        <div className="rounded-lg border p-6 shadow-sm">
           <h2 className="text-base">Bills</h2>
-          <div className="flex justify-center space-x-2">
+          <div className="flex justify-center space-x-4">
             {BILL_FIELDS.map((key) => (
               <FormField
                 key={key}
@@ -88,9 +88,9 @@ export function CashCounter() {
           </div>
         </div>
 
-        <div className="rounded-md border p-2 shadow-sm">
+        <div className="rounded-lg border p-6 shadow-sm">
           <h2 className="text-base">Coins</h2>
-          <div className="flex justify-center space-x-2">
+          <div className="flex justify-center space-x-4">
             {COIN_FIELDS.map((key) => (
               <FormField
                 key={key}
@@ -117,9 +117,9 @@ export function CashCounter() {
           </div>
         </div>
 
-        <div className="rounded-md border p-2 shadow-sm">
+        <div className="rounded-lg border p-6 shadow-sm">
           <h2 className="text-base">Rolls</h2>
-          <div className="flex justify-center space-x-2">
+          <div className="flex justify-center space-x-4">
             {ROLL_FIELDS.map((key) => (
               <FormField
                 key={key}

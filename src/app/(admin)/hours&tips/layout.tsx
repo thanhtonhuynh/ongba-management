@@ -14,13 +14,13 @@ export default async function Layout({
   return (
     <Fragment>
       <Header>
-        <h1>Hours & Tips</h1>
+        <div className="flex flex-1 items-center justify-between">
+          <h1>Hours & Tips</h1>
+          {years.length > 0 && <ViewPeriodsDialog years={years} />}
+        </div>
       </Header>
 
-      <Container>
-        {years.length > 0 && <ViewPeriodsDialog years={years} />}
-        {children}
-      </Container>
+      <Container>{children}</Container>
     </Fragment>
   );
 }

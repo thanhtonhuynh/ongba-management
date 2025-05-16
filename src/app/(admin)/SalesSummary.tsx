@@ -35,7 +35,7 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
   const instoreSales = sumData.totalSales - sumData.onlineSales;
 
   return (
-    <div className="space-y-4 rounded-md border p-6 shadow-sm">
+    <div className="space-y-4 rounded-lg border p-6 shadow-sm">
       <div className="flex items-center justify-between gap-3">
         <h6>Sales Summary</h6>
         {years.length > 0 && <ViewPeriodsDialog years={years} />}

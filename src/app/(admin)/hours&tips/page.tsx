@@ -53,7 +53,7 @@ export default async function Page() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-8">
       <h2 className="flex items-center gap-2">
         <span>{moment(todayBiweeklyPeriod.start).format("MMM D, YYYY")}</span>
         <MoveRight size={17} />
@@ -61,7 +61,7 @@ export default async function Page() {
         <CurrentTag />
       </h2>
 
-      <div className="w-fit rounded-md border px-2 py-4 shadow-md">
+      <div className="w-fit rounded-lg border p-6 shadow-sm">
         <h3 className="border-l-2 border-l-blue-500 px-2 font-semibold">
           Total hours and tips
         </h3>
@@ -69,14 +69,14 @@ export default async function Page() {
         <HoursTipsTable data={totalHoursTips} />
       </div>
 
-      <div className="space-y-2 rounded-md border px-2 py-4 shadow-md">
+      <div className="space-y-2 rounded-lg border p-6 shadow-sm">
         <h3 className="border-l-2 border-l-blue-500 px-2 font-semibold">
           Hours breakdown
         </h3>
         <DataTable dateRange={todayBiweeklyPeriod} data={hoursBreakdown} />
       </div>
 
-      <div className="space-y-2 rounded-md border px-2 py-4 shadow-md">
+      <div className="space-y-2 rounded-lg border p-6 shadow-sm">
         <h3 className="border-l-2 border-l-blue-500 px-2 font-semibold">
           Tips breakdown
         </h3>

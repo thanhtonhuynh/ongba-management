@@ -113,7 +113,7 @@ export default async function Page(props: { params: Params }) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-8">
       <GoBackButton
         url={`/hours&tips`}
         variant={`outline`}
@@ -130,13 +130,13 @@ export default async function Page(props: { params: Params }) {
         )}
       </h2>
 
-      <div className="w-fit rounded-md border px-2 py-4 shadow-md">
+      <div className="w-fit rounded-lg border p-6 shadow-sm">
         <h3 className="px-2 font-semibold">Total hours and tips</h3>
 
         <HoursTipsTable data={totalHoursTips} />
       </div>
 
-      <div className="space-y-4 rounded-md border px-2 py-4 shadow-md">
+      <div className="space-y-4 rounded-lg border p-6 shadow-sm">
         <h3 className="px-2 font-semibold">Hours breakdown</h3>
 
         {periods.map((period, index) => (
@@ -166,7 +166,7 @@ export default async function Page(props: { params: Params }) {
         ))}
       </div>
 
-      <div className="space-y-4 rounded-md border px-2 py-4 shadow-md">
+      <div className="space-y-4 rounded-lg border p-6 shadow-sm">
         <h3 className="px-2 font-semibold">Tips breakdown</h3>
 
         {periods.map((period, index) => (

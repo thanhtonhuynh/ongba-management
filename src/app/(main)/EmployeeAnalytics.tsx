@@ -23,7 +23,7 @@ export async function EmployeeAnalytics({ user }: EmployeeAnalyticsProps) {
   );
 
   return (
-    <div className="space-y-5 rounded-md border p-6 shadow-sm">
+    <div className="space-y-5 rounded-lg border p-6 shadow-sm">
       <div className="space-y-3">
         <h6>Current biweekly earnings</h6>
 
