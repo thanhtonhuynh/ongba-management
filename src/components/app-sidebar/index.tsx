@@ -48,9 +48,7 @@ export function AppSidebar() {
                   height={40}
                   className="aspect-square object-cover dark:invert"
                 />
-                <span className="text-primary text-xl font-bold tracking-wider">
-                  ONGBA
-                </span>
+                <span className="text-xl font-bold tracking-wider">ONGBA</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

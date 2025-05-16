@@ -85,24 +85,22 @@ export default async function Page(props: { searchParams: SearchParams }) {
   return (
     <Fragment>
       <Header>
-        <div className="flex flex-row items-center justify-between">
+        <div className="flex flex-1 items-center justify-between">
           <h1>My Shifts</h1>
+          {years.length > 0 && <ViewPeriodsDialog years={years} />}
         </div>
       </Header>
 
       <Container>
-        <div className="flex justify-between gap-2">
-          {searchParams.year && searchParams.month && (
-            <GoBackButton
-              url={`/my-shifts`}
-              variant={`outline`}
-              className="gap-2"
-            >
-              Back to current
-            </GoBackButton>
-          )}
-          {years.length > 0 && <ViewPeriodsDialog years={years} />}
-        </div>
+        {searchParams.year && searchParams.month && (
+          <GoBackButton
+            url={`/my-shifts`}
+            variant={`outline`}
+            className="w-fit gap-2"
+          >
+            Back to current
+          </GoBackButton>
+        )}
 
         <h2 className="flex items-center gap-2">
           <span>
@@ -138,7 +136,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
         {periods.map((period, index) => (
           <div
             key={index}
-            className="space-y-2 rounded-md border p-4 shadow-sm"
+            className="space-y-4 rounded-lg border p-6 shadow-sm"
           >
             <h3 className="bg-muted flex w-fit items-center space-x-2 rounded border-l-2 border-l-blue-500 px-2 py-1 text-sm font-medium">
               <CalendarDays size={15} className="text-blue-500" />

@@ -33,7 +33,6 @@ import {
   ViewPastPeriodsSchema,
 } from "@/lib/validations/hours&tips";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarClock } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -64,10 +63,7 @@ export function ViewPeriodsDialog({ years }: ViewPeriodsDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="flex items-center gap-2">
-          <CalendarClock size={15} />
-          View past periods
-        </Button>
+        <Button>View past periods</Button>
       </DialogTrigger>
 
       <DialogContent>
