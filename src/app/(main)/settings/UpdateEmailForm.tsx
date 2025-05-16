@@ -6,7 +6,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -18,8 +17,8 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { updateEmailAction } from "./actions";
 import { toast } from "sonner";
+import { updateEmailAction } from "./actions";
 
 type UpdateNameFormProps = {
   user: User;
@@ -44,10 +43,10 @@ export function UpdateEmailForm({ user }: UpdateNameFormProps) {
   }
 
   return (
-    <div className="space-y-2 rounded-md border p-4 shadow-md">
-      <h2>Email</h2>
+    <div className="space-y-4 rounded-lg border p-6 shadow-sm">
+      <h6>Email</h6>
 
-      <div className="space-y-1 text-sm text-muted-foreground">
+      <div className="text-muted-foreground space-y-1 text-sm">
         <p>
           <span className="font-semibold">Note:</span> Please use a real email
           so the system can send you reset password emails if you ever forget
@@ -56,7 +55,7 @@ export function UpdateEmailForm({ user }: UpdateNameFormProps) {
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             name="email"
             control={form.control}
@@ -72,7 +71,7 @@ export function UpdateEmailForm({ user }: UpdateNameFormProps) {
           />
 
           <LoadingButton variant={"outline"} loading={isPending} type="submit">
-            Update email
+            Save
           </LoadingButton>
         </form>
       </Form>

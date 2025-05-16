@@ -7,7 +7,6 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -45,10 +44,10 @@ export function UpdateUsernameForm({ user }: UpdateUsernameFormProps) {
   }
 
   return (
-    <div className="space-y-2 rounded-md border p-4 shadow-md">
-      <h2>Username</h2>
+    <div className="space-y-4 rounded-lg border p-6 shadow-sm">
+      <h6>Username</h6>
 
-      <div className="space-y-1 text-sm text-muted-foreground">
+      <div className="text-muted-foreground space-y-1 text-sm">
         <p>
           Besides your email, your username can also be used to log in to your
           account.
@@ -56,7 +55,7 @@ export function UpdateUsernameForm({ user }: UpdateUsernameFormProps) {
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             name="username"
             control={form.control}
@@ -74,7 +73,7 @@ export function UpdateUsernameForm({ user }: UpdateUsernameFormProps) {
           />
 
           <LoadingButton variant={"outline"} loading={isPending} type="submit">
-            Update username
+            Save
           </LoadingButton>
         </form>
       </Form>

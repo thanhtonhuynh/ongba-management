@@ -19,8 +19,8 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { updateNameAction } from "./actions";
 import { toast } from "sonner";
+import { updateNameAction } from "./actions";
 
 type UpdateNameFormProps = {
   user: User;
@@ -45,10 +45,10 @@ export function UpdateNameForm({ user }: UpdateNameFormProps) {
   }
 
   return (
-    <div className="space-y-2 rounded-md border p-4 shadow-md">
-      <h2>Display name</h2>
+    <div className="space-y-4 rounded-lg border p-6 shadow-sm">
+      <h6>Display name</h6>
 
-      <div className="space-y-1 text-sm text-muted-foreground">
+      <div className="text-primary space-y-1 text-sm">
         <p>
           <span className="font-semibold">Note:</span> Please use your real name
           so your colleagues can easily identify you when they create reports.
@@ -56,7 +56,7 @@ export function UpdateNameForm({ user }: UpdateNameFormProps) {
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             name="name"
             control={form.control}
@@ -75,7 +75,7 @@ export function UpdateNameForm({ user }: UpdateNameFormProps) {
           />
 
           <LoadingButton variant={"outline"} loading={isPending} type="submit">
-            Update name
+            Save
           </LoadingButton>
         </form>
       </Form>

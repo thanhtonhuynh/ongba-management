@@ -1,6 +1,6 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { TailwindScreenSizeIndicator } from "@/components/dev/tw-screen-size-indicator";
-import Footer from "@/components/Footer";
+import Footer from "@/components/footer";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { SessionProvider } from "@/contexts/SessionProvider";
 import { ThemeProvider } from "@/contexts/ThemeProvider";

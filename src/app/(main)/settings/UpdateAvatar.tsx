@@ -42,25 +42,21 @@ export function UpdateAvatar({ user }: UpdateAvatarFormProps) {
   }
 
   return (
-    <div className="flex flex-col space-y-2 rounded-md border p-4 shadow-md sm:flex-row sm:items-center sm:space-x-8 sm:space-y-0">
+    <div className="flex flex-col space-y-2 rounded-lg border p-6 shadow-sm sm:flex-row sm:items-center sm:space-y-0 sm:space-x-8">
       <div className="self-center">
         {user.image && <ProfilePicture image={user.image} size={150} />}
       </div>
 
-      <div className="space-y-2">
-        <h2>Profile picture</h2>
+      <div className="space-y-4">
+        <h6>Profile picture</h6>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               name="image"
               control={form.control}
               render={({ field: { value, onChange, ...fieldProps } }) => (
                 <FormItem>
-                  <FormDescription>
-                    Image size must be less than 5MB and in JPEG, PNG, JPG, or
-                    WEBP format.
-                  </FormDescription>
                   <FormControl>
                     <Input
                       {...fieldProps}
@@ -71,6 +67,10 @@ export function UpdateAvatar({ user }: UpdateAvatarFormProps) {
                       }
                     />
                   </FormControl>
+                  <FormDescription>
+                    Image size must be less than 5MB and in JPEG, PNG, JPG, or
+                    WEBP format.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -80,7 +80,7 @@ export function UpdateAvatar({ user }: UpdateAvatarFormProps) {
               loading={isPending}
               type="submit"
             >
-              Update profile picture
+              Upload
             </LoadingButton>
           </form>
         </Form>
