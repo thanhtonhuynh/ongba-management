@@ -16,18 +16,19 @@ export function Header({
   return (
     <header
       className={cn(
-        "bg-background sticky top-0 flex h-16 shrink-0 items-center gap-4 rounded-t-xl border-b px-4 md:px-8",
+        "bg-background/70 sticky top-0 flex h-16 shrink-0 items-center gap-4 border-b px-4 backdrop-blur-sm md:rounded-t-xl md:px-8",
         className,
       )}
       {...props}
     >
       <Button
         variant={"outline"}
+        size={"icon"}
         onClick={toggleSidebar}
         className="h-8 text-sm font-normal md:hidden"
       >
         <PanelLeftIcon className="size-4" />
-        <span>Menu</span>
+        <span className="sr-only">Menu</span>
       </Button>
       {children}
     </header>

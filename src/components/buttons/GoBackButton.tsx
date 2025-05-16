@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { ArrowLeft } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export function GoBackButton({
@@ -20,7 +20,7 @@ export function GoBackButton({
       {...props}
       onClick={() => (url ? router.push(url) : router.back())}
     >
-      <ArrowLeft size={props.size === "sm" ? 12 : 15} />
+      <ChevronLeft className="size-4" />
       {props.children}
     </Button>
   );

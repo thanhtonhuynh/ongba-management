@@ -1,15 +1,15 @@
+import { UserShiftTable } from "@/components/UserShiftTable";
 import { getUserShiftsInDateRange } from "@/data-access/employee";
 import { User } from "@/lib/auth/session";
 import { formatPriceWithDollar } from "@/lib/utils";
 import { getTodayBiweeklyPeriod } from "@/utils/hours-tips";
-import moment from "moment";
-import { UserShiftTable } from "@/components/UserShiftTable";
 import {
   CalendarClock,
   CalendarDays,
   CircleDollarSign,
   MoveRight,
 } from "lucide-react";
+import moment from "moment";
 
 type EmployeeAnalyticsProps = {
   user: User;
@@ -23,14 +23,12 @@ export async function EmployeeAnalytics({ user }: EmployeeAnalyticsProps) {
   );
 
   return (
-    <div className="space-y-5 rounded-md border p-4 shadow-sm">
+    <div className="space-y-5 rounded-md border p-6 shadow-sm">
       <div className="space-y-3">
-        <h1 className="text-xl">For You</h1>
+        <h6>Current biweekly earnings</h6>
 
-        <div className="space-y-2 sm:flex sm:items-center sm:space-x-4 sm:space-y-0">
-          <p>Current biweekly period</p>
-
-          <p className="flex w-fit items-center space-x-2 rounded border-l-2 border-l-blue-500 bg-muted px-2 py-1 text-sm font-medium">
+        <div className="space-y-2 sm:flex sm:items-center sm:space-y-0 sm:space-x-4">
+          <p className="bg-muted flex w-fit items-center space-x-2 rounded border-l-2 border-l-blue-500 px-2 py-1 text-sm font-medium">
             <CalendarDays size={15} className="text-blue-500" />
             <span>
               {moment(todayBiweeklyPeriod.start).format("MMM D, YYYY")}

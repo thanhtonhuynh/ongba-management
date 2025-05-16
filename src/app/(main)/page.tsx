@@ -7,7 +7,6 @@ import { getReportByDate } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import { SaleReportCardProcessedData, SaleReportCardRawData } from "@/types";
 import { hasAccess } from "@/utils/access-control";
-import { populateMonthSelectData } from "@/utils/hours-tips";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { processReportDataForView } from "@/utils/report";
 import { CircleCheck, ClipboardPen } from "lucide-react";
@@ -16,7 +15,6 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
 import { SalesSummary } from "../(admin)/SalesSummary";
-import { NUM_MONTHS } from "../constants";
 import { EmployeeAnalytics } from "./EmployeeAnalytics";
 
 type SearchParams = Promise<{
@@ -36,7 +34,6 @@ export default async function Home(props: { searchParams: SearchParams }) {
   }
 
   const searchParams = await props.searchParams;
-  const { years } = await populateMonthSelectData();
 
   const today = moment().tz("America/Vancouver").startOf("day").toDate();
   const todayReport = await getReportByDate(today);
@@ -49,35 +46,18 @@ export default async function Home(props: { searchParams: SearchParams }) {
       image: data.user.image || undefined,
     }));
 
-    const rawData: SaleReportCardRawData = {
+    processedTodayReportData = processReportDataForView({
       reporterName: todayReport.reporter.name,
       reporterImage: todayReport.reporter.image,
       employees,
       ...todayReport,
-    };
-
-    processedTodayReportData = processReportDataForView(rawData);
+    } as SaleReportCardRawData);
   }
 
-  let selectedYear: number;
-  let selectedMonth: number;
+  let selectedYear: number, selectedMonth: number;
   if (searchParams.year && searchParams.month) {
     selectedYear = parseInt(searchParams.year);
     selectedMonth = parseInt(searchParams.month);
-
-    if (
-      isNaN(selectedYear) ||
-      isNaN(selectedMonth) ||
-      !years.includes(selectedYear) ||
-      !NUM_MONTHS.includes(selectedMonth)
-    ) {
-      return (
-        <ErrorMessage
-          className="self-start"
-          message="Invalid year or month. Please check the URL and try again."
-        />
-      );
-    }
   } else {
     selectedYear = today.getFullYear();
     selectedMonth = today.getMonth() + 1;
@@ -93,11 +73,11 @@ export default async function Home(props: { searchParams: SearchParams }) {
 
       <Container>
         <section className="space-y-4">
-          <div className="space-y-4 rounded-md border p-4 shadow-sm">
+          <div className="space-y-4 rounded-lg border p-6 shadow-sm">
             <div>Good day, {user.name}!</div>
 
             {todayReport && (
-              <div className="bg-muted flex w-fit items-center gap-2 rounded border-l-2 border-l-blue-500 px-2 py-1 font-medium">
+              <div className="bg-muted flex w-fit items-center gap-2 rounded-lg border-l-2 border-l-blue-500 px-2 py-1">
                 <CircleCheck size={17} className="text-blue-500" />
                 Today's report has been submitted!
               </div>
@@ -124,8 +104,8 @@ export default async function Home(props: { searchParams: SearchParams }) {
         </section>
 
         {todayReport && (
-          <section className="space-y-4 rounded-md border p-4 shadow-sm">
-            <h1 className="text-xl">Today's Sale Report</h1>
+          <section className="space-y-4 rounded-lg border p-6 shadow-sm">
+            <h6>Today's Sale Report</h6>
             <SaleReportCard data={processedTodayReportData} />
           </section>
         )}
