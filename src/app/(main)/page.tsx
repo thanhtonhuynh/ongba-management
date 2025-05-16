@@ -112,7 +112,9 @@ export default async function Home(props: { searchParams: SearchParams }) {
 
         <EmployeeAnalytics user={user} />
 
-        <SalesSummary year={selectedYear} month={selectedMonth} />
+        {user.role === "admin" && (
+          <SalesSummary year={selectedYear} month={selectedMonth} />
+        )}
       </Container>
     </Fragment>
   );
