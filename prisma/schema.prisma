@@ -62,14 +62,6 @@ model StoreSettings {
   id        String @id @default(auto()) @map("_id") @db.ObjectId
   uniqueKey String @unique @default("store")
 
-  mondayShift    Float
-  tuesdayShift   Float
-  wednesdayShift Float
-  thursdayShift  Float
-  fridayShift    Float
-  saturdayShift  Float
-  sundayShift    Float
-
   startCash Float
 
   createdAt DateTime @default(now())

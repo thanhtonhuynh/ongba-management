@@ -5,23 +5,9 @@ async function main() {
   await prisma.storeSettings.upsert({
     where: { uniqueKey: "store" },
     update: {
-      mondayShift: 11,
-      tuesdayShift: 11,
-      wednesdayShift: 11,
-      thursdayShift: 11,
-      fridayShift: 12,
-      saturdayShift: 12,
-      sundayShift: 11,
       startCash: 300,
     },
     create: {
-      mondayShift: 11,
-      tuesdayShift: 11,
-      wednesdayShift: 11,
-      thursdayShift: 11,
-      fridayShift: 12,
-      saturdayShift: 12,
-      sundayShift: 11,
       startCash: 300,
     },
   });

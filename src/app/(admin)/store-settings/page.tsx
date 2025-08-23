@@ -21,7 +21,6 @@ export default async function Page() {
     );
   }
 
-  // const currentShiftHours = await getShiftHours();
   const currentStartCash = await getStartCash();
 
   return (
@@ -29,8 +28,6 @@ export default async function Page() {
       <Header>
         <h1>Store settings</h1>
       </Header>
-
-      {/* <ShiftHoursForm currentShiftHours={currentShiftHours} /> */}
 
       <Container>
         <StartCashForm currentStartCash={currentStartCash} />
