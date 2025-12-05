@@ -39,23 +39,23 @@ export const getEmployees = cache(async (status?: string) => {
   });
 });
 
-// Get hours and tips breakdown for a specific day range
-export const getAllEmployeeShiftsInDayRange = cache(
-  async (dateRange: DayRange) => {
-    return await prisma.employeeShift.findMany({
-      where: {
-        date: { gte: dateRange.start, lte: dateRange.end },
-      },
-      select: {
-        userId: true,
-        date: true,
-        hours: true,
-        tips: true,
-        user: { select: { name: true, image: true } },
-      },
-    });
-  },
-);
+// // Get hours and tips breakdown for a specific day range
+// export const getAllEmployeeShiftsInDayRange = cache(
+//   async (dateRange: DayRange) => {
+//     return await prisma.employeeShift.findMany({
+//       where: {
+//         date: { gte: dateRange.start, lte: dateRange.end },
+//       },
+//       select: {
+//         userId: true,
+//         date: true,
+//         hours: true,
+//         tips: true,
+//         user: { select: { name: true, image: true } },
+//       },
+//     });
+//   },
+// );
 
 // Fetch all shifts in a date range
 export const getShiftsInDateRange = cache(async (dateRange: DayRange) => {
