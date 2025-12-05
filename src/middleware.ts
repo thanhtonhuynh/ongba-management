@@ -40,6 +40,17 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
     return response;
   }
 
+  // If maintenance mode is on, redirect to maintenance page
+  if (
+    isMaintenanceOn &&
+    !hasBypassToken &&
+    !isMaintenancePage &&
+    !isStaticAsset &&
+    !isApiRoute
+  ) {
+    return NextResponse.rewrite(new URL("/maintenance", request.url));
+  }
+
   if (request.method === "GET") {
     const response = NextResponse.next();
     const token = request.cookies.get("session")?.value ?? null;
@@ -54,17 +65,6 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
       });
     }
     return response;
-  }
-
-  // If maintenance mode is on, redirect to maintenance page
-  if (
-    isMaintenanceOn &&
-    !hasBypassToken &&
-    !isMaintenancePage &&
-    !isStaticAsset &&
-    !isApiRoute
-  ) {
-    return NextResponse.rewrite(new URL("/maintenance", request.url));
   }
 
   // CRSF protection
