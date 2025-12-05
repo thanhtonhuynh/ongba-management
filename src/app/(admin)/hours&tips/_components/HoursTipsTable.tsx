@@ -36,7 +36,7 @@ export async function HoursTipsTable({ data }: HoursTipsTableProps) {
             </TableCell>
             <TableCell className="text-center">{employee.totalHours}</TableCell>
             <TableCell className="text-right">
-              {formatPriceWithDollar(employee.totalTips)}
+              {formatPriceWithDollar(employee.totalTips / 100)}
             </TableCell>
           </TableRow>
         ))}

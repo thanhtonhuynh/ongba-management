@@ -1,5 +1,5 @@
 import { getFirstReportDate } from "@/data-access/report";
-import { BreakdownData, DayRange, EmployeeShift } from "@/types";
+import { BreakdownData, DayRange, Shift } from "@/types";
 import { TZDate } from "@date-fns/tz";
 import moment from "moment-timezone";
 import { cache } from "react";
@@ -133,62 +133,58 @@ export function getPeriodsByMonthAndYear(
 
 export function getHoursTipsBreakdownInDayRange(
   dayRange: DayRange,
-  employeeShifts: EmployeeShift[],
+  shifts: Shift[],
 ) {
-  const hoursBreakdown: BreakdownData[] = [];
-  const tipsBreakdown: BreakdownData[] = [];
+  const hoursMap = new Map<string, BreakdownData>();
+  const tipsMap = new Map<string, BreakdownData>();
 
-  const startDay = dayRange.start.getDate();
-  const endDay = dayRange.end.getDate();
+  // Compute number of days
+  const msPerDay = 24 * 60 * 60 * 1000;
+  const start = dayRange.start;
+  const end = dayRange.end;
+  const numDays = Math.floor((end.getTime() - start.getTime()) / msPerDay) + 1;
 
-  // Initialize the breakdown data with the employees, the keyData array (initialize to 0s), and the total hours and tips
-  for (const shift of employeeShifts) {
-    const index = hoursBreakdown.findIndex(
-      (data) => data.userId === shift.userId,
+  const makeEmptyRow = (shift: Shift): BreakdownData => ({
+    userId: shift.userId,
+    userName: shift.userName,
+    image: shift.userImage,
+    keyData: Array(numDays).fill(0),
+    total: 0,
+  });
+
+  for (const shift of shifts) {
+    // Compute the index by true day difference, not day-of-month
+    const index = Math.floor(
+      (shift.date.getTime() - start.getTime()) / msPerDay,
     );
 
-    if (index === -1) {
-      hoursBreakdown.push({
-        userId: shift.userId,
-        userName: shift.user.name,
-        image: shift.user.image || "",
-        keyData: Array(endDay - startDay + 1).fill(0),
-        total: 0,
-      });
+    // If for some reason the shift is out of range, skip it
+    if (index < 0 || index >= numDays) continue;
 
-      tipsBreakdown.push({
-        userId: shift.userId,
-        userName: shift.user.name,
-        image: shift.user.image || "",
-        keyData: Array(endDay - startDay + 1).fill(0),
-        total: 0,
-      });
+    // HOURS
+    let hoursRow = hoursMap.get(shift.userId);
+    if (!hoursRow) {
+      hoursRow = makeEmptyRow(shift);
+      hoursMap.set(shift.userId, hoursRow);
     }
+    hoursRow.keyData[index] = shift.hours;
+    hoursRow.total += shift.hours;
+
+    // TIPS
+    let tipsRow = tipsMap.get(shift.userId);
+    if (!tipsRow) {
+      tipsRow = makeEmptyRow(shift);
+      tipsMap.set(shift.userId, tipsRow);
+    }
+    tipsRow.keyData[index] = shift.tips;
+    tipsRow.total += shift.tips;
   }
 
-  // Process the employee shifts
-  for (const shift of employeeShifts) {
-    const index = hoursBreakdown.findIndex(
-      (data) => data.userId === shift.userId,
-    );
-
-    const day = shift.date.getDate();
-    const hours = shift.hours;
-    const tips = shift.tips;
-
-    hoursBreakdown[index].keyData[day - startDay] = hours;
-    hoursBreakdown[index].total += hours;
-
-    tipsBreakdown[index].keyData[day - startDay] = tips;
-    tipsBreakdown[index].total += tips;
-  }
+  const sortByName = (a: BreakdownData, b: BreakdownData) =>
+    a.userName.localeCompare(b.userName);
 
   return {
-    hoursBreakdown: hoursBreakdown.sort((a, b) =>
-      a.userName.localeCompare(b.userName),
-    ),
-    tipsBreakdown: tipsBreakdown.sort((a, b) =>
-      a.userName.localeCompare(b.userName),
-    ),
+    hoursBreakdown: Array.from(hoursMap.values()).sort(sortByName),
+    tipsBreakdown: Array.from(tipsMap.values()).sort(sortByName),
   };
 }

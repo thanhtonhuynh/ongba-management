@@ -21,7 +21,7 @@ export function YearSelector({ years, selectedYear }: Props) {
     <Select
       value={selectedYear.toString()}
       onValueChange={(value) => {
-        router.push(`/admin/expenses?year=${value}`);
+        router.push(`/expenses?year=${value}`);
       }}
     >
       <SelectTrigger>

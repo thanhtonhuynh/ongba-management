@@ -1,6 +1,6 @@
 import { CurrentTag } from "@/components/CurrentTag";
 import { ErrorMessage } from "@/components/Message";
-import { getAllEmployeeShiftsInDayRange } from "@/data-access/employee";
+import { getShiftsInDateRange } from "@/data-access/employee";
 import { getCurrentSession } from "@/lib/auth/session";
 import { TotalHoursTips } from "@/types";
 import { hasAccess } from "@/utils/access-control";
@@ -28,8 +28,7 @@ export default async function Page() {
   }
 
   const todayBiweeklyPeriod = getTodayBiweeklyPeriod();
-  const employeeShifts =
-    await getAllEmployeeShiftsInDayRange(todayBiweeklyPeriod);
+  const employeeShifts = await getShiftsInDateRange(todayBiweeklyPeriod);
 
   const { hoursBreakdown, tipsBreakdown } = getHoursTipsBreakdownInDayRange(
     todayBiweeklyPeriod,
@@ -80,7 +79,11 @@ export default async function Page() {
         <h3 className="border-l-2 border-l-blue-500 px-2 font-semibold">
           Tips breakdown
         </h3>
-        <DataTable dateRange={todayBiweeklyPeriod} data={tipsBreakdown} />
+        <DataTable
+          dateRange={todayBiweeklyPeriod}
+          data={tipsBreakdown}
+          isMoney
+        />
       </div>
     </div>
   );

@@ -57,7 +57,7 @@ export async function EmployeeAnalytics({ user }: EmployeeAnalyticsProps) {
           </p>
           <p className="text-base font-medium text-blue-500">
             {formatPriceWithDollar(
-              userShifts.reduce((acc, shift) => acc + shift.tips, 0),
+              userShifts.reduce((acc, shift) => acc + shift.tips, 0) / 100,
             )}
           </p>
         </div>

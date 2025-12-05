@@ -46,7 +46,7 @@ export function YearCashFlowTable({ data }: Props) {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="sticky left-0 bg-background">Month</TableHead>
+          <TableHead className="bg-background sticky left-0">Month</TableHead>
           <TableHead className="text-center">In-store sales</TableHead>
           <TableHead className="text-center">UberEats</TableHead>
           <TableHead className="text-center">Ritual</TableHead>
@@ -63,75 +63,75 @@ export function YearCashFlowTable({ data }: Props) {
       <TableBody>
         {data.map((monthData) => (
           <TableRow key={monthData.month}>
-            <TableCell className="sticky left-0 bg-background">
+            <TableCell className="bg-background sticky left-0">
               {monthData.month}
             </TableCell>
             <TableCell className="text-center">
-              {formatPrice(monthData.totalInStoreSales)}
+              {formatPrice(monthData.totalInStoreSales / 100)}
             </TableCell>
             <TableCell className="text-center">
-              {formatPrice(monthData.totalUberEatsSales)}
+              {formatPrice(monthData.totalUberEatsSales / 100)}
             </TableCell>
             <TableCell className="text-center">
-              {formatPrice(monthData.totalOnlineSales)}
+              {formatPrice(monthData.totalOnlineSales / 100)}
             </TableCell>
             <TableCell className="text-center">
-              {formatPrice(monthData.totalDoorDashSales)}
+              {formatPrice(monthData.totalDoorDashSales / 100)}
             </TableCell>
             <TableCell className="text-center">
-              {formatPrice(monthData.totalSkipTheDishesSales)}
+              {formatPrice(monthData.totalSkipTheDishesSales / 100)}
             </TableCell>
             <TableCell className="text-center">
-              {formatPrice(monthData.totalSales)}
+              {formatPrice(monthData.totalSales / 100)}
             </TableCell>
             <TableCell className="text-center">
-              {formatPrice(monthData.totalInstoreExpenses)}
+              {formatPrice(monthData.totalInstoreExpenses / 100)}
             </TableCell>
             <TableCell className="text-center">
-              {formatPrice(monthData.totalMonthMainExpenses)}
+              {formatPrice(monthData.totalMonthMainExpenses / 100)}
             </TableCell>
             <TableCell className="text-center">
-              {formatPrice(monthData.totalExpenses)}
+              {formatPrice(monthData.totalExpenses / 100)}
             </TableCell>
             <TableCell className="text-right">
-              {formatPrice(monthData.netIncome)}
+              {formatPrice(monthData.netIncome / 100)}
             </TableCell>
           </TableRow>
         ))}
 
         <TableRow>
-          <TableCell className="sticky left-0 bg-background font-bold">
+          <TableCell className="bg-background sticky left-0 font-bold">
             Totals
           </TableCell>
           <TableCell className="text-center font-bold">
-            {formatPrice(yearTotal.totalInStoreSales)}
+            {formatPrice(yearTotal.totalInStoreSales / 100)}
           </TableCell>
           <TableCell className="text-center font-bold">
-            {formatPrice(yearTotal.totalUberEatsSales)}
+            {formatPrice(yearTotal.totalUberEatsSales / 100)}
           </TableCell>
           <TableCell className="text-center font-bold">
-            {formatPrice(yearTotal.totalOnlineSales)}
+            {formatPrice(yearTotal.totalOnlineSales / 100)}
           </TableCell>
           <TableCell className="text-center font-bold">
-            {formatPrice(yearTotal.totalDoorDashSales)}
+            {formatPrice(yearTotal.totalDoorDashSales / 100)}
           </TableCell>
           <TableCell className="text-center font-bold">
-            {formatPrice(yearTotal.totalSkipTheDishesSales)}
+            {formatPrice(yearTotal.totalSkipTheDishesSales / 100)}
           </TableCell>
           <TableCell className="text-center font-bold">
-            {formatPrice(yearTotal.totalSales)}
+            {formatPrice(yearTotal.totalSales / 100)}
           </TableCell>
           <TableCell className="text-center font-bold">
-            {formatPrice(yearTotal.totalInstoreExpenses)}
+            {formatPrice(yearTotal.totalInstoreExpenses / 100)}
           </TableCell>
           <TableCell className="text-center font-bold">
-            {formatPrice(yearTotal.totalMonthMainExpenses)}
+            {formatPrice(yearTotal.totalMonthMainExpenses / 100)}
           </TableCell>
           <TableCell className="text-center font-bold">
-            {formatPrice(yearTotal.totalExpenses)}
+            {formatPrice(yearTotal.totalExpenses / 100)}
           </TableCell>
           <TableCell className="text-right font-bold">
-            {formatPrice(yearTotal.netIncome)}
+            {formatPrice(yearTotal.netIncome / 100)}
           </TableCell>
         </TableRow>
       </TableBody>

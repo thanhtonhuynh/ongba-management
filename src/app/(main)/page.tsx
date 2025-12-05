@@ -5,7 +5,7 @@ import { SaleReportCard } from "@/components/SaleReportCard";
 import { Button } from "@/components/ui/button";
 import { getReportByDate } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
-import { SaleReportCardProcessedData, SaleReportCardRawData } from "@/types";
+import { SaleReportCardProcessedData } from "@/types";
 import { hasAccess } from "@/utils/access-control";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { processReportDataForView } from "@/utils/report";
@@ -39,19 +39,7 @@ export default async function Home(props: { searchParams: SearchParams }) {
   const todayReport = await getReportByDate(today);
   let processedTodayReportData: SaleReportCardProcessedData | undefined;
   if (todayReport) {
-    const employees = todayReport.employeeShifts.map((data) => ({
-      userId: data.userId,
-      hour: data.hours,
-      name: data.user.name,
-      image: data.user.image || undefined,
-    }));
-
-    processedTodayReportData = processReportDataForView({
-      reporterName: todayReport.reporter.name,
-      reporterImage: todayReport.reporter.image,
-      employees,
-      ...todayReport,
-    } as SaleReportCardRawData);
+    processedTodayReportData = processReportDataForView(todayReport);
   }
 
   let selectedYear: number, selectedMonth: number;

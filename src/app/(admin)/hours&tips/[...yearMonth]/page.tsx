@@ -3,7 +3,7 @@ import { GoBackButton } from "@/components/buttons/GoBackButton";
 import { CurrentTag } from "@/components/CurrentTag";
 import { ErrorMessage } from "@/components/Message";
 import { Separator } from "@/components/ui/separator";
-import { getAllEmployeeShiftsInDayRange } from "@/data-access/employee";
+import { getShiftsInDateRange } from "@/data-access/employee";
 import { getFirstReportDate } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import { TotalHoursTips } from "@/types";
@@ -64,8 +64,8 @@ export default async function Page(props: { params: Params }) {
 
   const [firstPeriodEmployeeShifts, secondPeriodEmployeeShifts] =
     await Promise.all([
-      getAllEmployeeShiftsInDayRange(periods[0]),
-      getAllEmployeeShiftsInDayRange(periods[1]),
+      getShiftsInDateRange(periods[0]),
+      getShiftsInDateRange(periods[1]),
     ]);
 
   const hoursTipsBreakdowns = [
@@ -183,6 +183,7 @@ export default async function Page(props: { params: Params }) {
                 <DataTable
                   dateRange={period}
                   data={hoursTipsBreakdowns[index].tipsBreakdown}
+                  isMoney={true}
                 />
 
                 <Separator />

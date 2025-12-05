@@ -1,4 +1,3 @@
-import { CashFlowData } from "@/types";
 import {
   Table,
   TableBody,
@@ -8,6 +7,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatPrice } from "@/lib/utils";
+import { CashFlowData } from "@/types";
 
 type CashFlowTableProps = {
   reports: CashFlowData[];
@@ -44,7 +44,7 @@ export function CashFlowTable({ reports }: CashFlowTableProps) {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="sticky left-0 bg-background">Date</TableHead>
+          <TableHead className="bg-background sticky left-0">Date</TableHead>
           <TableHead className="text-center">Reported total</TableHead>
           <TableHead className="text-center">Card sales</TableHead>
           <TableHead className="text-center">Actual cash</TableHead>
@@ -60,67 +60,67 @@ export function CashFlowTable({ reports }: CashFlowTableProps) {
       <TableBody>
         {reports.map((report) => (
           <TableRow key={report.id}>
-            <TableCell className="sticky left-0 bg-background">
+            <TableCell className="bg-background sticky left-0">
               {report.date.getDate()}
             </TableCell>
             <TableCell className="text-center">
-              {formatPrice(report.totalSales)}
+              {formatPrice(report.totalSales / 100)}
             </TableCell>
             <TableCell className="text-center">
-              {formatPrice(report.cardSales)}
+              {formatPrice(report.cardSales / 100)}
             </TableCell>
             <TableCell className="text-center">
-              {formatPrice(report.actualCash)}
+              {formatPrice(report.actualCash / 100)}
             </TableCell>
             <TableCell className="text-center">
-              {formatPrice(report.uberEatsSales)}
+              {formatPrice(report.uberEatsSales / 100)}
             </TableCell>
             <TableCell className="text-center">
-              {formatPrice(report.onlineSales)}
+              {formatPrice(report.onlineSales / 100)}
             </TableCell>
             <TableCell className="text-center">
-              {formatPrice(report.doorDashSales)}
+              {formatPrice(report.doorDashSales / 100)}
             </TableCell>
             <TableCell className="text-center">
-              {formatPrice(report.skipTheDishesSales)}
+              {formatPrice(report.skipTheDishesSales / 100)}
             </TableCell>
             <TableCell className="text-center">
-              {formatPrice(report.expenses)}
+              {formatPrice(report.expenses / 100)}
             </TableCell>
             <TableCell className="text-right">
-              {formatPrice(report.totalRevenue)}
+              {formatPrice(report.totalRevenue / 100)}
             </TableCell>
           </TableRow>
         ))}
 
         <TableRow>
-          <TableCell className="sticky left-0 bg-background">Totals</TableCell>
+          <TableCell className="bg-background sticky left-0">Totals</TableCell>
           <TableCell className="text-center">
-            {formatPrice(totals.totalSales)}
+            {formatPrice(totals.totalSales / 100)}
           </TableCell>
           <TableCell className="text-center">
-            {formatPrice(totals.cardSales)}
+            {formatPrice(totals.cardSales / 100)}
           </TableCell>
           <TableCell className="text-center">
-            {formatPrice(totals.actualCash)}
+            {formatPrice(totals.actualCash / 100)}
           </TableCell>
           <TableCell className="text-center">
-            {formatPrice(totals.uberEatsSales)}
+            {formatPrice(totals.uberEatsSales / 100)}
           </TableCell>
           <TableCell className="text-center">
-            {formatPrice(totals.onlineSales)}
+            {formatPrice(totals.onlineSales / 100)}
           </TableCell>
           <TableCell className="text-center">
-            {formatPrice(totals.doorDashSales)}
+            {formatPrice(totals.doorDashSales / 100)}
           </TableCell>
           <TableCell className="text-center">
-            {formatPrice(totals.skipTheDishesSales)}
+            {formatPrice(totals.skipTheDishesSales / 100)}
           </TableCell>
           <TableCell className="text-center">
-            {formatPrice(totals.expenses)}
+            {formatPrice(totals.expenses / 100)}
           </TableCell>
           <TableCell className="text-right">
-            {formatPrice(totals.totalRevenue)}
+            {formatPrice(totals.totalRevenue / 100)}
           </TableCell>
         </TableRow>
       </TableBody>

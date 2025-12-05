@@ -37,7 +37,7 @@ export async function deactivateUserAction(userId: string) {
 
     await updateUser(userId, { accountStatus: "deactivated" });
 
-    revalidatePath("/admin/employees/active");
+    revalidatePath("/employees/active");
     return {};
   } catch (error) {
     console.error(error);
@@ -68,7 +68,7 @@ export async function updateUserRoleAction(data: UpdateEmployeeRoleInput) {
 
     await updateUser(userId, { role });
 
-    revalidatePath("/admin/employees/active");
+    revalidatePath("/employees/active");
     return {};
   } catch (error) {
     console.error(error);

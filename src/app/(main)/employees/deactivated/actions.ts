@@ -23,7 +23,7 @@ export async function reactivateUserAction(userId: string) {
 
     await updateUser(userId, { accountStatus: "active" });
 
-    revalidatePath("/admin/employees/deactivated");
+    revalidatePath("/employees/deactivated");
     return {};
   } catch (error) {
     console.error(error);

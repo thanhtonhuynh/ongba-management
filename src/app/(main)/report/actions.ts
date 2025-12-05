@@ -6,7 +6,6 @@ import {
   SearchReportInput,
   SearchReportSchema,
 } from "@/lib/validations/report";
-import { SaleReportCardRawData } from "@/types";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { processReportDataForView } from "@/utils/report";
 
@@ -26,26 +25,12 @@ export async function searchReportAction(data: SearchReportInput) {
 
     const { date } = SearchReportSchema.parse(data);
 
-    const report = await getReportByDate(date);
-    if (!report) {
+    const rawReport = await getReportByDate(date);
+    if (!rawReport) {
       return { error: "Report not found", processedReport: null };
     }
 
-    const employees = report.employeeShifts.map((data) => ({
-      userId: data.userId,
-      hour: data.hours,
-      name: data.user.name,
-      image: data.user.image || undefined,
-    }));
-
-    const rawData: SaleReportCardRawData = {
-      reporterName: report.reporter.name,
-      reporterImage: report.reporter.image,
-      employees,
-      ...report,
-    };
-
-    const processedReport = processReportDataForView(rawData);
+    const processedReport = processReportDataForView(rawReport);
 
     return { processedReport };
   } catch (error) {

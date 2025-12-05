@@ -31,7 +31,7 @@ export function DeleteExpenseButton({ expense }: Props) {
       const error = await deleteExpenseAction(expense.id);
       if (error) toast.error(error);
       else {
-        router.push("/admin/expenses");
+        router.push("/expenses");
         toast.success(`Expense has been deleted.`);
       }
     });
@@ -42,7 +42,7 @@ export function DeleteExpenseButton({ expense }: Props) {
       <AlertDialogTrigger asChild>
         <Button
           variant={"outline"}
-          className="w-full border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
+          className="border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground w-full"
         >
           Delete this record
         </Button>

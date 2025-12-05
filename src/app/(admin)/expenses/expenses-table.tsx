@@ -37,13 +37,13 @@ export function ExpensesTable({ monthlyExpenses }: Props) {
           {monthlyExpenses.map((monthData) => (
             <TableCell key={monthData.month} className="text-center">
               {monthData.totalExpenses
-                ? formatPriceWithDollar(monthData.totalExpenses)
+                ? formatPriceWithDollar(monthData.totalExpenses / 100)
                 : "-"}
             </TableCell>
           ))}
 
           <TableCell className="text-center font-bold">
-            {formatPriceWithDollar(yearTotal)}
+            {formatPriceWithDollar(yearTotal / 100)}
           </TableCell>
         </TableRow>
       </TableBody>

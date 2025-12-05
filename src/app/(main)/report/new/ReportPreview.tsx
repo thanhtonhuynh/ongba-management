@@ -24,7 +24,23 @@ export function ReportPreview({
     reporterName: user?.name || "Unknown user",
     reporterImage: user?.image || null,
   };
-  const processedData = processReportDataForView(rawData);
+
+  const rawDataInCents = {
+    ...rawData,
+    totalSales: rawData.totalSales * 100,
+    cardSales: rawData.cardSales * 100,
+    uberEatsSales: rawData.uberEatsSales * 100,
+    doorDashSales: rawData.doorDashSales * 100,
+    skipTheDishesSales: rawData.skipTheDishesSales * 100,
+    onlineSales: rawData.onlineSales * 100,
+    expenses: rawData.expenses * 100,
+    cashInTill: rawData.cashInTill * 100,
+    cardTips: rawData.cardTips * 100,
+    cashTips: rawData.cashTips * 100,
+    extraTips: rawData.extraTips * 100,
+  };
+
+  const processedData = processReportDataForView(rawDataInCents);
 
   return <SaleReportCard data={processedData} />;
 }

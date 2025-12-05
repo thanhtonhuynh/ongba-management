@@ -9,8 +9,14 @@ export async function createExpenses(data: ExpensesFormInput) {
     where: { date },
   });
 
+  // Convert entries to cents
+  const entriesInCents = entries.map((entry) => ({
+    ...entry,
+    amount: entry.amount * 100,
+  }));
+
   if (existingExpense) {
-    const mergedEntries = [...existingExpense.entries, ...entries];
+    const mergedEntries = [...existingExpense.entries, ...entriesInCents];
     await prisma.expense.update({
       where: { id: existingExpense.id },
       data: {
@@ -21,7 +27,7 @@ export async function createExpenses(data: ExpensesFormInput) {
     await prisma.expense.create({
       data: {
         date,
-        entries,
+        entries: entriesInCents,
       },
     });
   }
@@ -34,7 +40,10 @@ export async function updateExpenses(data: ExpensesFormInput, id: string) {
     where: { id },
     data: {
       date,
-      entries,
+      entries: entries.map((entry) => ({
+        ...entry,
+        amount: entry.amount * 100,
+      })),
     },
   });
 }

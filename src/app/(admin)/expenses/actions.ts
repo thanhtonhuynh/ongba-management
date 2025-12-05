@@ -33,7 +33,7 @@ export async function addExpensesAction(data: ExpensesFormInput) {
 
     await createExpenses(parsedData);
 
-    revalidatePath("/admin/expenses");
+    revalidatePath("/expenses");
   } catch (error) {
     console.log(error);
     return "Expenses creation failed";
@@ -62,7 +62,7 @@ export async function updateExpensesAction(
 
     await updateExpenses(parsedData, id);
 
-    revalidatePath("/admin/expenses");
+    revalidatePath("/expenses");
   } catch (error) {
     console.log(error);
     return "Expense update failed";
@@ -86,7 +86,7 @@ export async function deleteExpenseAction(id: string) {
 
     await deleteExpense(id);
 
-    revalidatePath("/admin/expenses");
+    revalidatePath("/expenses");
   } catch (error) {
     console.log(error);
     return "Expense deletion failed";

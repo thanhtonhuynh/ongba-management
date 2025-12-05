@@ -23,7 +23,7 @@ export async function verifyUserAction(userId: string) {
 
     await updateUser(userId, { accountStatus: "active" });
 
-    revalidatePath("/admin/employees/awaiting-verification");
+    revalidatePath("/employees/awaiting-verification");
     return {};
   } catch (error) {
     console.error(error);

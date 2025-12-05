@@ -27,7 +27,7 @@ export function NavLink(props: Omit<ComponentProps<typeof Link>, "className">) {
       variant={`link`}
       className={cn(
         "px-2 text-blue-500 transition-colors",
-        !isActive && "font-normal text-muted-foreground hover:text-primary",
+        !isActive && "text-muted-foreground hover:text-primary font-normal",
       )}
     >
       <Link
@@ -38,23 +38,23 @@ export function NavLink(props: Omit<ComponentProps<typeof Link>, "className">) {
   );
 }
 
-export function NavLinkAdmin(
-  props: Omit<ComponentProps<typeof Link>, "className">,
-) {
-  const pathname = usePathname();
-  const { href } = props;
-  const isActive =
-    pathname === href ||
-    (pathname.startsWith(href as string) && href !== "/admin");
+// export function NavLinkAdmin(
+//   props: Omit<ComponentProps<typeof Link>, "className">,
+// ) {
+//   const pathname = usePathname();
+//   const { href } = props;
+//   const isActive =
+//     pathname === href ||
+//     (pathname.startsWith(href as string) && href !== "/admin");
 
-  return (
-    <Link
-      {...props}
-      className={cn(
-        "rounded-md p-2 text-sm text-muted-foreground transition-colors",
-        isActive && "cursor-default font-medium text-blue-500",
-        !isActive && "hover:text-primary",
-      )}
-    />
-  );
-}
+//   return (
+//     <Link
+//       {...props}
+//       className={cn(
+//         "rounded-md p-2 text-sm text-muted-foreground transition-colors",
+//         isActive && "cursor-default font-medium text-blue-500",
+//         !isActive && "hover:text-primary",
+//       )}
+//     />
+//   );
+// }

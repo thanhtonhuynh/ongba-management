@@ -1,14 +1,14 @@
 import { formatPriceWithDollar } from "@/lib/utils";
 import { DayRange, UserShift } from "@/types";
+import moment from "moment";
 import {
   Table,
-  TableHeader,
-  TableRow,
-  TableHead,
   TableBody,
   TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "./ui/table";
-import moment from "moment";
 
 export function UserShiftTable({
   dateRange,
@@ -39,7 +39,7 @@ export function UserShiftTable({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="sticky left-0 bg-background"></TableHead>
+          <TableHead className="bg-background sticky left-0"></TableHead>
           {Array.from({ length: endDay - startDay + 1 }).map((_, index) => (
             <TableHead className="text-center" key={index}>
               <div className="flex flex-col gap-1">
@@ -56,7 +56,7 @@ export function UserShiftTable({
 
       <TableBody>
         <TableRow>
-          <TableCell className="sticky left-0 bg-background">Hours</TableCell>
+          <TableCell className="bg-background sticky left-0">Hours</TableCell>
           {hours.map((hour, index) => (
             <TableCell key={index} className="text-center">
               {hour > 0 ? hour : "-"}
@@ -68,15 +68,15 @@ export function UserShiftTable({
         </TableRow>
 
         <TableRow>
-          <TableCell className="sticky left-0 bg-background">Tips</TableCell>
+          <TableCell className="bg-background sticky left-0">Tips</TableCell>
           {tips.map((tip, index) => (
             <TableCell key={index} className="text-center">
-              {tip > 0 ? formatPriceWithDollar(tip) : "-"}
+              {tip > 0 ? formatPriceWithDollar(tip / 100) : "-"}
             </TableCell>
           ))}
           <TableCell className="text-right">
             {formatPriceWithDollar(
-              userShifts.reduce((acc, shift) => acc + shift.tips, 0),
+              userShifts.reduce((acc, shift) => acc + shift.tips, 0) / 100,
             )}
           </TableCell>
         </TableRow>

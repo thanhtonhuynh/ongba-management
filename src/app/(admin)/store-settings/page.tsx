@@ -30,7 +30,7 @@ export default async function Page() {
       </Header>
 
       <Container>
-        <StartCashForm currentStartCash={currentStartCash} />
+        <StartCashForm currentStartCash={currentStartCash / 100} />
       </Container>
     </Fragment>
   );

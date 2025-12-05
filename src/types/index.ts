@@ -107,6 +107,15 @@ export type BreakdownData = {
   total: number;
 };
 
+export type Shift = {
+  userId: string;
+  userName: string;
+  userImage: string;
+  date: Date;
+  hours: number;
+  tips: number;
+};
+
 export type CashFlowRawData = {
   id: string;
   date: Date;
@@ -125,7 +134,7 @@ export type CashFlowData = CashFlowRawData & {
 };
 
 export type UserShift = {
-  id: string;
+  // id: string;
   date: Date;
   hours: number;
   tips: number;

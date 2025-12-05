@@ -35,7 +35,12 @@ export function ExpensesForm({ expense }: Props) {
     resolver: zodResolver(ExpensesFormSchema),
     defaultValues: {
       date: expense ? new Date(expense.date) : new Date(),
-      entries: expense?.entries ?? [{ amount: 0, reason: "" }],
+      entries: expense
+        ? expense.entries.map((entry) => ({
+            ...entry,
+            amount: entry.amount / 100,
+          }))
+        : [{ amount: 0, reason: "" }],
     },
   });
   const entries = useFieldArray({ control: form.control, name: "entries" });

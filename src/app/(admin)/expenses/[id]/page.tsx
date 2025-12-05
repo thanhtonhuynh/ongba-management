@@ -40,7 +40,9 @@ export default async function Page(props: { params: Params }) {
 
         <div>
           Total spend:{" "}
-          <span className="font-bold">{formatPriceWithDollar(totalSpend)}</span>
+          <span className="font-bold">
+            {formatPriceWithDollar(totalSpend / 100)}
+          </span>
         </div>
 
         <Separator />

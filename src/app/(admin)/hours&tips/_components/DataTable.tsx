@@ -7,16 +7,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatPrice } from "@/lib/utils";
+import { formatPriceWithDollar } from "@/lib/utils";
 import { BreakdownData, DayRange } from "@/types";
 import moment from "moment";
 
 type DataTableProps = {
   dateRange: DayRange;
   data: BreakdownData[];
+  isMoney?: boolean;
 };
 
-export async function DataTable({ dateRange, data }: DataTableProps) {
+export async function DataTable({
+  dateRange,
+  data,
+  isMoney = false,
+}: DataTableProps) {
   const startDay = dateRange.start.getDate();
   const endDay = dateRange.end.getDate();
 
@@ -24,7 +29,7 @@ export async function DataTable({ dateRange, data }: DataTableProps) {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="sticky left-0 min-w-max bg-background">
+          <TableHead className="bg-background sticky left-0 min-w-max">
             Name
           </TableHead>
 
@@ -46,8 +51,8 @@ export async function DataTable({ dateRange, data }: DataTableProps) {
       <TableBody>
         {data.map((employee) => (
           <TableRow key={employee.userId}>
-            <TableCell className="sticky left-0 min-w-max bg-background">
-              <div className="flex w-max items-center gap-2 bg-background">
+            <TableCell className="bg-background sticky left-0 min-w-max">
+              <div className="bg-background flex w-max items-center gap-2">
                 {employee.image && (
                   <ProfilePicture image={employee.image} size={40} />
                 )}
@@ -57,12 +62,18 @@ export async function DataTable({ dateRange, data }: DataTableProps) {
 
             {employee.keyData.map((key, index) => (
               <TableCell className="text-center" key={index}>
-                {key > 0 ? formatPrice(key) : "-"}
+                {key > 0
+                  ? isMoney
+                    ? formatPriceWithDollar(key / 100)
+                    : key
+                  : "-"}
               </TableCell>
             ))}
 
             <TableCell className="text-right">
-              {formatPrice(employee.total)}
+              {isMoney
+                ? formatPriceWithDollar(employee.total / 100)
+                : employee.total}
             </TableCell>
           </TableRow>
         ))}

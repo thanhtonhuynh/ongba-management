@@ -2,6 +2,7 @@
 
 import { updateStoreSettings } from "@/data-access/store";
 import { getCurrentSession } from "@/lib/auth/session";
+import { toCents } from "@/lib/utils";
 import {
   UpdateStartCashInput,
   UpdateStartCashSchema,
@@ -27,9 +28,9 @@ export async function updateStartCash(data: UpdateStartCashInput) {
 
     const { startCash } = UpdateStartCashSchema.parse(data);
 
-    await updateStoreSettings({ startCash });
+    await updateStoreSettings({ startCash: toCents(startCash) });
 
-    revalidatePath("/admin/store-settings");
+    revalidatePath("/store-settings");
     return {};
   } catch (error) {
     console.log(error);

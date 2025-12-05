@@ -66,7 +66,7 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
         <div className="flex flex-col justify-center space-y-3 rounded-md border p-4 shadow-sm">
           <p className="font-semibold">Total Sales</p>
           <p className="text-muted-foreground text-lg font-medium">
-            {formatPriceWithDollar(sumData.totalSales)}
+            {formatPriceWithDollar(sumData.totalSales / 100)}
           </p>
         </div>
 
@@ -74,7 +74,7 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
           <p>In-store Sales</p>
 
           <div className="text-muted-foreground space-y-1 font-medium">
-            {formatPriceWithDollar(instoreSales)}{" "}
+            {formatPriceWithDollar(instoreSales / 100)}{" "}
             {sumData.totalSales > 0 && (
               <span className="text-xs font-medium text-blue-500">
                 ({((instoreSales / sumData.totalSales) * 100).toFixed(2)}
@@ -88,7 +88,7 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
           <p>Online Sales</p>
 
           <div className="text-muted-foreground space-y-1 font-medium">
-            {formatPriceWithDollar(sumData.onlineSales)}{" "}
+            {formatPriceWithDollar(sumData.onlineSales / 100)}{" "}
             {sumData.totalSales > 0 && (
               <span className="text-xs font-medium text-blue-500">
                 ({((sumData.onlineSales / sumData.totalSales) * 100).toFixed(2)}
@@ -107,7 +107,7 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
 
           <div className="space-y-1">
             <p className="font-medium">
-              {formatPriceWithDollar(sumData.uberEatsSales)}
+              {formatPriceWithDollar(sumData.uberEatsSales / 100)}
             </p>
 
             {sumData.onlineSales > 0 && (
@@ -130,7 +130,7 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
 
           <div className="space-y-1">
             <p className="font-medium">
-              {formatPriceWithDollar(sumData.doorDashSales)}
+              {formatPriceWithDollar(sumData.doorDashSales / 100)}
             </p>
 
             {sumData.onlineSales > 0 && (
@@ -153,7 +153,7 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
 
           <div className="space-y-1">
             <p className="font-medium">
-              {formatPriceWithDollar(sumData.ritualSales)}
+              {formatPriceWithDollar(sumData.ritualSales / 100)}
             </p>
 
             {sumData.onlineSales > 0 && (
@@ -175,7 +175,7 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
 
           <div className="space-y-1">
             <p className="font-medium">
-              {formatPriceWithDollar(sumData.skipTheDishesSales)}
+              {formatPriceWithDollar(sumData.skipTheDishesSales / 100)}
             </p>
 
             {sumData.onlineSales > 0 && (

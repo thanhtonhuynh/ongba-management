@@ -19,12 +19,12 @@ export function SaleReportCard({ data }: SaleReportProps) {
   return (
     <div className="space-y-2 text-sm">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 rounded border-l-2 border-l-blue-500 bg-muted px-2 py-1 font-semibold">
+        <div className="bg-muted flex items-center gap-2 rounded border-l-2 border-l-blue-500 px-2 py-1 font-semibold">
           <Calendar size={15} className="text-blue-500" />
           {moment(data.date).format("ddd MMM D, YYYY")}
         </div>
 
-        <div className="flex items-center space-x-1 text-muted-foreground">
+        <div className="text-muted-foreground flex items-center space-x-1">
           {data.reporterImage && (
             <ProfilePicture image={data.reporterImage} size={40} />
           )}
@@ -88,7 +88,7 @@ export function SaleReportCard({ data }: SaleReportProps) {
 
           <ReportBlock
             label="Expenses"
-            data={`${formatPriceWithDollar(data.expenses)} ${
+            data={`${formatPriceWithDollar(data.expenses / 100)} ${
               data.expensesReason && `- ${data.expensesReason}`
             }`}
           />
@@ -166,8 +166,8 @@ export function SaleReportCard({ data }: SaleReportProps) {
 
           <ReportBlock
             label="Tips per Hour"
-            data={`${formatPriceWithDollar(data.totalTips)} / ${data.totalHours} =
-              ${formatPriceWithDollar(data.tipsPerHour)}`}
+            data={`${formatPriceWithDollar(data.totalTips / 100)} / ${data.totalHours} =
+              ${formatPriceWithDollar(data.tipsPerHour / 100)}`}
           />
 
           <ul className="space-y-1">
@@ -189,7 +189,7 @@ export function SaleReportCard({ data }: SaleReportProps) {
                   <Dot size={15} />
 
                   <span className="font-medium">
-                    {formatPriceWithDollar(emp.hour * data.tipsPerHour)}
+                    {formatPriceWithDollar((emp.hour * data.tipsPerHour) / 100)}
                   </span>
                 </div>
               </li>
@@ -216,8 +216,8 @@ function ReportBlock({
         {label}
       </p>
 
-      <p className="font-medium text-muted-foreground">
-        {typeof data === "number" ? formatPriceWithDollar(data) : data}
+      <p className="text-muted-foreground font-medium">
+        {typeof data === "number" ? formatPriceWithDollar(data / 100) : data}
       </p>
     </div>
   );

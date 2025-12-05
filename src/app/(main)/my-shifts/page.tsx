@@ -127,7 +127,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
             </p>
             <p className="font-medium text-blue-500">
               {formatPriceWithDollar(
-                userShifts.reduce((acc, shift) => acc + shift.tips, 0),
+                userShifts.reduce((acc, shift) => acc + shift.tips, 0) / 100,
               )}
             </p>
           </div>

@@ -31,3 +31,9 @@ export function isISOString(value: string) {
   const date = new Date(value);
   return !Number.isNaN(date.valueOf()) && date.toISOString() === value;
 }
+
+export function toCents(value: number | null | undefined): number {
+  if (!value) return 0;
+  // half-up rounding
+  return Math.floor(value * 100 + 0.5);
+}

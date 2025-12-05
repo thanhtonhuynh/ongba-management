@@ -108,7 +108,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
                             className="flex justify-between gap-2"
                           >
                             <p className="line-clamp-1">{entry.reason}</p>
-                            <p>{formatPriceWithDollar(entry.amount)}</p>
+                            <p>{formatPriceWithDollar(entry.amount / 100)}</p>
                           </div>
                         ))}
                       </div>
@@ -116,8 +116,12 @@ export default async function Page(props: { searchParams: SearchParams }) {
                     </Link>
                   ))}
                   <div className="bg-muted flex justify-between px-4 py-2 text-sm font-bold">
-                    <p>Total spend</p>
-                    <p>{formatPriceWithDollar(monthlyExpense.totalExpenses)}</p>
+                    <p>Total spent</p>
+                    <p>
+                      {formatPriceWithDollar(
+                        monthlyExpense.totalExpenses / 100,
+                      )}
+                    </p>
                   </div>
                 </AccordionContent>
               </AccordionItem>
