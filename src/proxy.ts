@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import type { NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest): Promise<NextResponse> {
+export async function proxy(request: NextRequest): Promise<NextResponse> {
   // const url = request.nextUrl;
   // const pathname = url.pathname;
 
