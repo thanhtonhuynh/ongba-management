@@ -2,26 +2,32 @@
 
 import { upsertReport } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
-import {
-  CreateReportSchema,
-  CreateReportSchemaInput,
-} from "@/lib/validations/report";
-import { isISOString } from "@/lib/utils";
+import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
 import { hasAccess } from "@/utils/access-control";
 import { authenticatedRateLimit, rateLimitByKey } from "@/utils/rate-limiter";
+import moment from "moment-timezone";
 
-export async function createReportAction(
-  data: CreateReportSchemaInput,
-  isoString: string,
+export async function saveReportAction(
+  data: SaleReportInputs,
+  mode: "create" | "edit",
 ) {
   try {
     const { user } = await getCurrentSession();
-    if (
-      !user ||
-      user.accountStatus !== "active" ||
-      !hasAccess(user.role, "/report/new")
-    ) {
+    if (!user || user.accountStatus !== "active") {
       return { error: "Unauthorized." };
+    }
+
+    if (mode === "edit" && !hasAccess(user.role, "/report", "update")) {
+      return { error: "Unauthorized." };
+    } else {
+      if (mode === "create" && !hasAccess(user.role, "/report", "create")) {
+        return { error: "Unauthorized." };
+      }
+
+      const today = moment().tz("America/Vancouver").startOf("day").toDate();
+      if (mode === "create" && data.date.getTime() !== today.getTime()) {
+        return { error: "Unauthorized." };
+      }
     }
 
     if (!(await authenticatedRateLimit(user.id))) {
@@ -38,18 +44,13 @@ export async function createReportAction(
       return { error: "Too many requests. Please try again later." };
     }
 
-    const parsedData = CreateReportSchema.parse(data);
+    const parsedData = SaleReportSchema.parse(data);
 
-    // Validate if isoString is a valid date string in ISO format
-    if (!isISOString(isoString)) {
-      return { error: "Invalid date." };
-    }
-
-    await upsertReport(parsedData, user.id, isoString);
+    await upsertReport(parsedData, user.id);
 
     return {};
   } catch (error) {
     console.error(error);
-    return { error: "Report creation failed. Please try again." };
+    return { error: "Save report failed. Please try again." };
   }
 }

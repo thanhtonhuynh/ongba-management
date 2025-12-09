@@ -1,257 +1,101 @@
 "use client";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { InputField } from "@/components/ui/form/input-field";
 import { User } from "@/lib/auth/session";
-import { CreateReportSchemaInput } from "@/lib/validations/report";
-import { UseFormReturn } from "react-hook-form";
-import { EmployeeInput } from "./EmployeeInput";
+import { use } from "react";
+import { EmployeeInput } from "./employee-input";
 
 type SaleDetailFormProps = {
-  users: User[];
-  form: UseFormReturn<CreateReportSchemaInput>;
+  usersPromise: Promise<User[]>;
 };
-export function SaleDetailForm({ users, form }: SaleDetailFormProps) {
+export function SaleDetailForm({ usersPromise }: SaleDetailFormProps) {
+  const users = use(usersPromise);
+
   return (
-    <Form {...form}>
-      <form className="flex flex-col gap-4">
-        <div className="grid grid-cols-2 gap-2">
-          <FormField
-            name="totalSales"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-semibold">Total sales</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    placeholder="0.00"
-                    onFocus={(e) => e.target.select()}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            name="cardSales"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-semibold">Card net sales</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    placeholder="0.00"
-                    onFocus={(e) => e.target.select()}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
-          <FormField
-            name="uberEatsSales"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-semibold">UberEats</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    placeholder="0.00"
-                    onFocus={(e) => e.target.select()}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            name="doorDashSales"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-semibold">DoorDash</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    placeholder="0.00"
-                    onFocus={(e) => e.target.select()}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            name="onlineSales"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-semibold">Ritual (online)</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    placeholder="0.00"
-                    onFocus={(e) => e.target.select()}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            name="skipTheDishesSales"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-semibold">Skip the Dishes</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    placeholder="0.00"
-                    onFocus={(e) => e.target.select()}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <FormField
-          name="expenses"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="font-semibold">Expenses</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  type="number"
-                  placeholder="0.00"
-                  onFocus={(e) => e.target.select()}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+    <form className="space-y-2">
+      <div className="grid grid-cols-2 gap-4">
+        <InputField
+          nameInSchema="totalSales"
+          fieldTitle="Total sales"
+          placeholder="0.00"
+          type="number"
         />
 
-        <FormField
-          name="expensesReason"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="font-semibold">Expenses reason</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="Reason for expenses" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+        <InputField
+          nameInSchema="cardSales"
+          fieldTitle="Card net sales"
+          placeholder="0.00"
+          type="number"
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+        <InputField
+          nameInSchema="uberEatsSales"
+          fieldTitle="UberEats"
+          placeholder="0.00"
+          type="number"
         />
 
-        <div className="grid grid-cols-3 gap-2">
-          <FormField
-            name="cardTips"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-semibold">Card tips</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    placeholder="0.00"
-                    onFocus={(e) => e.target.select()}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            name="cashTips"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-semibold">Cash tips</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    placeholder="0.00"
-                    onFocus={(e) => e.target.select()}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            name="extraTips"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-semibold">Extra tips</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    placeholder="0.00"
-                    onFocus={(e) => e.target.select()}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <FormField
-          name="employees"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <p
-                className={`text-sm font-semibold ${form.getFieldState("employees").invalid && "text-destructive"}`}
-              >
-                Employees
-              </p>
-              <FormControl>
-                <EmployeeInput
-                  users={users}
-                  employees={field.value}
-                  formSetValue={form.setValue}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+        <InputField
+          nameInSchema="doorDashSales"
+          fieldTitle="DoorDash"
+          placeholder="0.00"
+          type="number"
         />
-      </form>
-    </Form>
+
+        <InputField
+          nameInSchema="onlineSales"
+          fieldTitle="Ritual (online)"
+          placeholder="0.00"
+          type="number"
+        />
+
+        <InputField
+          nameInSchema="skipTheDishesSales"
+          fieldTitle="Skip the Dishes"
+          placeholder="0.00"
+          type="number"
+        />
+      </div>
+
+      <InputField
+        nameInSchema="expenses"
+        fieldTitle="Expenses"
+        placeholder="0.00"
+        type="number"
+      />
+
+      <InputField
+        nameInSchema="expensesReason"
+        fieldTitle="Expenses reason"
+        placeholder="Reason for expenses"
+      />
+
+      <div className="grid grid-cols-3 gap-4">
+        <InputField
+          nameInSchema="cardTips"
+          fieldTitle="Card tips"
+          placeholder="0.00"
+          type="number"
+        />
+
+        <InputField
+          nameInSchema="cashTips"
+          fieldTitle="Cash tips"
+          placeholder="0.00"
+          type="number"
+        />
+
+        <InputField
+          nameInSchema="extraTips"
+          fieldTitle="Extra tips"
+          placeholder="0.00"
+          type="number"
+        />
+      </div>
+
+      <EmployeeInput users={users} />
+    </form>
   );
 }

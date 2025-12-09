@@ -8,8 +8,9 @@ const accessControl: AccessControl = {
   "/admin": {
     read: ["admin"],
   },
-  "/report/new": {
-    read: ["admin", "manager", "server"],
+  "/report": {
+    create: ["admin", "manager", "server"],
+    update: ["admin", "manager"],
   },
   "/employees": {
     update: ["admin", "manager"],

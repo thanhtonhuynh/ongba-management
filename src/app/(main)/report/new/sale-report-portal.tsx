@@ -2,11 +2,9 @@
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
 import { User } from "@/lib/auth/session";
-import {
-  CreateReportSchema,
-  CreateReportSchemaInput,
-} from "@/lib/validations/report";
+import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { MoveLeft, MoveRight, TriangleAlert } from "lucide-react";
@@ -14,22 +12,22 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { createReportAction } from "./actions";
+import { saveReportAction } from "./actions";
 import { CashCounterForm } from "./CashCounterForm";
 import { ReportPreview } from "./ReportPreview";
 import { SaleDetailForm } from "./SaleDetailForm";
 
 const steps = [
   {
-    id: "Step 1",
+    id: "Step 0",
     name: "Sale Details",
     fields: [
-      "saleTotal",
+      "totalSales",
       "uberEatsSales",
       "doorDashSales",
       "skipTheDishesSales",
       "onlineSales",
-      "cardTotal",
+      "cardSales",
       "expenses",
       "cardTips",
       "cashTips",
@@ -37,36 +35,44 @@ const steps = [
       "employees",
     ],
   },
-  { id: "Step 2", name: "Count Cash", fields: ["cashInTill"] },
-  { id: "Step 3", name: "Review", fields: [] },
-  { id: "Step 4", name: "Submit", fields: [] },
+  { id: "Step 1", name: "Count Cash", fields: ["cashInTill"] },
+  { id: "Step 2", name: "Review", fields: [] },
+  { id: "Step 3", name: "Submit", fields: [] },
 ];
 
-type FieldName = keyof CreateReportSchemaInput;
+type FieldName = keyof SaleReportInputs;
 
-type NewReportPortalProps = {
-  users: User[];
-  startCash: number;
+type SaleReportPortalProps = {
+  usersPromise: Promise<User[]>;
+  startCashPromise: Promise<number>;
+  initialValues?: SaleReportInputs;
+  mode: "create" | "edit";
 };
 
-export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
+export function SaleReportPortal({
+  usersPromise,
+  startCashPromise,
+  initialValues,
+  mode,
+}: SaleReportPortalProps) {
   const [isPending, startTransition] = useTransition();
-  const createReportForm = useForm<CreateReportSchemaInput>({
-    resolver: zodResolver(CreateReportSchema),
+  const saleReportForm = useForm<SaleReportInputs>({
+    resolver: zodResolver(SaleReportSchema),
     defaultValues: {
-      totalSales: 0.0,
-      uberEatsSales: 0.0,
-      doorDashSales: 0.0,
-      skipTheDishesSales: 0.0,
-      onlineSales: 0.0,
-      cardSales: 0.0,
-      expenses: 0.0,
-      expensesReason: "",
-      cardTips: 0.0,
-      cashTips: 0.0,
-      extraTips: 0.0,
-      cashInTill: 0.0,
-      employees: [],
+      date: initialValues?.date || new Date(),
+      totalSales: initialValues?.totalSales || 0.0,
+      uberEatsSales: initialValues?.uberEatsSales || 0.0,
+      doorDashSales: initialValues?.doorDashSales || 0.0,
+      skipTheDishesSales: initialValues?.skipTheDishesSales || 0.0,
+      onlineSales: initialValues?.onlineSales || 0.0,
+      cardSales: initialValues?.cardSales || 0.0,
+      expenses: initialValues?.expenses || 0.0,
+      expensesReason: initialValues?.expensesReason || "",
+      cardTips: initialValues?.cardTips || 0.0,
+      cashTips: initialValues?.cashTips || 0.0,
+      extraTips: initialValues?.extraTips || 0.0,
+      cashInTill: initialValues?.cashInTill || 0.0,
+      employees: initialValues?.employees || [],
     },
   });
   const cashCounterForm = useForm({
@@ -93,30 +99,30 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
   const delta = currentStep - previousStep;
   const router = useRouter();
 
-  async function processForm(data: CreateReportSchemaInput) {
-    const date = new Date();
-    date.setHours(0, 0, 0, 0);
-    const isoString = date.toISOString();
-
-    const { error } = await createReportAction(data, isoString);
+  async function processForm(data: SaleReportInputs) {
+    data.date.setHours(0, 0, 0, 0);
+    const { error } = await saveReportAction(data, mode);
     if (error) toast.error(error);
     else {
       router.push("/");
-      toast.success("Your report has been submitted. Thank you!");
+      toast.success("Your report has been saved. Thank you!");
     }
   }
 
   async function nextStep() {
-    const fields = steps[currentStep].fields;
+    const fields = steps[currentStep].fields as FieldName[];
     startTransition(async () => {
-      const isValid = await createReportForm.trigger(fields as FieldName[], {
+      const isValid = await saleReportForm.trigger(fields, {
         shouldFocus: true,
       });
-      if (!isValid) return;
+      if (!isValid) {
+        console.log(saleReportForm.formState.errors);
+        return;
+      }
 
       if (currentStep < steps.length - 1) {
         if (currentStep === steps.length - 2) {
-          await createReportForm.handleSubmit(processForm)();
+          await saleReportForm.handleSubmit(processForm)();
           return;
         }
 
@@ -171,7 +177,9 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
       {currentStep === 0 && (
         <MotionContainer delta={delta}>
           <h2 className="mt-4 text-center md:hidden">Sale Details</h2>
-          <SaleDetailForm users={users} form={createReportForm} />
+          <Form {...saleReportForm}>
+            <SaleDetailForm usersPromise={usersPromise} />
+          </Form>
         </MotionContainer>
       )}
 
@@ -179,7 +187,7 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
         <MotionContainer delta={delta}>
           <h2 className="mt-4 text-center md:hidden">Count Cash</h2>
           <CashCounterForm
-            createReportForm={createReportForm}
+            saleReportForm={saleReportForm}
             cashCounterForm={cashCounterForm}
           />
         </MotionContainer>
@@ -198,8 +206,8 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
             </p>
           </div>
           <ReportPreview
-            createReportForm={createReportForm}
-            startCash={startCash}
+            saleReportForm={saleReportForm}
+            startCashPromise={startCashPromise}
           />
         </MotionContainer>
       )}
@@ -224,7 +232,7 @@ export function NewReportPortal({ users, startCash }: NewReportPortalProps) {
             loading={isPending}
             className="w-1/4"
           >
-            {currentStep < steps.length - 2 ? "Next" : "Submit"}
+            {currentStep < steps.length - 2 ? "Next" : "Save"}
             {currentStep < steps.length - 2 && <MoveRight size={15} />}
           </LoadingButton>
         )}

@@ -3,6 +3,7 @@
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { ErrorMessage } from "@/components/Message";
 import { SaleReportCard } from "@/components/SaleReportCard";
+import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
@@ -12,13 +13,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useSession } from "@/contexts/SessionProvider";
 import {
   SearchReportInput,
   SearchReportSchema,
 } from "@/lib/validations/report";
 import { SaleReportCardProcessedData } from "@/types";
+import { hasAccess } from "@/utils/access-control";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Pencil } from "lucide-react";
 import moment from "moment-timezone";
+import Link from "next/link";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { searchReportAction } from "./actions";
@@ -35,6 +40,7 @@ export function ReportPicker() {
   });
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const { user } = useSession();
 
   async function onSubmit(data: SearchReportInput) {
     setError(null);
@@ -69,7 +75,7 @@ export function ReportPicker() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-base font-semibold">
-                  Pick a date to search for a sales report
+                  Pick a date to search for a sale report
                 </FormLabel>
                 <FormControl>
                   <Calendar
@@ -107,8 +113,19 @@ export function ReportPicker() {
           {error && <ErrorMessage message={error} />}
 
           {processedReport && (
-            <div className="space-y-2">
-              <h6>Sales Report</h6>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h6>Sales Report</h6>
+
+                {hasAccess(user!.role, "/report", "update") && (
+                  <Button variant="outline" asChild>
+                    <Link href={`/report/${processedReport.id}`}>
+                      <Pencil className="size-3" />
+                      Edit
+                    </Link>
+                  </Button>
+                )}
+              </div>
 
               <SaleReportCard data={processedReport} />
             </div>

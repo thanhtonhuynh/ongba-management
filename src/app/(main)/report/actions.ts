@@ -1,6 +1,6 @@
 "use server";
 
-import { getReportByDate } from "@/data-access/report";
+import { getReportRaw } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import {
   SearchReportInput,
@@ -25,7 +25,7 @@ export async function searchReportAction(data: SearchReportInput) {
 
     const { date } = SearchReportSchema.parse(data);
 
-    const rawReport = await getReportByDate(date);
+    const rawReport = await getReportRaw({ date });
     if (!rawReport) {
       return { error: "Report not found", processedReport: null };
     }

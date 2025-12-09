@@ -3,7 +3,7 @@ import { Header } from "@/components/header";
 import { ErrorMessage } from "@/components/Message";
 import { SaleReportCard } from "@/components/SaleReportCard";
 import { Button } from "@/components/ui/button";
-import { getReportByDate } from "@/data-access/report";
+import { getReportRaw } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import { SaleReportCardProcessedData } from "@/types";
 import { hasAccess } from "@/utils/access-control";
@@ -36,7 +36,7 @@ export default async function Home(props: { searchParams: SearchParams }) {
   const searchParams = await props.searchParams;
 
   const today = moment().tz("America/Vancouver").startOf("day").toDate();
-  const todayReport = await getReportByDate(today);
+  const todayReport = await getReportRaw({ date: today });
   let processedTodayReportData: SaleReportCardProcessedData | undefined;
   if (todayReport) {
     processedTodayReportData = processReportDataForView(todayReport);
@@ -71,7 +71,7 @@ export default async function Home(props: { searchParams: SearchParams }) {
               </div>
             )}
 
-            {hasAccess(user.role, "/report/new") && (
+            {hasAccess(user.role, "/report", "create") && (
               <>
                 <Button className="flex w-fit items-center gap-2" asChild>
                   <Link href={`report/new`}>

@@ -39,24 +39,6 @@ export const getEmployees = cache(async (status?: string) => {
   });
 });
 
-// // Get hours and tips breakdown for a specific day range
-// export const getAllEmployeeShiftsInDayRange = cache(
-//   async (dateRange: DayRange) => {
-//     return await prisma.employeeShift.findMany({
-//       where: {
-//         date: { gte: dateRange.start, lte: dateRange.end },
-//       },
-//       select: {
-//         userId: true,
-//         date: true,
-//         hours: true,
-//         tips: true,
-//         user: { select: { name: true, image: true } },
-//       },
-//     });
-//   },
-// );
-
 // Fetch all shifts in a date range
 export const getShiftsInDateRange = cache(async (dateRange: DayRange) => {
   // 1. Get sale reports that fall in the range, including embedded shifts
@@ -110,32 +92,10 @@ export const getShiftsInDateRange = cache(async (dateRange: DayRange) => {
   return shifts;
 });
 
-// Get employees total biweekly hours and tips
-// export async function getTotalHoursTipsInDayRange(dayRange: DayRange) {
-//   const hoursTipsData = await prisma.employeeShift.groupBy({
-//     by: ["userId"],
-//     _sum: {
-//       hours: true,
-//       tips: true,
-//     },
-//     where: {
-//       date: { gte: dayRange.start, lte: dayRange.end },
-//     },
-//   });
-
-//   const employees = await getEmployees();
-
-//   const result = hoursTipsData.map((data) => {
-//     const employee = employees.find((emp) => emp.id === data.userId);
-
-//     return {
-//       userId: data.userId,
-//       name: employee?.name || "Unknown",
-//       image: employee?.image || "",
-//       totalHours: data._sum.hours || 0,
-//       totalTips: data._sum.tips || 0,
-//     };
-//   });
-
-//   return result.sort((a, b) => a.name.localeCompare(b.name));
-// }
+// Get employess' info by IDs
+export const getEmployeesByIds = cache(async (userIds: string[]) => {
+  return prisma.user.findMany({
+    where: { id: { in: userIds } },
+    select: { id: true, name: true, image: true },
+  });
+});

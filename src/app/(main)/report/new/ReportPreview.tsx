@@ -2,27 +2,29 @@
 
 import { SaleReportCard } from "@/components/SaleReportCard";
 import { useSession } from "@/contexts/SessionProvider";
-import { CreateReportSchemaInput } from "@/lib/validations/report";
+import { SaleReportInputs } from "@/lib/validations/report";
 import { SaleReportCardRawData } from "@/types";
 import { processReportDataForView } from "@/utils/report";
+import { use } from "react";
 import { UseFormReturn } from "react-hook-form";
 
 type ReportPreviewProps = {
-  createReportForm: UseFormReturn<CreateReportSchemaInput>;
-  startCash: number;
+  saleReportForm: UseFormReturn<SaleReportInputs>;
+  startCashPromise: Promise<number>;
 };
 
 export function ReportPreview({
-  createReportForm,
-  startCash,
+  saleReportForm,
+  startCashPromise,
 }: ReportPreviewProps) {
   const { user } = useSession();
+  const startCash = use(startCashPromise);
+
   const rawData: SaleReportCardRawData = {
-    ...createReportForm.watch(),
+    ...saleReportForm.watch(),
     startCash,
-    date: new Date(),
-    reporterName: user?.name || "Unknown user",
-    reporterImage: user?.image || null,
+    reporterName: user?.name ?? "Unknown user",
+    reporterImage: user?.image ?? null,
   };
 
   const rawDataInCents = {

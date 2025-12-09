@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { useFormContext } from "react-hook-form";
 import {
   FormControl,
@@ -19,6 +20,7 @@ type InputFieldProps = {
   type?: string;
   inputClassName?: string;
   formItemClassName?: string;
+  labelFor?: string;
 };
 
 export function InputField({
@@ -29,9 +31,10 @@ export function InputField({
   type = "text",
   inputClassName,
   formItemClassName,
+  labelFor,
 }: InputFieldProps) {
   const form = useFormContext();
-  const fieldTitleNoSpaces = fieldTitle?.replaceAll(" ", "-") || nameInSchema;
+  const htmlFor = labelFor ?? fieldTitle;
 
   return (
     <FormField
@@ -39,12 +42,14 @@ export function InputField({
       name={nameInSchema}
       render={({ field }) => (
         <FormItem className={formItemClassName}>
-          <FormLabel htmlFor={fieldTitleNoSpaces}>{fieldTitle}</FormLabel>
+          <FormLabel htmlFor={htmlFor} className={cn(!fieldTitle && "sr-only")}>
+            {fieldTitle || htmlFor}
+          </FormLabel>
 
           <FormControl>
             <Input
               {...field}
-              id={fieldTitleNoSpaces}
+              id={htmlFor}
               type={type}
               placeholder={placeholder}
               onFocus={(e) => e.target.select()}

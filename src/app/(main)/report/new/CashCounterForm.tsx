@@ -15,17 +15,17 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { CreateReportSchemaInput } from "@/lib/validations/report";
+import { SaleReportInputs } from "@/lib/validations/report";
 import { CashType } from "@/types";
 import { UseFormReturn } from "react-hook-form";
 
 type CashCounterFormProps = {
-  createReportForm: UseFormReturn<CreateReportSchemaInput>;
+  saleReportForm: UseFormReturn<SaleReportInputs>;
   cashCounterForm: UseFormReturn<{ [key in CashType]: number }>;
 };
 
 export function CashCounterForm({
-  createReportForm,
+  saleReportForm,
   cashCounterForm,
 }: CashCounterFormProps) {
   function calculateCashInTill() {
@@ -34,7 +34,7 @@ export function CashCounterForm({
       total +=
         cashCounterForm.getValues(field) * MONEY_VALUES.get(field)!.value;
     }
-    createReportForm.setValue("cashInTill", Math.round(total * 100) / 100);
+    saleReportForm.setValue("cashInTill", Math.round(total * 100) / 100);
   }
 
   return (
@@ -130,7 +130,7 @@ export function CashCounterForm({
         <div className="w-full max-w-xs self-center">
           <FormField
             name="cashInTill"
-            control={createReportForm.control}
+            control={saleReportForm.control}
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="font-semibold text-blue-500">

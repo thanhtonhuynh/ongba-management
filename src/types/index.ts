@@ -20,11 +20,12 @@ export type CashType =
 export type SaleEmployee = {
   userId: string;
   hour: number;
-  name: string;
+  name?: string;
   image?: string;
 };
 
 export interface SaleReportCardRawData {
+  id?: string;
   date: Date;
   reporterName: string;
   reporterImage: string | null;

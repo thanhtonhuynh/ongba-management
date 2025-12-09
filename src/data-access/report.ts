@@ -1,18 +1,16 @@
 import prisma from "@/lib/prisma";
 import { toCents } from "@/lib/utils";
-import { CreateReportSchemaInput } from "@/lib/validations/report";
+import { SaleReportInputs } from "@/lib/validations/report";
 import { DayRange, SaleEmployee, SaleReportCardRawData } from "@/types";
+import { Prisma } from "@prisma/client";
 import { cache } from "react";
 import "server-only";
+import { getEmployeesByIds } from "./employee";
 import { getStartCash } from "./store";
 
 // Upsert a report
-export async function upsertReport(
-  data: CreateReportSchemaInput,
-  userId: string,
-  isoString: string,
-) {
-  const { cardTips, cashTips, extraTips, employees, ...raw } = data;
+export async function upsertReport(data: SaleReportInputs, userId: string) {
+  const { cardTips, cashTips, extraTips, employees, date, ...raw } = data;
 
   // Convert all money values to cents
   const reportDataInCents = {
@@ -28,8 +26,6 @@ export async function upsertReport(
     cashTips: toCents(cashTips),
     extraTips: toCents(extraTips),
   };
-
-  const date = new Date(isoString);
 
   // Calculate tips per hour and distribute tips among employees
   const totalTips = cardTips + cashTips + extraTips;
@@ -67,48 +63,53 @@ export async function upsertReport(
   return report;
 }
 
-// Get report by date
-export const getReportByDate = cache(async (date: Date) => {
-  const report = await prisma.saleReport.findUnique({
-    where: { date },
-    include: {
-      reporter: { select: { name: true, image: true } },
-    },
-  });
+// Get report raw data by unique input
+export const getReportRaw = cache(
+  async (
+    where: Prisma.SaleReportWhereUniqueInput,
+  ): Promise<SaleReportCardRawData | null> => {
+    const report = await prisma.saleReport.findUnique({
+      where,
+      include: {
+        reporter: { select: { name: true, image: true } },
+      },
+    });
 
-  if (!report) return null;
+    if (!report) return null;
 
-  const userIds = [...new Set(report.shifts.map((shift) => shift.userId))];
-  const users = await prisma.user.findMany({
-    where: { id: { in: userIds } },
-    select: { id: true, name: true, image: true },
-  });
-  const userMap = new Map(
-    users.map((user) => [
-      user.id,
-      { name: user.name, image: user.image || "" },
-    ]),
-  );
+    // Collect userIds from shifts
+    const userIds = report.shifts.map((shift) => shift.userId);
 
-  const employees: SaleEmployee[] = report.shifts.map((shift) => {
-    const user = userMap.get(shift.userId);
+    // Get user info for those userIds
+    const users = await getEmployeesByIds(userIds);
+
+    // Map userId to user info
+    const userMap = new Map(
+      users.map((user) => [
+        user.id,
+        { name: user.name, image: user.image || "" },
+      ]),
+    );
+
+    // Map shifts to SaleEmployee objects with user info
+    const employees: SaleEmployee[] = report.shifts.map((shift) => {
+      const user = userMap.get(shift.userId);
+      return {
+        userId: shift.userId,
+        hour: shift.hours,
+        name: user?.name,
+        image: user?.image,
+      };
+    });
+
     return {
-      userId: shift.userId,
-      hour: shift.hours,
-      name: user?.name ?? "Unknown",
-      image: user?.image,
+      reporterName: report.reporter.name,
+      reporterImage: report.reporter.image,
+      employees,
+      ...report,
     };
-  });
-
-  const rawData: SaleReportCardRawData = {
-    reporterName: report.reporter.name,
-    reporterImage: report.reporter.image,
-    employees,
-    ...report,
-  };
-
-  return rawData;
-});
+  },
+);
 
 // Get first report date
 export const getFirstReportDate = cache(async () => {
