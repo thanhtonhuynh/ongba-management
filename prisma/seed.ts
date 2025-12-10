@@ -2,15 +2,15 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.storeSettings.upsert({
-    where: { uniqueKey: "store" },
-    update: {
-      startCash: 300,
-    },
-    create: {
-      startCash: 300,
-    },
-  });
+  // await prisma.storeSettings.upsert({
+  //   where: { uniqueKey: "store" },
+  //   update: {
+  //     startCash: 300,
+  //   },
+  //   create: {
+  //     startCash: 300,
+  //   },
+  // });
 }
 
 main()
