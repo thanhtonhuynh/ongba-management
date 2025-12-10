@@ -11,6 +11,7 @@ const accessControl: AccessControl = {
   "/report": {
     create: ["admin", "manager", "server"],
     update: ["admin", "manager"],
+    delete: ["admin"],
   },
   "/employees": {
     update: ["admin", "manager"],

@@ -27,6 +27,7 @@ import Link from "next/link";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { searchReportAction } from "./actions";
+import { DeleteReportButton } from "./delete-report-button";
 
 export function ReportPicker() {
   const [processedReport, setProcessedReport] =
@@ -128,6 +129,15 @@ export function ReportPicker() {
               </div>
 
               <SaleReportCard data={processedReport} />
+
+              {hasAccess(user!.role, "/report", "delete") && (
+                <div className="bg-destructive/10 mt-8 flex flex-col items-center space-y-4 rounded-lg p-4 shadow">
+                  <DeleteReportButton
+                    reportId={processedReport.id!}
+                    setProcessedReport={setProcessedReport}
+                  />
+                </div>
+              )}
             </div>
           )}
         </div>

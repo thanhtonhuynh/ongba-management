@@ -63,6 +63,16 @@ export async function upsertReport(data: SaleReportInputs, userId: string) {
   return report;
 }
 
+// Check if a report exists by id
+export const reportExists = cache(async (id: string) => {
+  const report = await prisma.saleReport.findUnique({
+    where: { id },
+    select: { id: true },
+  });
+
+  return !!report;
+});
+
 // Get report raw data by unique input
 export const getReportRaw = cache(
   async (
@@ -142,3 +152,10 @@ export const getReportsByDateRange = cache(async (dateRange: DayRange) => {
 
   return reports;
 });
+
+// Delete a report by id
+export async function deleteReportById(reportId: string) {
+  await prisma.saleReport.delete({
+    where: { id: reportId },
+  });
+}

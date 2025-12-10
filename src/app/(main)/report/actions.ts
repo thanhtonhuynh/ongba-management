@@ -1,11 +1,16 @@
 "use server";
 
-import { getReportRaw } from "@/data-access/report";
+import {
+  deleteReportById,
+  getReportRaw,
+  reportExists,
+} from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import {
   SearchReportInput,
   SearchReportSchema,
 } from "@/lib/validations/report";
+import { hasAccess } from "@/utils/access-control";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { processReportDataForView } from "@/utils/report";
 
@@ -39,5 +44,36 @@ export async function searchReportAction(data: SearchReportInput) {
       error: "Report search failed. Please try again.",
       processedReport: null,
     };
+  }
+}
+
+export async function deleteReportAction(reportId: string) {
+  try {
+    const { user } = await getCurrentSession();
+    if (
+      !user ||
+      user.accountStatus !== "active" ||
+      !hasAccess(user.role, "/report", "delete")
+    ) {
+      return "Unauthorized.";
+    }
+
+    if (!(await authenticatedRateLimit(user.id))) {
+      return "Too many requests. Please try again later.";
+    }
+
+    // Check if report exists
+    const isReportExisted = await reportExists(reportId);
+    if (!isReportExisted) {
+      return "Report not found.";
+    }
+
+    // Delete the report
+    await deleteReportById(reportId);
+
+    // revalidatePath("/report", "page");
+  } catch (error) {
+    console.error(error);
+    return "Failed to delete report";
   }
 }
