@@ -1,7 +1,7 @@
 "use client";
 
 import { Slot } from "@radix-ui/react-slot";
-import { cva, type VariantProps } from "class-variance-authority";
+import { VariantProps, cva } from "class-variance-authority";
 import { PanelLeftIcon } from "lucide-react";
 import * as React from "react";
 
@@ -32,7 +32,7 @@ const SIDEBAR_WIDTH_MOBILE = "18rem";
 const SIDEBAR_WIDTH_ICON = "3rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 
-type SidebarContextProps = {
+type SidebarContext = {
   state: "expanded" | "collapsed";
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -42,7 +42,7 @@ type SidebarContextProps = {
   toggleSidebar: () => void;
 };
 
-const SidebarContext = React.createContext<SidebarContextProps | null>(null);
+const SidebarContext = React.createContext<SidebarContext | null>(null);
 
 function useSidebar() {
   const context = React.useContext(SidebarContext);
@@ -113,7 +113,7 @@ function SidebarProvider({
   // This makes it easier to style the sidebar with Tailwind classes.
   const state = open ? "expanded" : "collapsed";
 
-  const contextValue = React.useMemo<SidebarContextProps>(
+  const contextValue = React.useMemo<SidebarContext>(
     () => ({
       state,
       open,
@@ -189,9 +189,7 @@ function Sidebar({
           data-mobile="true"
           className="bg-sidebar text-sidebar-foreground w-(--sidebar-width) p-0 [&>button]:hidden"
           style={
-            {
-              "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
-            } as React.CSSProperties
+            { "--sidebar-width": SIDEBAR_WIDTH_MOBILE } as React.CSSProperties
           }
           side={side}
         >
@@ -216,7 +214,6 @@ function Sidebar({
     >
       {/* This is what handles the sidebar gap on desktop */}
       <div
-        data-slot="sidebar-gap"
         className={cn(
           "relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear",
           "group-data-[collapsible=offcanvas]:w-0",
@@ -227,7 +224,6 @@ function Sidebar({
         )}
       />
       <div
-        data-slot="sidebar-container"
         className={cn(
           "fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex",
           side === "left"
@@ -243,7 +239,6 @@ function Sidebar({
       >
         <div
           data-sidebar="sidebar"
-          data-slot="sidebar-inner"
           className="bg-sidebar group-data-[variant=floating]:border-sidebar-border flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm"
         >
           {children}
@@ -266,7 +261,7 @@ function SidebarTrigger({
       data-slot="sidebar-trigger"
       variant="ghost"
       size="icon"
-      className={cn("size-7", className)}
+      className={cn("h-7 w-7", className)}
       onClick={(event) => {
         onClick?.(event);
         toggleSidebar();
@@ -488,10 +483,7 @@ const sidebarMenuButtonVariants = cva(
         lg: "h-12 text-sm group-data-[collapsible=icon]:p-0!",
       },
     },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
+    defaultVariants: { variant: "default", size: "default" },
   },
 );
 
@@ -527,9 +519,7 @@ function SidebarMenuButton({
   }
 
   if (typeof tooltip === "string") {
-    tooltip = {
-      children: tooltip,
-    };
+    tooltip = { children: tooltip };
   }
 
   return (
@@ -603,9 +593,7 @@ function SidebarMenuSkeleton({
   className,
   showIcon = false,
   ...props
-}: React.ComponentProps<"div"> & {
-  showIcon?: boolean;
-}) {
+}: React.ComponentProps<"div"> & { showIcon?: boolean }) {
   // Random width between 50 to 90%.
   const width = React.useMemo(() => {
     return `${Math.floor(Math.random() * 40) + 50}%`;
@@ -627,11 +615,7 @@ function SidebarMenuSkeleton({
       <Skeleton
         className="h-4 max-w-(--skeleton-width) flex-1"
         data-sidebar="menu-skeleton-text"
-        style={
-          {
-            "--skeleton-width": width,
-          } as React.CSSProperties
-        }
+        style={{ "--skeleton-width": width } as React.CSSProperties}
       />
     </div>
   );
