@@ -45,7 +45,7 @@ export function EmployeeInput({ users }: Props) {
       <h6 className="mb-2 text-sm font-medium">Employees</h6>
 
       {employees.fields.map((field, index) => (
-        <div key={field.id} className="flex items-start gap-3">
+        <div key={field.id} className="flex items-start gap-1">
           <FormField
             control={form.control}
             name={`employees.${index}.userId` as const}
@@ -69,9 +69,10 @@ export function EmployeeInput({ users }: Props) {
             control={form.control}
             name={`employees.${index}.hour`}
             render={({ field: hourField }) => (
-              <FormItem className="w-28 space-y-1">
+              <FormItem className="w-20 space-y-2">
                 <FormControl>
                   <Input
+                    className="h-12"
                     type="number"
                     step="0.25"
                     {...hourField}
@@ -92,7 +93,7 @@ export function EmployeeInput({ users }: Props) {
             variant="ghost"
             type="button"
             size={"icon"}
-            className="text-muted-foreground hover:text-destructive"
+            className="text-muted-foreground hover:text-destructive mt-2 size-8"
             onClick={() => employees.remove(index)}
           >
             <X className="size-4" />
@@ -107,7 +108,12 @@ export function EmployeeInput({ users }: Props) {
         type="button"
         className="mt-2"
         size={"sm"}
-        onClick={() => employees.append({ userId: "", hour: 0, name: "" })}
+        onClick={() =>
+          employees.append(
+            { userId: "", hour: 0, name: "" },
+            { shouldFocus: false },
+          )
+        }
       >
         <Plus className="size-3" />
         Add an employee
