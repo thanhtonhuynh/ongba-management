@@ -46,9 +46,9 @@ export async function saveReportAction(
 
     const parsedData = SaleReportSchema.parse(data);
 
-    await upsertReport(parsedData, user.id);
+    const report = await upsertReport(parsedData, user.id);
 
-    return {};
+    return { reportDate: report.date, error: null };
   } catch (error) {
     console.error(error);
     return { error: "Save report failed. Please try again." };

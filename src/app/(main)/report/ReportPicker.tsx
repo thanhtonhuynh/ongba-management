@@ -2,8 +2,6 @@
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { ErrorMessage } from "@/components/Message";
-import { SaleReportCard } from "@/components/SaleReportCard";
-import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
@@ -13,48 +11,56 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useSession } from "@/contexts/SessionProvider";
+import { formatVancouverDate, parseVancouverUrlDate } from "@/lib/utils";
 import {
   SearchReportInput,
   SearchReportSchema,
 } from "@/lib/validations/report";
-import { SaleReportCardProcessedData } from "@/types";
-import { hasAccess } from "@/utils/access-control";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Pencil } from "lucide-react";
 import moment from "moment-timezone";
-import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { searchReportAction } from "./actions";
-import { DeleteReportButton } from "./delete-report-button";
+import { toast } from "sonner";
+import { findReportByDateAction } from "./actions";
 
 export function ReportPicker() {
-  const [processedReport, setProcessedReport] =
-    useState<SaleReportCardProcessedData | null>(null);
+  const { date } = useParams<{ date?: string }>();
+  const router = useRouter();
+
   const today = moment().tz("America/Vancouver").startOf("day").toDate();
+  const dateFromParams = parseVancouverUrlDate(date);
+  const initialDate = dateFromParams ?? today;
+
   const form = useForm<SearchReportInput>({
     resolver: zodResolver(SearchReportSchema),
     defaultValues: {
-      date: today,
+      date: initialDate,
     },
   });
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
-  const { user } = useSession();
+
+  // useEffect(() => {
+  //   if (initialDate) {
+  //     form.reset({ date: initialDate });
+  //   }
+  // }, [initialDate, form]);
 
   async function onSubmit(data: SearchReportInput) {
     setError(null);
-    setProcessedReport(null);
 
     startTransition(async () => {
-      const { error, processedReport } = await searchReportAction(data);
+      const { error, reportId } = await findReportByDateAction(data);
 
-      if (error) {
-        setError(error);
+      if (error || !reportId) {
+        toast.error(error || "Report not found.");
+        // router.push(`/report`);
         return;
       }
-      setProcessedReport(processedReport);
+      // router.push(`/report/${reportId}`);
+
+      router.push(`/report/${formatVancouverDate(data.date)}`);
     });
   }
   return (
@@ -109,39 +115,7 @@ export function ReportPicker() {
         </form>
       </Form>
 
-      {(error || processedReport) && (
-        <div className="rounded-lg border p-6 shadow-sm">
-          {error && <ErrorMessage message={error} />}
-
-          {processedReport && (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h6>Sales Report</h6>
-
-                {hasAccess(user!.role, "/report", "update") && (
-                  <Button variant="outline" asChild>
-                    <Link href={`/report/${processedReport.id}`}>
-                      <Pencil className="size-3" />
-                      Edit
-                    </Link>
-                  </Button>
-                )}
-              </div>
-
-              <SaleReportCard data={processedReport} />
-
-              {hasAccess(user!.role, "/report", "delete") && (
-                <div className="bg-destructive/10 mt-8 flex flex-col items-center space-y-4 rounded-lg p-4 shadow">
-                  <DeleteReportButton
-                    reportId={processedReport.id!}
-                    setProcessedReport={setProcessedReport}
-                  />
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-      )}
+      {error && <ErrorMessage message={error} />}
     </div>
   );
 }

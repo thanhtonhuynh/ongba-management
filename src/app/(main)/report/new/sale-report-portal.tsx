@@ -4,6 +4,7 @@ import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { User } from "@/lib/auth/session";
+import { formatVancouverDate } from "@/lib/utils";
 import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
@@ -101,10 +102,14 @@ export function SaleReportPortal({
 
   async function processForm(data: SaleReportInputs) {
     data.date.setHours(0, 0, 0, 0);
-    const { error } = await saveReportAction(data, mode);
-    if (error) toast.error(error);
+    const { error, reportDate } = await saveReportAction(data, mode);
+    if (error || !reportDate) toast.error(error);
     else {
-      router.push("/");
+      if (mode === "create") {
+        router.push("/");
+      } else {
+        router.push(`/report/${formatVancouverDate(reportDate)}`);
+      }
       toast.success("Your report has been saved. Thank you!");
     }
   }

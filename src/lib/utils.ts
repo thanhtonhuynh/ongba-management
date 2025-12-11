@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import moment from "moment-timezone";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -36,4 +37,21 @@ export function toCents(value: number | null | undefined): number {
   if (!value) return 0;
   // half-up rounding
   return Math.floor(value * 100 + 0.5);
+}
+
+export function parseVancouverUrlDate(dateStr?: string): Date | null {
+  if (!dateStr) return null;
+
+  // Expecting "YYYY-MM-DD"
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return null;
+
+  // Interpret the string as a Vancouver date at midnight
+  const m = moment.tz(dateStr, "YYYY-MM-DD", "America/Vancouver");
+  if (!m.isValid()) return null;
+
+  return m.toDate();
+}
+
+export function formatVancouverDate(date: Date): string {
+  return moment(date).tz("America/Vancouver").format("YYYY-MM-DD");
 }

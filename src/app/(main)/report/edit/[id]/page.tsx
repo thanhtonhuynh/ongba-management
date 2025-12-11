@@ -9,7 +9,7 @@ import { hasAccess } from "@/utils/access-control";
 import { format } from "date-fns";
 import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
-import { SaleReportPortal } from "../new/sale-report-portal";
+import { SaleReportPortal } from "../../new/sale-report-portal";
 
 type Params = Promise<{ id: string }>;
 

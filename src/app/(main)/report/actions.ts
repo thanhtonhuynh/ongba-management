@@ -12,19 +12,18 @@ import {
 } from "@/lib/validations/report";
 import { hasAccess } from "@/utils/access-control";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import { processReportDataForView } from "@/utils/report";
 
-export async function searchReportAction(data: SearchReportInput) {
+export async function findReportByDateAction(data: SearchReportInput) {
   try {
     const { user } = await getCurrentSession();
     if (!user || user.accountStatus !== "active") {
-      return { error: "Unauthorized.", processedReport: null };
+      return { error: "Unauthorized.", reportId: null };
     }
 
     if (!(await authenticatedRateLimit(user.id))) {
       return {
         error: "Too many requests. Please try again later.",
-        processedReport: null,
+        reportId: null,
       };
     }
 
@@ -32,17 +31,15 @@ export async function searchReportAction(data: SearchReportInput) {
 
     const rawReport = await getReportRaw({ date });
     if (!rawReport) {
-      return { error: "Report not found", processedReport: null };
+      return { error: "Report not found", reportId: null };
     }
 
-    const processedReport = processReportDataForView(rawReport);
-
-    return { processedReport };
+    return { reportId: rawReport.id, error: null };
   } catch (error) {
     console.error(error);
     return {
       error: "Report search failed. Please try again.",
-      processedReport: null,
+      reportId: null,
     };
   }
 }

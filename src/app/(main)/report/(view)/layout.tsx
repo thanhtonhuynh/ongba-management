@@ -6,12 +6,16 @@ import { hasAccess } from "@/utils/access-control";
 import { ClipboardPen } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { Fragment } from "react";
-import { ReportPicker } from "./ReportPicker";
+import { Fragment, ReactNode } from "react";
+import { ReportPicker } from "../ReportPicker";
 
-export default async function Page() {
-  const { session, user } = await getCurrentSession();
-  if (!session) redirect("/login");
+export default async function ReportViewLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const { user } = await getCurrentSession();
+  if (!user) redirect("/login");
   if (user.accountStatus !== "active") return notFound();
 
   return (
@@ -21,12 +25,7 @@ export default async function Page() {
           <h1>Past report lookup</h1>
 
           {hasAccess(user.role, "/report", "create") && (
-            <Button
-              size="sm"
-              className="flex w-fit items-center gap-2"
-              variant="outline"
-              asChild
-            >
+            <Button size="sm" variant="outline" asChild>
               <Link href={`report/new`}>
                 <ClipboardPen />
                 Create report
@@ -37,9 +36,8 @@ export default async function Page() {
       </Header>
 
       <Container>
-        <section className="">
-          <ReportPicker />
-        </section>
+        <ReportPicker />
+        {children}
       </Container>
     </Fragment>
   );
