@@ -7,7 +7,7 @@ import { ClipboardPen } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { Fragment, ReactNode } from "react";
-import { ReportPicker } from "../ReportPicker";
+import { ReportPicker } from "../report-picker";
 
 export default async function ReportViewLayout({
   children,

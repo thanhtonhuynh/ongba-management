@@ -12,30 +12,23 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { SaleReportCardProcessedData } from "@/types";
-import { useRouter } from "next/navigation";
-import { Dispatch, SetStateAction, useTransition } from "react";
+import { useTransition } from "react";
 import { toast } from "sonner";
 import { deleteReportAction } from "./actions";
 
 type Props = {
   reportId: string;
-  setProcessedReport: Dispatch<
-    SetStateAction<SaleReportCardProcessedData | null>
-  >;
 };
 
-export function DeleteReportButton({ reportId, setProcessedReport }: Props) {
+export function DeleteReportButton({ reportId }: Props) {
   const [isPending, startTransition] = useTransition();
-  const router = useRouter();
 
   async function handleDeleteReport() {
     startTransition(async () => {
       const error = await deleteReportAction(reportId);
       if (error) toast.error(error);
       else {
-        setProcessedReport(null);
-        toast.success(`Report has been deleted.`);
+        toast(`Report has been deleted.`);
       }
     });
   }
@@ -44,6 +37,7 @@ export function DeleteReportButton({ reportId, setProcessedReport }: Props) {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
+          size={"sm"}
           variant={"outline"}
           className="border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
         >
