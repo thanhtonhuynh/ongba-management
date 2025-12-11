@@ -121,7 +121,6 @@ export function SaleReportPortal({
         shouldFocus: true,
       });
       if (!isValid) {
-        console.log(saleReportForm.formState.errors);
         return;
       }
 
