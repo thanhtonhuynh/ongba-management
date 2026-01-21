@@ -1,13 +1,13 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
+import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { formatVancouverDate, parseVancouverUrlDate } from "@/lib/utils";
@@ -18,12 +18,14 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import moment from "moment-timezone";
 import { useParams, useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 
 export function ReportPicker() {
   const { date } = useParams<{ date?: string }>();
   const router = useRouter();
+
+  const [isMounted, setIsMounted] = useState(false);
 
   const today = moment().tz("America/Vancouver").startOf("day").toDate();
   const dateFromParams = parseVancouverUrlDate(date);
@@ -36,17 +38,44 @@ export function ReportPicker() {
     },
   });
   const [isPending, startTransition] = useTransition();
+  const [month, setMonth] = useState<Date>(
+    new Date(initialDate.getFullYear(), initialDate.getMonth()),
+  );
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    form.reset({ date: initialDate });
+    setMonth(new Date(initialDate.getFullYear(), initialDate.getMonth()));
+  }, [date]);
 
   async function onSubmit(data: SearchReportInput) {
     startTransition(() => {
       router.push(`/report/${formatVancouverDate(data.date)}`);
     });
   }
+
+  // Prevent hydration mismatch
+  if (!isMounted) {
+    return (
+      <div className="space-y-4">
+        <h6 className="font-semibold">
+          Pick a date to search for a sale report
+        </h6>
+        <div className="mx-auto w-full max-w-xl space-y-4">
+          <div className="bg-muted h-75 w-full animate-pulse rounded-lg border" />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 rounded-lg border p-6 shadow-sm"
+        className="space-y-4"
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             e.preventDefault();
@@ -54,38 +83,52 @@ export function ReportPicker() {
           }
         }}
       >
-        <FormField
-          control={form.control}
-          name="date"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-base font-semibold">
-                Pick a date to search for a sale report
-              </FormLabel>
-              <FormControl>
-                <Calendar
-                  className="mx-auto max-w-3xl"
-                  mode="single"
-                  selected={field.value}
-                  onDayFocus={(date) => {
-                    field.onChange(date);
-                  }}
-                  onDayClick={(date) => {
-                    field.onChange(date);
-                  }}
-                  disabled={(date) =>
-                    date > new Date() || date < new Date("1900-01-01")
-                  }
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <h6 className="font-semibold">
+          Pick a date to search for a sales report
+        </h6>
 
-        <LoadingButton loading={isPending} type="submit" className="w-full">
-          {isPending ? "Searching..." : "Search"}
-        </LoadingButton>
+        <div className="mx-auto w-full max-w-xl space-y-4">
+          <FormField
+            control={form.control}
+            name="date"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    onDayClick={field.onChange}
+                    month={month}
+                    onMonthChange={setMonth}
+                    startMonth={new Date(2024, 9)}
+                    disabled={{ after: today }}
+                    captionLayout="dropdown"
+                    classNames={{
+                      root: "w-full border shadow rounded-lg",
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button
+            variant="link"
+            onClick={() => {
+              form.setValue("date", today);
+              setMonth(new Date(today.getFullYear(), today.getMonth()));
+            }}
+            className="px-0"
+          >
+            Go to Today
+          </Button>
+
+          <LoadingButton loading={isPending} type="submit" className="w-full">
+            {isPending ? "Searching..." : "Search"}
+          </LoadingButton>
+        </div>
       </form>
     </Form>
   );
