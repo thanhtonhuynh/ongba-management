@@ -32,7 +32,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} font-geist-sans antialiased`}
       >
         <ThemeProvider>
-          <SessionProvider value={{ session, user }}>
+          <SessionProvider session={session} user={user}>
             <SidebarProvider>
               <AppSidebar />
               <SidebarInset className="w-[calc(100svw-var(--sidebar-width))]">
