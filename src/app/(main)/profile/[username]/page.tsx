@@ -1,5 +1,6 @@
 import { Container } from "@/components/Container";
 import { Header } from "@/components/header";
+import { getRecentShiftsByUser } from "@/data-access/employee";
 import { getRecentReportsByUser } from "@/data-access/report";
 import { getUserByUsername } from "@/data-access/user";
 import { getCurrentSession } from "@/lib/auth/session";
@@ -8,6 +9,7 @@ import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
 import { ProfileInfo } from "./_components/profile-info";
 import { RecentReports } from "./_components/recent-reports";
+import { RecentShifts } from "./_components/recent-shifts";
 
 type ProfilePageProps = {
   params: Promise<{ username: string }>;
@@ -44,7 +46,11 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
   const isOwner = currentUser.username === profileUser.username;
 
   // Fetch recent reports submitted by this user
-  const recentReports = await getRecentReportsByUser(profileUser.id, 5);
+  // Fetch recent shifts for this user
+  const [recentReports, recentShifts] = await Promise.all([
+    getRecentReportsByUser(profileUser.id, 5),
+    getRecentShiftsByUser(profileUser.id, 5),
+  ]);
 
   return (
     <Fragment>
@@ -52,8 +58,9 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
         <h1>Profile</h1>
       </Header>
 
-      <Container className="space-y-6">
+      <Container className="space-y-3">
         <ProfileInfo user={profileUser} isOwner={isOwner} />
+        <RecentShifts shifts={recentShifts} isOwner={isOwner} />
         <RecentReports reports={recentReports} isOwner={isOwner} />
       </Container>
     </Fragment>

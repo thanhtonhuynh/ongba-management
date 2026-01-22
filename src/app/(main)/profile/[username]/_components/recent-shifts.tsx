@@ -1,58 +1,63 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatPriceWithDollar } from "@/lib/utils";
-import { File02Icon, LinkSquare01Icon } from "@hugeicons/core-free-icons";
+import { Clock01Icon, LinkSquare01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { format } from "date-fns";
 import Link from "next/link";
 
-type RecentReport = {
-  id: string;
+type RecentShift = {
   date: Date;
-  totalSales: number;
+  hours: number;
+  tips: number;
 };
 
-type RecentReportsProps = {
-  reports: RecentReport[];
+type RecentShiftsProps = {
+  shifts: RecentShift[];
   isOwner: boolean;
 };
 
-export function RecentReports({ reports, isOwner }: RecentReportsProps) {
+export function RecentShifts({ shifts, isOwner }: RecentShiftsProps) {
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <HugeiconsIcon
-            icon={File02Icon}
+            icon={Clock01Icon}
             className="text-muted-foreground size-5"
           />
-          Recent Reports
+          Recent Shifts
         </CardTitle>
       </CardHeader>
 
       <CardContent className="space-y-3">
-        {reports.length === 0 && (
+        {shifts.length === 0 && (
           <p className="text-muted-foreground text-sm">
             {isOwner
-              ? "You haven't submitted any reports yet."
-              : "No reports submitted yet."}
+              ? "You don't have any recorded shifts yet."
+              : "No shifts recorded yet."}
           </p>
         )}
 
-        {reports.length > 0 &&
-          reports.map((report) => (
+        {shifts.length > 0 &&
+          shifts.map((shift) => (
             <Link
-              key={report.id}
-              href={`/report/${format(report.date, "yyyy-MM-dd")}`}
+              key={shift.date.toISOString()}
+              href={`/report/${format(shift.date, "yyyy-MM-dd")}`}
               className="hover:bg-muted/50 group flex items-center justify-between rounded-lg border p-3 text-sm transition-colors"
             >
-              <p className="">{format(report.date, "EEEE, MMM d, yyyy")}</p>
+              <p>{format(shift.date, "EEEE, MMM d, yyyy")}</p>
 
               <div className="flex items-center gap-3">
+                <div className="mr-2 text-right">
+                  <p className="font-medium">{shift.hours}</p>
+                  <p className="text-muted-foreground text-xs">Hours</p>
+                </div>
+
                 <div className="text-right">
                   <p className="font-medium">
-                    {formatPriceWithDollar(report.totalSales / 100)}
+                    {formatPriceWithDollar(shift.tips / 100)}
                   </p>
-                  <p className="text-muted-foreground text-xs">Total Sales</p>
+                  <p className="text-muted-foreground text-xs">Tips</p>
                 </div>
 
                 <HugeiconsIcon

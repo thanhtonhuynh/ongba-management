@@ -99,3 +99,33 @@ export const getEmployeesByIds = cache(async (userIds: string[]) => {
     select: { id: true, name: true, image: true },
   });
 });
+
+// Get recent shifts for a user (most recent first)
+export const getRecentShiftsByUser = cache(
+  async (userId: string, limit: number = 5) => {
+    const reports = await prisma.saleReport.findMany({
+      where: {
+        shifts: { some: { userId } },
+      },
+      orderBy: { date: "desc" },
+      take: limit,
+      select: {
+        date: true,
+        shifts: true,
+      },
+    });
+
+    // Extract user's shifts from each report and flatten
+    const shifts = reports.flatMap((report) =>
+      report.shifts
+        .filter((shift) => shift.userId === userId)
+        .map((shift) => ({
+          date: report.date,
+          hours: shift.hours,
+          tips: shift.tips,
+        })),
+    );
+
+    return shifts;
+  },
+);
