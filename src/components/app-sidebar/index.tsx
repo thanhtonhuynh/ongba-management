@@ -64,7 +64,7 @@ export function AppSidebar() {
         <SidebarSeparator />
         <AdminMenuGroup />
         <SidebarSeparator />
-        <AccountMenuGroup />
+        <AccountMenuGroup username={user.username} />
       </SidebarContent>
 
       <SidebarFooter>

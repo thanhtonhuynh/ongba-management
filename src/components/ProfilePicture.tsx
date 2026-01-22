@@ -1,19 +1,43 @@
 import Image from "next/image";
 
-export function ProfilePicture({
-  image,
-  size,
-}: {
-  image: string;
+const TEXT_SIZE_THRESHOLDS = [
+  { minSize: 256, className: "text-6xl" },
+  { minSize: 128, className: "text-4xl" },
+  { minSize: 64, className: "text-2xl" },
+  { minSize: 32, className: "text-sm" },
+] as const;
+
+function getTextSizeClass(size: number): string {
+  return (
+    TEXT_SIZE_THRESHOLDS.find((t) => size >= t.minSize)?.className ?? "text-xs"
+  );
+}
+
+type ProfilePictureProps = {
+  image?: string | null;
   size: number;
-}) {
+  name?: string;
+};
+
+export function ProfilePicture({ image, size, name }: ProfilePictureProps) {
+  if (!image) {
+    return (
+      <div
+        className={`bg-muted flex items-center justify-center rounded-full font-medium ${getTextSizeClass(size)}`}
+        style={{ width: size, height: size }}
+      >
+        {name?.charAt(0).toUpperCase() || "?"}
+      </div>
+    );
+  }
+
   return (
     <Image
       src={image}
       alt={"User profile picture"}
       width={size}
       height={size}
-      className="aspect-square rounded-full border bg-background object-cover shadow-xs"
+      className="bg-background aspect-square rounded-full border object-cover shadow-xs"
     />
   );
 }

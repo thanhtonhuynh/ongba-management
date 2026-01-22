@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getEmployeeStatusConfig } from "@/constants/employee";
 import { User } from "@/lib/auth/session";
+import Link from "next/link";
 import { ReactNode } from "react";
 
 type EmployeeCardProps = {
@@ -18,8 +19,15 @@ export function EmployeeCard({ user, actions }: EmployeeCardProps) {
     <Card className="flex flex-col justify-center">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 p-4">
         <CardTitle className="flex items-center gap-2 text-sm">
-          {user.image && <ProfilePicture image={user.image} size={32} />}
-          {user.name}
+          <Link
+            href={`/profile/${user.username}`}
+            className="group flex items-center gap-2"
+          >
+            <ProfilePicture image={user.image} size={32} name={user.name} />
+            <span className="underline-offset-2 group-hover:underline">
+              {user.name}
+            </span>
+          </Link>
         </CardTitle>
 
         <div className="">{actions}</div>
@@ -30,10 +38,10 @@ export function EmployeeCard({ user, actions }: EmployeeCardProps) {
           Role: <EmployeeRoleTag role={user.role} />
         </p>
 
-        <p className="flex items-center gap-1">
+        <div className="flex items-center gap-1">
           Status:
           <Badge variant={statusConfig.variant}>{statusConfig.label}</Badge>
-        </p>
+        </div>
         <p>Email: {user.email}</p>
       </CardContent>
     </Card>

@@ -1,3 +1,5 @@
+"use client";
+
 import { EmployeeRoleTag } from "@/components/EmployeeRoleTag";
 import { ProfilePicture } from "@/components/ProfilePicture";
 import { Badge } from "@/components/ui/badge";
@@ -9,8 +11,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { User } from "@/lib/auth/session";
 import { getEmployeeStatusConfig } from "@/constants/employee";
+import { User } from "@/lib/auth/session";
+import { useRouter } from "next/navigation";
 import { EmployeeActions } from "./employee-actions";
 
 type EmployeesTableProps = {
@@ -26,6 +29,8 @@ export function EmployeesTable({
   canUpdateEmployees,
   canUpdateEmployee,
 }: EmployeesTableProps) {
+  const router = useRouter();
+
   if (employees.length === 0) {
     return (
       <div className="text-muted-foreground py-8 text-center">
@@ -33,6 +38,10 @@ export function EmployeesTable({
       </div>
     );
   }
+
+  const handleRowClick = (username: string) => {
+    router.push(`/profile/${username}`);
+  };
 
   return (
     <Table>
@@ -54,12 +63,18 @@ export function EmployeesTable({
             canUpdateEmployees && canUpdateEmployee(employee.role);
 
           return (
-            <TableRow key={employee.id}>
+            <TableRow
+              key={employee.id}
+              className="cursor-pointer"
+              onClick={() => handleRowClick(employee.username)}
+            >
               <TableCell>
                 <div className="flex items-center gap-2">
-                  {employee.image && (
-                    <ProfilePicture image={employee.image} size={32} />
-                  )}
+                  <ProfilePicture
+                    image={employee.image}
+                    size={32}
+                    name={employee.name}
+                  />
                   <span className="font-medium">{employee.name}</span>
                 </div>
               </TableCell>
@@ -81,7 +96,7 @@ export function EmployeesTable({
               )}
 
               {canUpdateEmployees && (
-                <TableCell>
+                <TableCell onClick={(e) => e.stopPropagation()}>
                   <EmployeeActions employee={employee} canUpdate={canUpdate} />
                 </TableCell>
               )}

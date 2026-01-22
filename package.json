@@ -16,6 +16,8 @@
   "dependencies": {
     "@date-fns/tz": "^1.4.1",
     "@hookform/resolvers": "^3.10.0",
+    "@hugeicons/core-free-icons": "^3.1.1",
+    "@hugeicons/react": "^1.1.4",
     "@node-rs/argon2": "^2.0.2",
     "@oslojs/binary": "^1.0.0",
     "@oslojs/crypto": "^1.0.1",

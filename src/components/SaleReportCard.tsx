@@ -25,9 +25,11 @@ export function SaleReportCard({ data }: SaleReportProps) {
         </div>
 
         <div className="text-muted-foreground flex items-center space-x-1">
-          {data.reporterImage && (
-            <ProfilePicture image={data.reporterImage} size={40} />
-          )}
+          <ProfilePicture
+            image={data.reporterImage}
+            size={40}
+            name={data.reporterName}
+          />
           <span>{data.reporterName}</span>
         </div>
       </div>
@@ -177,7 +179,7 @@ export function SaleReportCard({ data }: SaleReportProps) {
                 className="flex h-12 items-center justify-between space-x-2 rounded px-2 shadow-sm"
               >
                 <div className="flex items-center space-x-2">
-                  {emp.image && <ProfilePicture image={emp.image} size={30} />}
+                  <ProfilePicture image={emp.image} size={30} name={emp.name} />
                   <span>{emp.name}</span>
                 </div>
 

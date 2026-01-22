@@ -29,9 +29,11 @@ export async function HoursTipsTable({ data }: HoursTipsTableProps) {
         {data.map((employee) => (
           <TableRow key={employee.userId}>
             <TableCell className="flex items-center gap-2">
-              {employee.image && (
-                <ProfilePicture image={employee.image} size={40} />
-              )}
+              <ProfilePicture
+                image={employee.image}
+                size={32}
+                name={employee.name}
+              />
               {employee.name}
             </TableCell>
             <TableCell className="text-center">{employee.totalHours}</TableCell>

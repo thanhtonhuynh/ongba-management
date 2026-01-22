@@ -53,9 +53,11 @@ export async function DataTable({
           <TableRow key={employee.userId}>
             <TableCell className="bg-background sticky left-0 min-w-max">
               <div className="bg-background flex w-max items-center gap-2">
-                {employee.image && (
-                  <ProfilePicture image={employee.image} size={40} />
-                )}
+                <ProfilePicture
+                  image={employee.image}
+                  size={32}
+                  name={employee.userName}
+                />
                 <span className="flex-1">{employee.userName}</span>
               </div>
             </TableCell>
