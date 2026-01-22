@@ -8,6 +8,24 @@ import "server-only";
 import { getEmployeesByIds } from "./employee";
 import { getStartCash } from "./store";
 
+// Get recent reports submitted by a user
+export const getRecentReportsByUser = cache(
+  async (userId: string, limit: number = 5) => {
+    const reports = await prisma.saleReport.findMany({
+      where: { userId },
+      orderBy: { date: "desc" },
+      take: limit,
+      select: {
+        id: true,
+        date: true,
+        totalSales: true,
+      },
+    });
+
+    return reports;
+  },
+);
+
 // Upsert a report
 export async function upsertReport(data: SaleReportInputs, userId: string) {
   const { cardTips, cashTips, extraTips, employees, date, ...raw } = data;
