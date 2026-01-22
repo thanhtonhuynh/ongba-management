@@ -20,6 +20,10 @@ export const SignupSchema = z.object({
   username: trimmedString
     .min(6, "Username must be at least 6 characters")
     .max(50, "Username must not exceed 50 characters")
+    .regex(
+      /^[a-zA-Z0-9._-]+$/,
+      "Username can only contain letters, numbers, dots, underscores, and hyphens",
+    )
     .toLowerCase(),
   email: requiredString.email("Invalid email address").toLowerCase(),
   password: z
@@ -60,6 +64,10 @@ export const UpdateUsernameSchema = z.object({
   username: trimmedString
     .min(6, "Username must be at least 6 characters")
     .max(50, "Username must not exceed 50 characters")
+    .regex(
+      /^[a-zA-Z0-9._-]+$/,
+      "Username can only contain letters, numbers, dots, underscores, and hyphens",
+    )
     .toLowerCase(),
 });
 export type UpdateUsernameSchemaInput = z.infer<typeof UpdateUsernameSchema>;
