@@ -36,7 +36,9 @@ export default async function RootLayout({
             <SidebarProvider>
               <AppSidebar />
               <SidebarInset className="w-[calc(100svw-var(--sidebar-width))]">
-                <div className="relative flex flex-1 flex-col">{children}</div>
+                <div className="relative flex flex-1 flex-col md:rounded-t-xl">
+                  {children}
+                </div>
                 <Footer />
                 <Toaster richColors />
               </SidebarInset>

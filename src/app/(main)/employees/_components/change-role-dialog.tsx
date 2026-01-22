@@ -1,5 +1,6 @@
 "use client";
 
+import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,7 +10,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Form,
@@ -26,29 +26,32 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useSession } from "@/contexts/SessionProvider";
 import { User } from "@/lib/auth/session";
 import {
   UpdateEmployeeRoleInput,
   UpdateEmployeeRoleSchema,
 } from "@/lib/validations/employee";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { updateUserRoleAction } from "./actions";
 import { toast } from "sonner";
-import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { useSession } from "@/contexts/SessionProvider";
+import { updateUserRoleAction } from "../_actions";
 
 type ChangeUserRoleDialogProps = {
   selectedUser: User;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 };
 
 export function ChangeUserRoleDialog({
   selectedUser,
+  open,
+  onOpenChange,
 }: ChangeUserRoleDialogProps) {
   const { user } = useSession();
-  const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
+
   const form = useForm<UpdateEmployeeRoleInput>({
     resolver: zodResolver(UpdateEmployeeRoleSchema),
     defaultValues: {
@@ -62,8 +65,8 @@ export function ChangeUserRoleDialog({
       if (error) {
         toast.error(error);
       } else {
-        toast.success("Role updated successfully!");
-        setOpen(false);
+        toast.success("Role updated.");
+        onOpenChange(false);
       }
     });
   }
@@ -71,25 +74,19 @@ export function ChangeUserRoleDialog({
   return (
     <Dialog
       open={open}
-      onOpenChange={() => {
-        setOpen(!open);
-        form.reset();
+      onOpenChange={(newOpen) => {
+        onOpenChange(newOpen);
+        if (!newOpen) form.reset();
       }}
     >
-      <DialogTrigger asChild>
-        <Button variant={`outline`} size={`sm`}>
-          Change role
-        </Button>
-      </DialogTrigger>
-
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Change role</DialogTitle>
 
-          <DialogDescription className="flex items-center gap-2 pt-2 font-semibold text-primary">
+          <DialogDescription className="text-primary flex flex-col gap-2 pt-2 font-semibold">
             {selectedUser.name}
-            <span className="rounded-full border bg-muted px-2 font-medium capitalize">
-              {selectedUser.role}
+            <span className="font-medium capitalize">
+              Current role: {selectedUser.role}
             </span>
           </DialogDescription>
         </DialogHeader>

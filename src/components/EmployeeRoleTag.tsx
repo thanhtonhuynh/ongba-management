@@ -2,17 +2,20 @@ import { cn } from "@/lib/utils";
 
 type EmployeeRoleTagProps = {
   role: string;
+  className?: string;
 };
 
-export function EmployeeRoleTag({ role }: EmployeeRoleTagProps) {
+export function EmployeeRoleTag({ role, className }: EmployeeRoleTagProps) {
   return (
     <span
       className={cn(
-        `rounded-full px-2 py-[2px] text-xs font-medium capitalize select-none`,
-        role === "admin" && "bg-muted text-yellow-500",
-        role === "manager" && "bg-muted text-blue-500",
-        (role === "chef" || role === "server") && "bg-muted",
-        role === "unassigned role" && "bg-muted text-muted-foreground",
+        `font-medium capitalize select-none`,
+        role === "admin" && "text-red-500",
+        role === "manager" && "text-amber-500",
+        role === "chef" && "text-violet-500",
+        role === "server" && "text-blue-500",
+        role === "unassigned role" && "text-neutral-500",
+        className,
       )}
     >
       {role}

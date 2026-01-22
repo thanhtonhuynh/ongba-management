@@ -1,5 +1,7 @@
 import { Expense } from "@prisma/client";
 
+export type EmployeeStatus = "active" | "inactive" | "deactivated";
+
 export type CashType =
   | "coin5c"
   | "coin10c"
