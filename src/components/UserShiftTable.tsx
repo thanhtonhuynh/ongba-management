@@ -39,7 +39,7 @@ export function UserShiftTable({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="bg-background sticky left-0"></TableHead>
+          <TableHead className="bg-muted sticky left-0 z-10"></TableHead>
           {Array.from({ length: endDay - startDay + 1 }).map((_, index) => (
             <TableHead className="text-center" key={index}>
               <div className="flex flex-col gap-1">
@@ -56,7 +56,9 @@ export function UserShiftTable({
 
       <TableBody>
         <TableRow>
-          <TableCell className="bg-background sticky left-0">Hours</TableCell>
+          <TableCell className="bg-muted sticky left-0 z-10 font-medium">
+            Hours
+          </TableCell>
           {hours.map((hour, index) => (
             <TableCell key={index} className="text-center">
               {hour > 0 ? hour : "-"}
@@ -68,7 +70,9 @@ export function UserShiftTable({
         </TableRow>
 
         <TableRow>
-          <TableCell className="bg-background sticky left-0">Tips</TableCell>
+          <TableCell className="bg-muted sticky left-0 z-10 font-medium">
+            Tips
+          </TableCell>
           {tips.map((tip, index) => (
             <TableCell key={index} className="text-center">
               {tip > 0 ? formatPriceWithDollar(tip / 100) : "-"}

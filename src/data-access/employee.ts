@@ -96,7 +96,7 @@ export const getShiftsInDateRange = cache(async (dateRange: DayRange) => {
 export const getEmployeesByIds = cache(async (userIds: string[]) => {
   return prisma.user.findMany({
     where: { id: { in: userIds } },
-    select: { id: true, name: true, image: true },
+    select: { id: true, name: true, image: true, username: true },
   });
 });
 

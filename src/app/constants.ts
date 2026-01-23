@@ -1,10 +1,10 @@
 import { CashType } from "@/types";
 import {
+  Calculator,
+  CalendarCheck,
   ClipboardList,
-  Coins,
   Hourglass,
   Landmark,
-  Pickaxe,
   ShoppingBasket,
   Store,
   Users,
@@ -52,8 +52,8 @@ export const ROLL_FIELDS = MONEY_FIELDS.filter((key) => key.startsWith("roll"));
 
 export const staffMenuItems = [
   { title: "Sale reports", url: "/report", icon: ClipboardList },
-  { title: "Cash counter", url: "/cash-counter", icon: Coins },
-  { title: "My shifts", url: "/my-shifts", icon: Pickaxe },
+  { title: "Cash counter", url: "/cash-counter", icon: Calculator },
+  { title: "My shifts", url: "/my-shifts", icon: CalendarCheck },
   { title: "Employees", url: "/employees", icon: Users },
 ];
 

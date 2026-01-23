@@ -1,6 +1,6 @@
 export function CurrentTag() {
   return (
-    <span className="rounded-full border border-blue-500 px-2 py-[1px] text-xs text-blue-500">
+    <span className="border-primary text-primary rounded-full border px-2 py-px text-xs">
       Current
     </span>
   );

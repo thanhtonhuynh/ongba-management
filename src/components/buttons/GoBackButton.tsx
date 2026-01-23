@@ -20,7 +20,7 @@ export function GoBackButton({
       {...props}
       onClick={() => (url ? router.push(url) : router.back())}
     >
-      <ChevronLeft className="size-4" />
+      <ChevronLeft />
       {props.children}
     </Button>
   );

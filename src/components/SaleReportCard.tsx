@@ -2,10 +2,22 @@
 
 import { cn, formatPriceWithDollar } from "@/lib/utils";
 import { SaleReportCardProcessedData } from "@/types";
-import { Calendar, Dot } from "lucide-react";
+import {
+  BalanceScaleIcon,
+  Calendar03Icon,
+  CashIcon,
+  Coins01Icon,
+  DivideSignCircleIcon,
+  DollarCircleIcon,
+  Invoice01Icon,
+  SmartPhone01Icon,
+  Store01Icon,
+  UserGroupIcon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import moment from "moment";
+import Link from "next/link";
 import { ProfilePicture } from "./ProfilePicture";
-import { Separator } from "./ui/separator";
 
 type SaleReportProps = {
   data: SaleReportCardProcessedData | undefined;
@@ -17,210 +29,340 @@ export function SaleReportCard({ data }: SaleReportProps) {
   }
 
   return (
-    <div className="space-y-2 text-sm">
+    <div className="space-y-4 text-sm">
+      {/* Header */}
       <div className="flex items-center justify-between">
-        <div className="bg-muted flex items-center gap-2 rounded border-l-2 border-l-blue-500 px-2 py-1 font-semibold">
-          <Calendar size={15} className="text-blue-500" />
-          {moment(data.date).format("ddd MMM D, YYYY")}
+        <div className="flex items-center gap-3">
+          <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
+            <HugeiconsIcon
+              icon={Calendar03Icon}
+              className="text-muted-foreground size-5"
+            />
+          </div>
+          <div>
+            <p className="text-muted-foreground text-xs">Report Date</p>
+            <p className="font-semibold">
+              {moment(data.date).format("ddd MMM D, YYYY")}
+            </p>
+          </div>
         </div>
 
-        <div className="text-muted-foreground flex items-center space-x-1">
+        <Link
+          href={`/profile/${data.reporterUsername}`}
+          className="group flex items-center gap-2 transition-opacity hover:opacity-80"
+        >
           <ProfilePicture
             image={data.reporterImage}
-            size={40}
+            size={36}
             name={data.reporterName}
           />
-          <span>{data.reporterName}</span>
+          <div>
+            <p className="text-muted-foreground text-xs">Reported by</p>
+            <p className="text-sm font-medium group-hover:underline">
+              {data.reporterName}
+            </p>
+          </div>
+        </Link>
+      </div>
+
+      {/* Sales Section */}
+      <div className="bg-muted/50 space-y-4 rounded-lg p-4">
+        <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+          Sales
+        </h3>
+
+        {/* Total Sales */}
+        <div className="flex items-center gap-3">
+          <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
+            <HugeiconsIcon
+              icon={DollarCircleIcon}
+              className="text-muted-foreground size-5"
+            />
+          </div>
+          <div>
+            <p className="text-muted-foreground text-xs">Total Sales</p>
+            <p className="font-semibold">
+              {formatPriceWithDollar(data.totalSales / 100)}
+            </p>
+          </div>
+        </div>
+
+        {/* In-store & Online breakdown */}
+        <div className="grid gap-4 border-t pt-4 sm:grid-cols-2">
+          {/* In-store Sales */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-3">
+              <div className="bg-muted flex h-9 w-9 items-center justify-center rounded-lg">
+                <HugeiconsIcon
+                  icon={Store01Icon}
+                  className="text-muted-foreground size-4"
+                />
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">In-store Sales</p>
+                <p className="font-medium">
+                  {formatPriceWithDollar(data.inStoreSales / 100)}
+                </p>
+              </div>
+            </div>
+            <div className="text-muted-foreground ml-12 grid grid-cols-2 gap-1 text-xs">
+              <span>Card</span>
+              <span className="text-right">
+                {formatPriceWithDollar(data.cardSales / 100)}
+              </span>
+              <span>Cash</span>
+              <span className="text-right">
+                {formatPriceWithDollar(data.cashSales / 100)}
+              </span>
+            </div>
+          </div>
+
+          {/* Online Sales */}
+          <div className="space-y-2 border-t pt-4 sm:border-t-0 sm:pt-0 sm:pl-4">
+            <div className="flex items-center gap-3">
+              <div className="bg-muted flex h-9 w-9 items-center justify-center rounded-lg">
+                <HugeiconsIcon
+                  icon={SmartPhone01Icon}
+                  className="text-muted-foreground size-4"
+                />
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">Online Sales</p>
+                <p className="font-medium">
+                  {formatPriceWithDollar(data.otherSales / 100)}
+                </p>
+              </div>
+            </div>
+            <div className="text-muted-foreground ml-12 grid grid-cols-2 gap-1 text-xs">
+              <span>UberEats</span>
+              <span className="text-right">
+                {formatPriceWithDollar(data.uberEatsSales / 100)}
+              </span>
+              <span>DoorDash</span>
+              <span className="text-right">
+                {formatPriceWithDollar(data.doorDashSales / 100)}
+              </span>
+              <span>Ritual</span>
+              <span className="text-right">
+                {formatPriceWithDollar(data.onlineSales / 100)}
+              </span>
+              <span>SkipTheDishes</span>
+              <span className="text-right">
+                {formatPriceWithDollar(data.skipTheDishesSales / 100)}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <Separator />
+      {/* Cash Section */}
+      <div className="bg-muted/50 space-y-4 rounded-lg p-4">
+        <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+          Cash
+        </h3>
 
-      <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-8">
-        <div className="space-y-2">
-          <ReportBlock label="Total Sales" data={data.totalSales} />
-
-          <Separator />
-
-          <div className="space-y-1">
-            <ReportBlock label="In-store Sales" data={data.inStoreSales} />
-            <div className="flex gap-8">
-              <ReportBlock
-                label="Card sales"
-                data={data.cardSales}
-                secondaryData
-              />
-              <ReportBlock
-                label="Cash sales"
-                data={data.cashSales}
-                secondaryData
-              />
+        <div className="grid gap-4 sm:grid-cols-2">
+          {/* Cash Out */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-3">
+              <div className="bg-muted flex h-9 w-9 items-center justify-center rounded-lg">
+                <HugeiconsIcon
+                  icon={CashIcon}
+                  className="text-muted-foreground size-4"
+                />
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">Cash Out</p>
+                <p className="font-semibold">
+                  {formatPriceWithDollar(data.cashOut / 100)}
+                </p>
+              </div>
+            </div>
+            <div className="text-muted-foreground ml-12 grid grid-cols-2 gap-1 text-xs">
+              <span>From Till</span>
+              <span className="text-right">
+                {formatPriceWithDollar(
+                  (data.cashInTill - data.startCash) / 100,
+                )}
+              </span>
+              <span>Cash Tips</span>
+              <span className="text-right">
+                {formatPriceWithDollar(data.cashTips / 100)}
+              </span>
             </div>
           </div>
 
-          <Separator />
-
-          <div className="space-y-1">
-            <ReportBlock label="Online Sales" data={data.otherSales} />
-            <div className="flex gap-6 lg:gap-8">
-              <ReportBlock
-                label="UberEats"
-                data={data.uberEatsSales}
-                secondaryData
-              />
-              <ReportBlock
-                label="DoorDash"
-                data={data.doorDashSales}
-                secondaryData
-              />
-              <ReportBlock
-                label="Ritual"
-                data={data.onlineSales}
-                secondaryData
-              />
-              <ReportBlock
-                label="SkipDishes"
-                data={data.skipTheDishesSales}
-                secondaryData
-              />
+          {/* Cash Difference */}
+          <div className="space-y-2 border-t pt-4 sm:border-t-0 sm:pt-0 sm:pl-4">
+            <div className="flex items-center gap-3">
+              <div className="bg-muted flex h-9 w-9 items-center justify-center rounded-lg">
+                <HugeiconsIcon
+                  icon={BalanceScaleIcon}
+                  className={cn(
+                    "size-4",
+                    data.cashDifference === 0 && "text-muted-foreground",
+                    data.cashDifference < 0 && "text-destructive",
+                    data.cashDifference > 0 && "text-green-600",
+                  )}
+                />
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">Cash Difference</p>
+                <p
+                  className={cn(
+                    "font-semibold",
+                    data.cashDifference < 0 && "text-destructive",
+                    data.cashDifference > 0 && "text-green-600",
+                  )}
+                >
+                  {formatPriceWithDollar(data.cashDifference / 100)}
+                </p>
+              </div>
             </div>
-          </div>
-
-          <Separator />
-
-          <ReportBlock
-            label="Expenses"
-            data={`${formatPriceWithDollar(data.expenses / 100)} ${
-              data.expensesReason && `- ${data.expensesReason}`
-            }`}
-          />
-
-          <Separator />
-
-          <div className="space-y-1">
-            <ReportBlock label="Cash Difference" data={data.cashDifference} />
-            <div className="flex items-center gap-4">
-              <ReportBlock
-                label="Cash in Till"
-                data={data.cashInTill}
-                secondaryData
-              />
-              <span>-</span>
-              <ReportBlock
-                label="Start Cash"
-                data={data.startCash}
-                secondaryData
-              />
-              <span>-</span>
-              <ReportBlock
-                label="Actual Cash"
-                data={data.actualCash}
-                secondaryData
-              />
-            </div>
-          </div>
-
-          <Separator />
-
-          <div className="space-y-1">
-            <ReportBlock label="Cash Out" data={data.cashOut} />
-            <div className="flex items-center gap-4">
-              <ReportBlock
-                label="Taken from Till"
-                data={data.cashInTill - data.startCash}
-                secondaryData
-              />
-              <span>+</span>
-              <ReportBlock
-                label="Cash Tips"
-                data={data.cashTips}
-                secondaryData
-              />
+            <div className="text-muted-foreground ml-12 grid grid-cols-2 gap-1 text-xs">
+              <span>Cash in Till</span>
+              <span className="text-right">
+                {formatPriceWithDollar(data.cashInTill / 100)}
+              </span>
+              <span>Start Cash</span>
+              <span className="text-right">
+                {formatPriceWithDollar(data.startCash / 100)}
+              </span>
+              <span>Actual Cash</span>
+              <span className="text-right">
+                {formatPriceWithDollar(data.actualCash / 100)}
+              </span>
             </div>
           </div>
         </div>
 
-        <Separator className="md:hidden" />
+        {/* Expenses */}
+        {data.expenses > 0 && (
+          <div className="flex items-center gap-3 border-t pt-3">
+            <div className="bg-muted flex h-9 w-9 items-center justify-center rounded-lg">
+              <HugeiconsIcon
+                icon={Invoice01Icon}
+                className="text-muted-foreground size-4"
+              />
+            </div>
+            <div>
+              <p className="text-muted-foreground text-xs">Expenses</p>
+              <p className="flex items-center font-medium">
+                {formatPriceWithDollar(data.expenses / 100)}
+                {data.expensesReason && (
+                  <span className="text-muted-foreground ml-2 text-xs font-normal">
+                    — {data.expensesReason}
+                  </span>
+                )}
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
 
-        <div className="space-y-2">
-          <div className="space-y-1">
-            <ReportBlock label="Total Tips" data={data.totalTips} />
-            <div className="flex gap-8">
-              <ReportBlock
-                label="Card Tips"
-                data={data.cardTips}
-                secondaryData
-              />
-              <ReportBlock
-                label="Cash Tips"
-                data={data.cashTips}
-                secondaryData
-              />
-              <ReportBlock
-                label="Extra Tips"
-                data={data.extraTips}
-                secondaryData
-              />
+      {/* Tips Section */}
+      <div className="bg-muted/50 space-y-4 rounded-lg p-4">
+        <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+          Tips
+        </h3>
+
+        {/* Main stats with separator */}
+        <div className="grid items-start gap-4 sm:grid-cols-3">
+          {/* Total Tips with breakdown */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-3">
+              <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
+                <HugeiconsIcon
+                  icon={Coins01Icon}
+                  className="text-muted-foreground size-5"
+                />
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">Total Tips</p>
+                <p className="font-semibold">
+                  {formatPriceWithDollar(data.totalTips / 100)}
+                </p>
+              </div>
+            </div>
+            <div className="text-muted-foreground ml-13 grid grid-cols-2 gap-1 text-xs">
+              <span>Card</span>
+              <span className="text-right">
+                {formatPriceWithDollar(data.cardTips / 100)}
+              </span>
+              <span>Cash</span>
+              <span className="text-right">
+                {formatPriceWithDollar(data.cashTips / 100)}
+              </span>
+              <span>Extra</span>
+              <span className="text-right">
+                {formatPriceWithDollar(data.extraTips / 100)}
+              </span>
             </div>
           </div>
 
-          <Separator />
+          {/* Total Hours */}
+          <div className="flex items-center gap-3 border-t pt-4 sm:border-t-0 sm:pt-0 sm:pl-4">
+            <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
+              <HugeiconsIcon
+                icon={UserGroupIcon}
+                className="text-muted-foreground size-5"
+              />
+            </div>
+            <div>
+              <p className="text-muted-foreground text-xs">Total Hours</p>
+              <p className="font-semibold">{data.totalHours} hrs</p>
+            </div>
+          </div>
 
-          <ReportBlock
-            label="Tips per Hour"
-            data={`${formatPriceWithDollar(data.totalTips / 100)} / ${data.totalHours} =
-              ${formatPriceWithDollar(data.tipsPerHour / 100)}`}
-          />
+          {/* Per Hour */}
+          <div className="flex items-center gap-3 border-t pt-4 sm:border-t-0 sm:pt-0 sm:pl-4">
+            <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
+              <HugeiconsIcon
+                icon={DivideSignCircleIcon}
+                className="text-muted-foreground size-5"
+              />
+            </div>
+            <div>
+              <p className="text-muted-foreground text-xs">Per Hour</p>
+              <p className="font-semibold">
+                {formatPriceWithDollar(data.tipsPerHour / 100)}
+              </p>
+            </div>
+          </div>
+        </div>
 
-          <ul className="space-y-1">
+        {/* Employee Tips */}
+        <div className="space-y-3 border-t pt-3">
+          <p className="text-muted-foreground text-xs font-medium">
+            Employee Breakdown
+          </p>
+
+          <div className="grid gap-2 sm:grid-cols-2">
             {data.employees.map((emp) => (
-              <li
+              <div
                 key={emp.userId}
-                className="flex h-12 items-center justify-between space-x-2 rounded px-2 shadow-sm"
+                className="bg-muted flex items-center justify-between rounded-lg px-2 py-1.5"
               >
-                <div className="flex items-center space-x-2">
-                  <ProfilePicture image={emp.image} size={30} name={emp.name} />
-                  <span>{emp.name}</span>
-                </div>
-
-                <div className="flex items-center">
-                  <span>
-                    {emp.hour} {emp.hour > 1 ? "hours" : "hour"}
+                <Link
+                  href={`/profile/${emp.username}`}
+                  className="group flex items-center gap-2 transition-opacity hover:opacity-80"
+                >
+                  <ProfilePicture image={emp.image} size={24} name={emp.name} />
+                  <span className="text-xs group-hover:underline">
+                    {emp.name}
                   </span>
-
-                  <Dot size={15} />
-
-                  <span className="font-medium">
+                </Link>
+                <div className="text-right">
+                  <p className="text-xs font-semibold">
                     {formatPriceWithDollar((emp.hour * data.tipsPerHour) / 100)}
-                  </span>
+                  </p>
+                  <p className="text-muted-foreground text-xs">{emp.hour}h</p>
                 </div>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-function ReportBlock({
-  label,
-  data,
-  secondaryData,
-}: {
-  label: string;
-  data: number | string;
-  secondaryData?: boolean;
-}) {
-  return (
-    <div>
-      <p className={cn("font-semibold", secondaryData && "font-normal")}>
-        {label}
-      </p>
-
-      <p className="text-muted-foreground font-medium">
-        {typeof data === "number" ? formatPriceWithDollar(data / 100) : data}
-      </p>
     </div>
   );
 }

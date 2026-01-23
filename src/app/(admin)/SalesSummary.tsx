@@ -7,6 +7,12 @@ import {
   populateMonthSelectData,
 } from "@/utils/hours-tips";
 import { summarizeReports } from "@/utils/report";
+import {
+  DollarCircleIcon,
+  SmartPhone01Icon,
+  Store01Icon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import moment from "moment";
 import { notFound } from "next/navigation";
 import { FULL_MONTHS, NUM_MONTHS } from "../constants";
@@ -35,7 +41,7 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
   const instoreSales = sumData.totalSales - sumData.onlineSales;
 
   return (
-    <div className="space-y-4 rounded-lg border p-6 shadow-sm">
+    <div className="space-y-4">
       <div className="flex items-center justify-between gap-3">
         <h6>Sales Summary</h6>
         {years.length > 0 && <ViewPeriodsDialog years={years} />}
@@ -49,147 +55,138 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
           className="gap-2"
           size={"sm"}
         >
-          Back to current
+          View current
         </GoBackButton>
       )}
 
-      <div className="flex items-center gap-2 font-semibold">
+      <div className="flex items-center gap-2 text-lg font-semibold">
         {FULL_MONTHS[month - 1]} {year}
         {year === today.getFullYear() && month === today.getMonth() + 1 && (
           <CurrentTag />
         )}
       </div>
 
-      <h3 className="">Overview</h3>
+      {/* Overview Section */}
+      <div className="bg-muted/50 space-y-3 rounded-lg p-4">
+        <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+          Overview
+        </h3>
 
-      <div className="grid gap-2 md:grid-cols-3">
-        <div className="flex flex-col justify-center space-y-3 rounded-md border p-4 shadow-sm">
-          <p className="font-semibold">Total Sales</p>
-          <p className="text-muted-foreground text-lg font-medium">
-            {formatPriceWithDollar(sumData.totalSales / 100)}
-          </p>
-        </div>
-
-        <div className="place-content-center space-y-3 rounded-md border p-4 text-sm shadow-sm">
-          <p>In-store Sales</p>
-
-          <div className="text-muted-foreground space-y-1 font-medium">
-            {formatPriceWithDollar(instoreSales / 100)}{" "}
-            {sumData.totalSales > 0 && (
-              <span className="text-xs font-medium text-blue-500">
-                ({((instoreSales / sumData.totalSales) * 100).toFixed(2)}
-                %)
-              </span>
-            )}
+        <div className="grid gap-4 sm:grid-cols-3">
+          <div className="flex items-center gap-3">
+            <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
+              <HugeiconsIcon
+                icon={DollarCircleIcon}
+                className="text-muted-foreground size-5"
+              />
+            </div>
+            <div>
+              <p className="text-muted-foreground text-xs">Total Sales</p>
+              <p className="text-sm font-semibold">
+                {formatPriceWithDollar(sumData.totalSales / 100)}
+              </p>
+            </div>
           </div>
-        </div>
 
-        <div className="place-content-center space-y-3 rounded-md border p-4 text-sm shadow-sm">
-          <p>Online Sales</p>
+          <div className="flex items-center gap-3">
+            <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
+              <HugeiconsIcon
+                icon={Store01Icon}
+                className="text-muted-foreground size-5"
+              />
+            </div>
+            <div>
+              <p className="text-muted-foreground text-xs">In-store Sales</p>
+              <p className="text-sm font-medium">
+                {formatPriceWithDollar(instoreSales / 100)}
+                {sumData.totalSales > 0 && (
+                  <span className="text-primary ml-1 text-xs">
+                    ({((instoreSales / sumData.totalSales) * 100).toFixed(1)}%)
+                  </span>
+                )}
+              </p>
+            </div>
+          </div>
 
-          <div className="text-muted-foreground space-y-1 font-medium">
-            {formatPriceWithDollar(sumData.onlineSales / 100)}{" "}
-            {sumData.totalSales > 0 && (
-              <span className="text-xs font-medium text-blue-500">
-                ({((sumData.onlineSales / sumData.totalSales) * 100).toFixed(2)}
-                %)
-              </span>
-            )}
+          <div className="flex items-center gap-3">
+            <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
+              <HugeiconsIcon
+                icon={SmartPhone01Icon}
+                className="text-muted-foreground size-5"
+              />
+            </div>
+            <div>
+              <p className="text-muted-foreground text-xs">Online Sales</p>
+              <p className="text-sm font-medium">
+                {formatPriceWithDollar(sumData.onlineSales / 100)}
+                {sumData.totalSales > 0 && (
+                  <span className="text-primary ml-1 text-xs">
+                    (
+                    {((sumData.onlineSales / sumData.totalSales) * 100).toFixed(
+                      1,
+                    )}
+                    %)
+                  </span>
+                )}
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
-      <h3>Online Sales</h3>
+      {/* Online Sales Breakdown */}
+      <div className="bg-muted/50 space-y-3 rounded-lg p-4">
+        <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+          Online Sales
+        </h3>
 
-      <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-4">
-        <div className="text-muted-foreground space-y-2 rounded-md border p-4 text-sm shadow-sm">
-          <p className="text-green-600">UberEats</p>
-
-          <div className="space-y-1">
-            <p className="font-medium">
-              {formatPriceWithDollar(sumData.uberEatsSales / 100)}
-            </p>
-
-            {sumData.onlineSales > 0 && (
-              <p className="text-sm">
-                <span className="font-medium text-green-600">
-                  {(
-                    (sumData.uberEatsSales / sumData.onlineSales) *
-                    100
-                  ).toFixed(2)}
-                  %{" "}
-                </span>
-                <span>of Online Sales</span>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-500/10">
+              <span className="text-lg text-green-600">U</span>
+            </div>
+            <div>
+              <p className="text-xs text-green-600">UberEats</p>
+              <p className="text-sm font-medium">
+                {formatPriceWithDollar(sumData.uberEatsSales / 100)}
               </p>
-            )}
+            </div>
           </div>
-        </div>
 
-        <div className="text-muted-foreground space-y-2 rounded-md border p-4 text-sm shadow-sm">
-          <p className="text-red-600">DoorDash</p>
-
-          <div className="space-y-1">
-            <p className="font-medium">
-              {formatPriceWithDollar(sumData.doorDashSales / 100)}
-            </p>
-
-            {sumData.onlineSales > 0 && (
-              <p className="text-sm">
-                <span className="font-medium text-red-600">
-                  {(
-                    (sumData.doorDashSales / sumData.onlineSales) *
-                    100
-                  ).toFixed(2)}
-                  %{" "}
-                </span>
-                <span>of Online Sales</span>
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-red-500/10">
+              <span className="text-lg text-red-600">D</span>
+            </div>
+            <div>
+              <p className="text-xs text-red-600">DoorDash</p>
+              <p className="text-sm font-medium">
+                {formatPriceWithDollar(sumData.doorDashSales / 100)}
               </p>
-            )}
+            </div>
           </div>
-        </div>
 
-        <div className="text-muted-foreground space-y-2 rounded-md border p-4 text-sm shadow-sm">
-          <p className="text-sky-500">Ritual</p>
-
-          <div className="space-y-1">
-            <p className="font-medium">
-              {formatPriceWithDollar(sumData.ritualSales / 100)}
-            </p>
-
-            {sumData.onlineSales > 0 && (
-              <p className="text-sm">
-                <span className="font-medium text-sky-500">
-                  {((sumData.ritualSales / sumData.onlineSales) * 100).toFixed(
-                    2,
-                  )}
-                  %{" "}
-                </span>
-                <span>of Online Sales</span>
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-sky-500/10">
+              <span className="text-lg text-sky-500">R</span>
+            </div>
+            <div>
+              <p className="text-xs text-sky-500">Ritual</p>
+              <p className="text-sm font-medium">
+                {formatPriceWithDollar(sumData.ritualSales / 100)}
               </p>
-            )}
+            </div>
           </div>
-        </div>
 
-        <div className="text-muted-foreground space-y-2 rounded-md border p-4 text-sm shadow-sm">
-          <p className="text-orange-500">SkipTheDishes</p>
-
-          <div className="space-y-1">
-            <p className="font-medium">
-              {formatPriceWithDollar(sumData.skipTheDishesSales / 100)}
-            </p>
-
-            {sumData.onlineSales > 0 && (
-              <p className="text-sm">
-                <span className="font-medium text-orange-500">
-                  {(
-                    (sumData.skipTheDishesSales / sumData.onlineSales) *
-                    100
-                  ).toFixed(2)}
-                  %{" "}
-                </span>
-                <span>of Online Sales</span>
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500/10">
+              <span className="text-lg text-orange-500">S</span>
+            </div>
+            <div>
+              <p className="text-xs text-orange-500">SkipTheDishes</p>
+              <p className="text-sm font-medium">
+                {formatPriceWithDollar(sumData.skipTheDishesSales / 100)}
               </p>
-            )}
+            </div>
           </div>
         </div>
       </div>

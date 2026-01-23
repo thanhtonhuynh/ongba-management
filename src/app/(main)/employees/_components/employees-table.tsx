@@ -33,7 +33,7 @@ export function EmployeesTable({
 
   if (employees.length === 0) {
     return (
-      <div className="text-muted-foreground py-8 text-center">
+      <div className="text-muted-foreground py-8 text-center text-sm">
         No employees found.
       </div>
     );

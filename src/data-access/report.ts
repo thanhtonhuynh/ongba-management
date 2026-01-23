@@ -99,7 +99,7 @@ export const getReportRaw = cache(
     const report = await prisma.saleReport.findUnique({
       where,
       include: {
-        reporter: { select: { name: true, image: true } },
+        reporter: { select: { name: true, image: true, username: true } },
       },
     });
 
@@ -115,7 +115,7 @@ export const getReportRaw = cache(
     const userMap = new Map(
       users.map((user) => [
         user.id,
-        { name: user.name, image: user.image || "" },
+        { name: user.name, image: user.image || "", username: user.username },
       ]),
     );
 
@@ -127,12 +127,14 @@ export const getReportRaw = cache(
         hour: shift.hours,
         name: user?.name,
         image: user?.image,
+        username: user?.username,
       };
     });
 
     return {
       reporterName: report.reporter.name,
       reporterImage: report.reporter.image,
+      reporterUsername: report.reporter.username,
       employees,
       ...report,
     };

@@ -24,6 +24,7 @@ export type SaleEmployee = {
   hour: number;
   name?: string;
   image?: string;
+  username?: string;
 };
 
 export interface SaleReportCardRawData {
@@ -31,6 +32,7 @@ export interface SaleReportCardRawData {
   date: Date;
   reporterName: string;
   reporterImage: string | null;
+  reporterUsername: string;
   totalSales: number;
   cardSales: number;
   expenses: number;

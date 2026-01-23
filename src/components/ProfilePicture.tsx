@@ -23,7 +23,7 @@ export function ProfilePicture({ image, size, name }: ProfilePictureProps) {
   if (!image) {
     return (
       <div
-        className={`bg-muted flex items-center justify-center rounded-full font-medium ${getTextSizeClass(size)}`}
+        className={`bg-secondary flex items-center justify-center rounded-full border font-medium ${getTextSizeClass(size)}`}
         style={{ width: size, height: size }}
       >
         {name?.charAt(0).toUpperCase() || "?"}
@@ -37,7 +37,7 @@ export function ProfilePicture({ image, size, name }: ProfilePictureProps) {
       alt={"User profile picture"}
       width={size}
       height={size}
-      className="bg-background aspect-square rounded-full border object-cover shadow-xs"
+      className="aspect-square rounded-full border object-cover shadow-xs"
     />
   );
 }

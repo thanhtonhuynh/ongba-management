@@ -30,7 +30,7 @@ export default async function RootLayout({
           <SessionProvider session={session} user={user}>
             <SidebarProvider>
               <AppSidebar />
-              <SidebarInset className="w-[calc(100svw-var(--sidebar-width))]">
+              <SidebarInset className="w-[calc(100svw-var(--sidebar-width))] overflow-x-auto">
                 <div className="relative flex flex-1 flex-col md:rounded-t-xl">
                   {children}
                 </div>

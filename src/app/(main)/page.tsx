@@ -3,13 +3,16 @@ import { Header } from "@/components/header";
 import { ErrorMessage } from "@/components/Message";
 import { SaleReportCard } from "@/components/SaleReportCard";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { getReportRaw } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import { SaleReportCardProcessedData } from "@/types";
 import { hasAccess } from "@/utils/access-control";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { processReportDataForView } from "@/utils/report";
-import { CircleCheck, ClipboardPen } from "lucide-react";
+import { UserAccountIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Calculator, CalendarCheck, ClipboardPen } from "lucide-react";
 import moment from "moment-timezone";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
@@ -23,8 +26,8 @@ type SearchParams = Promise<{
 }>;
 
 export default async function Home(props: { searchParams: SearchParams }) {
-  const { session, user } = await getCurrentSession();
-  if (!session) redirect("/login");
+  const { user } = await getCurrentSession();
+  if (!user) redirect("/login");
   if (user.accountStatus !== "active") notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
@@ -54,51 +57,86 @@ export default async function Home(props: { searchParams: SearchParams }) {
   return (
     <Fragment>
       <Header>
-        <div className="text-muted-foreground text-sm font-medium">
+        <div className="text-sm font-medium">
           {moment().tz("America/Vancouver").format("dddd, MMMM D, YYYY")}
         </div>
       </Header>
 
       <Container>
         <section className="space-y-4">
-          <div className="space-y-4 rounded-lg border p-6 shadow-sm">
-            <div>Good day, {user.name}!</div>
+          <h6>Good day, {user.name}!</h6>
 
-            {todayReport && (
-              <div className="bg-muted flex w-fit items-center gap-2 rounded-lg border-l-2 border-l-blue-500 px-2 py-1">
-                <CircleCheck size={17} className="text-blue-500" />
-                Today's report has been submitted!
-              </div>
-            )}
+          <div className="bg-muted/50 rounded-lg p-4">
+            <h3 className="text-muted-foreground mb-3 text-xs font-medium tracking-wide uppercase">
+              Quick Actions
+            </h3>
 
-            {hasAccess(user.role, "/report", "create") && (
-              <>
-                <Button className="flex w-fit items-center gap-2" asChild>
+            <div className="flex flex-col items-start gap-1">
+              {!todayReport && hasAccess(user.role, "/report", "create") && (
+                <Button
+                  size="sm"
+                  variant={"link"}
+                  className="text-foreground border-0 p-0"
+                  asChild
+                >
                   <Link href={`report/new`}>
                     <ClipboardPen size={16} />
-                    Create new sale report
+                    Create report
                   </Link>
                 </Button>
-
-                <div className="text-muted-foreground text-sm">
-                  <span className="font-semibold">Note:</span> There can only be
-                  <span className="font-semibold"> ONE </span>
-                  sale report per day. Submitting a new report will overwrite
-                  the existing one.
-                </div>
-              </>
-            )}
+              )}
+              <Button
+                variant="link"
+                size="sm"
+                className="text-foreground border-0 p-0"
+                asChild
+              >
+                <Link href="/cash-counter">
+                  <Calculator size={16} />
+                  Cash counter
+                </Link>
+              </Button>
+              <Button
+                variant="link"
+                size="sm"
+                className="text-foreground border-0 p-0"
+                asChild
+              >
+                <Link href="/my-shifts">
+                  <CalendarCheck size={16} />
+                  My shifts
+                </Link>
+              </Button>
+              <Button
+                variant="link"
+                size="sm"
+                className="text-foreground border-0 p-0"
+                asChild
+              >
+                <Link href={`/profile/${user.username}`}>
+                  <HugeiconsIcon icon={UserAccountIcon} className="size-4" />
+                  My profile
+                </Link>
+              </Button>
+            </div>
           </div>
         </section>
 
         {todayReport && (
-          <section className="space-y-4 rounded-lg border p-6 shadow-sm">
-            <h6>Today's Sale Report</h6>
-            <SaleReportCard data={processedTodayReportData} />
-          </section>
+          <>
+            <Separator />
+            <section className="space-y-4">
+              <h6>Today's Sales Report</h6>
+              <SaleReportCard data={processedTodayReportData} />
+            </section>
+          </>
         )}
 
+        <Separator />
+
         <EmployeeAnalytics user={user} />
+
+        <Separator />
 
         {user.role === "admin" && (
           <SalesSummary year={selectedYear} month={selectedMonth} />

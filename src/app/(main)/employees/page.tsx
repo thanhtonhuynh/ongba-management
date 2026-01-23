@@ -43,6 +43,7 @@ export default async function Page({ searchParams }: PageProps) {
         <div className="flex items-center gap-2">
           {canManageEmployees && <StatusFilter />}
         </div>
+
         <ViewToggle />
       </div>
 
