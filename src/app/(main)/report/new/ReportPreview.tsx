@@ -25,6 +25,7 @@ export function ReportPreview({
     startCash,
     reporterName: user?.name ?? "Unknown user",
     reporterImage: user?.image ?? null,
+    reporterUsername: user?.username ?? "unknown",
   };
 
   const rawDataInCents = {
