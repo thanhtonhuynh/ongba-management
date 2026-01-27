@@ -1,4 +1,4 @@
-import { CashCounter } from "@/app/(main)/cash-counter/CashCounter";
+import { CashCalculator } from "@/app/(main)/cash-calculator/cash-calculator";
 import { Container } from "@/components/Container";
 import { Header } from "@/components/header";
 import { getCurrentSession } from "@/lib/auth/session";
@@ -13,11 +13,11 @@ export default async function Page() {
   return (
     <Fragment>
       <Header>
-        <h1>Cash Counter</h1>
+        <h1>Cash Calculator</h1>
       </Header>
 
       <Container>
-        <CashCounter />
+        <CashCalculator />
       </Container>
     </Fragment>
   );

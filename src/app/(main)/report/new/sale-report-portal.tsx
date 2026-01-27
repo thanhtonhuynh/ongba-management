@@ -14,7 +14,7 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { saveReportAction } from "./actions";
-import { CashCounterForm } from "./CashCounterForm";
+import { CashCalculatorForm } from "./cash-calculator-form";
 import { ReportPreview } from "./ReportPreview";
 import { SaleDetailForm } from "./SaleDetailForm";
 
@@ -190,7 +190,7 @@ export function SaleReportPortal({
       {currentStep === 1 && (
         <MotionContainer delta={delta}>
           <h2 className="mt-4 text-center md:hidden">Count Cash</h2>
-          <CashCounterForm
+          <CashCalculatorForm
             saleReportForm={saleReportForm}
             cashCounterForm={cashCounterForm}
           />
