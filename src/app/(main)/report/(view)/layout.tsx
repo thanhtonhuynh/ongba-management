@@ -22,7 +22,7 @@ export default async function ReportViewLayout({
     <Fragment>
       <Header>
         <div className="flex flex-1 items-center justify-between">
-          <h1>Past report lookup</h1>
+          <h1>Sales Reports</h1>
 
           {hasAccess(user.role, "/report", "create") && (
             <Button size="sm" variant="outline" asChild>

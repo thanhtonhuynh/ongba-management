@@ -87,7 +87,7 @@ export function ReportPicker() {
           Pick a date to search for a sales report
         </h6>
 
-        <div className="mx-auto w-full max-w-xl space-y-4">
+        <div className="mx-auto w-full max-w-sm space-y-4">
           <FormField
             control={form.control}
             name="date"
@@ -104,9 +104,7 @@ export function ReportPicker() {
                     startMonth={new Date(2024, 9)}
                     disabled={{ after: today }}
                     captionLayout="dropdown"
-                    classNames={{
-                      root: "w-full border shadow rounded-lg",
-                    }}
+                    className="w-full rounded-lg border shadow-sm"
                   />
                 </FormControl>
                 <FormMessage />
