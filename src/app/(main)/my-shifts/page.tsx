@@ -14,12 +14,9 @@ import {
   populateMonthSelectData,
 } from "@/utils/hours-tips";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import {
-  CalendarClock,
-  CalendarDays,
-  CircleDollarSign,
-  MoveRight,
-} from "lucide-react";
+import { ArrowRight01Icon, Coins01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { CalendarClock, CalendarDays } from "lucide-react";
 import moment from "moment";
 import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
@@ -91,65 +88,83 @@ export default async function Page(props: { searchParams: SearchParams }) {
         </div>
       </Header>
 
-      <Container>
+      <Container className="gap-4">
         {searchParams.year && searchParams.month && (
           <GoBackButton
             url={`/my-shifts`}
             variant={`outline`}
             className="w-fit gap-2"
+            size={"sm"}
           >
-            Back to current
+            View current
           </GoBackButton>
         )}
 
-        <h2 className="flex items-center gap-2">
-          <span>
+        <section className="space-y-4">
+          <h6 className="flex items-center gap-2">
             {FULL_MONTHS[selectedMonth - 1]} {selectedYear}
-          </span>
-          {selectedYear === today.getFullYear() &&
-            selectedMonth === today.getMonth() + 1 && <CurrentTag />}
-        </h2>
+            {selectedYear === today.getFullYear() &&
+              selectedMonth === today.getMonth() + 1 && <CurrentTag />}
+          </h6>
 
-        <div className="flex justify-center space-x-2">
-          <div className="flex h-24 w-40 flex-col items-center justify-center space-y-2 rounded-md border p-2 shadow-sm">
-            <p className="flex items-center gap-2 font-semibold">
-              <CalendarClock size={18} />
-              <span>Total Hours</span>
-            </p>
-            <p className="font-medium text-blue-500">
-              {userShifts.reduce((acc, shift) => acc + shift.hours, 0)}
-            </p>
-          </div>
-          <div className="flex h-24 w-40 flex-col items-center justify-center space-y-2 rounded-md border p-2 shadow-sm">
-            <p className="flex items-center gap-2 font-semibold">
-              <CircleDollarSign size={18} />
-              <span>Total Tips</span>
-            </p>
-            <p className="font-medium text-blue-500">
-              {formatPriceWithDollar(
-                userShifts.reduce((acc, shift) => acc + shift.tips, 0) / 100,
-              )}
-            </p>
-          </div>
-        </div>
-
-        {periods.map((period, index) => (
-          <div
-            key={index}
-            className="space-y-4 rounded-lg border p-6 shadow-sm"
-          >
-            <h3 className="bg-muted flex w-fit items-center space-x-2 rounded border-l-2 border-l-blue-500 px-2 py-1 text-sm font-medium">
-              <CalendarDays size={15} className="text-blue-500" />
-              <span>{moment(period.start).format("MMM D")}</span>
-              <MoveRight size={15} />
-              <span>{moment(period.end).format("MMM D")}</span>
+          <div className="bg-muted/50 space-y-3 rounded-lg p-4">
+            <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+              Summary
             </h3>
-            <UserShiftTable
-              dateRange={period}
-              userShifts={index === 0 ? firstPeriodShifts : secondPeriodShifts}
-            />
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="flex items-center gap-3">
+                <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
+                  <CalendarClock className="text-muted-foreground size-5" />
+                </div>
+                <div>
+                  <p className="text-muted-foreground text-xs">Total Hours</p>
+                  <p className="text-sm font-semibold">
+                    {userShifts.reduce((acc, shift) => acc + shift.hours, 0)}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
+                  <HugeiconsIcon
+                    icon={Coins01Icon}
+                    className="text-muted-foreground size-5"
+                  />
+                </div>
+                <div>
+                  <p className="text-muted-foreground text-xs">Total Tips</p>
+                  <p className="text-sm font-semibold">
+                    {formatPriceWithDollar(
+                      userShifts.reduce((acc, shift) => acc + shift.tips, 0) /
+                        100,
+                    )}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-        ))}
+        </section>
+
+        <section className="space-y-4">
+          <h6>Daily Breakdown</h6>
+          {periods.map((period, index) => (
+            <div key={index} className="bg-muted/50 space-y-3 rounded-lg p-4">
+              <h3 className="flex items-center gap-2 text-xs font-medium">
+                <CalendarDays className="text-primary size-4" />
+                <span>{moment(period.start).format("MMM D")}</span>
+                <HugeiconsIcon icon={ArrowRight01Icon} className="size-3" />
+                <span>{moment(period.end).format("MMM D")}</span>
+              </h3>
+
+              <UserShiftTable
+                dateRange={period}
+                userShifts={
+                  index === 0 ? firstPeriodShifts : secondPeriodShifts
+                }
+              />
+            </div>
+          ))}
+        </section>
       </Container>
     </Fragment>
   );

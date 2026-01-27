@@ -6,10 +6,10 @@ import { getTodayBiweeklyPeriod } from "@/utils/hours-tips";
 import {
   ArrowRight01Icon,
   Calendar03Icon,
-  Clock01Icon,
   Coins01Icon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { CalendarClock } from "lucide-react";
 import moment from "moment";
 
 type EmployeeAnalyticsProps = {
@@ -46,10 +46,7 @@ export async function EmployeeAnalytics({ user }: EmployeeAnalyticsProps) {
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="flex items-center gap-3">
             <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
-              <HugeiconsIcon
-                icon={Clock01Icon}
-                className="text-muted-foreground size-5"
-              />
+              <CalendarClock className="text-muted-foreground size-5" />
             </div>
             <div>
               <p className="text-muted-foreground text-xs">Total Hours</p>
