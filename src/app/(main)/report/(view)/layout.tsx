@@ -25,7 +25,12 @@ export default async function ReportViewLayout({
           <h1>Sales Reports</h1>
 
           {hasAccess(user.role, "/report", "create") && (
-            <Button size="sm" variant="outline" asChild>
+            <Button
+              size="sm"
+              variant="outline"
+              asChild
+              className="tracking-normal"
+            >
               <Link href={`report/new`}>
                 <ClipboardPen />
                 Create report
@@ -35,9 +40,9 @@ export default async function ReportViewLayout({
         </div>
       </Header>
 
-      <Container>
+      <Container className="min-[1150px]:flex-row">
         <ReportPicker />
-        {children}
+        <div className="flex-1">{children}</div>
       </Container>
     </Fragment>
   );

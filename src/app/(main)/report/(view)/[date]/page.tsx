@@ -41,10 +41,10 @@ export default async function Page(props: { params: Params }) {
     <Fragment>
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h6>Sale Report</h6>
+          <h6>Sales Report</h6>
 
           {hasAccess(user!.role, "/report", "update") && (
-            <Button variant="outline" asChild>
+            <Button variant="outline" size={"sm"} asChild>
               <Link href={`/report/edit/${processedReport.id}`}>
                 <Pencil className="size-3" />
                 Edit

@@ -83,11 +83,11 @@ export function ReportPicker() {
           }
         }}
       >
-        <h6 className="font-semibold">
-          Pick a date to search for a sales report
+        <h6 className="text-sm font-semibold">
+          Select a date to view a sales report
         </h6>
 
-        <div className="mx-auto w-full max-w-sm space-y-4">
+        <div className="mx-auto w-full max-w-sm space-y-3">
           <FormField
             control={form.control}
             name="date"
@@ -114,13 +114,14 @@ export function ReportPicker() {
 
           <Button
             variant="link"
+            size={"sm"}
             onClick={() => {
               form.setValue("date", today);
               setMonth(new Date(today.getFullYear(), today.getMonth()));
             }}
-            className="px-0"
+            className="p-0"
           >
-            Go to Today
+            View Today
           </Button>
 
           <LoadingButton loading={isPending} type="submit" className="w-full">
