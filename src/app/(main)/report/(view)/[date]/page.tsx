@@ -1,3 +1,4 @@
+import { ProfilePicture } from "@/components/ProfilePicture";
 import { SaleReportCard } from "@/components/SaleReportCard";
 import { Button } from "@/components/ui/button";
 import { getReportRaw } from "@/data-access/report";
@@ -6,6 +7,7 @@ import { parseVancouverUrlDate } from "@/lib/utils";
 import { hasAccess } from "@/utils/access-control";
 import { processReportDataForView } from "@/utils/report";
 import { Pencil } from "lucide-react";
+import moment from "moment-timezone";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
@@ -25,17 +27,20 @@ export default async function Page(props: { params: Params }) {
   const report = await getReportRaw({ date });
   if (!report)
     return (
-      <div className="mt-16 flex flex-col items-center gap-2">
-        <h2 className="text-destructive text-xl font-semibold">
+      <div className="bg-muted/50 mt-8 flex flex-col items-center gap-2 rounded-lg p-4">
+        <h2 className="text-destructive text-base font-semibold uppercase">
           Report not found
         </h2>
-        <p className="text-muted-foreground">
-          No sale report exists for the selected date.
+        <p className="text-muted-foreground text-sm">
+          No sales report exists for the selected date
         </p>
       </div>
     );
 
   const processedReport = processReportDataForView(report);
+  const auditLogs = [...(processedReport.auditLogs ?? [])].sort(
+    (a, b) => b.timestamp.getTime() - a.timestamp.getTime(),
+  );
 
   return (
     <Fragment>
@@ -54,6 +59,39 @@ export default async function Page(props: { params: Params }) {
         </div>
 
         <SaleReportCard data={processedReport} />
+
+        {auditLogs.length > 0 && (
+          <div className="bg-muted/50 space-y-3 rounded-lg p-4">
+            <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+              Audit Log
+            </h3>
+            <div className="space-y-2 text-sm">
+              {auditLogs.map((log) => (
+                <p
+                  key={`${log.userId}-${log.timestamp.toISOString()}`}
+                  className="flex items-center gap-2"
+                >
+                  Edited by{" "}
+                  <Link
+                    href={`/profile/${log.username}`}
+                    className="group inline-flex items-center gap-2 transition-opacity hover:opacity-80"
+                  >
+                    <ProfilePicture
+                      image={log.image}
+                      size={24}
+                      name={log.name}
+                    />
+                    <span className="group-hover:underline">{log.name}</span>
+                  </Link>
+                  on{" "}
+                  {moment(log.timestamp)
+                    .tz("America/Vancouver")
+                    .format("MMM D, YYYY h:mma")}
+                </p>
+              ))}
+            </div>
+          </div>
+        )}
 
         {hasAccess(user!.role, "/report", "delete") && (
           <div className="bg-destructive/10 mt-8 flex flex-col items-center space-y-4 rounded-lg p-4 shadow">

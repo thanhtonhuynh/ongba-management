@@ -31,7 +31,7 @@ export default async function ReportViewLayout({
               asChild
               className="tracking-normal"
             >
-              <Link href={`report/new`}>
+              <Link href={`/report/new`}>
                 <ClipboardPen />
                 Create report
               </Link>

@@ -43,11 +43,14 @@ const steps = [
 
 type FieldName = keyof SaleReportInputs;
 
-type SaleReportPortalProps = {
+type Props = {
   usersPromise: Promise<User[]>;
   startCashPromise: Promise<number>;
   initialValues?: SaleReportInputs;
   mode: "create" | "edit";
+  reporterName?: string;
+  reporterImage?: string | null;
+  reporterUsername?: string;
 };
 
 export function SaleReportPortal({
@@ -55,7 +58,10 @@ export function SaleReportPortal({
   startCashPromise,
   initialValues,
   mode,
-}: SaleReportPortalProps) {
+  reporterName,
+  reporterImage,
+  reporterUsername,
+}: Props) {
   const [isPending, startTransition] = useTransition();
   const saleReportForm = useForm<SaleReportInputs>({
     resolver: zodResolver(SaleReportSchema),
@@ -221,6 +227,9 @@ export function SaleReportPortal({
           <ReportPreview
             saleReportForm={saleReportForm}
             startCashPromise={startCashPromise}
+            reporterName={reporterName}
+            reporterImage={reporterImage}
+            reporterUsername={reporterUsername}
           />
         </MotionContainer>
       )}

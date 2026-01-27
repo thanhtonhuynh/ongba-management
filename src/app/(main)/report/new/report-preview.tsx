@@ -11,18 +11,27 @@ import { UseFormReturn } from "react-hook-form";
 type Props = {
   saleReportForm: UseFormReturn<SaleReportInputs>;
   startCashPromise: Promise<number>;
+  reporterName?: string;
+  reporterImage?: string | null;
+  reporterUsername?: string;
 };
 
-export function ReportPreview({ saleReportForm, startCashPromise }: Props) {
+export function ReportPreview({
+  saleReportForm,
+  startCashPromise,
+  reporterName,
+  reporterImage,
+  reporterUsername,
+}: Props) {
   const { user } = useSession();
   const startCash = use(startCashPromise);
 
   const rawData: SaleReportCardRawData = {
     ...saleReportForm.watch(),
     startCash,
-    reporterName: user?.name ?? "Unknown user",
-    reporterImage: user?.image ?? null,
-    reporterUsername: user?.username ?? "unknown",
+    reporterName: reporterName ?? user?.name ?? "Unknown user",
+    reporterImage: reporterImage ?? user?.image ?? null,
+    reporterUsername: reporterUsername ?? user?.username ?? "unknown",
   };
 
   const rawDataInCents = {

@@ -27,6 +27,14 @@ export type SaleEmployee = {
   username?: string;
 };
 
+export type ReportAuditLog = {
+  userId: string;
+  timestamp: Date;
+  name?: string;
+  image?: string | null;
+  username?: string;
+};
+
 export interface SaleReportCardRawData {
   id?: string;
   date: Date;
@@ -47,6 +55,7 @@ export interface SaleReportCardRawData {
   skipTheDishesSales: number;
   onlineSales: number;
   employees: SaleEmployee[];
+  auditLogs?: ReportAuditLog[];
 }
 
 export interface SaleReportCardProcessedData extends SaleReportCardRawData {

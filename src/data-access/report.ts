@@ -59,24 +59,41 @@ export async function upsertReport(data: SaleReportInputs, userId: string) {
   // Get starting cash
   const startCash = await getStartCash();
 
-  const report = await prisma.saleReport.upsert({
+  const existingReport = await prisma.saleReport.findUnique({
     where: { date },
-    create: {
-      date,
-      userId,
-      startCash,
-      expensesReason: raw.expensesReason,
-      ...reportDataInCents,
-      shifts,
-    },
-    update: {
-      userId,
-      startCash,
-      expensesReason: raw.expensesReason,
-      ...reportDataInCents,
-      shifts: { set: shifts },
-    },
+    select: { id: true, auditLogs: true },
   });
+
+  const auditLogs = existingReport?.auditLogs ?? [];
+
+  const report = existingReport
+    ? await prisma.saleReport.update({
+        where: { id: existingReport.id },
+        data: {
+          startCash,
+          expensesReason: raw.expensesReason,
+          ...reportDataInCents,
+          shifts: { set: shifts },
+          auditLogs: [
+            ...auditLogs,
+            {
+              userId,
+              timestamp: new Date(),
+            },
+          ],
+        },
+      })
+    : await prisma.saleReport.create({
+        data: {
+          date,
+          userId,
+          startCash,
+          expensesReason: raw.expensesReason,
+          ...reportDataInCents,
+          shifts,
+          auditLogs: [],
+        },
+      });
 
   return report;
 }
@@ -105,8 +122,11 @@ export const getReportRaw = cache(
 
     if (!report) return null;
 
-    // Collect userIds from shifts
-    const userIds = report.shifts.map((shift) => shift.userId);
+    // Collect userIds from shifts and edit logs
+    const userIds = [
+      ...report.shifts.map((shift) => shift.userId),
+      ...(report.auditLogs ?? []).map((log) => log.userId),
+    ];
 
     // Get user info for those userIds
     const users = await getEmployeesByIds(userIds);
@@ -131,12 +151,25 @@ export const getReportRaw = cache(
       };
     });
 
+    const expandedAuditLogs =
+      report.auditLogs?.map((log) => {
+        const user = userMap.get(log.userId);
+        return {
+          userId: log.userId,
+          timestamp: log.timestamp,
+          name: user?.name,
+          image: user?.image,
+          username: user?.username,
+        };
+      }) ?? [];
+
     return {
+      ...report,
       reporterName: report.reporter.name,
       reporterImage: report.reporter.image,
       reporterUsername: report.reporter.username,
       employees,
-      ...report,
+      auditLogs: expandedAuditLogs,
     };
   },
 );

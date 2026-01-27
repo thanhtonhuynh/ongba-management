@@ -93,13 +93,19 @@ model SaleReport {
 
   // employeeShifts EmployeeShift[]
 
-  shifts Shift[]
+  shifts    Shift[]
+  auditLogs ReportAudit[]
 }
 
 type Shift {
   userId String @db.ObjectId
   hours  Float
   tips   Int
+}
+
+type ReportAudit {
+  userId    String   @db.ObjectId
+  timestamp DateTime
 }
 
 // model EmployeeShift {

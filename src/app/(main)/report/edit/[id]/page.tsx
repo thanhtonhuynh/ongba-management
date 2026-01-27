@@ -60,6 +60,9 @@ export default async function Page(props: { params: Params }) {
             startCashPromise={startCashPromise}
             initialValues={initialValues}
             mode="edit"
+            reporterName={report.reporterName}
+            reporterImage={report.reporterImage}
+            reporterUsername={report.reporterUsername}
           />
         </section>
       </Container>
