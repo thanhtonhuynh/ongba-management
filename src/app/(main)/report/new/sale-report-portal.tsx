@@ -15,8 +15,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { saveReportAction } from "./actions";
 import { CashCalculatorForm } from "./cash-calculator-form";
-import { ReportPreview } from "./ReportPreview";
-import { SaleDetailForm } from "./SaleDetailForm";
+import { ReportPreview } from "./report-preview";
+import { SalesDetailForm } from "./sales-detail-form";
 
 const steps = [
   {
@@ -75,6 +75,7 @@ export function SaleReportPortal({
       cashInTill: initialValues?.cashInTill || 0.0,
       employees: initialValues?.employees || [],
     },
+    reValidateMode: "onBlur",
   });
   const cashCounterForm = useForm({
     defaultValues: {
@@ -155,13 +156,13 @@ export function SaleReportPortal({
           {steps.map((step, index) => (
             <li key={step.name} className="flex-1">
               {currentStep > index ? (
-                <div className="border-primary flex w-full flex-col border-t-4 border-l-0 py-2 pl-4 transition-colors md:border-l-0 md:pt-2 md:pb-0 md:pl-0">
+                <div className="border-primary/50 text-primary/80 flex w-full flex-col border-t-4 border-l-0 py-2 pl-4 transition-colors md:border-l-0 md:pt-2 md:pb-0 md:pl-0">
                   <span className="hidden text-sm font-semibold md:block">
                     {step.name}
                   </span>
                 </div>
               ) : currentStep === index ? (
-                <div className="flex w-full flex-col border-t-4 border-l-0 border-blue-500 py-2 pl-4 text-blue-500 md:border-l-0 md:pt-2 md:pb-0 md:pl-0">
+                <div className="border-primary text-primary flex w-full flex-col border-t-4 border-l-0 py-2 pl-4 md:border-l-0 md:pt-2 md:pb-0 md:pl-0">
                   <span className="hidden text-sm font-semibold md:block">
                     {step.name}
                   </span>
@@ -180,16 +181,20 @@ export function SaleReportPortal({
 
       {currentStep === 0 && (
         <MotionContainer delta={delta}>
-          <h2 className="mt-4 text-center md:hidden">Sale Details</h2>
+          <h2 className="mt-2 text-center text-base font-bold tracking-wide uppercase md:hidden">
+            Sale Details
+          </h2>
           <Form {...saleReportForm}>
-            <SaleDetailForm usersPromise={usersPromise} />
+            <SalesDetailForm usersPromise={usersPromise} />
           </Form>
         </MotionContainer>
       )}
 
       {currentStep === 1 && (
         <MotionContainer delta={delta}>
-          <h2 className="mt-4 text-center md:hidden">Count Cash</h2>
+          <h2 className="mt-2 text-center text-base font-bold tracking-wide uppercase md:hidden">
+            Count Cash
+          </h2>
           <CashCalculatorForm
             saleReportForm={saleReportForm}
             cashCounterForm={cashCounterForm}
@@ -199,16 +204,20 @@ export function SaleReportPortal({
 
       {currentStep === 2 && (
         <MotionContainer delta={delta}>
-          <h2 className="mt-4 text-center md:hidden">Review</h2>
-          <div className="space-y-2 text-sm">
-            <p className="border-l-warning bg-muted flex w-fit items-center gap-2 rounded border-l-2 px-2 py-1 font-medium">
-              <TriangleAlert size={15} className="text-warning" />
+          <h2 className="mt-2 text-center text-base font-bold tracking-wide uppercase md:hidden">
+            Review
+          </h2>
+
+          <div className="bg-muted/50 border-warning mb-3 space-y-1 rounded-lg border p-3 text-sm">
+            <p className="text-warning flex items-center gap-2 font-medium">
+              <TriangleAlert className="size-4" />
               Please review the report before submitting.
             </p>
             <p className="text-muted-foreground">
-              You can go back to make changes or click submit when you're ready.
+              You can go back to make changes or click submit when you're ready!
             </p>
           </div>
+
           <ReportPreview
             saleReportForm={saleReportForm}
             startCashPromise={startCashPromise}
@@ -258,7 +267,7 @@ function MotionContainer({
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
     >
-      <div className="space-y-4">{children}</div>
+      <div className="space-y-2">{children}</div>
     </motion.div>
   );
 }

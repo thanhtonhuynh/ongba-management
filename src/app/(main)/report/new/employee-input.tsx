@@ -41,11 +41,9 @@ export function EmployeeInput({ users }: Props) {
     });
   }
   return (
-    <div className="mt-4 space-y-2">
-      <h6 className="mb-2 text-sm font-medium">Employees</h6>
-
+    <div className="space-y-1">
       {employees.fields.map((field, index) => (
-        <div key={field.id} className="flex items-start gap-1">
+        <div key={field.id} className="flex items-start gap-3">
           <FormField
             control={form.control}
             name={`employees.${index}.userId` as const}
@@ -69,10 +67,10 @@ export function EmployeeInput({ users }: Props) {
             control={form.control}
             name={`employees.${index}.hour`}
             render={({ field: hourField }) => (
-              <FormItem className="w-20 space-y-2">
+              <FormItem className="w-18">
                 <FormControl>
                   <Input
-                    className="h-12"
+                    // className="h-9"
                     type="number"
                     step="0.25"
                     {...hourField}
@@ -82,6 +80,7 @@ export function EmployeeInput({ users }: Props) {
                       )
                     }
                     onFocus={(e) => e.target.select()}
+                    className="text-sm"
                   />
                 </FormControl>
                 <FormMessage />
@@ -93,10 +92,11 @@ export function EmployeeInput({ users }: Props) {
             variant="ghost"
             type="button"
             size={"icon"}
-            className="text-muted-foreground hover:text-destructive mt-2 size-8"
+            className="text-muted-foreground hover:text-destructive size-8"
             onClick={() => employees.remove(index)}
           >
-            <X className="size-4" />
+            <X />
+            <span className="sr-only">Remove employee</span>
           </Button>
         </div>
       ))}
@@ -115,7 +115,7 @@ export function EmployeeInput({ users }: Props) {
           )
         }
       >
-        <Plus className="size-3" />
+        <Plus />
         Add an employee
       </Button>
     </div>

@@ -36,7 +36,7 @@ export function CashCalculatorForm({ saleReportForm, cashCounterForm }: Props) {
 
   return (
     <Form {...cashCounterForm}>
-      <form className="mx-auto max-w-2xl space-y-6">
+      <form className="mx-auto max-w-2xl space-y-2">
         <div className="bg-muted/50 flex flex-col items-center rounded-lg p-4">
           <h3 className="text-muted-foreground mb-2 text-xs font-medium tracking-wide uppercase">
             Total Cash in Till
@@ -51,7 +51,7 @@ export function CashCalculatorForm({ saleReportForm, cashCounterForm }: Props) {
                     type="number"
                     value={field.value}
                     onChange={field.onChange}
-                    className="text-primary font-bold"
+                    className="text-primary text-sm font-bold"
                   />
                 </FormControl>
               </FormItem>
@@ -60,10 +60,11 @@ export function CashCalculatorForm({ saleReportForm, cashCounterForm }: Props) {
         </div>
 
         <div className="grid gap-3 sm:grid-cols-3">
-          <div className="bg-muted/50 space-y-4 rounded-lg p-4">
-            <h4 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+          <div className="bg-muted/50 space-y-2 rounded-lg p-4">
+            <h4 className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
               Bills
             </h4>
+
             <div className="flex flex-row gap-2 sm:flex-col">
               {BILL_FIELDS.map((key) => (
                 <FormField
@@ -72,7 +73,9 @@ export function CashCalculatorForm({ saleReportForm, cashCounterForm }: Props) {
                   control={cashCounterForm.control}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{MONEY_VALUES.get(key)!.label}</FormLabel>
+                      <FormLabel className="text-muted-foreground text-xs tracking-wide">
+                        {MONEY_VALUES.get(key)!.label}
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="number"
@@ -82,6 +85,7 @@ export function CashCalculatorForm({ saleReportForm, cashCounterForm }: Props) {
                             calculateCashInTill();
                           }}
                           onFocus={(e) => e.target.select()}
+                          className="text-sm"
                         />
                       </FormControl>
                     </FormItem>
@@ -91,8 +95,8 @@ export function CashCalculatorForm({ saleReportForm, cashCounterForm }: Props) {
             </div>
           </div>
 
-          <div className="bg-muted/50 space-y-4 rounded-lg p-4">
-            <h4 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+          <div className="bg-muted/50 space-y-2 rounded-lg p-4">
+            <h4 className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
               Coins
             </h4>
             <div className="flex flex-row gap-2 sm:flex-col">
@@ -103,7 +107,9 @@ export function CashCalculatorForm({ saleReportForm, cashCounterForm }: Props) {
                   control={cashCounterForm.control}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{MONEY_VALUES.get(key)!.label}</FormLabel>
+                      <FormLabel className="text-muted-foreground text-xs tracking-wide">
+                        {MONEY_VALUES.get(key)!.label}
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="number"
@@ -113,6 +119,7 @@ export function CashCalculatorForm({ saleReportForm, cashCounterForm }: Props) {
                             calculateCashInTill();
                           }}
                           onFocus={(e) => e.target.select()}
+                          className="text-sm"
                         />
                       </FormControl>
                     </FormItem>
@@ -122,8 +129,8 @@ export function CashCalculatorForm({ saleReportForm, cashCounterForm }: Props) {
             </div>
           </div>
 
-          <div className="bg-muted/50 space-y-4 rounded-lg p-4">
-            <h4 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+          <div className="bg-muted/50 space-y-2 rounded-lg p-4">
+            <h4 className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
               Rolls
             </h4>
             <div className="flex flex-row gap-2 sm:flex-col">
@@ -134,7 +141,9 @@ export function CashCalculatorForm({ saleReportForm, cashCounterForm }: Props) {
                   control={cashCounterForm.control}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{MONEY_VALUES.get(key)!.label}</FormLabel>
+                      <FormLabel className="text-muted-foreground text-xs tracking-wide">
+                        {MONEY_VALUES.get(key)!.label}
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="number"
@@ -144,6 +153,7 @@ export function CashCalculatorForm({ saleReportForm, cashCounterForm }: Props) {
                             calculateCashInTill();
                           }}
                           onFocus={(e) => e.target.select()}
+                          className="text-sm"
                         />
                       </FormControl>
                     </FormItem>

@@ -18,6 +18,7 @@ type InputFieldProps = {
   description?: string;
   placeholder?: string;
   type?: string;
+  labelClassName?: string;
   inputClassName?: string;
   formItemClassName?: string;
   labelFor?: string;
@@ -29,6 +30,7 @@ export function InputField({
   description,
   placeholder,
   type = "text",
+  labelClassName,
   inputClassName,
   formItemClassName,
   labelFor,
@@ -42,7 +44,10 @@ export function InputField({
       name={nameInSchema}
       render={({ field }) => (
         <FormItem className={formItemClassName}>
-          <FormLabel htmlFor={htmlFor} className={cn(!fieldTitle && "sr-only")}>
+          <FormLabel
+            htmlFor={htmlFor}
+            className={cn(!fieldTitle && "sr-only", labelClassName)}
+          >
             {fieldTitle || htmlFor}
           </FormLabel>
 

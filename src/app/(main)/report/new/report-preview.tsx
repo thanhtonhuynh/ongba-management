@@ -8,15 +8,12 @@ import { processReportDataForView } from "@/utils/report";
 import { use } from "react";
 import { UseFormReturn } from "react-hook-form";
 
-type ReportPreviewProps = {
+type Props = {
   saleReportForm: UseFormReturn<SaleReportInputs>;
   startCashPromise: Promise<number>;
 };
 
-export function ReportPreview({
-  saleReportForm,
-  startCashPromise,
-}: ReportPreviewProps) {
+export function ReportPreview({ saleReportForm, startCashPromise }: Props) {
   const { user } = useSession();
   const startCash = use(startCashPromise);
 

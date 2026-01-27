@@ -46,26 +46,28 @@ export function EmployeeCombobox({
           role="combobox"
           aria-expanded={open}
           className={cn(
-            "h-12 w-full justify-between font-normal",
+            "h-9 w-full justify-between font-normal",
             !selectedUserId && "text-muted-foreground",
           )}
         >
           {selectedUser ? (
             <div className="flex items-center gap-2">
               {selectedUser.image && (
-                <ProfilePicture image={selectedUser.image} size={30} />
+                <ProfilePicture image={selectedUser.image} size={25} />
               )}
-              <div className="flex flex-col items-start">
-                <span>{selectedUser.name}</span>
-                <span className="text-muted-foreground text-xs">
+              <div className="flex flex-col items-start text-xs tracking-tight">
+                <span className="font-medium">{selectedUser.name}</span>
+                <span className="text-muted-foreground">
                   &lt;{selectedUser.email}&gt;
                 </span>
               </div>
             </div>
           ) : (
-            <span className="text-muted-foreground">Select employee...</span>
+            <span className="text-muted-foreground text-xs">
+              Select employee...
+            </span>
           )}
-          <ChevronsUpDown className="size-4 opacity-50" />
+          <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
 
@@ -91,13 +93,14 @@ export function EmployeeCombobox({
                         onSelect(user);
                         setOpen(false);
                       }}
+                      className="py-0.5"
                     >
                       {user.image && (
-                        <ProfilePicture image={user.image} size={30} />
+                        <ProfilePicture image={user.image} size={25} />
                       )}
-                      <div className="flex flex-col">
-                        <span>{user.name}</span>
-                        <span className="text-muted-foreground text-xs">
+                      <div className="flex flex-col text-xs">
+                        <span className="font-medium">{user.name}</span>
+                        <span className="text-muted-foreground">
                           {user.email}
                         </span>
                       </div>
