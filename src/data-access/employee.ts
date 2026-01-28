@@ -29,15 +29,18 @@ export const getUserShiftsInDateRange = cache(
   },
 );
 
-// Get employees with optional status filter
-export const getEmployees = cache(async (status?: string) => {
-  return prisma.user.findMany({
-    where: {
-      accountStatus: status,
-    },
-    orderBy: { name: "asc" },
-  });
-});
+// Get employees with optional status filter and hidden from reports filter
+export const getEmployees = cache(
+  async (status?: string, excludeHiddenFromReports?: boolean) => {
+    return prisma.user.findMany({
+      where: {
+        accountStatus: status,
+        ...(excludeHiddenFromReports && { hiddenFromReports: false }),
+      },
+      orderBy: { name: "asc" },
+    });
+  },
+);
 
 // Fetch all shifts in a date range
 export const getShiftsInDateRange = cache(async (dateRange: DayRange) => {

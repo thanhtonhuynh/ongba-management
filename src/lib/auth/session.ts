@@ -1,10 +1,10 @@
+import prisma from "@/lib/prisma";
 import { sha256 } from "@oslojs/crypto/sha2";
 import {
   encodeBase32LowerCaseNoPadding,
   encodeHexLowerCase,
 } from "@oslojs/encoding";
 import { Session } from "@prisma/client";
-import prisma from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { cache } from "react";
 
@@ -20,6 +20,7 @@ export type User = {
   accountStatus: string;
   image: string | null;
   role: string;
+  hiddenFromReports: boolean;
   createdAt: Date;
   updatedAt: Date;
 };

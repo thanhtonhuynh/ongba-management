@@ -23,10 +23,7 @@ export default async function Page(props: { params: Params }) {
   const report = await getReportRaw({ id: params.id });
   if (!report) notFound();
 
-  const [usersPromise, startCashPromise] = [
-    getEmployees("active"),
-    getStartCash(),
-  ];
+  const [usersPromise, startCashPromise] = [getEmployees(), getStartCash()];
 
   // Convert cents -> dollars
   const initialValues: SaleReportInputs = {

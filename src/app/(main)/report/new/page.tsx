@@ -23,7 +23,7 @@ export default async function Page() {
   }
 
   const [usersPromise, startCashPromise] = [
-    getEmployees("active"),
+    getEmployees("active", true), // true = exclude hidden users
     getStartCash(),
   ];
 
