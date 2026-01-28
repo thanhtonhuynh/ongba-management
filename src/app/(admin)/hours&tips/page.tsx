@@ -9,7 +9,9 @@ import {
   getTodayBiweeklyPeriod,
 } from "@/utils/hours-tips";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import { MoveRight } from "lucide-react";
+import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { CalendarDays } from "lucide-react";
 import moment from "moment";
 import { notFound, redirect } from "next/navigation";
 import { DataTable } from "./_components/DataTable";
@@ -53,30 +55,30 @@ export default async function Page() {
 
   return (
     <div className="space-y-8">
-      <h2 className="flex items-center gap-2">
-        <span>{moment(todayBiweeklyPeriod.start).format("MMM D, YYYY")}</span>
-        <MoveRight size={17} />
+      <h2 className="flex items-center gap-2 text-base">
+        <CalendarDays className="text-primary size-4" />
+        <span>{moment(todayBiweeklyPeriod.start).format("MMM D")}</span>
+        <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
         <span>{moment(todayBiweeklyPeriod.end).format("MMM D, YYYY")}</span>
         <CurrentTag />
       </h2>
 
-      <div className="w-fit rounded-lg border p-6 shadow-sm">
-        <h3 className="border-l-2 border-l-blue-500 px-2 font-semibold">
-          Total hours and tips
+      <div className="bg-muted/50 w-full max-w-2xl space-y-2 rounded-lg p-4">
+        <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+          Summary
         </h3>
-
         <HoursTipsTable data={totalHoursTips} />
       </div>
 
-      <div className="space-y-2 rounded-lg border p-6 shadow-sm">
-        <h3 className="border-l-2 border-l-blue-500 px-2 font-semibold">
+      <div className="bg-muted/50 space-y-4 rounded-lg p-4">
+        <h3 className="text-muted-foreground px-2 text-xs font-medium tracking-wide uppercase">
           Hours breakdown
         </h3>
         <DataTable dateRange={todayBiweeklyPeriod} data={hoursBreakdown} />
       </div>
 
-      <div className="space-y-2 rounded-lg border p-6 shadow-sm">
-        <h3 className="border-l-2 border-l-blue-500 px-2 font-semibold">
+      <div className="bg-muted/50 space-y-4 rounded-lg p-4">
+        <h3 className="text-muted-foreground px-2 text-xs font-medium tracking-wide uppercase">
           Tips breakdown
         </h3>
         <DataTable

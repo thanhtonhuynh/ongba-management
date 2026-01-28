@@ -29,7 +29,7 @@ export async function DataTable({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="bg-background sticky left-0 min-w-max">
+          <TableHead className="bg-muted sticky left-0 min-w-max border-r">
             Name
           </TableHead>
 
@@ -51,8 +51,8 @@ export async function DataTable({
       <TableBody>
         {data.map((employee) => (
           <TableRow key={employee.userId}>
-            <TableCell className="bg-background sticky left-0 min-w-max">
-              <div className="bg-background flex w-max items-center gap-2">
+            <TableCell className="bg-muted sticky left-0 min-w-max border-r">
+              <div className="flex w-max items-center gap-2">
                 <ProfilePicture
                   image={employee.image}
                   size={32}

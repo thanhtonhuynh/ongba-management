@@ -13,7 +13,9 @@ import {
   getPeriodsByMonthAndYear,
 } from "@/utils/hours-tips";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import { CalendarDays, MoveRight } from "lucide-react";
+import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { CalendarDays } from "lucide-react";
 import moment from "moment-timezone";
 import { notFound, redirect } from "next/navigation";
 import { DataTable } from "../_components/DataTable";
@@ -120,31 +122,34 @@ export default async function Page(props: { params: Params }) {
         className="gap-1"
         size={"sm"}
       >
-        Back to current biweekly period
+        View current period
       </GoBackButton>
 
-      <h2 className="flex items-center gap-2">
+      <h2 className="flex items-center gap-2 text-base">
         {FULL_MONTHS[month - 1]} {year}
         {year === today.getFullYear() && month === today.getMonth() + 1 && (
           <CurrentTag />
         )}
       </h2>
 
-      <div className="w-fit rounded-lg border p-6 shadow-sm">
-        <h3 className="px-2 font-semibold">Total hours and tips</h3>
-
+      <div className="bg-muted/50 w-full max-w-2xl space-y-2 rounded-lg p-4">
+        <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+          Summary
+        </h3>
         <HoursTipsTable data={totalHoursTips} />
       </div>
 
-      <div className="space-y-4 rounded-lg border p-6 shadow-sm">
-        <h3 className="px-2 font-semibold">Hours breakdown</h3>
+      <div className="bg-muted/50 space-y-4 rounded-lg p-4">
+        <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+          Hours breakdown
+        </h3>
 
         {periods.map((period, index) => (
-          <div key={index} className="space-y-2">
-            <h4 className="bg-muted flex w-fit items-center space-x-2 rounded border-l-2 border-l-blue-500 px-2 py-1 text-sm font-medium">
-              <CalendarDays size={15} className="text-blue-500" />
+          <div key={index} className="space-y-3">
+            <h4 className="flex items-center gap-2 text-sm font-medium">
+              <CalendarDays className="text-primary size-4" />
               <span>{moment(period.start).format("MMM D")}</span>
-              <MoveRight size={15} />
+              <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
               <span>{moment(period.end).format("MMM D")}</span>
             </h4>
 
@@ -166,15 +171,17 @@ export default async function Page(props: { params: Params }) {
         ))}
       </div>
 
-      <div className="space-y-4 rounded-lg border p-6 shadow-sm">
-        <h3 className="px-2 font-semibold">Tips breakdown</h3>
+      <div className="bg-muted/50 space-y-4 rounded-lg p-4">
+        <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+          Tips breakdown
+        </h3>
 
         {periods.map((period, index) => (
-          <div key={index} className="space-y-2">
-            <h4 className="bg-muted flex w-fit items-center space-x-2 rounded border-l-2 border-l-blue-500 px-2 py-1 text-sm font-medium">
-              <CalendarDays size={15} className="text-blue-500" />
+          <div key={index} className="space-y-3">
+            <h4 className="flex items-center gap-2 text-sm">
+              <CalendarDays className="text-primary size-4" />
               <span>{moment(period.start).format("MMM D")}</span>
-              <MoveRight size={15} />
+              <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
               <span>{moment(period.end).format("MMM D")}</span>
             </h4>
 
@@ -183,7 +190,7 @@ export default async function Page(props: { params: Params }) {
                 <DataTable
                   dateRange={period}
                   data={hoursTipsBreakdowns[index].tipsBreakdown}
-                  isMoney={true}
+                  isMoney
                 />
 
                 <Separator />
