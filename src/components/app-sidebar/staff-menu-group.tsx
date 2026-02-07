@@ -23,15 +23,15 @@ export function StaffMenuGroup() {
           {staffMenuItems.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton
-                asChild
                 className="h-12"
                 onClick={() => isMobile && toggleSidebar()}
-              >
-                <Link href={item.url}>
-                  <item.icon />
-                  <span>{item.title}</span>
-                </Link>
-              </SidebarMenuButton>
+                render={
+                  <Link href={item.url}>
+                    <item.icon />
+                    <span>{item.title}</span>
+                  </Link>
+                }
+              />
             </SidebarMenuItem>
           ))}
         </SidebarMenu>

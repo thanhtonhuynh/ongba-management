@@ -212,3 +212,36 @@ export async function deleteReportById(reportId: string) {
     where: { id: reportId },
   });
 }
+
+// Get reports for a specific year (for analytics heatmap)
+export const getReportsForYear = cache(async (year: number) => {
+  const startDate = new Date(`${year}-01-01T00:00:00.000Z`);
+  const endDate = new Date(`${year}-12-31T23:59:59.999Z`);
+
+  const reports = await prisma.saleReport.findMany({
+    where: {
+      date: { gte: startDate, lte: endDate },
+    },
+    select: {
+      date: true,
+      totalSales: true,
+    },
+    orderBy: { date: "asc" },
+  });
+
+  return reports;
+});
+
+// Get reports for multiple years (for analytics dashboard)
+export const getReportsForYears = cache(async (years: number[]) => {
+  const reportsByYear: Record<number, { date: Date; totalSales: number }[]> = {};
+
+  await Promise.all(
+    years.map(async (year) => {
+      const reports = await getReportsForYear(year);
+      reportsByYear[year] = reports;
+    })
+  );
+
+  return reportsByYear;
+});

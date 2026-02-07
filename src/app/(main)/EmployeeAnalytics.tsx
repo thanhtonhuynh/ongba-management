@@ -24,7 +24,7 @@ export async function EmployeeAnalytics({ user }: EmployeeAnalyticsProps) {
   );
 
   return (
-    <div className="space-y-4">
+    <div className="bg-background space-y-4 rounded-xl border border-blue-950 p-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h6>This Pay Period</h6>
         <p className="bg-muted flex w-fit items-center gap-2 rounded-md px-2 py-1 text-xs font-medium">

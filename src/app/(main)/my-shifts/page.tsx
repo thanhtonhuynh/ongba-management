@@ -2,8 +2,9 @@ import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
 import { GoBackButton } from "@/components/buttons/GoBackButton";
 import { Container } from "@/components/Container";
 import { CurrentTag } from "@/components/CurrentTag";
-import { Header } from "@/components/header";
+import { Header } from "@/components/layout";
 import { ErrorMessage } from "@/components/Message";
+import { Typography } from "@/components/typography";
 import { UserShiftTable } from "@/components/UserShiftTable";
 import { getUserShiftsInDateRange } from "@/data-access/employee";
 import { getCurrentSession } from "@/lib/auth/session";
@@ -83,7 +84,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
     <Fragment>
       <Header>
         <div className="flex flex-1 items-center justify-between">
-          <h1>My Shifts</h1>
+          <Typography variant="page-title">My Shifts</Typography>
           {years.length > 0 && <ViewPeriodsDialog years={years} />}
         </div>
       </Header>

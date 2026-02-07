@@ -1,6 +1,7 @@
 "use client";
 
 import { SaleReportCard } from "@/components/SaleReportCard";
+import { Card } from "@/components/ui/card";
 import { useSession } from "@/contexts/SessionProvider";
 import { SaleReportInputs } from "@/lib/validations/report";
 import { SaleReportCardRawData } from "@/types";
@@ -51,5 +52,9 @@ export function ReportPreview({
 
   const processedData = processReportDataForView(rawDataInCents);
 
-  return <SaleReportCard data={processedData} />;
+  return (
+    <Card className="p-3">
+      <SaleReportCard data={processedData} />
+    </Card>
+  );
 }

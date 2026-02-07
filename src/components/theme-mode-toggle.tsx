@@ -1,7 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { DesktopIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
+import { Desktop, Moon02Icon, Sun } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
@@ -24,7 +25,7 @@ export function ModeToggle() {
           disabled={theme === "light"}
           className="disabled:bg-muted"
         >
-          <SunIcon />
+          <HugeiconsIcon icon={Sun} />
           <span>Light mode</span>
         </Button>
 
@@ -34,7 +35,7 @@ export function ModeToggle() {
           disabled={theme === "dark"}
           className="disabled:bg-muted"
         >
-          <MoonIcon />
+          <HugeiconsIcon icon={Moon02Icon} />
           <span>Dark mode</span>
         </Button>
 
@@ -44,7 +45,7 @@ export function ModeToggle() {
           disabled={theme === "system"}
           className="disabled:bg-muted"
         >
-          <DesktopIcon />
+          <HugeiconsIcon icon={Desktop} />
           <span>System</span>
         </Button>
       </div>

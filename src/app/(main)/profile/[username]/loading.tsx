@@ -1,5 +1,5 @@
 import { Container } from "@/components/Container";
-import { Header } from "@/components/header";
+import { Header } from "@/components/layout";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Fragment } from "react";

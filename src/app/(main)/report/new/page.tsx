@@ -1,5 +1,5 @@
 import { Container } from "@/components/Container";
-import { Header } from "@/components/header";
+import { Header } from "@/components/layout";
 import { ErrorMessage } from "@/components/Message";
 import { getEmployees } from "@/data-access/employee";
 import { getStartCash } from "@/data-access/store";
@@ -34,7 +34,7 @@ export default async function Page() {
       </Header>
 
       <Container>
-        <section className="max-w-5xl">
+        <section className="mx-auto w-full max-w-5xl">
           <SaleReportPortal
             usersPromise={usersPromise}
             startCashPromise={startCashPromise}

@@ -42,19 +42,23 @@ export function ProfileInfo({ user, isOwner }: ProfileInfoProps) {
 
         {/* Edit Button */}
         {isOwner && (
-          <Button variant="outline" asChild>
-            <Link href="/settings">
-              <HugeiconsIcon icon={Settings01Icon} className="mr-2 size-4" />
-              Edit Profile
-            </Link>
-          </Button>
+          <Button
+            nativeButton={false}
+            variant="outline"
+            render={
+              <Link href="/settings">
+                <HugeiconsIcon icon={Settings01Icon} className="mr-2 size-4" />
+                Edit Profile
+              </Link>
+            }
+          />
         )}
       </div>
 
       <Separator />
 
       {/* Details Section */}
-      <div className="grid gap-6 sm:grid-cols-2">
+      <div className="bg-background grid gap-6 rounded-xl border border-blue-950 p-6 sm:grid-cols-2">
         <div className="flex items-center gap-3">
           <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
             <HugeiconsIcon

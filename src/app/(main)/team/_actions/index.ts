@@ -24,7 +24,7 @@ export async function activateUserAction(
 
     await updateUser(userId, { accountStatus: "active" });
 
-    revalidatePath("/employees");
+    revalidatePath("/team");
     return {};
   } catch (error) {
     console.error(error);
@@ -55,7 +55,7 @@ export async function deactivateUserAction(
 
     await updateUser(userId, { accountStatus: "deactivated" });
 
-    revalidatePath("/employees");
+    revalidatePath("/team");
     return {};
   } catch (error) {
     console.error(error);
@@ -82,7 +82,7 @@ export async function updateUserRoleAction(
 
     await updateUser(userId, { role });
 
-    revalidatePath("/employees");
+    revalidatePath("/team");
     return {};
   } catch (error) {
     console.error(error);

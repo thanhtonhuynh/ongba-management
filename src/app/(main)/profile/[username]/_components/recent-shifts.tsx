@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatPriceWithDollar } from "@/lib/utils";
-import { Clock01Icon, LinkSquare01Icon } from "@hugeicons/core-free-icons";
+import { LinkSquare01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { format } from "date-fns";
 import Link from "next/link";
@@ -20,13 +20,7 @@ export function RecentShifts({ shifts, isOwner }: RecentShiftsProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <HugeiconsIcon
-            icon={Clock01Icon}
-            className="text-muted-foreground size-5"
-          />
-          Recent Shifts
-        </CardTitle>
+        <CardTitle>Recent Shifts</CardTitle>
       </CardHeader>
 
       <CardContent className="space-y-3">

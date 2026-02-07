@@ -39,14 +39,16 @@ export function DeleteExpenseButton({ expense }: Props) {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button
-          variant={"outline"}
-          className="border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground w-full"
-        >
-          Delete this record
-        </Button>
-      </AlertDialogTrigger>
+      <AlertDialogTrigger
+        render={
+          <Button
+            variant={"outline"}
+            className="border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground w-full"
+          >
+            Delete this record
+          </Button>
+        }
+      />
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you sure?</AlertDialogTitle>

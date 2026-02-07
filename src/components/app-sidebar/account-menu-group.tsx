@@ -28,27 +28,27 @@ export function AccountMenuGroup({ username }: AccountMenuGroupProps) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
-              asChild
               className="h-12"
               onClick={() => isMobile && toggleSidebar()}
-            >
-              <Link href={`/profile/${username}`}>
-                <HugeiconsIcon icon={UserAccountIcon} className="size-4" />
-                <span>My profile</span>
-              </Link>
-            </SidebarMenuButton>
+              render={
+                <Link href={`/profile/${username}`}>
+                  <HugeiconsIcon icon={UserAccountIcon} className="size-4" />
+                  <span>My profile</span>
+                </Link>
+              }
+            />
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton
-              asChild
               className="h-12"
               onClick={() => isMobile && toggleSidebar()}
-            >
-              <Link href="/settings">
-                <HugeiconsIcon icon={Settings01Icon} className="size-4" />
-                <span>Settings</span>
-              </Link>
-            </SidebarMenuButton>
+              render={
+                <Link href="/settings">
+                  <HugeiconsIcon icon={Settings01Icon} className="size-4" />
+                  <span>Settings</span>
+                </Link>
+              }
+            />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarGroupContent>

@@ -22,15 +22,15 @@ export function HomeGroup() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
-              asChild
               className="h-12"
               onClick={() => isMobile && toggleSidebar()}
-            >
-              <Link href={"/"}>
-                <Home />
-                <span>Home</span>
-              </Link>
-            </SidebarMenuButton>
+              render={
+                <Link href={"/"}>
+                  <Home />
+                  <span>Home</span>
+                </Link>
+              }
+            />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarGroupContent>

@@ -8,7 +8,7 @@ export function Container({
   className?: string;
 }) {
   return (
-    <main className={cn(`flex flex-col gap-8 p-4 pb-8 md:p-8`, className)}>
+    <main className={cn(`flex flex-col gap-6 p-3 py-4`, className)}>
       {children}
     </main>
   );

@@ -62,11 +62,13 @@ export function ViewPeriodsDialog({ years }: ViewPeriodsDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button size={`sm`} className="flex items-center gap-2">
-          View past months
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger
+        render={
+          <Button size={`sm`} className="flex items-center gap-2">
+            View past months
+          </Button>
+        }
+      />
 
       <DialogContent>
         <DialogHeader className="space-y-3 text-left">
@@ -138,11 +140,13 @@ export function ViewPeriodsDialog({ years }: ViewPeriodsDialogProps) {
             />
 
             <DialogFooter className="gap-2 sm:space-x-0">
-              <DialogClose asChild>
-                <Button variant={`ghost`} type="button">
-                  Cancel
-                </Button>
-              </DialogClose>
+              <DialogClose
+                render={
+                  <Button variant={`ghost`} type="button">
+                    Cancel
+                  </Button>
+                }
+              />
 
               <LoadingButton loading={isPending} type="submit">
                 Done

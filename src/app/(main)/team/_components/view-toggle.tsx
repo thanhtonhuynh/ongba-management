@@ -19,38 +19,42 @@ export function ViewToggle() {
   function handleViewChange(view: ViewMode) {
     const params = new URLSearchParams(searchParams.toString());
     params.set("view", view);
-    router.push(`/employees?${params.toString()}`);
+    router.push(`/team?${params.toString()}`);
   }
 
   return (
     <div className="flex items-center gap-1 rounded-md border p-1">
       <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            variant={currentView === "table" ? "secondary" : "ghost"}
-            size="sm"
-            className="h-7 px-2"
-            onClick={() => handleViewChange("table")}
-          >
-            <TableIcon className="h-4 w-4" />
-            <span className="sr-only">Table view</span>
-          </Button>
-        </TooltipTrigger>
+        <TooltipTrigger
+          render={
+            <Button
+              variant={currentView === "table" ? "secondary" : "ghost"}
+              size="sm"
+              className="h-7 px-2"
+              onClick={() => handleViewChange("table")}
+            >
+              <TableIcon className="h-4 w-4" />
+              <span className="sr-only">Table view</span>
+            </Button>
+          }
+        />
         <TooltipContent>Table view</TooltipContent>
       </Tooltip>
 
       <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            variant={currentView === "cards" ? "secondary" : "ghost"}
-            size="sm"
-            className="h-7 px-2"
-            onClick={() => handleViewChange("cards")}
-          >
-            <LayoutGrid className="h-4 w-4" />
-            <span className="sr-only">Card view</span>
-          </Button>
-        </TooltipTrigger>
+        <TooltipTrigger
+          render={
+            <Button
+              variant={currentView === "cards" ? "secondary" : "ghost"}
+              size="sm"
+              className="h-7 px-2"
+              onClick={() => handleViewChange("cards")}
+            >
+              <LayoutGrid className="h-4 w-4" />
+              <span className="sr-only">Card view</span>
+            </Button>
+          }
+        />
         <TooltipContent>Card view</TooltipContent>
       </Tooltip>
     </div>

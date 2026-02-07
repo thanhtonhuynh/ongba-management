@@ -1,9 +1,8 @@
 import { Container } from "@/components/Container";
-import { Header } from "@/components/header";
+import { Header } from "@/components/layout";
 import { ErrorMessage } from "@/components/Message";
 import { SaleReportCard } from "@/components/SaleReportCard";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { getReportRaw } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import { SaleReportCardProcessedData } from "@/types";
@@ -63,10 +62,11 @@ export default async function Home(props: { searchParams: SearchParams }) {
       </Header>
 
       <Container>
-        <section className="space-y-4">
+        {/* Greetings */}
+        <section className="bg-background space-y-4 rounded-xl border border-blue-950 p-6">
           <h6>Good day, {user.name}!</h6>
 
-          <div className="bg-muted/50 rounded-lg p-4">
+          <div className="p-3">
             <h3 className="text-muted-foreground mb-3 text-xs font-medium tracking-wide uppercase">
               Quick Actions
             </h3>
@@ -74,69 +74,69 @@ export default async function Home(props: { searchParams: SearchParams }) {
             <div className="flex flex-col items-start gap-1">
               {!todayReport && hasAccess(user.role, "/report", "create") && (
                 <Button
+                  nativeButton={false}
                   size="sm"
                   variant={"link"}
                   className="text-foreground border-0 p-0"
-                  asChild
-                >
-                  <Link href={`report/new`}>
-                    <ClipboardPen size={16} />
-                    Create report
-                  </Link>
-                </Button>
+                  render={
+                    <Link href={`report/new`}>
+                      <ClipboardPen size={16} />
+                      Create report
+                    </Link>
+                  }
+                />
               )}
               <Button
+                nativeButton={false}
                 variant="link"
                 size="sm"
                 className="text-foreground border-0 p-0"
-                asChild
-              >
-                <Link href="/cash-counter">
-                  <Calculator size={16} />
-                  Cash counter
-                </Link>
-              </Button>
+                render={
+                  <Link href="/cash-counter">
+                    <Calculator size={16} />
+                    Cash counter
+                  </Link>
+                }
+              />
+
               <Button
+                nativeButton={false}
                 variant="link"
                 size="sm"
                 className="text-foreground border-0 p-0"
-                asChild
-              >
-                <Link href="/my-shifts">
-                  <CalendarCheck size={16} />
-                  My shifts
-                </Link>
-              </Button>
+                render={
+                  <Link href="/my-shifts">
+                    <CalendarCheck size={16} />
+                    My shifts
+                  </Link>
+                }
+              />
               <Button
+                nativeButton={false}
                 variant="link"
                 size="sm"
                 className="text-foreground border-0 p-0"
-                asChild
-              >
-                <Link href={`/profile/${user.username}`}>
-                  <HugeiconsIcon icon={UserAccountIcon} className="size-4" />
-                  My profile
-                </Link>
-              </Button>
+                render={
+                  <Link href={`/profile/${user.username}`}>
+                    <HugeiconsIcon icon={UserAccountIcon} className="size-4" />
+                    My profile
+                  </Link>
+                }
+              />
             </div>
           </div>
         </section>
 
         {todayReport && (
           <>
-            <Separator />
-            <section className="space-y-4">
+            <section className="bg-background space-y-4 rounded-xl border border-blue-950 p-6">
               <h6>Today's Sales Report</h6>
               <SaleReportCard data={processedTodayReportData} />
             </section>
           </>
         )}
 
-        <Separator />
-
         <EmployeeAnalytics user={user} />
-
-        <Separator />
 
         {user.role === "admin" && (
           <SalesSummary year={selectedYear} month={selectedMonth} />

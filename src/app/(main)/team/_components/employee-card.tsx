@@ -16,8 +16,8 @@ export function EmployeeCard({ user, actions }: EmployeeCardProps) {
   const statusConfig = getEmployeeStatusConfig(user.accountStatus);
 
   return (
-    <Card className="flex flex-col justify-center">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 p-4">
+    <Card className="flex flex-col justify-center gap-0">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 py-4">
         <CardTitle className="flex items-center gap-2 text-sm">
           <Link
             href={`/profile/${user.username}`}

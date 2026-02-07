@@ -1,7 +1,8 @@
 import { FULL_MONTHS } from "@/app/constants";
 import { Container } from "@/components/Container";
-import { Header } from "@/components/header";
+import { Header } from "@/components/layout";
 import { ErrorMessage } from "@/components/Message";
+import { Typography } from "@/components/typography";
 import {
   Accordion,
   AccordionContent,
@@ -66,67 +67,73 @@ export default async function Page(props: { searchParams: SearchParams }) {
   return (
     <Fragment>
       <Header>
-        <h1>Expenses</h1>
+        <div className="flex flex-1 items-center justify-between">
+          <Typography variant="page-title">Expenses</Typography>
+          <Button
+            nativeButton={false}
+            variant={"outline"}
+            render={<Link href="/expenses/new">Add expense</Link>}
+          />
+        </div>
       </Header>
 
       <Container>
-        <Button asChild>
-          <Link href="/expenses/new">Add expense</Link>
-        </Button>
-
-        <div className="space-y-4">
-          <h3 className="font-semibold">Pick a year</h3>
+        <div className="space-y-3">
           <YearSelector years={years} selectedYear={selectedYear} />
-          <h3 className="font-semibold">Currently viewing: {selectedYear}</h3>
           <ExpensesTable monthlyExpenses={monthlyExpenses} />
         </div>
 
-        <div className="mt-8 space-y-4">
-          {monthlyExpenses.map((monthlyExpense) => (
-            <Accordion type="single" collapsible key={monthlyExpense.month}>
+        <div>
+          <Accordion multiple>
+            {monthlyExpenses.map((monthlyExpense) => (
               <AccordionItem
-                value="item-1"
-                className="rounded-md border px-4 shadow-sm"
+                key={monthlyExpense.month}
+                value={`month-${monthlyExpense.month}`}
               >
                 <AccordionTrigger>
                   {FULL_MONTHS[monthlyExpense.month]}
                 </AccordionTrigger>
-                <AccordionContent>
+
+                <AccordionContent className={"space-y-2 [&_a]:no-underline"}>
                   {monthlyExpense.monthExpenses.map((dayExpense) => (
                     <Link
                       key={dayExpense.id}
-                      className="hover:bg-muted/50 flex gap-4 border-b px-4 py-2 text-sm"
+                      className="hover:bg-muted group hover:border-border flex items-start gap-4 rounded-lg border border-transparent px-4 py-2 text-xs transition-all duration-300"
                       href={`/expenses/${dayExpense.id}`}
                     >
-                      <p className="w-5">
+                      <span className="w-4">
                         {moment(dayExpense.date).format("D")}
-                      </p>
+                      </span>
+
                       <div className="flex-1">
                         {dayExpense.entries.map((entry, index) => (
                           <div
                             key={index}
                             className="flex justify-between gap-2"
                           >
-                            <p className="line-clamp-1">{entry.reason}</p>
-                            <p>{formatPriceWithDollar(entry.amount / 100)}</p>
+                            <span className="line-clamp-1">{entry.reason}</span>
+                            <span>
+                              {formatPriceWithDollar(entry.amount / 100)}
+                            </span>
                           </div>
                         ))}
                       </div>
-                      <ChevronRight className="text-muted-foreground size-4 self-center" />
+                      <ChevronRight className="text-muted-foreground size-4 self-center transition-transform duration-300 group-hover:translate-x-1" />
                     </Link>
                   ))}
-                  <div className="bg-muted flex justify-between px-4 py-2 text-sm font-bold">
-                    <p>Total spent</p>
-                    <p>
+
+                  <div className="flex items-center justify-between rounded-lg border p-3 text-xs font-bold">
+                    <span>Total spent</span>
+                    <span>
                       {formatPriceWithDollar(
                         monthlyExpense.totalExpenses / 100,
                       )}
-                    </p>
+                    </span>
                   </div>
                 </AccordionContent>
               </AccordionItem>
-            </Accordion>
-          ))}
+            ))}
+          </Accordion>
         </div>
       </Container>
     </Fragment>

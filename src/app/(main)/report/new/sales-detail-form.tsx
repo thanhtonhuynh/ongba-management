@@ -12,11 +12,9 @@ export function SalesDetailForm({ usersPromise }: Props) {
   const users = use(usersPromise);
 
   return (
-    <form className="mx-auto max-w-2xl space-y-2">
-      <div className="bg-muted/50 space-y-2 rounded-lg p-3">
-        <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-          Sales
-        </h3>
+    <form className="space-y-2">
+      <div className="bg-background space-y-2 rounded-xl border border-blue-950 p-3">
+        <h3 className="text-sm font-medium tracking-wide uppercase">Sales</h3>
 
         <div className="grid grid-cols-2 gap-2">
           <InputField
@@ -77,8 +75,8 @@ export function SalesDetailForm({ usersPromise }: Props) {
         </div>
       </div>
 
-      <div className="bg-muted/50 space-y-2 rounded-lg p-3">
-        <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+      <div className="bg-background space-y-2 rounded-xl border border-blue-950 p-3">
+        <h3 className="text-sm font-medium tracking-wide uppercase">
           Expenses
         </h3>
 
@@ -100,10 +98,8 @@ export function SalesDetailForm({ usersPromise }: Props) {
         />
       </div>
 
-      <div className="bg-muted/50 space-y-2 rounded-lg p-3">
-        <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-          Tips
-        </h3>
+      <div className="bg-background space-y-2 rounded-xl border border-blue-950 p-3">
+        <h3 className="text-sm font-medium tracking-wide uppercase">Tips</h3>
 
         <div className="grid grid-cols-3 gap-2">
           <InputField
@@ -135,8 +131,8 @@ export function SalesDetailForm({ usersPromise }: Props) {
         </div>
       </div>
 
-      <div className="bg-muted/50 space-y-3 rounded-lg p-3">
-        <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+      <div className="bg-background space-y-3 rounded-xl border border-blue-950 p-3">
+        <h3 className="text-sm font-medium tracking-wide uppercase">
           Employees
         </h3>
 

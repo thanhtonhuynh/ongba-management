@@ -1,0 +1,112 @@
+"use client";
+
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { formatPriceWithDollar } from "@/lib/utils";
+import {
+  calculateSalesAnalytics,
+  DaySalesData,
+  generateHeatmapData,
+  SalesAnalytics,
+} from "@/utils/sales-analytics";
+import { useCallback, useMemo, useState } from "react";
+import { SalesHeatmap } from "./sales-heatmap";
+import { SalesStats } from "./sales-stats";
+
+type SalesAnalyticsDashboardProps = {
+  reportsByYear: Record<number, DaySalesData[]>;
+  availableYears: number[];
+  currentYear: number;
+};
+
+export function SalesAnalyticsDashboardClient({
+  reportsByYear,
+  availableYears,
+  currentYear,
+}: SalesAnalyticsDashboardProps) {
+  const [selectedYear, setSelectedYear] = useState<number>(currentYear);
+
+  const reports = useMemo(
+    () => reportsByYear[selectedYear] ?? [],
+    [reportsByYear, selectedYear],
+  );
+
+  const heatmapData = useMemo(
+    () => generateHeatmapData(selectedYear, reports),
+    [selectedYear, reports],
+  );
+
+  const analytics: SalesAnalytics = useMemo(
+    () => calculateSalesAnalytics(reports),
+    [reports],
+  );
+
+  const handleYearChange = useCallback((value: string | null) => {
+    if (value) {
+      setSelectedYear(parseInt(value, 10));
+    }
+  }, []);
+
+  return (
+    <Card className="">
+      {/* Header row: Total Sales + Year Selector */}
+      <CardHeader className="flex items-start justify-between">
+        <div>
+          <p className="text-muted-foreground text-xs font-medium">
+            Total Sales
+          </p>
+          <p className="text-2xl font-bold tracking-tight">
+            {formatPriceWithDollar(analytics.ytdTotalSales / 100)}
+          </p>
+        </div>
+        <Select
+          value={selectedYear.toString()}
+          onValueChange={handleYearChange}
+        >
+          <SelectTrigger className="w-25">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent alignItemWithTrigger={false}>
+            {availableYears.map((year) => (
+              <SelectItem key={year} value={year.toString()}>
+                {year}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </CardHeader>
+
+      <CardContent className="space-y-3">
+        {/* Heatmap */}
+        <div className="mx-auto max-w-fit">
+          <SalesHeatmap data={heatmapData} />
+        </div>
+
+        <Separator />
+
+        {/* Stats row */}
+        <SalesStats analytics={analytics} />
+
+        {/* Legend */}
+        <div className="text-muted-foreground mt-4 flex items-center gap-2 text-xs">
+          <span>Fewer</span>
+          <div className="flex gap-1">
+            <span className="size-3 rounded-xs border bg-neutral-200" />
+            <span className="size-3 rounded-xs bg-blue-300" />
+            <span className="size-3 rounded-xs bg-blue-500" />
+            <span className="size-3 rounded-xs bg-blue-700" />
+            <span className="size-3 rounded-xs bg-blue-900" />
+          </div>
+          <span>More</span>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}

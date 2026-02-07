@@ -1,5 +1,6 @@
 import { Container } from "@/components/Container";
-import { Header } from "@/components/header";
+import { Header } from "@/components/layout";
+import { Typography } from "@/components/typography";
 import { getRecentShiftsByUser } from "@/data-access/employee";
 import { getRecentReportsByUser } from "@/data-access/report";
 import { getUserByUsername } from "@/data-access/user";
@@ -55,7 +56,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
   return (
     <Fragment>
       <Header>
-        <h1>Profile</h1>
+        <Typography variant="page-title">Profile</Typography>
       </Header>
 
       <Container className="space-y-3">

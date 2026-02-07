@@ -99,7 +99,8 @@ export function ChangeUserRoleDialog({
               render={({ field }) => (
                 <FormItem>
                   <FormDescription>
-                    Select a new role for the employee.
+                    Select a new role for the team member. This will change
+                    their permissions in the system.
                   </FormDescription>
 
                   <Select
@@ -136,11 +137,13 @@ export function ChangeUserRoleDialog({
             />
 
             <DialogFooter className="gap-2 sm:space-x-0">
-              <DialogClose asChild>
-                <Button variant={`ghost`} type="button">
-                  Cancel
-                </Button>
-              </DialogClose>
+              <DialogClose
+                render={
+                  <Button variant={`ghost`} type="button">
+                    Cancel
+                  </Button>
+                }
+              />
 
               <LoadingButton loading={isPending} type="submit">
                 Save

@@ -1,8 +1,9 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
 import { Container } from "@/components/Container";
 import { CurrentTag } from "@/components/CurrentTag";
-import { Header } from "@/components/header";
+import { Header } from "@/components/layout";
 import { ErrorMessage } from "@/components/Message";
+import { Typography } from "@/components/typography";
 import { getExpensesByYear } from "@/data-access/expenses";
 import { getReportsByDateRange } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
@@ -93,7 +94,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
   return (
     <Fragment>
       <Header>
-        <h1>Cashflow</h1>
+        <Typography variant="page-title">Cash Flow</Typography>
       </Header>
 
       <Container>

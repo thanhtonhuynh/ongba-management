@@ -52,6 +52,9 @@ export function parseVancouverUrlDate(dateStr?: string): Date | null {
   return m.toDate();
 }
 
+/**
+ * Format a Date object into a "YYYY-MM-DD" string in the America/Vancouver timezone.
+ */
 export function formatVancouverDate(date: Date): string {
-  return moment(date).tz("America/Vancouver").format("YYYY-MM-DD");
+  return moment.tz(date, "America/Vancouver").format("YYYY-MM-DD");
 }

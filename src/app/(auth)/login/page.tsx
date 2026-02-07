@@ -1,9 +1,9 @@
+import ongbaLogo from "@/assets/ongbaLogo.png";
+import { getCurrentSession } from "@/lib/auth/session";
+import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getCurrentSession } from "@/lib/auth/session";
 import { LoginForm } from "./LoginForm";
-import Image from "next/image";
-import ongbaLogo from "@/assets/ongbaLogo.png";
 
 export default async function Page() {
   const { session } = await getCurrentSession();
@@ -14,10 +14,10 @@ export default async function Page() {
       <Image
         src={ongbaLogo}
         alt="Ongba Logo"
-        className="aspect-square h-64 w-64 object-cover dark:invert"
+        className="aspect-square h-64 w-64 object-cover"
       />
 
-      <div className="flex w-full max-w-[40rem] flex-col items-center justify-center space-y-4 rounded-xl border p-4 py-8 shadow-xl">
+      <div className="flex w-full max-w-160 flex-col items-center justify-center space-y-4 rounded-xl border p-4 py-8 shadow-xl">
         <h1>Ongba Management System</h1>
 
         <LoginForm />

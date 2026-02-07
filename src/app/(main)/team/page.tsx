@@ -13,7 +13,7 @@ type PageProps = {
   searchParams: Promise<{ status?: string; view?: string }>;
 };
 
-export default async function Page({ searchParams }: PageProps) {
+export default async function TeamPage({ searchParams }: PageProps) {
   const { user } = await getCurrentSession();
   if (!user) redirect("/login");
   if (user.accountStatus !== "active") return notFound();
@@ -37,7 +37,7 @@ export default async function Page({ searchParams }: PageProps) {
   const employees = await getEmployees(status);
 
   return (
-    <div className="space-y-4">
+    <div className="bg-background space-y-4 rounded-xl border border-blue-950 p-6">
       {/* Toolbar: Filter + View Toggle */}
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-2">

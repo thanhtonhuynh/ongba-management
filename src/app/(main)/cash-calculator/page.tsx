@@ -1,6 +1,7 @@
 import { CashCalculator } from "@/app/(main)/cash-calculator/cash-calculator";
 import { Container } from "@/components/Container";
-import { Header } from "@/components/header";
+import { Header } from "@/components/layout";
+import { Typography } from "@/components/typography";
 import { getCurrentSession } from "@/lib/auth/session";
 import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
@@ -13,7 +14,7 @@ export default async function Page() {
   return (
     <Fragment>
       <Header>
-        <h1>Cash Calculator</h1>
+        <Typography variant="page-title">Cash calculator</Typography>
       </Header>
 
       <Container>

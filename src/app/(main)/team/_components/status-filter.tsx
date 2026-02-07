@@ -20,19 +20,24 @@ export function StatusFilter() {
   const searchParams = useSearchParams();
   const currentStatus = searchParams.get("status") || "active";
 
-  function handleStatusChange(value: string) {
+  function handleStatusChange(value: string | null) {
+    if (!value) return;
     const params = new URLSearchParams(searchParams.toString());
     params.set("status", value);
-    router.push(`/employees?${params.toString()}`);
+    router.push(`/team?${params.toString()}`);
   }
 
   return (
-    <Select value={currentStatus} onValueChange={handleStatusChange}>
+    <Select
+      value={currentStatus}
+      onValueChange={handleStatusChange}
+      items={STATUS_OPTIONS}
+    >
       <SelectTrigger className="w-48">
         <SelectValue placeholder="Filter by status" />
       </SelectTrigger>
 
-      <SelectContent>
+      <SelectContent alignItemWithTrigger={false}>
         {STATUS_OPTIONS.map((option) => (
           <SelectItem key={option.value} value={option.value}>
             {option.label}

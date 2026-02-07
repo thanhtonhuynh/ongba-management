@@ -54,7 +54,7 @@ export const staffMenuItems = [
   { title: "Sales reports", url: "/report", icon: ClipboardList },
   { title: "Cash calculator", url: "/cash-calculator", icon: Calculator },
   { title: "My shifts", url: "/my-shifts", icon: CalendarCheck },
-  { title: "Employees", url: "/employees", icon: Users },
+  { title: "Team", url: "/team", icon: Users },
 ];
 
 export const adminMenuItems = [

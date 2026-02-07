@@ -1,14 +1,17 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
+import { Typography } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { User } from "@/lib/auth/session";
 import { formatVancouverDate } from "@/lib/utils";
 import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Left, Right } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { motion } from "framer-motion";
-import { MoveLeft, MoveRight, TriangleAlert } from "lucide-react";
+import { TriangleAlert } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -156,13 +159,13 @@ export function SaleReportPortal({
   }
 
   return (
-    <div className="flex flex-1 flex-col justify-between gap-4">
+    <div className="flex flex-col gap-6">
       <nav className="h-1 pt-2 md:h-fit">
         <ol className="flex space-x-8">
           {steps.map((step, index) => (
             <li key={step.name} className="flex-1">
               {currentStep > index ? (
-                <div className="border-primary/50 text-primary/80 flex w-full flex-col border-t-4 border-l-0 py-2 pl-4 transition-colors md:border-l-0 md:pt-2 md:pb-0 md:pl-0">
+                <div className="border-primary/70 text-primary/80 flex w-full flex-col border-t-4 border-l-0 py-2 pl-4 transition-colors md:border-l-0 md:pt-2 md:pb-0 md:pl-0">
                   <span className="hidden text-sm font-semibold md:block">
                     {step.name}
                   </span>
@@ -174,7 +177,7 @@ export function SaleReportPortal({
                   </span>
                 </div>
               ) : (
-                <div className="border-muted flex w-full flex-col border-t-4 border-l-0 py-2 pl-4 transition-colors md:border-l-0 md:pt-2 md:pb-0 md:pl-0">
+                <div className="border-primary/10 flex w-full flex-col border-t-4 border-l-0 py-2 pl-4 transition-colors md:border-l-0 md:pt-2 md:pb-0 md:pl-0">
                   <span className="hidden text-sm font-semibold md:block">
                     {step.name}
                   </span>
@@ -187,9 +190,12 @@ export function SaleReportPortal({
 
       {currentStep === 0 && (
         <MotionContainer delta={delta}>
-          <h2 className="mt-2 text-center text-base font-bold tracking-wide uppercase md:hidden">
+          <Typography
+            variant="section-title"
+            className="mt-2 text-center text-base tracking-wide uppercase md:hidden"
+          >
             Sale Details
-          </h2>
+          </Typography>
           <Form {...saleReportForm}>
             <SalesDetailForm usersPromise={usersPromise} />
           </Form>
@@ -198,9 +204,12 @@ export function SaleReportPortal({
 
       {currentStep === 1 && (
         <MotionContainer delta={delta}>
-          <h2 className="mt-2 text-center text-base font-bold tracking-wide uppercase md:hidden">
+          <Typography
+            variant="section-title"
+            className="mt-2 text-center text-base tracking-wide uppercase md:hidden"
+          >
             Count Cash
-          </h2>
+          </Typography>
           <CashCalculatorForm
             saleReportForm={saleReportForm}
             cashCounterForm={cashCounterForm}
@@ -210,11 +219,14 @@ export function SaleReportPortal({
 
       {currentStep === 2 && (
         <MotionContainer delta={delta}>
-          <h2 className="mt-2 text-center text-base font-bold tracking-wide uppercase md:hidden">
+          <Typography
+            variant="section-title"
+            className="mt-2 text-center text-base tracking-wide uppercase md:hidden"
+          >
             Review
-          </h2>
+          </Typography>
 
-          <div className="bg-muted/50 border-warning mb-3 space-y-1 rounded-lg border p-3 text-sm">
+          <div className="bg-background border-warning mb-2 space-y-1 rounded-xl border p-3 text-sm">
             <p className="text-warning flex items-center gap-2 font-medium">
               <TriangleAlert className="size-4" />
               Please review the report before submitting.
@@ -234,7 +246,7 @@ export function SaleReportPortal({
         </MotionContainer>
       )}
 
-      <div className="mt-4 flex justify-between">
+      <div className="bg-background -mt-4 flex justify-between rounded-xl border border-blue-950 p-3">
         <Button
           variant={`outline`}
           type="button"
@@ -242,7 +254,7 @@ export function SaleReportPortal({
           disabled={currentStep === 0}
           className="flex w-1/4 items-center gap-2"
         >
-          <MoveLeft size={15} />
+          <HugeiconsIcon icon={Left} />
           Back
         </Button>
 
@@ -255,7 +267,7 @@ export function SaleReportPortal({
             className="w-1/4"
           >
             {currentStep < steps.length - 2 ? "Next" : "Save"}
-            {currentStep < steps.length - 2 && <MoveRight size={15} />}
+            {currentStep < steps.length - 2 && <HugeiconsIcon icon={Right} />}
           </LoadingButton>
         )}
       </div>

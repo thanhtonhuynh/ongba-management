@@ -12,6 +12,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { Trash } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { deleteReportAction } from "./actions";
@@ -35,15 +37,14 @@ export function DeleteReportButton({ reportId }: Props) {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button
-          size={"sm"}
-          variant={"outline"}
-          className="border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
-        >
-          Delete this report
-        </Button>
-      </AlertDialogTrigger>
+      <AlertDialogTrigger
+        render={
+          <Button size={"sm"} variant={"destructive"}>
+            <HugeiconsIcon icon={Trash} />
+            Delete
+          </Button>
+        }
+      />
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>

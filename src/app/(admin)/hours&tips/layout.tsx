@@ -1,5 +1,6 @@
 import { Container } from "@/components/Container";
-import { Header } from "@/components/header";
+import { Header } from "@/components/layout";
+import { Typography } from "@/components/typography";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { Fragment } from "react";
 import { ViewPeriodsDialog } from "./_components/ViewPeriodsDialog";
@@ -15,7 +16,7 @@ export default async function Layout({
     <Fragment>
       <Header>
         <div className="flex flex-1 items-center justify-between">
-          <h1>Hours & Tips</h1>
+          <Typography variant="page-title">Hours & Tips</Typography>
           {years.length > 0 && <ViewPeriodsDialog years={years} />}
         </div>
       </Header>

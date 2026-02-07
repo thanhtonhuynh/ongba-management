@@ -1,6 +1,10 @@
 import { Container } from "@/components/Container";
-import { Header } from "@/components/header";
+import { Header } from "@/components/layout";
+import { Typography } from "@/components/typography";
+import { Metadata } from "next/types";
 import { Fragment } from "react";
+
+export const metadata: Metadata = { title: "Team - Serva" };
 
 export default async function Layout({
   children,
@@ -10,7 +14,7 @@ export default async function Layout({
   return (
     <Fragment>
       <Header>
-        <h1>Employees</h1>
+        <Typography variant="page-title">Team</Typography>
       </Header>
 
       <Container>{children}</Container>

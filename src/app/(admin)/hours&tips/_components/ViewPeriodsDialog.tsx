@@ -14,13 +14,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
+import { Form } from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -37,7 +36,7 @@ import { Clock } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 type ViewPeriodsDialogProps = {
   years: number[];
@@ -64,12 +63,14 @@ export function ViewPeriodsDialog({ years }: ViewPeriodsDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button size={`sm`} variant={"outline"} className="tracking-normal">
-          <HugeiconsIcon icon={Clock} />
-          View past periods
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger
+        render={
+          <Button size={`sm`} variant={"outline"} className="tracking-normal">
+            <HugeiconsIcon icon={Clock} />
+            View past periods
+          </Button>
+        }
+      />
 
       <DialogContent>
         <DialogHeader className="space-y-3 text-left">
@@ -83,36 +84,76 @@ export function ViewPeriodsDialog({ years }: ViewPeriodsDialogProps) {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
+            {/* <FormField
               control={form.control}
               name="year"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Year</FormLabel>
-                  <Select
-                    value={field.value.toString()}
-                    onValueChange={field.onChange}
-                  >
-                    <FormControl>
+                  <FormControl>
+                    <Select
+                      value={field.value.toString()}
+                      onValueChange={field.onChange}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select a year" />
                       </SelectTrigger>
-                    </FormControl>
 
-                    <SelectContent className="max-h-56">
-                      {years.map((year) => (
-                        <SelectItem key={year} value={year.toString()}>
-                          {year}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                      <SelectContent className="max-h-56">
+                        {years.map((year) => (
+                          <SelectItem key={year} value={year.toString()}>
+                            {year}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
+            <FieldGroup>
+              <Controller
+                name="year"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field
+                    orientation="responsive"
+                    data-invalid={fieldState.invalid}
+                  >
+                    <FieldLabel htmlFor="form-rhf-select-language">
+                      Year
+                    </FieldLabel>
+                    <Select
+                      name={field.name}
+                      value={field.value.toString()}
+                      onValueChange={field.onChange}
+                    >
+                      <SelectTrigger
+                        aria-invalid={fieldState.invalid}
+                        className="min-w-30"
+                      >
+                        <SelectValue placeholder="Select a year" />
+                      </SelectTrigger>
 
-            <FormField
+                      <SelectContent alignItemWithTrigger={false}>
+                        {years.map((year) => (
+                          <SelectItem key={year} value={year.toString()}>
+                            {year}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+            </FieldGroup>
+
+            {/* <FormField
               control={form.control}
               name="month"
               render={({ field }) => (
@@ -139,14 +180,62 @@ export function ViewPeriodsDialog({ years }: ViewPeriodsDialogProps) {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
+
+            <FieldGroup>
+              <Controller
+                name="month"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field
+                    orientation="responsive"
+                    data-invalid={fieldState.invalid}
+                  >
+                    <FieldLabel htmlFor="form-rhf-select-language">
+                      Month
+                    </FieldLabel>
+                    <Select
+                      name={field.name}
+                      value={field.value.toString()}
+                      onValueChange={field.onChange}
+                    >
+                      <SelectTrigger
+                        aria-invalid={fieldState.invalid}
+                        className="min-w-30"
+                      >
+                        <SelectValue placeholder="Select a month">
+                          {FULL_MONTHS[field.value]}
+                        </SelectValue>
+                      </SelectTrigger>
+
+                      <SelectContent alignItemWithTrigger={false}>
+                        {NUM_MONTHS.map((month) => (
+                          <SelectItem
+                            key={month}
+                            value={(month - 1).toString()}
+                          >
+                            {FULL_MONTHS[month - 1]}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+            </FieldGroup>
 
             <DialogFooter className="gap-2 sm:space-x-0">
-              <DialogClose asChild>
-                <Button variant={`ghost`} type="button">
-                  Cancel
-                </Button>
-              </DialogClose>
+              <DialogClose
+                render={
+                  <Button variant={`ghost`} type="button">
+                    Cancel
+                  </Button>
+                }
+              />
 
               <LoadingButton loading={isPending} type="submit">
                 Done

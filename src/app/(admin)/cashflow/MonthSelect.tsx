@@ -38,7 +38,7 @@ export function MonthSelect({
           <SelectValue />
         </SelectTrigger>
 
-        <SelectContent>
+        <SelectContent alignItemWithTrigger={false}>
           {years.map((year) => (
             <SelectItem key={year} value={year.toString()}>
               {year}
