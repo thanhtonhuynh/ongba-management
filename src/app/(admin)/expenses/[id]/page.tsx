@@ -1,6 +1,6 @@
 import { GoBackButton } from "@/components/buttons/GoBackButton";
 import { Container } from "@/components/Container";
-import { Header } from "@/components/header";
+import { Header } from "@/components/layout";
 import { Separator } from "@/components/ui/separator";
 import { getExpenseById } from "@/data-access/expenses";
 import { getCurrentSession } from "@/lib/auth/session";
