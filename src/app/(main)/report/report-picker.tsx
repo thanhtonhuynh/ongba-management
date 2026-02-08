@@ -15,8 +15,8 @@ import {
   SearchReportInput,
   SearchReportSchema,
 } from "@/lib/validations/report";
+import { getTodayStartOfDay } from "@/utils/datetime";
 import { zodResolver } from "@hookform/resolvers/zod";
-import moment from "moment-timezone";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -27,7 +27,7 @@ export function ReportPicker() {
 
   const [isMounted, setIsMounted] = useState(false);
 
-  const today = moment().tz("America/Vancouver").startOf("day").toDate();
+  const today = getTodayStartOfDay();
   const dateFromParams = parseVancouverUrlDate(date);
   const initialDate = dateFromParams ?? today;
 

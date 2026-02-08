@@ -33,6 +33,8 @@ import {
   ViewPastPeriodsSchema,
 } from "@/lib/validations/hours&tips";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CalendarCheckInIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -64,7 +66,12 @@ export function ViewPeriodsDialog({ years }: ViewPeriodsDialogProps) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
-          <Button size={`sm`} className="flex items-center gap-2">
+          <Button
+            size={`sm`}
+            variant={`outline`}
+            className="flex items-center gap-2"
+          >
+            <HugeiconsIcon icon={CalendarCheckInIcon} />
             View past months
           </Button>
         }

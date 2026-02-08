@@ -102,9 +102,11 @@ export function EmployeeCombobox({
                       }}
                       className="mb-1 py-0.5"
                     >
-                      {user.image && (
-                        <ProfilePicture image={user.image} size={25} />
-                      )}
+                      <ProfilePicture
+                        name={user.name}
+                        image={user.image}
+                        size={25}
+                      />
                       <div className="flex flex-1 items-center justify-between gap-1">
                         <div className="text-xs">
                           <span className="font-medium">{user.name}</span>

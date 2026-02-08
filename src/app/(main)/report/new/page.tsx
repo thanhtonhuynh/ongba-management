@@ -1,6 +1,7 @@
 import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
 import { ErrorMessage } from "@/components/Message";
+import { Typography } from "@/components/typography";
 import { getEmployees } from "@/data-access/employee";
 import { getStartCash } from "@/data-access/store";
 import { getCurrentSession } from "@/lib/auth/session";
@@ -30,7 +31,7 @@ export default async function Page() {
   return (
     <Fragment>
       <Header>
-        <h1>Create sale report</h1>
+        <Typography variant="h1">Create sales report</Typography>
       </Header>
 
       <Container>

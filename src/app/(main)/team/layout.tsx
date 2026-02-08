@@ -14,7 +14,7 @@ export default async function Layout({
   return (
     <Fragment>
       <Header>
-        <Typography variant="page-title">Team</Typography>
+        <Typography variant="h1">Team</Typography>
       </Header>
 
       <Container>{children}</Container>

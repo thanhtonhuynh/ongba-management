@@ -25,7 +25,7 @@ export default async function ReportViewLayout({
     <Fragment>
       <Header>
         <div className="flex flex-1 items-center justify-between">
-          <Typography variant="page-title">Sales Reports</Typography>
+          <Typography variant="h1">Sales</Typography>
 
           {hasAccess(user.role, "/report", "create") && (
             <Button

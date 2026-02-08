@@ -1,5 +1,6 @@
 import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
+import { Typography } from "@/components/typography";
 import { getEmployees } from "@/data-access/employee";
 import { getReportRaw } from "@/data-access/report";
 import { getStartCash } from "@/data-access/store";
@@ -46,8 +47,10 @@ export default async function Page(props: { params: Params }) {
   return (
     <Fragment>
       <Header>
-        <h1>Edit sale report</h1>
-        <p className="text-sm">{format(report.date, "MMMM d, yyyy")}</p>
+        <div>
+          <Typography variant="h1">Edit sales report</Typography>
+          <p className="text-sm">{format(report.date, "EEEE, MMMM d, yyyy")}</p>
+        </div>
       </Header>
 
       <Container>

@@ -8,6 +8,7 @@ import {
 import { cn, formatPriceWithDollar } from "@/lib/utils";
 import { WEEKDAY_LABELS } from "@/types/datetime";
 import { HeatmapCell, HeatmapData } from "@/utils/sales-analytics";
+import { useRouter } from "next/navigation";
 
 type SalesHeatmapProps = {
   data: HeatmapData;
@@ -22,6 +23,7 @@ const INTENSITY_CLASSES = [
 ];
 
 export function SalesHeatmap({ data }: SalesHeatmapProps) {
+  const router = useRouter();
   const { cells, months } = data;
 
   // Calculate how many columns (weeks) we need
@@ -105,6 +107,9 @@ export function SalesHeatmap({ data }: SalesHeatmapProps) {
                             INTENSITY_CLASSES[cell.intensity],
                             cell.intensity === 0 && "border",
                           )}
+                          onClick={() => {
+                            router.push(`/report/${cell.dateStr}`);
+                          }}
                         />
                       }
                     />

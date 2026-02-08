@@ -2,16 +2,22 @@ import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
 import { ErrorMessage } from "@/components/Message";
 import { SaleReportCard } from "@/components/SaleReportCard";
+import { Typography } from "@/components/typography";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getReportRaw } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import { SaleReportCardProcessedData } from "@/types";
 import { hasAccess } from "@/utils/access-control";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { processReportDataForView } from "@/utils/report";
-import { UserAccountIcon } from "@hugeicons/core-free-icons";
+import {
+  Calculator01Icon,
+  Calendar02Icon,
+  TaskAdd01Icon,
+  UserAccountIcon,
+} from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Calculator, CalendarCheck, ClipboardPen } from "lucide-react";
 import moment from "moment-timezone";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
@@ -63,13 +69,13 @@ export default async function Home(props: { searchParams: SearchParams }) {
 
       <Container>
         {/* Greetings */}
-        <section className="bg-background space-y-4 rounded-xl border border-blue-950 p-6">
-          <h6>Good day, {user.name}!</h6>
+        <Card>
+          <CardHeader>
+            <CardTitle>Good day, {user.name}!</CardTitle>
+          </CardHeader>
 
-          <div className="p-3">
-            <h3 className="text-muted-foreground mb-3 text-xs font-medium tracking-wide uppercase">
-              Quick Actions
-            </h3>
+          <CardContent className="space-y-2">
+            <Typography variant="h3">Quick Actions</Typography>
 
             <div className="flex flex-col items-start gap-1">
               {!todayReport && hasAccess(user.role, "/report", "create") && (
@@ -80,12 +86,13 @@ export default async function Home(props: { searchParams: SearchParams }) {
                   className="text-foreground border-0 p-0"
                   render={
                     <Link href={`report/new`}>
-                      <ClipboardPen size={16} />
+                      <HugeiconsIcon icon={TaskAdd01Icon} />
                       Create report
                     </Link>
                   }
                 />
               )}
+
               <Button
                 nativeButton={false}
                 variant="link"
@@ -93,8 +100,8 @@ export default async function Home(props: { searchParams: SearchParams }) {
                 className="text-foreground border-0 p-0"
                 render={
                   <Link href="/cash-counter">
-                    <Calculator size={16} />
-                    Cash counter
+                    <HugeiconsIcon icon={Calculator01Icon} />
+                    Cash calculator
                   </Link>
                 }
               />
@@ -106,7 +113,7 @@ export default async function Home(props: { searchParams: SearchParams }) {
                 className="text-foreground border-0 p-0"
                 render={
                   <Link href="/my-shifts">
-                    <CalendarCheck size={16} />
+                    <HugeiconsIcon icon={Calendar02Icon} />
                     My shifts
                   </Link>
                 }
@@ -118,21 +125,25 @@ export default async function Home(props: { searchParams: SearchParams }) {
                 className="text-foreground border-0 p-0"
                 render={
                   <Link href={`/profile/${user.username}`}>
-                    <HugeiconsIcon icon={UserAccountIcon} className="size-4" />
+                    <HugeiconsIcon icon={UserAccountIcon} />
                     My profile
                   </Link>
                 }
               />
             </div>
-          </div>
-        </section>
+          </CardContent>
+        </Card>
 
         {todayReport && (
           <>
-            <section className="bg-background space-y-4 rounded-xl border border-blue-950 p-6">
-              <h6>Today's Sales Report</h6>
-              <SaleReportCard data={processedTodayReportData} />
-            </section>
+            <Card>
+              <CardHeader>
+                <CardTitle>Today's Sales Report</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <SaleReportCard data={processedTodayReportData} />
+              </CardContent>
+            </Card>
           </>
         )}
 

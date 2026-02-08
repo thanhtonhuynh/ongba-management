@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { ComponentProps } from "react";
 
 type Props = {
-  variant: "page-title" | "section-title" | "body-text";
+  variant: "h1" | "h2" | "h3" | "p";
 };
 
 export function Typography({
@@ -14,9 +14,14 @@ export function Typography({
   return (
     <div
       className={cn(
-        variant === "page-title" &&
-          "text-xl font-bold tracking-wide text-blue-950",
-        variant === "section-title" && "font-bold text-blue-950",
+        // page-title
+        variant === "h1" &&
+          "text-lg font-bold tracking-wide text-blue-950 uppercase",
+        // section-title
+        variant === "h2" && "text-base font-bold tracking-wide text-blue-950",
+        // subsection-title
+        variant === "h3" &&
+          "text-xs font-semibold tracking-wide text-blue-950 uppercase",
         className,
       )}
       {...props}

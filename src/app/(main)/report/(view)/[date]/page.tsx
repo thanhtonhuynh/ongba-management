@@ -81,7 +81,7 @@ export default async function Page(props: { params: Params }) {
                 </h3>
                 <div className="space-y-2 text-sm">
                   {auditLogs.map((log) => (
-                    <p
+                    <div
                       key={`${log.userId}-${log.timestamp.toISOString()}`}
                       className="flex items-center gap-2"
                     >
@@ -103,7 +103,7 @@ export default async function Page(props: { params: Params }) {
                       {moment(log.timestamp)
                         .tz("America/Vancouver")
                         .format("MMM D, YYYY h:mma")}
-                    </p>
+                    </div>
                   ))}
                 </div>
               </div>

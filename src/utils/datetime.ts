@@ -1,3 +1,4 @@
+import { startOfDay } from "date-fns";
 import { formatInTimeZone, fromZonedTime } from "date-fns-tz";
 
 const timeZone = "America/Vancouver";
@@ -24,4 +25,11 @@ export function getStartOfYear(year: number): Date {
  */
 export function getEndOfYear(year: number): Date {
   return fromZonedTime(`${year}-12-31T23:59:59.999`, timeZone);
+}
+
+/**
+ * Get today's start of day in Vancouver timezone
+ */
+export function getTodayStartOfDay(): Date {
+  return fromZonedTime(startOfDay(Date.now()), timeZone);
 }
