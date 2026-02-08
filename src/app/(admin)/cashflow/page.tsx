@@ -94,7 +94,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
   return (
     <Fragment>
       <Header>
-        <Typography variant="page-title">Cash Flow</Typography>
+        <Typography variant="h1">Cash Flow</Typography>
       </Header>
 
       <Container>

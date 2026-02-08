@@ -191,8 +191,8 @@ export function SaleReportPortal({
       {currentStep === 0 && (
         <MotionContainer delta={delta}>
           <Typography
-            variant="section-title"
-            className="mt-2 text-center text-base tracking-wide uppercase md:hidden"
+            variant="h2"
+            className="mt-2 text-center uppercase md:hidden"
           >
             Sale Details
           </Typography>
@@ -205,8 +205,8 @@ export function SaleReportPortal({
       {currentStep === 1 && (
         <MotionContainer delta={delta}>
           <Typography
-            variant="section-title"
-            className="mt-2 text-center text-base tracking-wide uppercase md:hidden"
+            variant="h2"
+            className="mt-2 text-center uppercase md:hidden"
           >
             Count Cash
           </Typography>
@@ -220,8 +220,8 @@ export function SaleReportPortal({
       {currentStep === 2 && (
         <MotionContainer delta={delta}>
           <Typography
-            variant="section-title"
-            className="mt-2 text-center text-base tracking-wide uppercase md:hidden"
+            variant="h2"
+            className="mt-2 text-center uppercase md:hidden"
           >
             Review
           </Typography>

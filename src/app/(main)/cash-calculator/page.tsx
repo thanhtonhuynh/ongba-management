@@ -14,7 +14,7 @@ export default async function Page() {
   return (
     <Fragment>
       <Header>
-        <Typography variant="page-title">Cash calculator</Typography>
+        <Typography variant="h1">Cash calculator</Typography>
       </Header>
 
       <Container>

@@ -84,7 +84,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
     <Fragment>
       <Header>
         <div className="flex flex-1 items-center justify-between">
-          <Typography variant="page-title">My Shifts</Typography>
+          <Typography variant="h1">My Shifts</Typography>
           {years.length > 0 && <ViewPeriodsDialog years={years} />}
         </div>
       </Header>

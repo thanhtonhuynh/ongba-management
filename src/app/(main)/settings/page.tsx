@@ -18,7 +18,7 @@ export default async function Page() {
   return (
     <Fragment>
       <Header>
-        <Typography variant="page-title">Settings</Typography>
+        <Typography variant="h1">Settings</Typography>
       </Header>
 
       <Container>

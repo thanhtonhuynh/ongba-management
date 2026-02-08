@@ -56,7 +56,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
   return (
     <Fragment>
       <Header>
-        <Typography variant="page-title">Profile</Typography>
+        <Typography variant="h1">Profile</Typography>
       </Header>
 
       <Container className="space-y-3">

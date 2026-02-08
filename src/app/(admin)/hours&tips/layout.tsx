@@ -16,7 +16,7 @@ export default async function Layout({
     <Fragment>
       <Header>
         <div className="flex flex-1 items-center justify-between">
-          <Typography variant="page-title">Hours & Tips</Typography>
+          <Typography variant="h1">Hours & Tips</Typography>
           {years.length > 0 && <ViewPeriodsDialog years={years} />}
         </div>
       </Header>
