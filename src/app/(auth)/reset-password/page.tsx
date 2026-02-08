@@ -1,7 +1,11 @@
+import { Typography } from "@/components/typography";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { getCurrentSession } from "@/lib/auth/session";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { cookies } from "next/headers";
+import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ResetPasswordForm } from "./ResetPasswordForm";
@@ -13,25 +17,39 @@ export default async function Page() {
   if (session) redirect("/");
 
   return (
-    <main className="flex h-[90vh] items-center justify-center">
-      <div className="flex h-full max-h-140 w-full max-w-160 flex-col items-center justify-center space-y-4 rounded-xl border p-4 py-8 shadow-xl">
-        <h1>Enter new password</h1>
+    <main className="flex flex-1 flex-col items-center justify-center gap-6 p-3">
+      <Image
+        priority
+        src={"/serva-logo-full.svg"}
+        alt="Serva Logo"
+        width={240}
+        height={80}
+      />
 
-        <div className="flex w-1/2 flex-col space-y-4">
+      <Card className="w-full max-w-xl items-center">
+        <Typography variant="h1" className="text-xl">
+          Enter new password
+        </Typography>
+
+        <CardContent className="flex w-full flex-col items-center space-y-3">
           <ResetPasswordForm />
 
           <Button
-            className="w-full gap-1"
-            variant={"outline"}
+            variant={"link"}
+            nativeButton={false}
+            className={"group gap-0.5 hover:no-underline"}
             render={
               <Link href={"/login"}>
-                <ArrowLeft size={15} />
+                <HugeiconsIcon
+                  icon={ArrowLeft01Icon}
+                  className="transition-transform duration-300 group-hover:-translate-x-1"
+                />
                 Back to Login
               </Link>
             }
           />
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </main>
   );
 }

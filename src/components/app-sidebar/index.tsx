@@ -115,19 +115,17 @@ export function AppSidebar() {
                 side="top"
                 className="w-(--radix-popper-anchor-width)"
               >
-                <DropdownMenuItem
-                  className="p-0"
-                  render={
-                    <form action={logoutAction}>
-                      <Button
-                        variant={`ghost`}
-                        className="w-full justify-start"
-                      >
-                        <LogOut className="size-4" /> Sign Out
-                      </Button>
-                    </form>
-                  }
-                />
+                <DropdownMenuItem className="p-0">
+                  <Button
+                    variant={`ghost`}
+                    className="w-full justify-start"
+                    onClick={async () => {
+                      await logoutAction();
+                    }}
+                  >
+                    <LogOut className="size-4" /> Sign Out
+                  </Button>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </SidebarMenuItem>

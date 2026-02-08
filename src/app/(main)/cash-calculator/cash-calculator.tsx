@@ -7,6 +7,8 @@ import {
   MONEY_VALUES,
   ROLL_FIELDS,
 } from "@/app/constants";
+import { Typography } from "@/components/typography";
+import { Card } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -15,7 +17,7 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { formatPriceWithDollar } from "@/lib/utils";
+import { formatMoney } from "@/lib/utils";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -51,22 +53,21 @@ export function CashCalculator() {
 
   return (
     <Form {...form}>
-      <form className="mx-auto max-w-2xl space-y-8">
-        <div className="bg-muted/50 flex flex-col items-center rounded-lg p-4">
-          <h3 className="text-muted-foreground mb-2 text-xs font-medium tracking-wide uppercase">
+      <form className="mx-auto w-full max-w-5xl space-y-6">
+        <Card className="gap-3 p-6">
+          <Typography variant="h2" className="uppercase">
             Total Cash in Till
-          </h3>
-          <p className="text-primary text-xl font-bold">
-            {formatPriceWithDollar(total)}
-          </p>
-        </div>
+          </Typography>
+          <span className="text-primary text-xl font-bold">
+            {formatMoney(total)}
+          </span>
+        </Card>
 
         <div className="grid gap-6 sm:grid-cols-3">
-          <div className="bg-muted/50 space-y-4 rounded-lg p-4">
-            <h4 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-              Bills
-            </h4>
-            <div className="flex flex-row gap-2 sm:flex-col">
+          <Card className="p-6">
+            <Typography variant="h3">Bills</Typography>
+
+            <div className="flex flex-row gap-3 sm:flex-col">
               {BILL_FIELDS.map((key) => (
                 <FormField
                   key={key}
@@ -91,13 +92,12 @@ export function CashCalculator() {
                 />
               ))}
             </div>
-          </div>
+          </Card>
 
-          <div className="bg-muted/50 space-y-4 rounded-lg p-4">
-            <h4 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-              Coins
-            </h4>
-            <div className="flex flex-row gap-2 sm:flex-col">
+          <Card className="p-6">
+            <Typography variant="h3">Coins</Typography>
+
+            <div className="flex flex-row gap-3 sm:flex-col">
               {COIN_FIELDS.map((key) => (
                 <FormField
                   key={key}
@@ -122,13 +122,12 @@ export function CashCalculator() {
                 />
               ))}
             </div>
-          </div>
+          </Card>
 
-          <div className="bg-muted/50 space-y-4 rounded-lg p-4">
-            <h4 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-              Rolls
-            </h4>
-            <div className="flex flex-row gap-2 sm:flex-col">
+          <Card className="p-6">
+            <Typography variant="h3">Rolls</Typography>
+
+            <div className="flex flex-row gap-3 sm:flex-col">
               {ROLL_FIELDS.map((key) => (
                 <FormField
                   key={key}
@@ -153,7 +152,7 @@ export function CashCalculator() {
                 />
               ))}
             </div>
-          </div>
+          </Card>
         </div>
       </form>
     </Form>
