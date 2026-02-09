@@ -1,5 +1,5 @@
-import { CurrentTag } from "@/components/CurrentTag";
 import { ErrorMessage } from "@/components/Message";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getShiftsInDateRange } from "@/data-access/employee";
 import { getCurrentSession } from "@/lib/auth/session";
 import { TotalHoursTips } from "@/types";
@@ -9,13 +9,9 @@ import {
   getTodayBiweeklyPeriod,
 } from "@/utils/hours-tips";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { CalendarDays } from "lucide-react";
-import moment from "moment";
 import { notFound, redirect } from "next/navigation";
-import { DataTable } from "./_components/DataTable";
-import { HoursTipsTable } from "./_components/HoursTipsTable";
+import { DataTable } from "./_components/data-table";
+import { HoursTipsTable } from "./_components/hours-tips-table";
 
 export default async function Page() {
   const { session, user } = await getCurrentSession();
@@ -54,39 +50,47 @@ export default async function Page() {
   }
 
   return (
-    <div className="space-y-8">
-      <h2 className="flex items-center gap-2 text-base">
+    <div className="space-y-6">
+      {/* <h2 className="flex items-center gap-2 text-base">
         <CalendarDays className="text-primary size-4" />
         <span>{moment(todayBiweeklyPeriod.start).format("MMM D")}</span>
         <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
         <span>{moment(todayBiweeklyPeriod.end).format("MMM D, YYYY")}</span>
-        <CurrentTag />
-      </h2>
+      </h2> */}
 
-      <div className="bg-muted/50 w-full max-w-2xl space-y-2 rounded-lg p-4">
-        <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-          Summary
-        </h3>
-        <HoursTipsTable data={totalHoursTips} />
-      </div>
+      <Card className="gap-4">
+        <CardHeader>
+          <CardTitle>Summary</CardTitle>
+        </CardHeader>
 
-      <div className="bg-muted/50 space-y-4 rounded-lg p-4">
-        <h3 className="text-muted-foreground px-2 text-xs font-medium tracking-wide uppercase">
-          Hours breakdown
-        </h3>
-        <DataTable dateRange={todayBiweeklyPeriod} data={hoursBreakdown} />
-      </div>
+        <CardContent>
+          <HoursTipsTable data={totalHoursTips} />
+        </CardContent>
+      </Card>
 
-      <div className="bg-muted/50 space-y-4 rounded-lg p-4">
-        <h3 className="text-muted-foreground px-2 text-xs font-medium tracking-wide uppercase">
-          Tips breakdown
-        </h3>
-        <DataTable
-          dateRange={todayBiweeklyPeriod}
-          data={tipsBreakdown}
-          isMoney
-        />
-      </div>
+      <Card className="gap-4">
+        <CardHeader>
+          <CardTitle>Hours</CardTitle>
+        </CardHeader>
+
+        <CardContent>
+          <DataTable dateRange={todayBiweeklyPeriod} data={hoursBreakdown} />
+        </CardContent>
+      </Card>
+
+      <Card className="gap-4">
+        <CardHeader>
+          <CardTitle>Tips</CardTitle>
+        </CardHeader>
+
+        <CardContent>
+          <DataTable
+            dateRange={todayBiweeklyPeriod}
+            data={tipsBreakdown}
+            isMoney
+          />
+        </CardContent>
+      </Card>
     </div>
   );
 }

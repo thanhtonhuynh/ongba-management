@@ -15,13 +15,16 @@ export default async function Layout({
   return (
     <Fragment>
       <Header>
-        <div className="flex flex-1 items-center justify-between">
-          <Typography variant="h1">Hours & Tips</Typography>
-          {years.length > 0 && <ViewPeriodsDialog years={years} />}
-        </div>
+        {/* <div className="flex flex-1 items-center justify-between"> */}
+        <Typography variant="h1">Hours & Tips</Typography>
+        {/* {years.length > 0 && <ViewPeriodsDialog years={years} />} */}
+        {/* </div> */}
       </Header>
 
-      <Container>{children}</Container>
+      <Container>
+        {years.length > 0 && <ViewPeriodsDialog years={years} />}
+        {children}
+      </Container>
     </Fragment>
   );
 }

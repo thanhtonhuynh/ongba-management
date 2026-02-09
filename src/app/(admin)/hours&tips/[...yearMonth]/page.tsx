@@ -1,6 +1,4 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
-import { GoBackButton } from "@/components/buttons/GoBackButton";
-import { CurrentTag } from "@/components/CurrentTag";
 import { ErrorMessage } from "@/components/Message";
 import { Separator } from "@/components/ui/separator";
 import { getShiftsInDateRange } from "@/data-access/employee";
@@ -18,8 +16,8 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { CalendarDays } from "lucide-react";
 import moment from "moment-timezone";
 import { notFound, redirect } from "next/navigation";
-import { DataTable } from "../_components/DataTable";
-import { HoursTipsTable } from "../_components/HoursTipsTable";
+import { DataTable } from "../_components/data-table";
+import { HoursTipsTable } from "../_components/hours-tips-table";
 
 type Params = Promise<{ yearMonth: string[] }>;
 
@@ -116,20 +114,8 @@ export default async function Page(props: { params: Params }) {
 
   return (
     <div className="space-y-8">
-      <GoBackButton
-        url={`/hours&tips`}
-        variant={`outline`}
-        className="gap-1"
-        size={"sm"}
-      >
-        View current period
-      </GoBackButton>
-
       <h2 className="flex items-center gap-2 text-base">
         {FULL_MONTHS[month - 1]} {year}
-        {year === today.getFullYear() && month === today.getMonth() + 1 && (
-          <CurrentTag />
-        )}
       </h2>
 
       <div className="bg-muted/50 w-full max-w-2xl space-y-2 rounded-lg p-4">

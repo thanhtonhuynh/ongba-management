@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatPriceWithDollar } from "@/lib/utils";
+import { formatMoney } from "@/lib/utils";
 import { TotalHoursTips } from "@/types";
 
 type HoursTipsTableProps = {
@@ -19,9 +19,9 @@ export async function HoursTipsTable({ data }: HoursTipsTableProps) {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="">Name</TableHead>
+          <TableHead className="w-sm">Name</TableHead>
           <TableHead className="text-center">Hours</TableHead>
-          <TableHead className="text-right">Tips</TableHead>
+          <TableHead className="text-center">Tips</TableHead>
         </TableRow>
       </TableHeader>
 
@@ -37,8 +37,8 @@ export async function HoursTipsTable({ data }: HoursTipsTableProps) {
               {employee.name}
             </TableCell>
             <TableCell className="text-center">{employee.totalHours}</TableCell>
-            <TableCell className="text-right">
-              {formatPriceWithDollar(employee.totalTips / 100)}
+            <TableCell className="text-center">
+              {formatMoney(employee.totalTips / 100)}
             </TableCell>
           </TableRow>
         ))}

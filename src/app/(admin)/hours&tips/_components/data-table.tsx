@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatPriceWithDollar } from "@/lib/utils";
+import { formatMoney } from "@/lib/utils";
 import { BreakdownData, DayRange } from "@/types";
 import moment from "moment";
 
@@ -29,7 +29,7 @@ export async function DataTable({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="bg-muted sticky left-0 min-w-max border-r">
+          <TableHead className="bg-accent sticky left-0 min-w-max border-r">
             Name
           </TableHead>
 
@@ -51,7 +51,7 @@ export async function DataTable({
       <TableBody>
         {data.map((employee) => (
           <TableRow key={employee.userId}>
-            <TableCell className="bg-muted sticky left-0 min-w-max border-r">
+            <TableCell className="bg-background sticky left-0 min-w-max border-r">
               <div className="flex w-max items-center gap-2">
                 <ProfilePicture
                   image={employee.image}
@@ -64,18 +64,12 @@ export async function DataTable({
 
             {employee.keyData.map((key, index) => (
               <TableCell className="text-center" key={index}>
-                {key > 0
-                  ? isMoney
-                    ? formatPriceWithDollar(key / 100)
-                    : key
-                  : "-"}
+                {key > 0 ? (isMoney ? formatMoney(key / 100) : key) : "-"}
               </TableCell>
             ))}
 
             <TableCell className="text-right">
-              {isMoney
-                ? formatPriceWithDollar(employee.total / 100)
-                : employee.total}
+              {isMoney ? formatMoney(employee.total / 100) : employee.total}
             </TableCell>
           </TableRow>
         ))}
