@@ -1,14 +1,14 @@
-import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
-import { GoBackButton } from "@/components/buttons/GoBackButton";
+import { NUM_MONTHS } from "@/app/constants";
 import { Container } from "@/components/Container";
-import { CurrentTag } from "@/components/CurrentTag";
 import { Header } from "@/components/layout";
 import { ErrorMessage } from "@/components/Message";
 import { Typography } from "@/components/typography";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { UserShiftTable } from "@/components/UserShiftTable";
 import { getUserShiftsInDateRange } from "@/data-access/employee";
 import { getCurrentSession } from "@/lib/auth/session";
-import { formatPriceWithDollar } from "@/lib/utils";
+import { formatMoney } from "@/lib/utils";
 import {
   getDayRangeByMonthAndYear,
   getPeriodsByMonthAndYear,
@@ -19,6 +19,7 @@ import { ArrowRight01Icon, Coins01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { CalendarClock, CalendarDays } from "lucide-react";
 import moment from "moment";
+import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
 import { ViewPeriodsDialog } from "./ViewPeriodsDialog";
@@ -83,89 +84,92 @@ export default async function Page(props: { searchParams: SearchParams }) {
   return (
     <Fragment>
       <Header>
-        <div className="flex flex-1 items-center justify-between">
-          <Typography variant="h1">My Shifts</Typography>
-          {years.length > 0 && <ViewPeriodsDialog years={years} />}
-        </div>
+        <Typography variant="h1">My Shifts</Typography>
       </Header>
 
-      <Container className="gap-4">
-        {searchParams.year && searchParams.month && (
-          <GoBackButton
-            url={`/my-shifts`}
-            variant={`outline`}
-            className="w-fit gap-2"
+      <Container>
+        <div className="flex items-center gap-2">
+          {years.length > 0 && (
+            <ViewPeriodsDialog
+              years={years}
+              selectedYear={selectedYear}
+              selectedMonth={selectedMonth}
+            />
+          )}
+
+          <Button
+            variant={"link"}
+            nativeButton={false}
             size={"sm"}
-          >
-            View current
-          </GoBackButton>
-        )}
+            render={<Link href="/my-shifts">View current</Link>}
+          />
+        </div>
 
-        <section className="space-y-4">
-          <h6 className="flex items-center gap-2">
-            {FULL_MONTHS[selectedMonth - 1]} {selectedYear}
-            {selectedYear === today.getFullYear() &&
-              selectedMonth === today.getMonth() + 1 && <CurrentTag />}
-          </h6>
+        <Card className="gap-4">
+          <CardHeader>
+            <CardTitle>Summary</CardTitle>
+          </CardHeader>
 
-          <div className="bg-muted/50 space-y-3 rounded-lg p-4">
-            <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-              Summary
-            </h3>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="flex items-center gap-3">
-                <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
-                  <CalendarClock className="text-muted-foreground size-5" />
-                </div>
-                <div>
-                  <p className="text-muted-foreground text-xs">Total Hours</p>
-                  <p className="text-sm font-semibold">
-                    {userShifts.reduce((acc, shift) => acc + shift.hours, 0)}
-                  </p>
-                </div>
+          <CardContent className="grid gap-3 sm:grid-cols-2">
+            <div className="flex items-center gap-3">
+              <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
+                <CalendarClock className="text-muted-foreground size-5" />
               </div>
-              <div className="flex items-center gap-3">
-                <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
-                  <HugeiconsIcon
-                    icon={Coins01Icon}
-                    className="text-muted-foreground size-5"
-                  />
-                </div>
-                <div>
-                  <p className="text-muted-foreground text-xs">Total Tips</p>
-                  <p className="text-sm font-semibold">
-                    {formatPriceWithDollar(
-                      userShifts.reduce((acc, shift) => acc + shift.tips, 0) /
-                        100,
-                    )}
-                  </p>
-                </div>
+              <div>
+                <p className="text-muted-foreground text-xs">Total Hours</p>
+                <p className="text-sm font-semibold">
+                  {userShifts.reduce((acc, shift) => acc + shift.hours, 0)}
+                </p>
               </div>
             </div>
-          </div>
-        </section>
-
-        <section className="space-y-4">
-          <h6>Daily Breakdown</h6>
-          {periods.map((period, index) => (
-            <div key={index} className="bg-muted/50 space-y-3 rounded-lg p-4">
-              <h3 className="flex items-center gap-2 text-xs font-medium">
-                <CalendarDays className="text-primary size-4" />
-                <span>{moment(period.start).format("MMM D")}</span>
-                <HugeiconsIcon icon={ArrowRight01Icon} className="size-3" />
-                <span>{moment(period.end).format("MMM D")}</span>
-              </h3>
-
-              <UserShiftTable
-                dateRange={period}
-                userShifts={
-                  index === 0 ? firstPeriodShifts : secondPeriodShifts
-                }
-              />
+            <div className="flex items-center gap-3">
+              <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
+                <HugeiconsIcon
+                  icon={Coins01Icon}
+                  className="text-muted-foreground size-5"
+                />
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">Total Tips</p>
+                <p className="text-sm font-semibold">
+                  {formatMoney(
+                    userShifts.reduce((acc, shift) => acc + shift.tips, 0) /
+                      100,
+                  )}
+                </p>
+              </div>
             </div>
-          ))}
-        </section>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Daily Breakdown</CardTitle>
+          </CardHeader>
+
+          <CardContent className="space-y-6">
+            {periods.map((period, index) => (
+              <div key={index} className="space-y-1">
+                <Typography
+                  variant="h3"
+                  className="flex items-center gap-2 text-xs font-medium"
+                >
+                  <CalendarDays className="text-primary size-4" />
+                  <span>{moment(period.start).format("MMM D")}</span>
+                  <HugeiconsIcon icon={ArrowRight01Icon} className="size-3" />
+                  <span>{moment(period.end).format("MMM D")}</span>
+                </Typography>
+
+                <UserShiftTable
+                  dateRange={period}
+                  userShifts={
+                    index === 0 ? firstPeriodShifts : secondPeriodShifts
+                  }
+                />
+              </div>
+            ))}
+          </CardContent>
+        </Card>
       </Container>
     </Fragment>
   );

@@ -33,7 +33,7 @@ import {
   ViewPastPeriodsSchema,
 } from "@/lib/validations/hours&tips";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Clock } from "@hugeicons/core-free-icons";
+import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
@@ -41,16 +41,22 @@ import { useForm } from "react-hook-form";
 
 type ViewPeriodsDialogProps = {
   years: number[];
+  selectedYear: number;
+  selectedMonth: number;
 };
 
-export function ViewPeriodsDialog({ years }: ViewPeriodsDialogProps) {
+export function ViewPeriodsDialog({
+  years,
+  selectedYear,
+  selectedMonth,
+}: ViewPeriodsDialogProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const form = useForm<ViewPastPeriodsInput>({
     resolver: zodResolver(ViewPastPeriodsSchema),
     defaultValues: {
-      year: new Date().getFullYear(),
-      month: new Date().getMonth(),
+      year: selectedYear,
+      month: selectedMonth,
     },
   });
   const [isPending, startTransition] = useTransition();
@@ -66,16 +72,16 @@ export function ViewPeriodsDialog({ years }: ViewPeriodsDialogProps) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
-          <Button size={"sm"} variant={"outline"} className="tracking-normal">
-            <HugeiconsIcon icon={Clock} />
-            View past periods
+          <Button size={"sm"} className="self-start tracking-normal">
+            {FULL_MONTHS[selectedMonth - 1]} {selectedYear}
+            <HugeiconsIcon icon={ArrowDown01Icon} />
           </Button>
         }
       />
 
       <DialogContent>
         <DialogHeader className="space-y-3 text-left">
-          <DialogTitle>View past periods</DialogTitle>
+          <DialogTitle>View a different period</DialogTitle>
 
           <DialogDescription>
             Select a year and month to view the hours and tips for the two
@@ -84,7 +90,10 @@ export function ViewPeriodsDialog({ years }: ViewPeriodsDialogProps) {
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col gap-3"
+          >
             <FormField
               control={form.control}
               name="year"
@@ -96,12 +105,15 @@ export function ViewPeriodsDialog({ years }: ViewPeriodsDialogProps) {
                     onValueChange={field.onChange}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className={"w-full"}>
                         <SelectValue placeholder="Select a year" />
                       </SelectTrigger>
                     </FormControl>
 
-                    <SelectContent className="max-h-56">
+                    <SelectContent
+                      alignItemWithTrigger={false}
+                      className="max-h-56"
+                    >
                       {years.map((year) => (
                         <SelectItem key={year} value={year.toString()}>
                           {year}
@@ -125,12 +137,17 @@ export function ViewPeriodsDialog({ years }: ViewPeriodsDialogProps) {
                     onValueChange={field.onChange}
                   >
                     <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a month" />
+                      <SelectTrigger className={"w-full"}>
+                        <SelectValue placeholder="Select a month">
+                          {FULL_MONTHS[selectedMonth - 1]}
+                        </SelectValue>
                       </SelectTrigger>
                     </FormControl>
 
-                    <SelectContent className="max-h-56">
+                    <SelectContent
+                      alignItemWithTrigger={false}
+                      // className="max-h-56"
+                    >
                       {NUM_MONTHS.map((month) => (
                         <SelectItem key={month} value={(month - 1).toString()}>
                           {FULL_MONTHS[month - 1]}
@@ -153,7 +170,7 @@ export function ViewPeriodsDialog({ years }: ViewPeriodsDialogProps) {
               />
 
               <LoadingButton loading={isPending} type="submit">
-                Done
+                View
               </LoadingButton>
             </DialogFooter>
           </form>

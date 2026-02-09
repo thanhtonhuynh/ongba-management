@@ -51,7 +51,7 @@ export const BILL_FIELDS = MONEY_FIELDS.filter((key) => key.startsWith("bill"));
 export const ROLL_FIELDS = MONEY_FIELDS.filter((key) => key.startsWith("roll"));
 
 export const staffMenuItems = [
-  { title: "Sales reports", url: "/report", icon: ClipboardList },
+  { title: "Sales", url: "/report", icon: ClipboardList },
   { title: "Cash calculator", url: "/cash-calculator", icon: Calculator },
   { title: "My shifts", url: "/my-shifts", icon: CalendarCheck },
   { title: "Team", url: "/team", icon: Users },
