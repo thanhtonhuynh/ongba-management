@@ -4,11 +4,13 @@ import { Typography } from "@/components/typography";
 import { getCurrentSession } from "@/lib/auth/session";
 import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
-import { UpdateAvatar } from "./UpdateAvatar";
-import { UpdateEmailForm } from "./UpdateEmailForm";
-import { UpdateNameForm } from "./UpdateNameForm";
-import { UpdatePasswordForm } from "./UpdatePasswordForm";
-import { UpdateUsernameForm } from "./UpdateUsernameForm";
+import {
+  UpdateAvatar,
+  UpdateEmailForm,
+  UpdateNameForm,
+  UpdatePasswordForm,
+  UpdateUsernameForm,
+} from "./_components";
 
 export default async function Page() {
   const { session, user } = await getCurrentSession();

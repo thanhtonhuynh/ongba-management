@@ -1,6 +1,8 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
+import { Typography } from "@/components/typography";
+import { Card } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -18,7 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { updateEmailAction } from "./actions";
+import { updateEmailAction } from "../actions";
 
 type UpdateNameFormProps = {
   user: User;
@@ -43,19 +45,11 @@ export function UpdateEmailForm({ user }: UpdateNameFormProps) {
   }
 
   return (
-    <div className="space-y-4 rounded-lg border p-6 shadow-sm">
-      <h6>Email</h6>
-
-      <div className="text-muted-foreground space-y-1 text-sm">
-        <p>
-          <span className="font-semibold">Note:</span> Please use a real email
-          so the system can send you reset password emails if you ever forget
-          your password.
-        </p>
-      </div>
+    <Card className="p-6">
+      <Typography variant="h2">Email</Typography>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
           <FormField
             name="email"
             control={form.control}
@@ -70,11 +64,16 @@ export function UpdateEmailForm({ user }: UpdateNameFormProps) {
             )}
           />
 
-          <LoadingButton variant={"outline"} loading={isPending} type="submit">
+          <LoadingButton
+            variant={"outline"}
+            size={"sm"}
+            loading={isPending}
+            type="submit"
+          >
             Save
           </LoadingButton>
         </form>
       </Form>
-    </div>
+    </Card>
   );
 }

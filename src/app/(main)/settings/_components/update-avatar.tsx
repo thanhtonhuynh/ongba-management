@@ -2,6 +2,8 @@
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { ProfilePicture } from "@/components/ProfilePicture";
+import { Typography } from "@/components/typography";
+import { Card } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -20,7 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { updateAvatarAction } from "./actions";
+import { updateAvatarAction } from "../actions";
 
 type UpdateAvatarFormProps = {
   user: User;
@@ -42,16 +44,17 @@ export function UpdateAvatar({ user }: UpdateAvatarFormProps) {
   }
 
   return (
-    <div className="flex flex-col space-y-2 rounded-lg border p-6 shadow-sm sm:flex-row sm:items-center sm:space-y-0 sm:space-x-8">
-      <div className="self-center">
-        {user.image && <ProfilePicture image={user.image} size={150} />}
+    <Card className="flex flex-col p-6 sm:flex-row sm:items-center">
+      {/* Current profile picture */}
+      <div className="shrink-0 self-center">
+        <ProfilePicture image={user.image} size={150} />
       </div>
 
       <div className="space-y-4">
-        <h6>Profile picture</h6>
+        <Typography variant="h2">Profile picture</Typography>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
             <FormField
               name="image"
               control={form.control}
@@ -77,6 +80,7 @@ export function UpdateAvatar({ user }: UpdateAvatarFormProps) {
             />
             <LoadingButton
               variant={"outline"}
+              size={"sm"}
               loading={isPending}
               type="submit"
             >
@@ -85,6 +89,6 @@ export function UpdateAvatar({ user }: UpdateAvatarFormProps) {
           </form>
         </Form>
       </div>
-    </div>
+    </Card>
   );
 }

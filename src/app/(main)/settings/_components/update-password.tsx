@@ -2,6 +2,8 @@
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { PasswordInput } from "@/components/PasswordInput";
+import { Typography } from "@/components/typography";
+import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
@@ -19,7 +21,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { updatePasswordAction } from "./actions";
+import { updatePasswordAction } from "../actions";
 
 export function UpdatePasswordForm() {
   const [isPending, startTransition] = useTransition();
@@ -45,14 +47,11 @@ export function UpdatePasswordForm() {
   }
 
   return (
-    <div className="space-y-4 rounded-lg border p-6 shadow-sm">
-      <h6>Password</h6>
+    <Card className="p-6">
+      <Typography variant="h2">Password</Typography>
 
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-2"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
           <FormField
             control={form.control}
             name="currentPassword"
@@ -98,11 +97,9 @@ export function UpdatePasswordForm() {
             )}
           />
 
-          <div className="text-muted-foreground -mb-2 space-y-1 text-sm">
-            <p>
-              Please sign out of other devices if you think your account has
-              been compromised.
-            </p>
+          <div className="text-muted-foreground text-sm">
+            Please sign out of other devices if you think your account has been
+            compromised.
           </div>
 
           <FormField
@@ -121,11 +118,16 @@ export function UpdatePasswordForm() {
             )}
           />
 
-          <LoadingButton type="submit" loading={isPending} variant={"outline"}>
+          <LoadingButton
+            type="submit"
+            size={"sm"}
+            loading={isPending}
+            variant={"outline"}
+          >
             Update password
           </LoadingButton>
         </form>
       </Form>
-    </div>
+    </Card>
   );
 }

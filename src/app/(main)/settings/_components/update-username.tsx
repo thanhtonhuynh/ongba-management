@@ -1,6 +1,8 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
+import { Typography } from "@/components/typography";
+import { Card } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -19,7 +21,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { updateUsernameAction } from "./actions";
+import { updateUsernameAction } from "../actions";
 
 type UpdateUsernameFormProps = {
   user: User;
@@ -44,18 +46,16 @@ export function UpdateUsernameForm({ user }: UpdateUsernameFormProps) {
   }
 
   return (
-    <div className="space-y-4 rounded-lg border p-6 shadow-sm">
-      <h6>Username</h6>
+    <Card className="p-6">
+      <Typography variant="h2">Username</Typography>
 
       <div className="text-muted-foreground space-y-1 text-sm">
-        <p>
-          Besides your email, your username can also be used to log in to your
-          account.
-        </p>
+        Besides your email, your username can also be used to log in to your
+        account.
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
           <FormField
             name="username"
             control={form.control}
@@ -72,11 +72,16 @@ export function UpdateUsernameForm({ user }: UpdateUsernameFormProps) {
             )}
           />
 
-          <LoadingButton variant={"outline"} loading={isPending} type="submit">
+          <LoadingButton
+            size={"sm"}
+            variant={"outline"}
+            loading={isPending}
+            type="submit"
+          >
             Save
           </LoadingButton>
         </form>
       </Form>
-    </div>
+    </Card>
   );
 }

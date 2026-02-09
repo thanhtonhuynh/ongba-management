@@ -1,13 +1,9 @@
 "use client";
 
-import {
-  UpdateStartCashInput,
-  UpdateStartCashSchema,
-} from "@/lib/validations/store";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
-import { updateStartCash } from "./actions";
+import { LoadingButton } from "@/components/buttons/LoadingButton";
+import { ErrorMessage, SuccessMessage } from "@/components/Message";
+import { Typography } from "@/components/typography";
+import { Card } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -16,9 +12,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { ErrorMessage, SuccessMessage } from "@/components/Message";
 import { Input } from "@/components/ui/input";
-import { LoadingButton } from "@/components/buttons/LoadingButton";
+import {
+  UpdateStartCashInput,
+  UpdateStartCashSchema,
+} from "@/lib/validations/store";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { updateStartCash } from "./actions";
 
 type ShiftHoursFormProps = {
   currentStartCash: number;
@@ -53,10 +55,10 @@ export function StartCashForm({ currentStartCash }: ShiftHoursFormProps) {
   }
 
   return (
-    <div className="space-y-2 rounded-md border p-4 shadow-md">
-      <h2>Start cash</h2>
+    <Card className="p-6">
+      <Typography variant="h2">Start cash</Typography>
 
-      <div className="space-y-1 text-sm text-muted-foreground">
+      <div className="text-muted-foreground space-y-1 text-sm">
         <p>Update the start cash amount.</p>
         <p>
           <span className="font-semibold">Note:</span> Any changes to the start
@@ -66,7 +68,7 @@ export function StartCashForm({ currentStartCash }: ShiftHoursFormProps) {
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
           {error && <ErrorMessage message={error} />}
           {success && <SuccessMessage message="Start cash updated" />}
 
@@ -84,11 +86,11 @@ export function StartCashForm({ currentStartCash }: ShiftHoursFormProps) {
             )}
           />
 
-          <LoadingButton loading={isPending} type="submit">
+          <LoadingButton variant={"outline"} loading={isPending} type="submit">
             Update start cash
           </LoadingButton>
         </form>
       </Form>
-    </div>
+    </Card>
   );
 }

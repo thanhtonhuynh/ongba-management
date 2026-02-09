@@ -46,7 +46,7 @@ export function YearCashFlowTable({ data }: Props) {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="bg-background sticky left-0">Month</TableHead>
+          <TableHead className="bg-accent sticky left-0">Month</TableHead>
           <TableHead className="text-center">In-store sales</TableHead>
           <TableHead className="text-center">UberEats</TableHead>
           <TableHead className="text-center">Ritual</TableHead>

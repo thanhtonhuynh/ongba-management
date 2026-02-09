@@ -1,9 +1,9 @@
-import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
+import { NUM_MONTHS } from "@/app/constants";
 import { Container } from "@/components/Container";
-import { CurrentTag } from "@/components/CurrentTag";
 import { Header } from "@/components/layout";
 import { ErrorMessage } from "@/components/Message";
 import { Typography } from "@/components/typography";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getExpensesByYear } from "@/data-access/expenses";
 import { getReportsByDateRange } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
@@ -98,7 +98,20 @@ export default async function Page(props: { searchParams: SearchParams }) {
       </Header>
 
       <Container>
-        <div className="flex space-x-4">
+        {/* {years.length > 0 && (
+            <MonthSelect
+              years={years}
+              selectedYear={selectedYear}
+              selectedMonth={selectedMonth}
+            />
+          )} */}
+
+        <Card className="space-y-4">
+          {/* <h2 className="flex items-center gap-2">
+            {FULL_MONTHS[selectedMonth]} {selectedYear}
+            {selectedYear === today.getFullYear() &&
+              selectedMonth === today.getMonth() && <CurrentTag />}
+          </h2> */}
           {years.length > 0 && (
             <MonthSelect
               years={years}
@@ -107,21 +120,18 @@ export default async function Page(props: { searchParams: SearchParams }) {
             />
           )}
 
-          <div className="flex-1 space-y-8 overflow-auto">
-            <div className="space-y-4">
-              <h2 className="flex items-center gap-2">
-                {FULL_MONTHS[selectedMonth]} {selectedYear}
-                {selectedYear === today.getFullYear() &&
-                  selectedMonth === today.getMonth() && <CurrentTag />}
-              </h2>
-              <CashFlowTable reports={processedReports} />
-            </div>
-            <div className="space-y-4">
-              <h2>Year {selectedYear} Summary</h2>
-              <YearCashFlowTable data={yearProcessedReports} />
-            </div>
-          </div>
-        </div>
+          <CashFlowTable reports={processedReports} />
+        </Card>
+
+        <Card className="gap-4">
+          <CardHeader>
+            <CardTitle>Year {selectedYear} Summary</CardTitle>
+          </CardHeader>
+
+          <CardContent>
+            <YearCashFlowTable data={yearProcessedReports} />
+          </CardContent>
+        </Card>
       </Container>
     </Fragment>
   );

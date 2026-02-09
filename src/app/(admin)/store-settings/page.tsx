@@ -8,7 +8,7 @@ import { hasAccess } from "@/utils/access-control";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
-import { StartCashForm } from "./StartCashForm";
+import { StartCashForm } from "./start-cash-form";
 
 export default async function Page() {
   const { session, user } = await getCurrentSession();
