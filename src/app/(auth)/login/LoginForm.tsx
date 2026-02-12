@@ -1,7 +1,7 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { ErrorMessage } from "@/components/message";
+import { ErrorMessage } from "@/components/noti-message";
 import { PasswordInput } from "@/components/PasswordInput";
 import {
   Form,
@@ -43,10 +43,7 @@ export function LoginForm() {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex w-full flex-col space-y-6"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col space-y-6">
         {error && <ErrorMessage message={error} />}
 
         <FormField

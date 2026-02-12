@@ -1,5 +1,5 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
-import { Message } from "@/components/message";
+import { NotiMessage } from "@/components/noti-message";
 import { CurrentBadge } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { type Platform, getPlatformById } from "@/constants/platforms";
@@ -25,7 +25,7 @@ export default async function MonthlyPage(props: { searchParams: SearchParams })
   if (!hasAccess(user.role, "/admin")) return notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
-    return <Message variant="error" message="Too many requests. Please try again later." />;
+    return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
   }
 
   const searchParams = await props.searchParams;
@@ -40,7 +40,9 @@ export default async function MonthlyPage(props: { searchParams: SearchParams })
     const year = parseInt(searchParams.year);
 
     if (isNaN(year) || !years.includes(year)) {
-      return <Message variant="error" message="Invalid year. No data available for this year." />;
+      return (
+        <NotiMessage variant="error" message="Invalid year. No data available for this year." />
+      );
     }
     selectedYear = year;
   }
@@ -51,7 +53,7 @@ export default async function MonthlyPage(props: { searchParams: SearchParams })
 
     if (isNaN(month) || !NUM_MONTHS.includes(month)) {
       return (
-        <Message variant="error" message="Invalid month. Please check the URL and try again." />
+        <NotiMessage variant="error" message="Invalid month. Please check the URL and try again." />
       );
     }
     selectedMonth = month - 1;

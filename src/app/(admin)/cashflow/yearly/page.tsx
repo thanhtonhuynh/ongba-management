@@ -1,4 +1,4 @@
-import { ErrorMessage } from "@/components/message";
+import { ErrorMessage } from "@/components/noti-message";
 import { CurrentBadge } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { type Platform, getPlatformById } from "@/constants/platforms";

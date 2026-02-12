@@ -1,6 +1,6 @@
 import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
-import { ErrorMessage } from "@/components/message";
+import { ErrorMessage } from "@/components/noti-message";
 import { Typography } from "@/components/typography";
 import { PLATFORMS, getPlatformById } from "@/constants/platforms";
 import { getEmployees } from "@/data-access/employee";
@@ -19,9 +19,7 @@ export default async function Page() {
   if (!hasAccess(user.role, "/report", "create")) return notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
-    return (
-      <ErrorMessage message="Too many requests. Please try again later." />
-    );
+    return <ErrorMessage message="Too many requests. Please try again later." />;
   }
 
   const [usersPromise, startCashPromise, activePlatformIds] = [

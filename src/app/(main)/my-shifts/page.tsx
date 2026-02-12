@@ -1,7 +1,7 @@
 import { NUM_MONTHS } from "@/app/constants";
 import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
-import { ErrorMessage } from "@/components/message";
+import { ErrorMessage } from "@/components/noti-message";
 import { Typography } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -35,9 +35,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
   if (user.accountStatus !== "active") return notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
-    return (
-      <ErrorMessage message="Too many requests. Please try again later." />
-    );
+    return <ErrorMessage message="Too many requests. Please try again later." />;
   }
 
   const searchParams = await props.searchParams;
@@ -74,12 +72,8 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const periods = getPeriodsByMonthAndYear(selectedYear, selectedMonth - 1);
   const userShifts = await getUserShiftsInDateRange(user.id, dateRange);
 
-  const firstPeriodShifts = userShifts.filter(
-    (shift) => shift.date.getDate() <= 15,
-  );
-  const secondPeriodShifts = userShifts.filter(
-    (shift) => shift.date.getDate() > 15,
-  );
+  const firstPeriodShifts = userShifts.filter((shift) => shift.date.getDate() <= 15);
+  const secondPeriodShifts = userShifts.filter((shift) => shift.date.getDate() > 15);
 
   return (
     <Fragment>
@@ -124,18 +118,12 @@ export default async function Page(props: { searchParams: SearchParams }) {
             </div>
             <div className="flex items-center gap-3">
               <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
-                <HugeiconsIcon
-                  icon={Coins01Icon}
-                  className="text-muted-foreground size-5"
-                />
+                <HugeiconsIcon icon={Coins01Icon} className="text-muted-foreground size-5" />
               </div>
               <div>
                 <p className="text-muted-foreground text-xs">Total Tips</p>
                 <p className="text-sm font-semibold">
-                  {formatMoney(
-                    userShifts.reduce((acc, shift) => acc + shift.tips, 0) /
-                      100,
-                  )}
+                  {formatMoney(userShifts.reduce((acc, shift) => acc + shift.tips, 0) / 100)}
                 </p>
               </div>
             </div>
@@ -150,10 +138,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
           <CardContent className="space-y-6">
             {periods.map((period, index) => (
               <div key={index} className="space-y-1">
-                <Typography
-                  variant="h3"
-                  className="flex items-center gap-2 text-xs font-medium"
-                >
+                <Typography variant="h3" className="flex items-center gap-2 text-xs font-medium">
                   <CalendarDays className="text-primary size-4" />
                   <span>{moment(period.start).format("MMM D")}</span>
                   <HugeiconsIcon icon={ArrowRight01Icon} className="size-3" />
@@ -162,9 +147,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
 
                 <UserShiftTable
                   dateRange={period}
-                  userShifts={
-                    index === 0 ? firstPeriodShifts : secondPeriodShifts
-                  }
+                  userShifts={index === 0 ? firstPeriodShifts : secondPeriodShifts}
                 />
               </div>
             ))}

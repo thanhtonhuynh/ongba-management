@@ -1,7 +1,7 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { ErrorMessage, SuccessMessage } from "@/components/message";
+import { ErrorMessage, SuccessMessage } from "@/components/noti-message";
 import { Typography } from "@/components/typography";
 import { Card } from "@/components/ui/card";
 import {
@@ -13,10 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  UpdateStartCashInput,
-  UpdateStartCashSchema,
-} from "@/lib/validations/store";
+import { UpdateStartCashInput, UpdateStartCashSchema } from "@/lib/validations/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -61,9 +58,8 @@ export function StartCashForm({ currentStartCash }: ShiftHoursFormProps) {
       <div className="text-muted-foreground space-y-1 text-sm">
         <p>Update the start cash amount.</p>
         <p>
-          <span className="font-semibold">Note:</span> Any changes to the start
-          cash amount will be applied to the next sales report. The past reports
-          will not be affected.
+          <span className="font-semibold">Note:</span> Any changes to the start cash amount will be
+          applied to the next sales report. The past reports will not be affected.
         </p>
       </div>
 
@@ -86,12 +82,7 @@ export function StartCashForm({ currentStartCash }: ShiftHoursFormProps) {
             )}
           />
 
-          <LoadingButton
-            size={"sm"}
-            variant={"outline"}
-            loading={isPending}
-            type="submit"
-          >
+          <LoadingButton size={"sm"} variant={"outline"} loading={isPending} type="submit">
             Update start cash
           </LoadingButton>
         </form>

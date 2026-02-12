@@ -1,7 +1,7 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { ErrorMessage } from "@/components/message";
+import { ErrorMessage } from "@/components/noti-message";
 import { PasswordInput } from "@/components/PasswordInput";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -12,10 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  ResetPasswordSchema,
-  ResetPasswordSchemaTypes,
-} from "@/lib/validations/auth";
+import { ResetPasswordSchema, ResetPasswordSchemaTypes } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
@@ -52,10 +49,7 @@ export function ResetPasswordForm() {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex w-full flex-col space-y-6"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col space-y-6">
         {error && <ErrorMessage message={error} />}
 
         <FormField
@@ -92,10 +86,7 @@ export function ResetPasswordForm() {
           render={({ field }) => (
             <FormItem className="flex flex-row items-center space-y-0 space-x-3">
               <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
+                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
               </FormControl>
 
               <FormLabel>Sign out of other devices</FormLabel>

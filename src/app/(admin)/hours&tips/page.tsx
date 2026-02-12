@@ -1,13 +1,10 @@
-import { ErrorMessage } from "@/components/message";
+import { ErrorMessage } from "@/components/noti-message";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getShiftsInDateRange } from "@/data-access/employee";
 import { getCurrentSession } from "@/lib/auth/session";
 import { TotalHoursTips } from "@/types";
 import { hasAccess } from "@/utils/access-control";
-import {
-  getHoursTipsBreakdownInDayRange,
-  getTodayBiweeklyPeriod,
-} from "@/utils/hours-tips";
+import { getHoursTipsBreakdownInDayRange, getTodayBiweeklyPeriod } from "@/utils/hours-tips";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { notFound, redirect } from "next/navigation";
 import { DataTable } from "./_components/data-table";
@@ -20,9 +17,7 @@ export default async function Page() {
   if (!hasAccess(user.role, "/admin")) return notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
-    return (
-      <ErrorMessage message="Too many requests. Please try again later." />
-    );
+    return <ErrorMessage message="Too many requests. Please try again later." />;
   }
 
   const todayBiweeklyPeriod = getTodayBiweeklyPeriod();
@@ -35,9 +30,7 @@ export default async function Page() {
 
   const totalHoursTips: TotalHoursTips[] = [];
   for (const hourRecord of hoursBreakdown) {
-    const tipRecord = tipsBreakdown.find(
-      (tipRecord) => tipRecord.userId === hourRecord.userId,
-    );
+    const tipRecord = tipsBreakdown.find((tipRecord) => tipRecord.userId === hourRecord.userId);
     if (tipRecord) {
       totalHoursTips.push({
         userId: hourRecord.userId,
@@ -84,11 +77,7 @@ export default async function Page() {
         </CardHeader>
 
         <CardContent>
-          <DataTable
-            dateRange={todayBiweeklyPeriod}
-            data={tipsBreakdown}
-            isMoney
-          />
+          <DataTable dateRange={todayBiweeklyPeriod} data={tipsBreakdown} isMoney />
         </CardContent>
       </Card>
     </div>

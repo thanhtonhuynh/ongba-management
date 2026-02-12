@@ -15,7 +15,7 @@ type Props = {
   variant: "error" | "success" | "info";
 };
 
-export function Message({ title, message, className, variant }: Props) {
+export function NotiMessage({ title, message, className, variant }: Props) {
   const Icon = useMemo(() => {
     switch (variant) {
       case "error":
@@ -48,7 +48,7 @@ export function Message({ title, message, className, variant }: Props) {
   );
 }
 
-/** @deprecated Use Message instead. */
+/** @deprecated Use NotiMessage instead. */
 export function ErrorMessage({
   title,
   message,
@@ -75,7 +75,7 @@ export function ErrorMessage({
   );
 }
 
-/** @deprecated Use Message instead. */
+/** @deprecated Use NotiMessage instead. */
 export function SuccessMessage({
   title,
   message,

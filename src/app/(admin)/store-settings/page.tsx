@@ -1,6 +1,6 @@
 import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
-import { ErrorMessage } from "@/components/message";
+import { ErrorMessage } from "@/components/noti-message";
 import { Typography } from "@/components/typography";
 import { getActivePlatforms, getStartCash } from "@/data-access/store";
 import { getCurrentSession } from "@/lib/auth/session";

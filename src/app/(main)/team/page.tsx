@@ -1,4 +1,4 @@
-import { ErrorMessage } from "@/components/message";
+import { ErrorMessage } from "@/components/noti-message";
 import { getEmployees } from "@/data-access/employee";
 import { getCurrentSession } from "@/lib/auth/session";
 import { type EmployeeStatus } from "@/types";
@@ -19,9 +19,7 @@ export default async function TeamPage({ searchParams }: PageProps) {
   if (user.accountStatus !== "active") return notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
-    return (
-      <ErrorMessage message="Too many requests. Please try again later." />
-    );
+    return <ErrorMessage message="Too many requests. Please try again later." />;
   }
 
   const params = await searchParams;
@@ -40,9 +38,7 @@ export default async function TeamPage({ searchParams }: PageProps) {
     <div className="bg-background space-y-4 rounded-xl border border-blue-950 p-6">
       {/* Toolbar: Filter + View Toggle */}
       <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          {canManageEmployees && <StatusFilter />}
-        </div>
+        <div className="flex items-center gap-2">{canManageEmployees && <StatusFilter />}</div>
 
         <ViewToggle />
       </div>

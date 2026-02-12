@@ -1,6 +1,6 @@
 import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
-import { Message } from "@/components/message";
+import { NotiMessage } from "@/components/noti-message";
 import { Typography } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -33,7 +33,7 @@ export default async function Home(props: { searchParams: SearchParams }) {
   if (user.accountStatus !== "active") notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
-    return <Message variant="error" message="Too many requests. Please try again later." />;
+    return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
   }
 
   const searchParams = await props.searchParams;

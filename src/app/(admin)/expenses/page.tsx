@@ -1,7 +1,7 @@
 import { FULL_MONTHS } from "@/app/constants";
 import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
-import { ErrorMessage } from "@/components/message";
+import { ErrorMessage } from "@/components/noti-message";
 import { Typography } from "@/components/typography";
 import {
   Accordion,
@@ -36,9 +36,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
   if (!hasAccess(user.role, "/admin")) return notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
-    return (
-      <ErrorMessage message="Too many requests. Please try again later." />
-    );
+    return <ErrorMessage message="Too many requests. Please try again later." />;
   }
 
   const searchParams = await props.searchParams;
@@ -86,13 +84,8 @@ export default async function Page(props: { searchParams: SearchParams }) {
         <div>
           <Accordion multiple>
             {monthlyExpenses.map((monthlyExpense) => (
-              <AccordionItem
-                key={monthlyExpense.month}
-                value={`month-${monthlyExpense.month}`}
-              >
-                <AccordionTrigger>
-                  {FULL_MONTHS[monthlyExpense.month]}
-                </AccordionTrigger>
+              <AccordionItem key={monthlyExpense.month} value={`month-${monthlyExpense.month}`}>
+                <AccordionTrigger>{FULL_MONTHS[monthlyExpense.month]}</AccordionTrigger>
 
                 <AccordionContent className={"space-y-2 [&_a]:no-underline"}>
                   {monthlyExpense.monthExpenses.map((dayExpense) => (
@@ -101,20 +94,13 @@ export default async function Page(props: { searchParams: SearchParams }) {
                       className="hover:bg-muted group hover:border-border flex items-start gap-4 rounded-lg border border-transparent px-4 py-2 text-xs transition-all duration-300"
                       href={`/expenses/${dayExpense.id}`}
                     >
-                      <span className="w-4">
-                        {moment(dayExpense.date).format("D")}
-                      </span>
+                      <span className="w-4">{moment(dayExpense.date).format("D")}</span>
 
                       <div className="flex-1">
                         {dayExpense.entries.map((entry, index) => (
-                          <div
-                            key={index}
-                            className="flex justify-between gap-2"
-                          >
+                          <div key={index} className="flex justify-between gap-2">
                             <span className="line-clamp-1">{entry.reason}</span>
-                            <span>
-                              {formatPriceWithDollar(entry.amount / 100)}
-                            </span>
+                            <span>{formatPriceWithDollar(entry.amount / 100)}</span>
                           </div>
                         ))}
                       </div>
@@ -124,11 +110,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
 
                   <div className="flex items-center justify-between rounded-lg border p-3 text-xs font-bold">
                     <span>Total spent</span>
-                    <span>
-                      {formatPriceWithDollar(
-                        monthlyExpense.totalExpenses / 100,
-                      )}
-                    </span>
+                    <span>{formatPriceWithDollar(monthlyExpense.totalExpenses / 100)}</span>
                   </div>
                 </AccordionContent>
               </AccordionItem>

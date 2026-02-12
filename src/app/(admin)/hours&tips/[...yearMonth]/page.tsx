@@ -1,15 +1,12 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
-import { ErrorMessage } from "@/components/message";
+import { ErrorMessage } from "@/components/noti-message";
 import { Separator } from "@/components/ui/separator";
 import { getShiftsInDateRange } from "@/data-access/employee";
 import { getFirstReportDate } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import { TotalHoursTips } from "@/types";
 import { hasAccess } from "@/utils/access-control";
-import {
-  getHoursTipsBreakdownInDayRange,
-  getPeriodsByMonthAndYear,
-} from "@/utils/hours-tips";
+import { getHoursTipsBreakdownInDayRange, getPeriodsByMonthAndYear } from "@/utils/hours-tips";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -28,16 +25,12 @@ export default async function Page(props: { params: Params }) {
   if (!hasAccess(user.role, "/admin")) return notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
-    return (
-      <ErrorMessage message="Too many requests. Please try again later." />
-    );
+    return <ErrorMessage message="Too many requests. Please try again later." />;
   }
 
   const params = await props.params;
   if (params.yearMonth.length !== 2) {
-    return (
-      <ErrorMessage message="Invalid year or month. Please check the URL and try again." />
-    );
+    return <ErrorMessage message="Invalid year or month. Please check the URL and try again." />;
   }
 
   const year = parseInt(params.yearMonth[0]);
@@ -55,18 +48,15 @@ export default async function Page(props: { params: Params }) {
     year < firstYear ||
     year > currentYear
   ) {
-    return (
-      <ErrorMessage message="Invalid year or month. Please check the URL and try again." />
-    );
+    return <ErrorMessage message="Invalid year or month. Please check the URL and try again." />;
   }
 
   const periods = getPeriodsByMonthAndYear(year, month - 1);
 
-  const [firstPeriodEmployeeShifts, secondPeriodEmployeeShifts] =
-    await Promise.all([
-      getShiftsInDateRange(periods[0]),
-      getShiftsInDateRange(periods[1]),
-    ]);
+  const [firstPeriodEmployeeShifts, secondPeriodEmployeeShifts] = await Promise.all([
+    getShiftsInDateRange(periods[0]),
+    getShiftsInDateRange(periods[1]),
+  ]);
 
   const hoursTipsBreakdowns = [
     getHoursTipsBreakdownInDayRange(periods[0], firstPeriodEmployeeShifts),
@@ -76,9 +66,7 @@ export default async function Page(props: { params: Params }) {
   const totalHoursTips: TotalHoursTips[] = [];
   for (const hoursTipsBreakdown of hoursTipsBreakdowns) {
     for (const data of hoursTipsBreakdown.hoursBreakdown) {
-      const index = totalHoursTips.findIndex(
-        (total) => total.userId === data.userId,
-      );
+      const index = totalHoursTips.findIndex((total) => total.userId === data.userId);
 
       if (index === -1) {
         totalHoursTips.push({
@@ -94,9 +82,7 @@ export default async function Page(props: { params: Params }) {
     }
 
     for (const data of hoursTipsBreakdown.tipsBreakdown) {
-      const index = totalHoursTips.findIndex(
-        (total) => total.userId === data.userId,
-      );
+      const index = totalHoursTips.findIndex((total) => total.userId === data.userId);
 
       if (index === -1) {
         totalHoursTips.push({
@@ -141,10 +127,7 @@ export default async function Page(props: { params: Params }) {
 
             {hoursTipsBreakdowns[index].hoursBreakdown.length > 0 ? (
               <>
-                <DataTable
-                  dateRange={period}
-                  data={hoursTipsBreakdowns[index].hoursBreakdown}
-                />
+                <DataTable dateRange={period} data={hoursTipsBreakdowns[index].hoursBreakdown} />
 
                 <Separator />
               </>

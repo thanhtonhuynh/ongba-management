@@ -1,4 +1,4 @@
-import { ErrorMessage } from "@/components/message";
+import { ErrorMessage } from "@/components/noti-message";
 import { Typography } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -22,13 +22,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
 
   return (
     <main className="flex flex-1 flex-col items-center justify-center gap-6 p-3">
-      <Image
-        priority
-        src={"/serva-logo-full.svg"}
-        alt="Serva Logo"
-        width={240}
-        height={80}
-      />
+      <Image priority src={"/serva-logo-full.svg"} alt="Serva Logo" width={240} height={80} />
 
       <Card className="w-full max-w-xl items-center">
         {resetLinkExpired && (
@@ -43,8 +37,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
           <div className="mb-5 space-y-1">
             <p className="text-sm text-gray-500">
               Enter your email address and we'll send you
-              {resetLinkExpired ? " another" : " a"} link to reset your
-              password.
+              {resetLinkExpired ? " another" : " a"} link to reset your password.
             </p>
             <p className="text-sm text-gray-500">
               For security reasons, the link will expire in 30 minutes.

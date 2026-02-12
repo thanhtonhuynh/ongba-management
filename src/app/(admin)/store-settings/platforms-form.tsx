@@ -1,22 +1,13 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { ErrorMessage, SuccessMessage } from "@/components/message";
+import { ErrorMessage, SuccessMessage } from "@/components/noti-message";
 import { Typography } from "@/components/typography";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-  FieldSet,
-} from "@/components/ui/field";
+import { Field, FieldError, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { PLATFORMS } from "@/constants/platforms";
-import {
-  UpdateActivePlatformsInput,
-  UpdateActivePlatformsSchema,
-} from "@/lib/validations/store";
+import { UpdateActivePlatformsInput, UpdateActivePlatformsSchema } from "@/lib/validations/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useState, useTransition } from "react";
@@ -27,9 +18,7 @@ type PlatformsFormProps = {
   currentActivePlatformIds: string[];
 };
 
-export function PlatformsForm({
-  currentActivePlatformIds,
-}: PlatformsFormProps) {
+export function PlatformsForm({ currentActivePlatformIds }: PlatformsFormProps) {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string>();
   const [isPending, startTransition] = useTransition();
@@ -63,20 +52,16 @@ export function PlatformsForm({
 
       <div className="text-muted-foreground space-y-1 text-sm">
         <p>
-          Select which online platforms are active for your store. Only active
-          platforms will appear in sales report forms.
+          Select which online platforms are active for your store. Only active platforms will appear
+          in sales report forms.
         </p>
         <p>
-          <span className="font-semibold">Note:</span> Deactivating a platform
-          will not delete any existing sales data for that platform.
+          <span className="font-semibold">Note:</span> Deactivating a platform will not delete any
+          existing sales data for that platform.
         </p>
       </div>
 
-      <form
-        id="platforms-form"
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4"
-      >
+      <form id="platforms-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         {error && <ErrorMessage message={error} />}
         {success && <SuccessMessage message="Platforms updated" />}
 
@@ -100,16 +85,11 @@ export function PlatformsForm({
                       onCheckedChange={(checked) => {
                         const newValue = checked
                           ? [...field.value, platform.id]
-                          : field.value.filter(
-                              (value) => value !== platform.id,
-                            );
+                          : field.value.filter((value) => value !== platform.id);
                         field.onChange(newValue);
                       }}
                     />
-                    <FieldLabel
-                      htmlFor={`platforms-form-${platform.id}`}
-                      className="font-normal"
-                    >
+                    <FieldLabel htmlFor={`platforms-form-${platform.id}`} className="font-normal">
                       <Image
                         src={platform.iconSrc}
                         alt={`${platform.label} icon`}
@@ -128,12 +108,7 @@ export function PlatformsForm({
         />
 
         {formState.isDirty && (
-          <LoadingButton
-            size="sm"
-            variant="outline"
-            loading={isPending}
-            type="submit"
-          >
+          <LoadingButton size="sm" variant="outline" loading={isPending} type="submit">
             Update platforms
           </LoadingButton>
         )}
