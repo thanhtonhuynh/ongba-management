@@ -1,13 +1,14 @@
 import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
-import { ErrorMessage } from "@/components/Message";
+import { ErrorMessage } from "@/components/message";
 import { Typography } from "@/components/typography";
-import { getStartCash } from "@/data-access/store";
+import { getActivePlatforms, getStartCash } from "@/data-access/store";
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasAccess } from "@/utils/access-control";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
+import { PlatformsForm } from "./platforms-form";
 import { StartCashForm } from "./start-cash-form";
 
 export default async function Page() {
@@ -17,12 +18,13 @@ export default async function Page() {
   if (!hasAccess(user.role, "/admin")) return notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
-    return (
-      <ErrorMessage message="Too many requests. Please try again later." />
-    );
+    return <ErrorMessage message="Too many requests. Please try again later." />;
   }
 
-  const currentStartCash = await getStartCash();
+  const [currentStartCash, activePlatformIds] = await Promise.all([
+    getStartCash(),
+    getActivePlatforms(),
+  ]);
 
   return (
     <Fragment>
@@ -32,6 +34,7 @@ export default async function Page() {
 
       <Container>
         <StartCashForm currentStartCash={currentStartCash / 100} />
+        <PlatformsForm currentActivePlatformIds={activePlatformIds} />
       </Container>
     </Fragment>
   );

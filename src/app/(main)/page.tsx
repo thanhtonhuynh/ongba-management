@@ -1,16 +1,14 @@
 import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
-import { ErrorMessage } from "@/components/Message";
-import { SaleReportCard } from "@/components/SaleReportCard";
+import { Message } from "@/components/message";
 import { Typography } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getReportRaw } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
-import { SaleReportCardProcessedData } from "@/types";
 import { hasAccess } from "@/utils/access-control";
+import { getTodayStartOfDay } from "@/utils/datetime";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import { processReportDataForView } from "@/utils/report";
 import {
   Calculator01Icon,
   Calendar02Icon,
@@ -18,7 +16,6 @@ import {
   UserAccountIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import moment from "moment-timezone";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
@@ -36,19 +33,13 @@ export default async function Home(props: { searchParams: SearchParams }) {
   if (user.accountStatus !== "active") notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
-    return (
-      <ErrorMessage message="Too many requests. Please try again later." />
-    );
+    return <Message variant="error" message="Too many requests. Please try again later." />;
   }
 
   const searchParams = await props.searchParams;
 
-  const today = moment().tz("America/Vancouver").startOf("day").toDate();
+  const today = getTodayStartOfDay();
   const todayReport = await getReportRaw({ date: today });
-  let processedTodayReportData: SaleReportCardProcessedData | undefined;
-  if (todayReport) {
-    processedTodayReportData = processReportDataForView(todayReport);
-  }
 
   let selectedYear: number, selectedMonth: number;
   if (searchParams.year && searchParams.month) {
@@ -62,9 +53,8 @@ export default async function Home(props: { searchParams: SearchParams }) {
   return (
     <Fragment>
       <Header>
-        <div className="text-sm font-medium">
-          {moment().tz("America/Vancouver").format("dddd, MMMM D, YYYY")}
-        </div>
+        {/* Business name, will change later when scaling */}
+        <Typography variant="h1">Ongba Eatery</Typography>
       </Header>
 
       <Container>
@@ -134,7 +124,8 @@ export default async function Home(props: { searchParams: SearchParams }) {
           </CardContent>
         </Card>
 
-        {todayReport && (
+        {/* TODO: Removed this, will replace with just general today's sales data */}
+        {/* {todayReport && (
           <>
             <Card>
               <CardHeader>
@@ -145,13 +136,11 @@ export default async function Home(props: { searchParams: SearchParams }) {
               </CardContent>
             </Card>
           </>
-        )}
+        )} */}
 
         <EmployeeAnalytics user={user} />
 
-        {user.role === "admin" && (
-          <SalesSummary year={selectedYear} month={selectedMonth} />
-        )}
+        {user.role === "admin" && <SalesSummary year={selectedYear} month={selectedMonth} />}
       </Container>
     </Fragment>
   );

@@ -1,8 +1,11 @@
 "use client";
 
 import { InputField } from "@/components/ui/form/input-field";
+import { getPlatformById } from "@/constants/platforms";
 import { User } from "@/lib/auth/session";
+import { SaleReportInputs } from "@/lib/validations/report";
 import { use } from "react";
+import { useFormContext } from "react-hook-form";
 import { EmployeeInput } from "./employee-input";
 
 type Props = {
@@ -10,6 +13,7 @@ type Props = {
 };
 export function SalesDetailForm({ usersPromise }: Props) {
   const users = use(usersPromise);
+  const form = useFormContext<SaleReportInputs>();
 
   return (
     <form className="space-y-2">
@@ -37,41 +41,22 @@ export function SalesDetailForm({ usersPromise }: Props) {
         </div>
 
         <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
-          <InputField
-            nameInSchema="uberEatsSales"
-            fieldTitle="UberEats"
-            placeholder="0.00"
-            type="number"
-            labelClassName="text-muted-foreground text-xs tracking-wide"
-            inputClassName="text-sm"
-          />
+          {form.getValues("platformSales").map((platform, index) => {
+            const platformInfo = getPlatformById(platform.platformId);
+            if (!platformInfo) return null;
 
-          <InputField
-            nameInSchema="doorDashSales"
-            fieldTitle="DoorDash"
-            placeholder="0.00"
-            type="number"
-            labelClassName="text-muted-foreground text-xs tracking-wide"
-            inputClassName="text-sm"
-          />
-
-          <InputField
-            nameInSchema="onlineSales"
-            fieldTitle="Ritual (online)"
-            placeholder="0.00"
-            type="number"
-            labelClassName="text-muted-foreground text-xs tracking-wide"
-            inputClassName="text-sm"
-          />
-
-          <InputField
-            nameInSchema="skipTheDishesSales"
-            fieldTitle="SkipTheDishes"
-            placeholder="0.00"
-            type="number"
-            labelClassName="text-muted-foreground text-xs tracking-wide"
-            inputClassName="text-sm"
-          />
+            return (
+              <InputField
+                key={platform.platformId}
+                nameInSchema={`platformSales.${index}.amount`}
+                fieldTitle={platformInfo.label}
+                placeholder="0.00"
+                type="number"
+                labelClassName="text-muted-foreground text-xs tracking-wide"
+                inputClassName="text-sm"
+              />
+            );
+          })}
         </div>
       </div>
 

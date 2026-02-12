@@ -35,11 +35,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
   }
 
   // Non-admins and non-managers can only view users with "active" status
-  const canViewAllStatuses = hasAccess(
-    currentUser.role,
-    "/employees",
-    "update",
-  );
+  const canViewAllStatuses = hasAccess(currentUser.role, "/employees", "update");
   if (!canViewAllStatuses && profileUser.accountStatus !== "active") {
     return notFound();
   }

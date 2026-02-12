@@ -1,9 +1,10 @@
 import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
 import { Typography } from "@/components/typography";
+import { PLATFORMS, getPlatformById } from "@/constants/platforms";
 import { getEmployees } from "@/data-access/employee";
 import { getReportRaw } from "@/data-access/report";
-import { getStartCash } from "@/data-access/store";
+import { getActivePlatforms, getStartCash } from "@/data-access/store";
 import { getCurrentSession } from "@/lib/auth/session";
 import { SaleReportInputs } from "@/lib/validations/report";
 import { hasAccess } from "@/utils/access-control";
@@ -24,17 +25,29 @@ export default async function Page(props: { params: Params }) {
   const report = await getReportRaw({ id: params.id });
   if (!report) notFound();
 
-  const [usersPromise, startCashPromise] = [getEmployees(), getStartCash()];
+  const [usersPromise, startCashPromise, activePlatformIds] = [
+    getEmployees(),
+    getStartCash(),
+    getActivePlatforms(),
+  ];
+
+  const activePlatforms = (await activePlatformIds)
+    .map((id) => getPlatformById(id))
+    .filter(Boolean) as typeof PLATFORMS;
+
+  // Build platformSales from the report data (in dollars).
+  // All reports should have platformSales populated after migration.
+  const platformSales = report.platformSales.map((ps) => ({
+    platformId: ps.platformId,
+    amount: ps.amount / 100,
+  }));
 
   // Convert cents -> dollars
   const initialValues: SaleReportInputs = {
     date: report.date,
     totalSales: report.totalSales / 100,
     cardSales: report.cardSales / 100,
-    uberEatsSales: report.uberEatsSales / 100,
-    doorDashSales: report.doorDashSales / 100,
-    skipTheDishesSales: report.skipTheDishesSales / 100,
-    onlineSales: report.onlineSales / 100,
+    platformSales,
     expenses: report.expenses / 100,
     expensesReason: report.expensesReason ?? undefined,
     cardTips: report.cardTips / 100,
@@ -58,6 +71,7 @@ export default async function Page(props: { params: Params }) {
           <SaleReportPortal
             usersPromise={usersPromise}
             startCashPromise={startCashPromise}
+            activePlatforms={activePlatforms}
             initialValues={initialValues}
             mode="edit"
             reporterName={report.reporterName}

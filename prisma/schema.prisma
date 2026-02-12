@@ -63,28 +63,35 @@ model StoreSettings {
   id        String @id @default(auto()) @map("_id") @db.ObjectId
   uniqueKey String @unique @default("store")
 
-  startCash Int
+  startCash       Int
+  activePlatforms String[] @default(["uber_eats", "doordash", "skip_the_dishes", "ritual"])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model SaleReport {
-  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
-  date               DateTime @unique
-  totalSales         Int
-  cardSales          Int
+  id   String   @id @default(auto()) @map("_id") @db.ObjectId
+  date DateTime @unique
+
+  totalSales Int
+  cardSales  Int
+
+  // Legacy platform columns (kept for backward compatibility)
   uberEatsSales      Int
   skipTheDishesSales Int
   doorDashSales      Int
-  onlineSales        Int
-  expenses           Int
-  expensesReason     String?
-  cardTips           Int
-  cashTips           Int
-  extraTips          Int
-  cashInTill         Int
-  startCash          Int
+  onlineSales        Int // This is actually Ritual sales
+  // New flexible platform sales
+  platformSales      PlatformSale[]
+
+  expenses       Int
+  expensesReason String?
+  cardTips       Int
+  cashTips       Int
+  extraTips      Int
+  cashInTill     Int
+  startCash      Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -102,6 +109,11 @@ type Shift {
   userId String @db.ObjectId
   hours  Float
   tips   Int
+}
+
+type PlatformSale {
+  platformId String
+  amount     Int
 }
 
 type ReportAudit {

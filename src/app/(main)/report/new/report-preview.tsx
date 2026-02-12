@@ -26,31 +26,37 @@ export function ReportPreview({
 }: Props) {
   const { user } = useSession();
   const startCash = use(startCashPromise);
+  const formValues = saleReportForm.watch();
+
+  // Convert platformSales amounts to cents for preview
+  const platformSalesInCents = (formValues.platformSales ?? []).map((ps) => ({
+    platformId: ps.platformId,
+    amount: ps.amount * 100,
+  }));
 
   const rawData: SaleReportCardRawData = {
-    ...saleReportForm.watch(),
+    date: formValues.date,
+    totalSales: formValues.totalSales * 100,
+    cardSales: formValues.cardSales * 100,
+    // Legacy fields set to 0 — platformSales is the source of truth
+    // uberEatsSales: 0,
+    // doorDashSales: 0,
+    // skipTheDishesSales: 0,
+    // onlineSales: 0,
+    platformSales: platformSalesInCents,
+    expenses: formValues.expenses * 100,
+    cashInTill: formValues.cashInTill * 100,
+    cardTips: formValues.cardTips * 100,
+    cashTips: formValues.cashTips * 100,
+    extraTips: formValues.extraTips * 100,
     startCash,
+    employees: formValues.employees,
     reporterName: reporterName ?? user?.name ?? "Unknown user",
     reporterImage: reporterImage ?? user?.image ?? null,
     reporterUsername: reporterUsername ?? user?.username ?? "unknown",
   };
 
-  const rawDataInCents = {
-    ...rawData,
-    totalSales: rawData.totalSales * 100,
-    cardSales: rawData.cardSales * 100,
-    uberEatsSales: rawData.uberEatsSales * 100,
-    doorDashSales: rawData.doorDashSales * 100,
-    skipTheDishesSales: rawData.skipTheDishesSales * 100,
-    onlineSales: rawData.onlineSales * 100,
-    expenses: rawData.expenses * 100,
-    cashInTill: rawData.cashInTill * 100,
-    cardTips: rawData.cardTips * 100,
-    cashTips: rawData.cashTips * 100,
-    extraTips: rawData.extraTips * 100,
-  };
-
-  const processedData = processReportDataForView(rawDataInCents);
+  const processedData = processReportDataForView(rawData);
 
   return (
     <Card className="p-3">

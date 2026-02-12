@@ -1,7 +1,9 @@
 "use client";
 
-import { cn, formatPriceWithDollar } from "@/lib/utils";
+import { getPlatformById, type Platform } from "@/constants/platforms";
+import { cn, formatMoney } from "@/lib/utils";
 import { SaleReportCardProcessedData } from "@/types";
+import { getPlatformAmount } from "@/utils/report";
 import {
   BalanceScaleIcon,
   Calendar03Icon,
@@ -27,6 +29,10 @@ export function SaleReportCard({ data }: SaleReportProps) {
   if (!data) {
     return null;
   }
+
+  const platformData: Platform[] = data.platformSales
+    .map((ps) => getPlatformById(ps.platformId))
+    .filter(Boolean) as Platform[];
 
   return (
     <div className="space-y-4 text-sm">
@@ -82,7 +88,7 @@ export function SaleReportCard({ data }: SaleReportProps) {
           <div>
             <p className="text-muted-foreground text-xs">Total Sales</p>
             <p className="font-semibold">
-              {formatPriceWithDollar(data.totalSales / 100)}
+              {formatMoney(data.totalSales / 100)}
             </p>
           </div>
         </div>
@@ -101,18 +107,18 @@ export function SaleReportCard({ data }: SaleReportProps) {
               <div>
                 <p className="text-muted-foreground text-xs">In-store Sales</p>
                 <p className="font-medium">
-                  {formatPriceWithDollar(data.inStoreSales / 100)}
+                  {formatMoney(data.inStoreSales / 100)}
                 </p>
               </div>
             </div>
             <div className="text-muted-foreground ml-12 grid grid-cols-2 gap-1 text-xs">
               <span>Card</span>
               <span className="text-right">
-                {formatPriceWithDollar(data.cardSales / 100)}
+                {formatMoney(data.cardSales / 100)}
               </span>
               <span>Cash</span>
               <span className="text-right">
-                {formatPriceWithDollar(data.cashSales / 100)}
+                {formatMoney(data.cashSales / 100)}
               </span>
             </div>
           </div>
@@ -129,27 +135,18 @@ export function SaleReportCard({ data }: SaleReportProps) {
               <div>
                 <p className="text-muted-foreground text-xs">Online Sales</p>
                 <p className="font-medium">
-                  {formatPriceWithDollar(data.otherSales / 100)}
+                  {formatMoney(data.onlineSales / 100)}
                 </p>
               </div>
             </div>
             <div className="text-muted-foreground ml-12 grid grid-cols-2 gap-1 text-xs">
-              <span>UberEats</span>
-              <span className="text-right">
-                {formatPriceWithDollar(data.uberEatsSales / 100)}
-              </span>
-              <span>DoorDash</span>
-              <span className="text-right">
-                {formatPriceWithDollar(data.doorDashSales / 100)}
-              </span>
-              <span>Ritual</span>
-              <span className="text-right">
-                {formatPriceWithDollar(data.onlineSales / 100)}
-              </span>
-              <span>SkipTheDishes</span>
-              <span className="text-right">
-                {formatPriceWithDollar(data.skipTheDishesSales / 100)}
-              </span>
+              {platformData.map((platform) => (
+                <PlatformRow
+                  key={platform.id}
+                  label={platform.label}
+                  amount={getPlatformAmount(data.platformSales, platform.id)}
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -174,20 +171,18 @@ export function SaleReportCard({ data }: SaleReportProps) {
               <div>
                 <p className="text-muted-foreground text-xs">Cash Out</p>
                 <p className="font-semibold">
-                  {formatPriceWithDollar(data.cashOut / 100)}
+                  {formatMoney(data.cashOut / 100)}
                 </p>
               </div>
             </div>
             <div className="text-muted-foreground ml-12 grid grid-cols-2 gap-1 text-xs">
               <span>From Till</span>
               <span className="text-right">
-                {formatPriceWithDollar(
-                  (data.cashInTill - data.startCash) / 100,
-                )}
+                {formatMoney((data.cashInTill - data.startCash) / 100)}
               </span>
               <span>Cash Tips</span>
               <span className="text-right">
-                {formatPriceWithDollar(data.cashTips / 100)}
+                {formatMoney(data.cashTips / 100)}
               </span>
             </div>
           </div>
@@ -215,22 +210,22 @@ export function SaleReportCard({ data }: SaleReportProps) {
                     data.cashDifference > 0 && "text-green-600",
                   )}
                 >
-                  {formatPriceWithDollar(data.cashDifference / 100)}
+                  {formatMoney(data.cashDifference / 100)}
                 </p>
               </div>
             </div>
             <div className="text-muted-foreground ml-12 grid grid-cols-2 gap-1 text-xs">
               <span>Cash in Till</span>
               <span className="text-right">
-                {formatPriceWithDollar(data.cashInTill / 100)}
+                {formatMoney(data.cashInTill / 100)}
               </span>
               <span>Start Cash</span>
               <span className="text-right">
-                {formatPriceWithDollar(data.startCash / 100)}
+                {formatMoney(data.startCash / 100)}
               </span>
               <span>Actual Cash</span>
               <span className="text-right">
-                {formatPriceWithDollar(data.actualCash / 100)}
+                {formatMoney(data.actualCash / 100)}
               </span>
             </div>
           </div>
@@ -248,7 +243,7 @@ export function SaleReportCard({ data }: SaleReportProps) {
             <div>
               <p className="text-muted-foreground text-xs">Expenses</p>
               <p className="flex items-center font-medium">
-                {formatPriceWithDollar(data.expenses / 100)}
+                {formatMoney(data.expenses / 100)}
                 {data.expensesReason && (
                   <span className="text-muted-foreground ml-2 text-xs font-normal">
                     — {data.expensesReason}
@@ -280,22 +275,22 @@ export function SaleReportCard({ data }: SaleReportProps) {
               <div>
                 <p className="text-muted-foreground text-xs">Total Tips</p>
                 <p className="font-semibold">
-                  {formatPriceWithDollar(data.totalTips / 100)}
+                  {formatMoney(data.totalTips / 100)}
                 </p>
               </div>
             </div>
             <div className="text-muted-foreground ml-13 grid grid-cols-2 gap-1 text-xs">
               <span>Card</span>
               <span className="text-right">
-                {formatPriceWithDollar(data.cardTips / 100)}
+                {formatMoney(data.cardTips / 100)}
               </span>
               <span>Cash</span>
               <span className="text-right">
-                {formatPriceWithDollar(data.cashTips / 100)}
+                {formatMoney(data.cashTips / 100)}
               </span>
               <span>Extra</span>
               <span className="text-right">
-                {formatPriceWithDollar(data.extraTips / 100)}
+                {formatMoney(data.extraTips / 100)}
               </span>
             </div>
           </div>
@@ -325,7 +320,7 @@ export function SaleReportCard({ data }: SaleReportProps) {
             <div>
               <p className="text-muted-foreground text-xs">Per Hour</p>
               <p className="font-semibold">
-                {formatPriceWithDollar(data.tipsPerHour / 100)}
+                {formatMoney(data.tipsPerHour / 100)}
               </p>
             </div>
           </div>
@@ -354,7 +349,7 @@ export function SaleReportCard({ data }: SaleReportProps) {
                 </Link>
                 <div className="text-right">
                   <p className="text-xs font-semibold">
-                    {formatPriceWithDollar((emp.hour * data.tipsPerHour) / 100)}
+                    {formatMoney((emp.hour * data.tipsPerHour) / 100)}
                   </p>
                   <p className="text-muted-foreground text-xs">{emp.hour}h</p>
                 </div>
@@ -364,5 +359,14 @@ export function SaleReportCard({ data }: SaleReportProps) {
         </div>
       </div>
     </div>
+  );
+}
+
+function PlatformRow({ label, amount }: { label: string; amount: number }) {
+  return (
+    <>
+      <span>{label}</span>
+      <span className="text-right">{formatMoney(amount / 100)}</span>
+    </>
   );
 }

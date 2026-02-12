@@ -1,20 +1,15 @@
-import { CurrentTag } from "@/components/CurrentTag";
+import { CurrentBadge } from "@/components/shared";
 import { Typography } from "@/components/typography";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { type Platform, getPlatformById } from "@/constants/platforms";
 import { getReportsByDateRange } from "@/data-access/report";
 import { formatPriceWithDollar } from "@/lib/utils";
-import {
-  getDayRangeByMonthAndYear,
-  populateMonthSelectData,
-} from "@/utils/hours-tips";
+import { getDayRangeByMonthAndYear, populateMonthSelectData } from "@/utils/hours-tips";
 import { summarizeReports } from "@/utils/report";
-import {
-  DollarCircleIcon,
-  SmartPhone01Icon,
-  Store01Icon,
-} from "@hugeicons/core-free-icons";
+import { DollarCircleIcon, SmartPhone01Icon, Store01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import moment from "moment";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { FULL_MONTHS, NUM_MONTHS } from "../constants";
 import { ViewPeriodsDialog } from "./ViewPeriodsDialog";
@@ -27,12 +22,7 @@ type SalesSummaryProps = {
 export async function SalesSummary({ year, month }: SalesSummaryProps) {
   const { years } = await populateMonthSelectData();
 
-  if (
-    isNaN(year) ||
-    isNaN(month) ||
-    !years.includes(year) ||
-    !NUM_MONTHS.includes(month)
-  )
+  if (isNaN(year) || isNaN(month) || !years.includes(year) || !NUM_MONTHS.includes(month))
     notFound();
 
   const today = moment().tz("America/Vancouver").startOf("day").toDate();
@@ -41,6 +31,11 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
   const sumData = summarizeReports(reports);
   const instoreSales = sumData.totalSales - sumData.onlineSales;
 
+  // Derive platforms from actual data so historical periods show all platforms that were used
+  const platformsInData = Object.keys(sumData.platformTotals)
+    .map((id) => getPlatformById(id))
+    .filter((p): p is Platform => p !== undefined);
+
   return (
     <Card>
       <CardHeader className="flex items-center justify-between gap-3">
@@ -48,24 +43,10 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
         {years.length > 0 && <ViewPeriodsDialog years={years} />}
       </CardHeader>
 
-      {/* {(year !== today.getFullYear() ||
-        (year === today.getFullYear() && month !== today.getMonth() + 1)) && (
-        <GoBackButton
-          url={`/`}
-          variant={`outline`}
-          className="gap-2"
-          size={"sm"}
-        >
-          View current
-        </GoBackButton>
-      )} */}
-
       <CardContent className="space-y-3">
         <Typography variant="h2" className="flex items-center gap-2">
           {FULL_MONTHS[month - 1]} {year}
-          {year === today.getFullYear() && month === today.getMonth() + 1 && (
-            <CurrentTag />
-          )}
+          {year === today.getFullYear() && month === today.getMonth() + 1 && <CurrentBadge />}
         </Typography>
 
         {/* Overview Section */}
@@ -75,10 +56,7 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
           <div className="grid gap-4 sm:grid-cols-3">
             <div className="flex items-center gap-3">
               <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
-                <HugeiconsIcon
-                  icon={DollarCircleIcon}
-                  className="text-muted-foreground size-5"
-                />
+                <HugeiconsIcon icon={DollarCircleIcon} className="text-muted-foreground size-5" />
               </div>
               <div>
                 <p className="text-muted-foreground text-xs">Total Sales</p>
@@ -90,10 +68,7 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
 
             <div className="flex items-center gap-3">
               <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
-                <HugeiconsIcon
-                  icon={Store01Icon}
-                  className="text-muted-foreground size-5"
-                />
+                <HugeiconsIcon icon={Store01Icon} className="text-muted-foreground size-5" />
               </div>
               <div>
                 <p className="text-muted-foreground text-xs">In-store Sales</p>
@@ -111,10 +86,7 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
 
             <div className="flex items-center gap-3">
               <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
-                <HugeiconsIcon
-                  icon={SmartPhone01Icon}
-                  className="text-muted-foreground size-5"
-                />
+                <HugeiconsIcon icon={SmartPhone01Icon} className="text-muted-foreground size-5" />
               </div>
               <div>
                 <p className="text-muted-foreground text-xs">Online Sales</p>
@@ -122,11 +94,7 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
                   {formatPriceWithDollar(sumData.onlineSales / 100)}
                   {sumData.totalSales > 0 && (
                     <span className="text-primary ml-1 text-xs">
-                      (
-                      {(
-                        (sumData.onlineSales / sumData.totalSales) *
-                        100
-                      ).toFixed(1)}
+                      ({((sumData.onlineSales / sumData.totalSales) * 100).toFixed(1)}
                       %)
                     </span>
                   )}
@@ -137,59 +105,38 @@ export async function SalesSummary({ year, month }: SalesSummaryProps) {
         </div>
 
         {/* Online Sales Breakdown */}
-        <div className="space-y-3">
-          <Typography variant="h3">Online Sales</Typography>
+        {platformsInData.length > 0 && (
+          <div className="space-y-3">
+            <Typography variant="h3">Online Sales</Typography>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-500/10">
-                <span className="text-lg text-green-600">U</span>
-              </div>
-              <div>
-                <p className="text-xs text-green-600">UberEats</p>
-                <p className="text-sm font-medium">
-                  {formatPriceWithDollar(sumData.uberEatsSales / 100)}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-red-500/10">
-                <span className="text-lg text-red-600">D</span>
-              </div>
-              <div>
-                <p className="text-xs text-red-600">DoorDash</p>
-                <p className="text-sm font-medium">
-                  {formatPriceWithDollar(sumData.doorDashSales / 100)}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-sky-500/10">
-                <span className="text-lg text-sky-500">R</span>
-              </div>
-              <div>
-                <p className="text-xs text-sky-500">Ritual</p>
-                <p className="text-sm font-medium">
-                  {formatPriceWithDollar(sumData.ritualSales / 100)}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500/10">
-                <span className="text-lg text-orange-500">S</span>
-              </div>
-              <div>
-                <p className="text-xs text-orange-500">SkipTheDishes</p>
-                <p className="text-sm font-medium">
-                  {formatPriceWithDollar(sumData.skipTheDishesSales / 100)}
-                </p>
-              </div>
+            <div
+              className="grid gap-4"
+              style={{
+                gridTemplateColumns: `repeat(${Math.min(platformsInData.length, 4)}, minmax(0, 1fr))`,
+              }}
+            >
+              {platformsInData.map((platform) => {
+                const platformTotal = sumData.platformTotals[platform.id] ?? 0;
+                return (
+                  <div key={platform.id} className="flex items-center gap-3">
+                    <Image
+                      src={platform.iconSrc}
+                      alt={`${platform.label} icon`}
+                      width={30}
+                      height={30}
+                    />
+                    <div>
+                      <p className="text-muted-foreground text-xs">{platform.label}</p>
+                      <p className="text-sm font-medium">
+                        {formatPriceWithDollar(platformTotal / 100)}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
-        </div>
+        )}
       </CardContent>
     </Card>
   );

@@ -7,9 +7,5 @@ export function Container({
   children: React.ReactNode;
   className?: string;
 }) {
-  return (
-    <main className={cn(`mt-3 flex flex-col gap-6 p-3 py-4`, className)}>
-      {children}
-    </main>
-  );
+  return <main className={cn(`mt-6 flex flex-col gap-6 p-3 py-4`, className)}>{children}</main>;
 }

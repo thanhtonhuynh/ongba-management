@@ -1,7 +1,7 @@
 import { NUM_MONTHS } from "@/app/constants";
 import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
-import { ErrorMessage } from "@/components/Message";
+import { ErrorMessage } from "@/components/message";
 import { Typography } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

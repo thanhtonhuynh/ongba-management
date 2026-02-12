@@ -1,3 +1,4 @@
+import { PLATFORM_ID_TO_LEGACY_FIELD } from "@/constants/platforms";
 import prisma from "@/lib/prisma";
 import { toCents } from "@/lib/utils";
 import { SaleReportInputs } from "@/lib/validations/report";
@@ -28,16 +29,43 @@ export const getRecentReportsByUser = cache(
 
 // Upsert a report
 export async function upsertReport(data: SaleReportInputs, userId: string) {
-  const { cardTips, cashTips, extraTips, employees, date, ...raw } = data;
+  const {
+    cardTips,
+    cashTips,
+    extraTips,
+    employees,
+    date,
+    platformSales,
+    ...raw
+  } = data;
+
+  // Convert platform sales to cents and build the new platformSales array
+  const platformSalesInCents = platformSales.map((ps) => ({
+    platformId: ps.platformId,
+    amount: toCents(ps.amount),
+  }));
+
+  // Build legacy columns from platformSales for backward compatibility
+  const legacyPlatformData = {
+    uberEatsSales: 0,
+    doorDashSales: 0,
+    skipTheDishesSales: 0,
+    onlineSales: 0, // This is Ritual
+  };
+  for (const ps of platformSalesInCents) {
+    const legacyField = PLATFORM_ID_TO_LEGACY_FIELD[ps.platformId];
+    if (legacyField && legacyField in legacyPlatformData) {
+      legacyPlatformData[legacyField as keyof typeof legacyPlatformData] =
+        ps.amount;
+    }
+  }
 
   // Convert all money values to cents
   const reportDataInCents = {
     totalSales: toCents(raw.totalSales),
     cardSales: toCents(raw.cardSales),
-    uberEatsSales: toCents(raw.uberEatsSales),
-    doorDashSales: toCents(raw.doorDashSales),
-    skipTheDishesSales: toCents(raw.skipTheDishesSales),
-    onlineSales: toCents(raw.onlineSales),
+    ...legacyPlatformData,
+    platformSales: platformSalesInCents,
     expenses: toCents(raw.expenses),
     cashInTill: toCents(raw.cashInTill),
     cardTips: toCents(cardTips),
@@ -198,6 +226,7 @@ export const getReportsByDateRange = cache(async (dateRange: DayRange) => {
       doorDashSales: true,
       skipTheDishesSales: true,
       onlineSales: true,
+      platformSales: true,
       expenses: true,
     },
     orderBy: { date: "asc" },
@@ -234,13 +263,14 @@ export const getReportsForYear = cache(async (year: number) => {
 
 // Get reports for multiple years (for analytics dashboard)
 export const getReportsForYears = cache(async (years: number[]) => {
-  const reportsByYear: Record<number, { date: Date; totalSales: number }[]> = {};
+  const reportsByYear: Record<number, { date: Date; totalSales: number }[]> =
+    {};
 
   await Promise.all(
     years.map(async (year) => {
       const reports = await getReportsForYear(year);
       reportsByYear[year] = reports;
-    })
+    }),
   );
 
   return reportsByYear;

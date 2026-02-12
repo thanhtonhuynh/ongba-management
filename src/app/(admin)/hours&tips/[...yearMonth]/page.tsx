@@ -1,5 +1,5 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
-import { ErrorMessage } from "@/components/Message";
+import { ErrorMessage } from "@/components/message";
 import { Separator } from "@/components/ui/separator";
 import { getShiftsInDateRange } from "@/data-access/employee";
 import { getFirstReportDate } from "@/data-access/report";

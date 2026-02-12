@@ -4,6 +4,7 @@ import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { Typography } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { type Platform } from "@/constants/platforms";
 import { User } from "@/lib/auth/session";
 import { formatVancouverDate } from "@/lib/utils";
 import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
@@ -27,11 +28,8 @@ const steps = [
     name: "Sale Details",
     fields: [
       "totalSales",
-      "uberEatsSales",
-      "doorDashSales",
-      "skipTheDishesSales",
-      "onlineSales",
       "cardSales",
+      "platformSales",
       "expenses",
       "cardTips",
       "cashTips",
@@ -49,6 +47,7 @@ type FieldName = keyof SaleReportInputs;
 type Props = {
   usersPromise: Promise<User[]>;
   startCashPromise: Promise<number>;
+  activePlatforms: Platform[];
   initialValues?: SaleReportInputs;
   mode: "create" | "edit";
   reporterName?: string;
@@ -59,6 +58,7 @@ type Props = {
 export function SaleReportPortal({
   usersPromise,
   startCashPromise,
+  activePlatforms,
   initialValues,
   mode,
   reporterName,
@@ -71,11 +71,10 @@ export function SaleReportPortal({
     defaultValues: {
       date: initialValues?.date || new Date(),
       totalSales: initialValues?.totalSales || 0.0,
-      uberEatsSales: initialValues?.uberEatsSales || 0.0,
-      doorDashSales: initialValues?.doorDashSales || 0.0,
-      skipTheDishesSales: initialValues?.skipTheDishesSales || 0.0,
-      onlineSales: initialValues?.onlineSales || 0.0,
       cardSales: initialValues?.cardSales || 0.0,
+      platformSales:
+        initialValues?.platformSales ||
+        activePlatforms.map((p) => ({ platformId: p.id, amount: 0 })),
       expenses: initialValues?.expenses || 0.0,
       expensesReason: initialValues?.expensesReason || "",
       cardTips: initialValues?.cardTips || 0.0,

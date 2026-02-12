@@ -27,6 +27,22 @@ export const FULL_MONTHS = [
   "December",
 ];
 
+/** Abbreviated month names. E.g., Jan, Feb, Mar, etc. */
+export const SHORT_MONTHS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
 export const MONEY_VALUES = new Map([
   ["bill100", { label: "$100", value: 100.0 }],
   ["bill50", { label: "$50", value: 50.0 }],

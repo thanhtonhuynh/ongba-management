@@ -1,0 +1,93 @@
+import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
+import { Message } from "@/components/message";
+import { CurrentBadge } from "@/components/shared";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { type Platform, getPlatformById } from "@/constants/platforms";
+import { getReportsByDateRange } from "@/data-access/report";
+import { getCurrentSession } from "@/lib/auth/session";
+import { hasAccess } from "@/utils/access-control";
+import { processCashFlowData } from "@/utils/cashflow";
+import { getTodayStartOfDay } from "@/utils/datetime";
+import { getDayRangeByMonthAndYear, populateMonthSelectData } from "@/utils/hours-tips";
+import { authenticatedRateLimit } from "@/utils/rate-limiter";
+import { notFound, redirect } from "next/navigation";
+import { MonthlyCashFlowTable } from "../_components";
+
+type SearchParams = Promise<{
+  year?: string;
+  month?: string;
+}>;
+
+export default async function MonthlyPage(props: { searchParams: SearchParams }) {
+  const { session, user } = await getCurrentSession();
+  if (!session) redirect("/login");
+  if (user.accountStatus !== "active") return notFound();
+  if (!hasAccess(user.role, "/admin")) return notFound();
+
+  if (!(await authenticatedRateLimit(user.id))) {
+    return <Message variant="error" message="Too many requests. Please try again later." />;
+  }
+
+  const searchParams = await props.searchParams;
+  const { years } = await populateMonthSelectData();
+
+  const today = getTodayStartOfDay();
+  let selectedYear = today.getFullYear();
+  let selectedMonth = today.getMonth();
+
+  // Validate and parse year
+  if (searchParams.year) {
+    const year = parseInt(searchParams.year);
+
+    if (isNaN(year) || !years.includes(year)) {
+      return <Message variant="error" message="Invalid year. No data available for this year." />;
+    }
+    selectedYear = year;
+  }
+
+  // Validate and parse month
+  if (searchParams.month) {
+    const month = parseInt(searchParams.month);
+
+    if (isNaN(month) || !NUM_MONTHS.includes(month)) {
+      return (
+        <Message variant="error" message="Invalid month. Please check the URL and try again." />
+      );
+    }
+    selectedMonth = month - 1;
+  }
+
+  // Fetch monthly data
+  const dayRange = getDayRangeByMonthAndYear(selectedYear, selectedMonth);
+  const reports = await getReportsByDateRange(dayRange);
+  const processedReports = processCashFlowData(reports);
+
+  // Derive platforms from actual data
+  const platformIdsUsed = new Set<string>();
+  for (const report of reports) {
+    for (const ps of report.platformSales) {
+      platformIdsUsed.add(ps.platformId);
+    }
+  }
+  const platformsInData = [...platformIdsUsed]
+    .map((id) => getPlatformById(id))
+    .filter((p): p is Platform => p !== undefined);
+
+  const isCurrentPeriod =
+    selectedYear === today.getFullYear() && selectedMonth === today.getMonth();
+
+  return (
+    <Card className="gap-4">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          {FULL_MONTHS[selectedMonth]} {selectedYear}
+          {isCurrentPeriod && <CurrentBadge />}
+        </CardTitle>
+      </CardHeader>
+
+      <CardContent>
+        <MonthlyCashFlowTable reports={processedReports} platforms={platformsInData} />
+      </CardContent>
+    </Card>
+  );
+}

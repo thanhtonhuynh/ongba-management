@@ -1,4 +1,4 @@
-import { ErrorMessage } from "@/components/Message";
+import { ErrorMessage } from "@/components/message";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getShiftsInDateRange } from "@/data-access/employee";
 import { getCurrentSession } from "@/lib/auth/session";

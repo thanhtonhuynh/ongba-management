@@ -27,7 +27,8 @@ export function formatPriceWithDollar(amount: number) {
   }).format(amount);
 }
 
-export function formatMoney(amount: number) {
+/** Format a number as a currency string with 2 decimal places. */
+export function formatMoney(amount: number): string {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",

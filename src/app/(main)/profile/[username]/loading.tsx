@@ -63,6 +63,13 @@ export default function ProfileLoading() {
               </div>
             </div>
           </div>
+
+          <Separator />
+
+          <div className="grid gap-4">
+            <Skeleton className="h-50 w-full" />
+            <Skeleton className="h-50 w-full" />
+          </div>
         </div>
       </Container>
     </Fragment>

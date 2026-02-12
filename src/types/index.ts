@@ -19,6 +19,12 @@ export type CashType =
   | "roll1"
   | "roll2";
 
+/** A single platform's sales amount (stored in cents in DB) */
+export type PlatformSaleData = {
+  platformId: string;
+  amount: number;
+};
+
 export type SaleEmployee = {
   userId: string;
   hour: number;
@@ -50,17 +56,20 @@ export interface SaleReportCardRawData {
   extraTips: number;
   cashInTill: number;
   startCash: number;
-  uberEatsSales: number;
-  doorDashSales: number;
-  skipTheDishesSales: number;
-  onlineSales: number;
+  // Legacy platform fields (kept for backward compat)
+  // uberEatsSales: number;
+  // doorDashSales: number;
+  // skipTheDishesSales: number;
+  // onlineSales: number; // Actually Ritual sales
+  // New flexible platform sales
+  platformSales: PlatformSaleData[];
   employees: SaleEmployee[];
   auditLogs?: ReportAuditLog[];
 }
 
 export interface SaleReportCardProcessedData extends SaleReportCardRawData {
   inStoreSales: number;
-  otherSales: number;
+  onlineSales: number;
   cashSales: number;
   actualCash: number;
   totalTips: number;
@@ -135,10 +144,13 @@ export type CashFlowRawData = {
   date: Date;
   totalSales: number;
   cardSales: number;
+  // Legacy platform fields (kept for backward compat)
   uberEatsSales: number;
   doorDashSales: number;
   skipTheDishesSales: number;
-  onlineSales: number;
+  onlineSales: number; // Actually Ritual sales
+  // New flexible platform sales
+  platformSales: PlatformSaleData[];
   expenses: number;
 };
 
@@ -157,12 +169,10 @@ export type UserShift = {
 export type YearCashFlowData = {
   month: number;
   totalSales: number;
-  totalUberEatsSales: number;
-  totalDoorDashSales: number;
-  totalSkipTheDishesSales: number;
-  totalOnlineSales: number;
-  totalInstoreExpenses: number;
+  /** Dynamic platform totals: platformId → total amount in cents */
+  platformTotals: Record<string, number>;
   totalInStoreSales: number;
+  totalInstoreExpenses: number;
   netIncome: number;
   totalMonthMainExpenses: number;
   totalExpenses: number;

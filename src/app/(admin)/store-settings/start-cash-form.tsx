@@ -1,7 +1,7 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { ErrorMessage, SuccessMessage } from "@/components/Message";
+import { ErrorMessage, SuccessMessage } from "@/components/message";
 import { Typography } from "@/components/typography";
 import { Card } from "@/components/ui/card";
 import {
@@ -56,7 +56,7 @@ export function StartCashForm({ currentStartCash }: ShiftHoursFormProps) {
 
   return (
     <Card className="p-6">
-      <Typography variant="h2">Start cash</Typography>
+      <Typography variant="h2">Start Cash</Typography>
 
       <div className="text-muted-foreground space-y-1 text-sm">
         <p>Update the start cash amount.</p>
@@ -77,7 +77,7 @@ export function StartCashForm({ currentStartCash }: ShiftHoursFormProps) {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Start cash</FormLabel>
+                <FormLabel className="sr-only">Start cash</FormLabel>
                 <FormControl>
                   <Input {...field} type="number" />
                 </FormControl>
@@ -86,7 +86,12 @@ export function StartCashForm({ currentStartCash }: ShiftHoursFormProps) {
             )}
           />
 
-          <LoadingButton variant={"outline"} loading={isPending} type="submit">
+          <LoadingButton
+            size={"sm"}
+            variant={"outline"}
+            loading={isPending}
+            type="submit"
+          >
             Update start cash
           </LoadingButton>
         </form>
