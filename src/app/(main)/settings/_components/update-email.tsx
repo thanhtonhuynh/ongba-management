@@ -1,21 +1,12 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { Typography } from "@/components/typography";
+import { Typography } from "@/components/shared/typography";
 import { Card } from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { User } from "@/lib/auth/session";
-import {
-  UpdateEmailSchema,
-  UpdateEmailSchemaInput,
-} from "@/lib/validations/auth";
+import { UpdateEmailSchema, UpdateEmailSchemaInput } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -64,12 +55,7 @@ export function UpdateEmailForm({ user }: UpdateNameFormProps) {
             )}
           />
 
-          <LoadingButton
-            variant={"outline"}
-            size={"sm"}
-            loading={isPending}
-            type="submit"
-          >
+          <LoadingButton variant={"outline"} size={"sm"} loading={isPending} type="submit">
             Save
           </LoadingButton>
         </form>

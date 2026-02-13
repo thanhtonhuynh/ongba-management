@@ -1,6 +1,6 @@
 import { Loading } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Typography } from "./typography";
+import { Typography } from "./shared/typography";
 
 export function Loader() {
   return (

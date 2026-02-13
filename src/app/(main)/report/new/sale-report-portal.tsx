@@ -1,7 +1,7 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { Typography } from "@/components/typography";
+import { Typography } from "@/components/shared/typography";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { type Platform } from "@/constants/platforms";
@@ -165,21 +165,15 @@ export function SaleReportPortal({
             <li key={step.name} className="flex-1">
               {currentStep > index ? (
                 <div className="border-primary/70 text-primary/80 flex w-full flex-col border-t-4 border-l-0 py-2 pl-4 transition-colors md:border-l-0 md:pt-2 md:pb-0 md:pl-0">
-                  <span className="hidden text-sm font-semibold md:block">
-                    {step.name}
-                  </span>
+                  <span className="hidden text-sm font-semibold md:block">{step.name}</span>
                 </div>
               ) : currentStep === index ? (
                 <div className="border-primary text-primary flex w-full flex-col border-t-4 border-l-0 py-2 pl-4 md:border-l-0 md:pt-2 md:pb-0 md:pl-0">
-                  <span className="hidden text-sm font-semibold md:block">
-                    {step.name}
-                  </span>
+                  <span className="hidden text-sm font-semibold md:block">{step.name}</span>
                 </div>
               ) : (
                 <div className="border-primary/10 flex w-full flex-col border-t-4 border-l-0 py-2 pl-4 transition-colors md:border-l-0 md:pt-2 md:pb-0 md:pl-0">
-                  <span className="hidden text-sm font-semibold md:block">
-                    {step.name}
-                  </span>
+                  <span className="hidden text-sm font-semibold md:block">{step.name}</span>
                 </div>
               )}
             </li>
@@ -189,10 +183,7 @@ export function SaleReportPortal({
 
       {currentStep === 0 && (
         <MotionContainer delta={delta}>
-          <Typography
-            variant="h2"
-            className="mt-2 text-center uppercase md:hidden"
-          >
+          <Typography variant="h2" className="mt-2 text-center uppercase md:hidden">
             Sale Details
           </Typography>
           <Form {...saleReportForm}>
@@ -203,25 +194,16 @@ export function SaleReportPortal({
 
       {currentStep === 1 && (
         <MotionContainer delta={delta}>
-          <Typography
-            variant="h2"
-            className="mt-2 text-center uppercase md:hidden"
-          >
+          <Typography variant="h2" className="mt-2 text-center uppercase md:hidden">
             Count Cash
           </Typography>
-          <CashCalculatorForm
-            saleReportForm={saleReportForm}
-            cashCounterForm={cashCounterForm}
-          />
+          <CashCalculatorForm saleReportForm={saleReportForm} cashCounterForm={cashCounterForm} />
         </MotionContainer>
       )}
 
       {currentStep === 2 && (
         <MotionContainer delta={delta}>
-          <Typography
-            variant="h2"
-            className="mt-2 text-center uppercase md:hidden"
-          >
+          <Typography variant="h2" className="mt-2 text-center uppercase md:hidden">
             Review
           </Typography>
 
@@ -274,13 +256,7 @@ export function SaleReportPortal({
   );
 }
 
-function MotionContainer({
-  delta,
-  children,
-}: {
-  delta: number;
-  children: React.ReactNode;
-}) {
+function MotionContainer({ delta, children }: { delta: number; children: React.ReactNode }) {
   return (
     <motion.div
       initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}

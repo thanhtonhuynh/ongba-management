@@ -8,9 +8,7 @@ const TEXT_SIZE_THRESHOLDS = [
 ] as const;
 
 function getTextSizeClass(size: number): string {
-  return (
-    TEXT_SIZE_THRESHOLDS.find((t) => size >= t.minSize)?.className ?? "text-xs"
-  );
+  return TEXT_SIZE_THRESHOLDS.find((t) => size >= t.minSize)?.className ?? "text-xs";
 }
 
 type ProfilePictureProps = {
@@ -23,7 +21,7 @@ export function ProfilePicture({ image, size, name }: ProfilePictureProps) {
   if (!image) {
     return (
       <div
-        className={`bg-secondary flex items-center justify-center rounded-full border font-medium ${getTextSizeClass(size)}`}
+        className={`flex items-center justify-center rounded-full border border-blue-200 bg-blue-100 font-medium text-blue-950 ${getTextSizeClass(size)}`}
         style={{ width: size, height: size }}
       >
         {name?.charAt(0).toUpperCase() || "?"}

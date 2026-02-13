@@ -1,6 +1,6 @@
 import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
-import { Typography } from "@/components/typography";
+import { Typography } from "@/components/shared/typography";
 import { PLATFORMS, getPlatformById } from "@/constants/platforms";
 import { getEmployees } from "@/data-access/employee";
 import { getReportRaw } from "@/data-access/report";

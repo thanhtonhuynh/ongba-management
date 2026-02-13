@@ -2,7 +2,7 @@ import { FULL_MONTHS } from "@/app/constants";
 import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
 import { ErrorMessage } from "@/components/noti-message";
-import { Typography } from "@/components/typography";
+import { Typography } from "@/components/shared/typography";
 import {
   Accordion,
   AccordionContent,

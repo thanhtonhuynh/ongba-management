@@ -2,7 +2,7 @@
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { ErrorMessage, SuccessMessage } from "@/components/noti-message";
-import { Typography } from "@/components/typography";
+import { Typography } from "@/components/shared/typography";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldError, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";

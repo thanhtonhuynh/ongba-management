@@ -1,7 +1,7 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { Typography } from "@/components/typography";
+import { Typography } from "@/components/shared/typography";
 import { Card } from "@/components/ui/card";
 import {
   Form,
@@ -14,10 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { User } from "@/lib/auth/session";
-import {
-  UpdateNameSchema,
-  UpdateNameSchemaInput,
-} from "@/lib/validations/auth";
+import { UpdateNameSchema, UpdateNameSchemaInput } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -51,8 +48,8 @@ export function UpdateNameForm({ user }: UpdateNameFormProps) {
       <Typography variant="h2">Display name</Typography>
 
       <div className="text-primary space-y-1 text-sm">
-        <span className="font-semibold">Note:</span> Please use your real name
-        so your colleagues can easily identify you when they create reports.
+        <span className="font-semibold">Note:</span> Please use your real name so your colleagues
+        can easily identify you when they create reports.
       </div>
 
       <Form {...form}>
@@ -66,20 +63,13 @@ export function UpdateNameForm({ user }: UpdateNameFormProps) {
                 <FormControl>
                   <Input {...field} placeholder="Ong Ba" />
                 </FormControl>
-                <FormDescription>
-                  Must be at least 2 characters.
-                </FormDescription>
+                <FormDescription>Must be at least 2 characters.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <LoadingButton
-            size={"sm"}
-            variant={"outline"}
-            loading={isPending}
-            type="submit"
-          >
+          <LoadingButton size={"sm"} variant={"outline"} loading={isPending} type="submit">
             Save
           </LoadingButton>
         </form>

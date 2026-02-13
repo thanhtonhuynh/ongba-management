@@ -1,21 +1,9 @@
 "use client";
 
-import {
-  BILL_FIELDS,
-  COIN_FIELDS,
-  MONEY_FIELDS,
-  MONEY_VALUES,
-  ROLL_FIELDS,
-} from "@/app/constants";
-import { Typography } from "@/components/typography";
+import { BILL_FIELDS, COIN_FIELDS, MONEY_FIELDS, MONEY_VALUES, ROLL_FIELDS } from "@/app/constants";
+import { Typography } from "@/components/shared/typography";
 import { Card } from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { formatMoney } from "@/lib/utils";
 import { useState } from "react";
@@ -58,9 +46,7 @@ export function CashCalculator() {
           <Typography variant="h2" className="uppercase">
             Total Cash in Till
           </Typography>
-          <span className="text-primary text-xl font-bold">
-            {formatMoney(total)}
-          </span>
+          <span className="text-primary text-xl font-bold">{formatMoney(total)}</span>
         </Card>
 
         <div className="grid gap-6 sm:grid-cols-3">

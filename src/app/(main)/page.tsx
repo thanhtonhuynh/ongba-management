@@ -1,7 +1,7 @@
 import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
 import { NotiMessage } from "@/components/noti-message";
-import { Typography } from "@/components/typography";
+import { Typography } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getReportRaw } from "@/data-access/report";

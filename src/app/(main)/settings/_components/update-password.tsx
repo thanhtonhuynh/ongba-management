@@ -2,7 +2,7 @@
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { PasswordInput } from "@/components/PasswordInput";
-import { Typography } from "@/components/typography";
+import { Typography } from "@/components/shared/typography";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -13,10 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  UpdatePasswordSchema,
-  UpdatePasswordSchemaInput,
-} from "@/lib/validations/auth";
+import { UpdatePasswordSchema, UpdatePasswordSchemaInput } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -87,10 +84,7 @@ export function UpdatePasswordForm() {
               <FormItem className="mb-3">
                 <FormLabel>Confirm new password</FormLabel>
                 <FormControl>
-                  <PasswordInput
-                    {...field}
-                    placeholder="Confirm new password"
-                  />
+                  <PasswordInput {...field} placeholder="Confirm new password" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -98,8 +92,7 @@ export function UpdatePasswordForm() {
           />
 
           <div className="text-muted-foreground text-sm">
-            Please sign out of other devices if you think your account has been
-            compromised.
+            Please sign out of other devices if you think your account has been compromised.
           </div>
 
           <FormField
@@ -108,22 +101,14 @@ export function UpdatePasswordForm() {
             render={({ field }) => (
               <FormItem className="mt-2 mb-4 flex flex-row items-center space-y-0 space-x-3">
                 <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
+                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                 </FormControl>
                 <FormLabel>Sign out of other devices</FormLabel>
               </FormItem>
             )}
           />
 
-          <LoadingButton
-            type="submit"
-            size={"sm"}
-            loading={isPending}
-            variant={"outline"}
-          >
+          <LoadingButton type="submit" size={"sm"} loading={isPending} variant={"outline"}>
             Update password
           </LoadingButton>
         </form>

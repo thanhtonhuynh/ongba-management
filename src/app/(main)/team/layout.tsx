@@ -1,6 +1,6 @@
 import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
-import { Typography } from "@/components/typography";
+import { Typography } from "@/components/shared/typography";
 import { Metadata } from "next/types";
 import { Fragment } from "react";
 

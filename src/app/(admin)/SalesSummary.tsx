@@ -1,5 +1,5 @@
 import { CurrentBadge } from "@/components/shared";
-import { Typography } from "@/components/typography";
+import { Typography } from "@/components/shared/typography";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { type Platform, getPlatformById } from "@/constants/platforms";
 import { getReportsByDateRange } from "@/data-access/report";

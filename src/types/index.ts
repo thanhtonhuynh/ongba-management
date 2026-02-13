@@ -106,6 +106,7 @@ export type DayRange = {
 export type TotalHoursTips = {
   userId: string;
   name: string;
+  username: string;
   image: string;
   totalHours: number;
   totalTips: number;
@@ -125,6 +126,7 @@ export type EmployeeShift = {
 export type BreakdownData = {
   userId: string;
   userName: string;
+  userUsername: string;
   image: string;
   keyData: number[];
   total: number;
@@ -133,6 +135,7 @@ export type BreakdownData = {
 export type Shift = {
   userId: string;
   userName: string;
+  userUsername: string;
   userImage: string;
   date: Date;
   hours: number;

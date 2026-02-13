@@ -39,7 +39,7 @@ export function TabNav() {
             key={tab.href}
             href={buildHref(tab.href)}
             className={cn(
-              "inline-flex items-center justify-center rounded-md px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-all",
+              "inline-flex items-center justify-center rounded-xl px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-all",
               "ring-offset-background focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
               isActive
                 ? "text-primary-foreground bg-primary"

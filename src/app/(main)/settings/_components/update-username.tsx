@@ -1,7 +1,7 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { Typography } from "@/components/typography";
+import { Typography } from "@/components/shared/typography";
 import { Card } from "@/components/ui/card";
 import {
   Form,
@@ -13,10 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { User } from "@/lib/auth/session";
-import {
-  UpdateUsernameSchema,
-  UpdateUsernameSchemaInput,
-} from "@/lib/validations/auth";
+import { UpdateUsernameSchema, UpdateUsernameSchemaInput } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -50,8 +47,7 @@ export function UpdateUsernameForm({ user }: UpdateUsernameFormProps) {
       <Typography variant="h2">Username</Typography>
 
       <div className="text-muted-foreground space-y-1 text-sm">
-        Besides your email, your username can also be used to log in to your
-        account.
+        Besides your email, your username can also be used to log in to your account.
       </div>
 
       <Form {...form}>
@@ -72,12 +68,7 @@ export function UpdateUsernameForm({ user }: UpdateUsernameFormProps) {
             )}
           />
 
-          <LoadingButton
-            size={"sm"}
-            variant={"outline"}
-            loading={isPending}
-            type="submit"
-          >
+          <LoadingButton size={"sm"} variant={"outline"} loading={isPending} type="submit">
             Save
           </LoadingButton>
         </form>

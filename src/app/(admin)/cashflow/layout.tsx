@@ -1,6 +1,6 @@
 import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
-import { Typography } from "@/components/typography";
+import { Typography } from "@/components/shared/typography";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { Fragment } from "react";
 import { PeriodSelector, TabNav } from "./_components";

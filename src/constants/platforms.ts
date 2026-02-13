@@ -20,20 +20,28 @@ export type Platform = {
 
 export const PLATFORMS: Platform[] = [
   {
-    id: "uber_eats",
-    label: "UberEats",
-    color: "green-600",
-    iconLetter: "U",
-    iconSrc: "/platform-icons/uber-eats-icon.svg",
-    legacyField: "uberEatsSales",
-  },
-  {
     id: "doordash",
     label: "DoorDash",
     color: "red-500",
     iconLetter: "D",
     iconSrc: "/platform-icons/doordash-icon.svg",
     legacyField: "doorDashSales",
+  },
+  {
+    id: "fantuan",
+    label: "Fantuan",
+    color: "cyan-500",
+    iconLetter: "F",
+    iconSrc: "/platform-icons/fantuan-icon.svg",
+    legacyField: "fantuanSales",
+  },
+  {
+    id: "ritual",
+    label: "Ritual",
+    color: "sky-300",
+    iconLetter: "R",
+    iconSrc: "/platform-icons/ritual-icon.svg",
+    legacyField: "onlineSales",
   },
   {
     id: "skip_the_dishes",
@@ -44,12 +52,12 @@ export const PLATFORMS: Platform[] = [
     legacyField: "skipTheDishesSales",
   },
   {
-    id: "ritual",
-    label: "Ritual",
-    color: "sky-300",
-    iconLetter: "R",
-    iconSrc: "/platform-icons/ritual-icon.svg",
-    legacyField: "onlineSales",
+    id: "uber_eats",
+    label: "UberEats",
+    color: "green-600",
+    iconLetter: "U",
+    iconSrc: "/platform-icons/uber-eats-icon.svg",
+    legacyField: "uberEatsSales",
   },
 ];
 

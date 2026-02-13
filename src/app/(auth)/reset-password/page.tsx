@@ -1,4 +1,4 @@
-import { Typography } from "@/components/typography";
+import { Typography } from "@/components/shared/typography";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getCurrentSession } from "@/lib/auth/session";
@@ -18,13 +18,7 @@ export default async function Page() {
 
   return (
     <main className="flex flex-1 flex-col items-center justify-center gap-6 p-3">
-      <Image
-        priority
-        src={"/serva-logo-full.svg"}
-        alt="Serva Logo"
-        width={240}
-        height={80}
-      />
+      <Image priority src={"/serva-logo-full.svg"} alt="Serva Logo" width={240} height={80} />
 
       <Card className="w-full max-w-xl items-center">
         <Typography variant="h1" className="text-xl">

@@ -1,7 +1,7 @@
 import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
 import { ErrorMessage } from "@/components/noti-message";
-import { Typography } from "@/components/typography";
+import { Typography } from "@/components/shared/typography";
 import { PLATFORMS, getPlatformById } from "@/constants/platforms";
 import { getEmployees } from "@/data-access/employee";
 import { getActivePlatforms, getStartCash } from "@/data-access/store";

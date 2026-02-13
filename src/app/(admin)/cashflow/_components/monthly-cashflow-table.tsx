@@ -47,7 +47,7 @@ export function MonthlyCashFlowTable({ reports, platforms }: Props) {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="bg-background sticky left-0">Date</TableHead>
+          <TableHead className="bg-accent sticky left-0">Date</TableHead>
           <TableHead className="text-center">Reported total</TableHead>
           <TableHead className="text-center">Card sales</TableHead>
           <TableHead className="text-center">Actual cash</TableHead>

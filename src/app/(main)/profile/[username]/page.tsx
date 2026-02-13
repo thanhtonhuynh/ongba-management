@@ -1,6 +1,6 @@
 import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
-import { Typography } from "@/components/typography";
+import { Typography } from "@/components/shared/typography";
 import { getRecentShiftsByUser } from "@/data-access/employee";
 import { getRecentReportsByUser } from "@/data-access/report";
 import { getUserByUsername } from "@/data-access/user";

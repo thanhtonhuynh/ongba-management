@@ -1,6 +1,6 @@
 import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
-import { Typography } from "@/components/typography";
+import { Typography } from "@/components/shared/typography";
 import { Button } from "@/components/ui/button";
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasAccess } from "@/utils/access-control";
@@ -12,11 +12,7 @@ import { SalesAnalyticsDashboard } from "../_components/sales-analytics";
 import { SalesAnalyticsSkeleton } from "../_components/sales-analytics/sales-analytics-skeleton";
 import { ReportPicker } from "../report-picker";
 
-export default async function ReportViewLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export default async function ReportViewLayout({ children }: { children: ReactNode }) {
   const { user } = await getCurrentSession();
   if (!user) redirect("/login");
   if (user.accountStatus !== "active") return notFound();

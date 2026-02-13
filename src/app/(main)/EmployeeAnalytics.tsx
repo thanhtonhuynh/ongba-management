@@ -1,4 +1,4 @@
-import { Typography } from "@/components/typography";
+import { Typography } from "@/components/shared/typography";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { UserShiftTable } from "@/components/UserShiftTable";
@@ -6,11 +6,7 @@ import { getUserShiftsInDateRange } from "@/data-access/employee";
 import { User } from "@/lib/auth/session";
 import { formatMoney } from "@/lib/utils";
 import { getTodayBiweeklyPeriod } from "@/utils/hours-tips";
-import {
-  ArrowRight01Icon,
-  Calendar03Icon,
-  Coins01Icon,
-} from "@hugeicons/core-free-icons";
+import { ArrowRight01Icon, Calendar03Icon, Coins01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { CalendarClock } from "lucide-react";
 import moment from "moment";
@@ -21,10 +17,7 @@ type EmployeeAnalyticsProps = {
 
 export async function EmployeeAnalytics({ user }: EmployeeAnalyticsProps) {
   const todayBiweeklyPeriod = getTodayBiweeklyPeriod();
-  const userShifts = await getUserShiftsInDateRange(
-    user.id,
-    todayBiweeklyPeriod,
-  );
+  const userShifts = await getUserShiftsInDateRange(user.id, todayBiweeklyPeriod);
 
   return (
     <Card>
@@ -57,18 +50,12 @@ export async function EmployeeAnalytics({ user }: EmployeeAnalyticsProps) {
 
             <div className="flex items-center gap-3">
               <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
-                <HugeiconsIcon
-                  icon={Coins01Icon}
-                  className="text-muted-foreground size-5"
-                />
+                <HugeiconsIcon icon={Coins01Icon} className="text-muted-foreground size-5" />
               </div>
               <div>
                 <p className="text-muted-foreground text-xs">Total Tips</p>
                 <p className="text-sm font-semibold">
-                  {formatMoney(
-                    userShifts.reduce((acc, shift) => acc + shift.tips, 0) /
-                      100,
-                  )}
+                  {formatMoney(userShifts.reduce((acc, shift) => acc + shift.tips, 0) / 100)}
                 </p>
               </div>
             </div>
@@ -79,10 +66,7 @@ export async function EmployeeAnalytics({ user }: EmployeeAnalyticsProps) {
 
         <div className="space-y-3">
           <Typography variant="h3">Daily Breakdown</Typography>
-          <UserShiftTable
-            dateRange={todayBiweeklyPeriod}
-            userShifts={userShifts}
-          />
+          <UserShiftTable dateRange={todayBiweeklyPeriod} userShifts={userShifts} />
         </div>
       </CardContent>
     </Card>

@@ -1,5 +1,5 @@
 import { ErrorMessage } from "@/components/noti-message";
-import { Typography } from "@/components/typography";
+import { Typography } from "@/components/shared/typography";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getCurrentSession } from "@/lib/auth/session";

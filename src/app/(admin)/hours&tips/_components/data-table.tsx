@@ -9,7 +9,8 @@ import {
 } from "@/components/ui/table";
 import { formatMoney } from "@/lib/utils";
 import { BreakdownData, DayRange } from "@/types";
-import moment from "moment";
+import { addDays, format } from "date-fns";
+import Link from "next/link";
 
 type DataTableProps = {
   dateRange: DayRange;
@@ -17,11 +18,7 @@ type DataTableProps = {
   isMoney?: boolean;
 };
 
-export async function DataTable({
-  dateRange,
-  data,
-  isMoney = false,
-}: DataTableProps) {
+export async function DataTable({ dateRange, data, isMoney = false }: DataTableProps) {
   const startDay = dateRange.start.getDate();
   const endDay = dateRange.end.getDate();
 
@@ -29,16 +26,12 @@ export async function DataTable({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="bg-accent sticky left-0 min-w-max border-r">
-            Name
-          </TableHead>
+          <TableHead className="bg-accent sticky left-0 h-15 min-w-max border-r">Name</TableHead>
 
           {Array.from({ length: endDay - startDay + 1 }).map((_, index) => (
             <TableHead className="text-center" key={index}>
               <div className="flex flex-col gap-1">
-                <span>
-                  {moment(dateRange.start).add(index, "days").format("ddd")}
-                </span>
+                <span>{format(addDays(dateRange.start, index), "EEE")}</span>
                 {startDay + index}
               </div>
             </TableHead>
@@ -52,14 +45,15 @@ export async function DataTable({
         {data.map((employee) => (
           <TableRow key={employee.userId}>
             <TableCell className="bg-background sticky left-0 min-w-max border-r">
-              <div className="flex w-max items-center gap-2">
-                <ProfilePicture
-                  image={employee.image}
-                  size={32}
-                  name={employee.userName}
-                />
-                <span className="flex-1">{employee.userName}</span>
-              </div>
+              <Link
+                href={`/profile/${employee.userUsername}`}
+                className="group flex w-max items-center gap-2"
+              >
+                <ProfilePicture image={employee.image} size={32} name={employee.userName} />
+                <span className="underline-offset-2 group-hover:underline">
+                  {employee.userName}
+                </span>
+              </Link>
             </TableCell>
 
             {employee.keyData.map((key, index) => (

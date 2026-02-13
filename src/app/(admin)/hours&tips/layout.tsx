@@ -1,9 +1,9 @@
 import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
-import { Typography } from "@/components/typography";
+import { Typography } from "@/components/shared";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { Fragment } from "react";
-import { ViewPeriodsDialog } from "./_components/ViewPeriodsDialog";
+import { PeriodSelector } from "./_components";
 
 export default async function Layout({
   children,
@@ -15,14 +15,16 @@ export default async function Layout({
   return (
     <Fragment>
       <Header>
-        {/* <div className="flex flex-1 items-center justify-between"> */}
         <Typography variant="h1">Hours & Tips</Typography>
-        {/* {years.length > 0 && <ViewPeriodsDialog years={years} />} */}
-        {/* </div> */}
       </Header>
 
       <Container>
-        {years.length > 0 && <ViewPeriodsDialog years={years} />}
+        {years.length > 0 && (
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <PeriodSelector years={years} />
+          </div>
+        )}
+
         {children}
       </Container>
     </Fragment>

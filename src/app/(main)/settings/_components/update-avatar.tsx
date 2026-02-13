@@ -2,7 +2,7 @@
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { ProfilePicture } from "@/components/ProfilePicture";
-import { Typography } from "@/components/typography";
+import { Typography } from "@/components/shared/typography";
 import { Card } from "@/components/ui/card";
 import {
   Form,
@@ -14,10 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { User } from "@/lib/auth/session";
-import {
-  UpdateAvatarSchema,
-  UpdateAvatarSchemaInput,
-} from "@/lib/validations/auth";
+import { UpdateAvatarSchema, UpdateAvatarSchemaInput } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -65,25 +62,17 @@ export function UpdateAvatar({ user }: UpdateAvatarFormProps) {
                       {...fieldProps}
                       type="file"
                       accept="image/jpeg, image/png, image/jpg, image/webp"
-                      onChange={(e) =>
-                        onChange(e.target.files && e.target.files[0])
-                      }
+                      onChange={(e) => onChange(e.target.files && e.target.files[0])}
                     />
                   </FormControl>
                   <FormDescription>
-                    Image size must be less than 5MB and in JPEG, PNG, JPG, or
-                    WEBP format.
+                    Image size must be less than 5MB and in JPEG, PNG, JPG, or WEBP format.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <LoadingButton
-              variant={"outline"}
-              size={"sm"}
-              loading={isPending}
-              type="submit"
-            >
+            <LoadingButton variant={"outline"} size={"sm"} loading={isPending} type="submit">
               Upload
             </LoadingButton>
           </form>

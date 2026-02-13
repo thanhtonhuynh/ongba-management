@@ -147,6 +147,7 @@ export function getHoursTipsBreakdownInDayRange(
   const makeEmptyRow = (shift: Shift): BreakdownData => ({
     userId: shift.userId,
     userName: shift.userName,
+    userUsername: shift.userUsername,
     image: shift.userImage,
     keyData: Array(numDays).fill(0),
     total: 0,

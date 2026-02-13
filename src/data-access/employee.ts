@@ -69,13 +69,13 @@ export const getShiftsInDateRange = cache(async (dateRange: DayRange) => {
   const userIds = [...new Set(rawShifts.map((shift) => shift.userId))];
   const users = await prisma.user.findMany({
     where: { id: { in: userIds } },
-    select: { id: true, name: true, image: true },
+    select: { id: true, name: true, username: true, image: true },
   });
 
   const userMap = new Map(
     users.map((user) => [
       user.id,
-      { name: user.name, image: user.image || "" },
+      { name: user.name, username: user.username, image: user.image || "" },
     ]),
   );
 
@@ -85,6 +85,7 @@ export const getShiftsInDateRange = cache(async (dateRange: DayRange) => {
     return {
       userId: shift.userId,
       userName: user?.name ?? "Unknown",
+      userUsername: user?.username ?? "",
       userImage: user?.image ?? "",
       date: shift.date,
       hours: shift.hours,

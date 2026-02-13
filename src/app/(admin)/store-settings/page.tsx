@@ -1,7 +1,7 @@
 import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
 import { ErrorMessage } from "@/components/noti-message";
-import { Typography } from "@/components/typography";
+import { Typography } from "@/components/shared/typography";
 import { getActivePlatforms, getStartCash } from "@/data-access/store";
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasAccess } from "@/utils/access-control";
