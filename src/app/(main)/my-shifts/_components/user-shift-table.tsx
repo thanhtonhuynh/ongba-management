@@ -1,6 +1,3 @@
-import { formatPriceWithDollar } from "@/lib/utils";
-import { DayRange, UserShift } from "@/types";
-import moment from "moment";
 import {
   Table,
   TableBody,
@@ -8,7 +5,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "./ui/table";
+} from "@/components/ui/table";
+import { formatMoney } from "@/lib/utils";
+import { DayRange, UserShift } from "@/types";
+import { addDays, format } from "date-fns";
 
 export function UserShiftTable({
   dateRange,
@@ -20,32 +20,22 @@ export function UserShiftTable({
   const startDay = dateRange.start.getDate();
   const endDay = dateRange.end.getDate();
 
-  const hours = Array.from({ length: endDay - startDay + 1 }).map(
-    (_, index) => {
-      return (
-        userShifts.find((shift) => shift.date.getDate() === startDay + index)
-          ?.hours || 0
-      );
-    },
-  );
+  const hours = Array.from({ length: endDay - startDay + 1 }).map((_, index) => {
+    return userShifts.find((shift) => shift.date.getDate() === startDay + index)?.hours || 0;
+  });
   const tips = Array.from({ length: endDay - startDay + 1 }).map((_, index) => {
-    return (
-      userShifts.find((shift) => shift.date.getDate() === startDay + index)
-        ?.tips || 0
-    );
+    return userShifts.find((shift) => shift.date.getDate() === startDay + index)?.tips || 0;
   });
 
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="bg-background sticky left-0 z-10"></TableHead>
+          <TableHead className="bg-accent sticky left-0 z-10 h-15"></TableHead>
           {Array.from({ length: endDay - startDay + 1 }).map((_, index) => (
             <TableHead className="text-center" key={index}>
               <div className="flex flex-col gap-1">
-                <span>
-                  {moment(dateRange.start).add(index, "days").format("ddd")}
-                </span>
+                <span>{format(addDays(dateRange.start, index), "EEE")}</span>
                 {startDay + index}
               </div>
             </TableHead>
@@ -56,9 +46,7 @@ export function UserShiftTable({
 
       <TableBody>
         <TableRow>
-          <TableCell className="bg-background sticky left-0 z-10 font-medium">
-            Hours
-          </TableCell>
+          <TableCell className="bg-background sticky left-0 z-10 font-medium">Hours</TableCell>
           {hours.map((hour, index) => (
             <TableCell key={index} className="text-center">
               {hour > 0 ? hour : "-"}
@@ -70,18 +58,14 @@ export function UserShiftTable({
         </TableRow>
 
         <TableRow>
-          <TableCell className="bg-background sticky left-0 z-10 font-medium">
-            Tips
-          </TableCell>
+          <TableCell className="bg-background sticky left-0 z-10 font-medium">Tips</TableCell>
           {tips.map((tip, index) => (
             <TableCell key={index} className="text-center">
-              {tip > 0 ? formatPriceWithDollar(tip / 100) : "-"}
+              {tip > 0 ? formatMoney(tip / 100) : "-"}
             </TableCell>
           ))}
           <TableCell className="text-right">
-            {formatPriceWithDollar(
-              userShifts.reduce((acc, shift) => acc + shift.tips, 0) / 100,
-            )}
+            {formatMoney(userShifts.reduce((acc, shift) => acc + shift.tips, 0) / 100)}
           </TableCell>
         </TableRow>
       </TableBody>

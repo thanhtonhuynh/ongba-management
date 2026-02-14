@@ -1,32 +1,31 @@
-import { NUM_MONTHS } from "@/app/constants";
-import { Container } from "@/components/Container";
-import { Header } from "@/components/layout";
-import { ErrorMessage } from "@/components/noti-message";
-import { Typography } from "@/components/shared/typography";
-import { Button } from "@/components/ui/button";
+import { UserShiftTable } from "@/app/(main)/my-shifts/_components";
+import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
+import { NotiMessage } from "@/components/noti-message";
+import { CurrentBadge, Typography } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { UserShiftTable } from "@/components/UserShiftTable";
 import { getUserShiftsInDateRange } from "@/data-access/employee";
 import { getCurrentSession } from "@/lib/auth/session";
 import { formatMoney } from "@/lib/utils";
+import { getTodayStartOfDay } from "@/utils/datetime";
 import {
   getDayRangeByMonthAndYear,
   getPeriodsByMonthAndYear,
   populateMonthSelectData,
 } from "@/utils/hours-tips";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import { ArrowRight01Icon, Coins01Icon } from "@hugeicons/core-free-icons";
+import {
+  ArrowRight01Icon,
+  Calendar03Icon,
+  Clock01Icon,
+  CoinsDollarIcon,
+} from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { CalendarClock, CalendarDays } from "lucide-react";
-import moment from "moment";
-import Link from "next/link";
+import { format } from "date-fns";
 import { notFound, redirect } from "next/navigation";
-import { Fragment } from "react";
-import { ViewPeriodsDialog } from "./ViewPeriodsDialog";
 
 type SearchParams = Promise<{
-  year: string;
-  month: string;
+  year?: string;
+  month?: string;
 }>;
 
 export default async function Page(props: { searchParams: SearchParams }) {
@@ -35,125 +34,107 @@ export default async function Page(props: { searchParams: SearchParams }) {
   if (user.accountStatus !== "active") return notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
-    return <ErrorMessage message="Too many requests. Please try again later." />;
+    return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
   }
 
   const searchParams = await props.searchParams;
-
   const { years } = await populateMonthSelectData();
 
-  let selectedYear: number;
-  let selectedMonth: number;
-  const today = moment().tz("America/Vancouver").startOf("day").toDate();
+  const today = getTodayStartOfDay();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth();
 
-  if (searchParams.year && searchParams.month) {
-    selectedYear = parseInt(searchParams.year);
-    selectedMonth = parseInt(searchParams.month);
-
-    if (
-      isNaN(selectedYear) ||
-      isNaN(selectedMonth) ||
-      !years.includes(selectedYear) ||
-      !NUM_MONTHS.includes(selectedMonth)
-    ) {
-      return (
-        <ErrorMessage
-          className="self-start"
-          message="Invalid year or month. Please check the URL and try again."
-        />
-      );
-    }
-  } else {
-    selectedYear = today.getFullYear();
-    selectedMonth = today.getMonth() + 1;
+  if (!searchParams.year || !searchParams.month) {
+    redirect(`/my-shifts?year=${currentYear}&month=${currentMonth + 1}`);
   }
 
-  const dateRange = getDayRangeByMonthAndYear(selectedYear, selectedMonth - 1);
-  const periods = getPeriodsByMonthAndYear(selectedYear, selectedMonth - 1);
+  const selectedYear = parseInt(searchParams.year);
+  const selectedMonth = parseInt(searchParams.month);
+
+  if (
+    isNaN(selectedYear) ||
+    isNaN(selectedMonth) ||
+    !years.includes(selectedYear) ||
+    !NUM_MONTHS.includes(selectedMonth)
+  ) {
+    return (
+      <NotiMessage
+        variant="error"
+        message="Invalid year or month. Please check the URL and try again."
+      />
+    );
+  }
+
+  const monthIndex = selectedMonth - 1;
+  const dateRange = getDayRangeByMonthAndYear(selectedYear, monthIndex);
+  const periods = getPeriodsByMonthAndYear(selectedYear, monthIndex);
   const userShifts = await getUserShiftsInDateRange(user.id, dateRange);
 
   const firstPeriodShifts = userShifts.filter((shift) => shift.date.getDate() <= 15);
   const secondPeriodShifts = userShifts.filter((shift) => shift.date.getDate() > 15);
 
+  const isCurrentPeriod = selectedYear === currentYear && monthIndex === currentMonth;
+
   return (
-    <Fragment>
-      <Header>
-        <Typography variant="h1">My Shifts</Typography>
-      </Header>
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            {FULL_MONTHS[monthIndex]} {selectedYear}
+            {isCurrentPeriod && <CurrentBadge />}
+          </CardTitle>
+        </CardHeader>
 
-      <Container>
-        <div className="flex items-center gap-2">
-          {years.length > 0 && (
-            <ViewPeriodsDialog
-              years={years}
-              selectedYear={selectedYear}
-              selectedMonth={selectedMonth}
-            />
-          )}
-
-          <Button
-            variant={"link"}
-            nativeButton={false}
-            size={"sm"}
-            render={<Link href="/my-shifts">View current</Link>}
-          />
-        </div>
-
-        <Card className="gap-4">
-          <CardHeader>
-            <CardTitle>Summary</CardTitle>
-          </CardHeader>
-
-          <CardContent className="grid gap-3 sm:grid-cols-2">
-            <div className="flex items-center gap-3">
-              <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
-                <CalendarClock className="text-muted-foreground size-5" />
-              </div>
-              <div>
-                <p className="text-muted-foreground text-xs">Total Hours</p>
-                <p className="text-sm font-semibold">
-                  {userShifts.reduce((acc, shift) => acc + shift.hours, 0)}
-                </p>
-              </div>
+        <CardContent className="grid gap-3 sm:grid-cols-2">
+          <div className="flex items-center gap-3">
+            <div className="bg-accent flex size-10 items-center justify-center rounded-xl">
+              <HugeiconsIcon icon={Clock01Icon} className="text-accent-foreground size-5" />
             </div>
-            <div className="flex items-center gap-3">
-              <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
-                <HugeiconsIcon icon={Coins01Icon} className="text-muted-foreground size-5" />
-              </div>
-              <div>
-                <p className="text-muted-foreground text-xs">Total Tips</p>
-                <p className="text-sm font-semibold">
-                  {formatMoney(userShifts.reduce((acc, shift) => acc + shift.tips, 0) / 100)}
-                </p>
-              </div>
+            <div>
+              <Typography className="text-xs">Total Hours</Typography>
+              <Typography variant="caption">
+                {userShifts.reduce((acc, shift) => acc + shift.hours, 0)}
+              </Typography>
             </div>
-          </CardContent>
-        </Card>
+          </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Daily Breakdown</CardTitle>
-          </CardHeader>
+          <div className="flex items-center gap-3">
+            <div className="bg-accent flex size-10 items-center justify-center rounded-xl">
+              <HugeiconsIcon icon={CoinsDollarIcon} className="text-accent-foreground size-5" />
+            </div>
+            <div>
+              <Typography className="text-xs">Total Tips</Typography>
+              <Typography variant="caption">
+                {formatMoney(userShifts.reduce((acc, shift) => acc + shift.tips, 0) / 100)}
+              </Typography>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
-          <CardContent className="space-y-6">
-            {periods.map((period, index) => (
-              <div key={index} className="space-y-1">
-                <Typography variant="h3" className="flex items-center gap-2 text-xs font-medium">
-                  <CalendarDays className="text-primary size-4" />
-                  <span>{moment(period.start).format("MMM D")}</span>
-                  <HugeiconsIcon icon={ArrowRight01Icon} className="size-3" />
-                  <span>{moment(period.end).format("MMM D")}</span>
-                </Typography>
+      <Card>
+        <CardHeader>
+          <CardTitle>Daily Breakdown</CardTitle>
+        </CardHeader>
 
-                <UserShiftTable
-                  dateRange={period}
-                  userShifts={index === 0 ? firstPeriodShifts : secondPeriodShifts}
-                />
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-      </Container>
-    </Fragment>
+        <CardContent className="space-y-10">
+          {periods.map((period, index) => (
+            <div key={index} className="space-y-6">
+              <Typography variant="h3" className="flex items-center gap-2">
+                <HugeiconsIcon icon={Calendar03Icon} className="size-5" />
+                <span>{format(period.start, "MMM d")}</span>
+                <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
+                <span>{format(period.end, "MMM d")}</span>
+              </Typography>
+
+              <UserShiftTable
+                dateRange={period}
+                userShifts={index === 0 ? firstPeriodShifts : secondPeriodShifts}
+              />
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+    </div>
   );
 }

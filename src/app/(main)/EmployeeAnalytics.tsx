@@ -1,7 +1,7 @@
-import { Typography } from "@/components/shared/typography";
+import { UserShiftTable } from "@/app/(main)/my-shifts/_components";
+import { Typography } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { UserShiftTable } from "@/components/UserShiftTable";
 import { getUserShiftsInDateRange } from "@/data-access/employee";
 import { User } from "@/lib/auth/session";
 import { formatMoney } from "@/lib/utils";
