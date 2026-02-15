@@ -14,7 +14,7 @@ type Props = {
   monthlyExpenses: MonthlyExpense[];
 };
 
-export function ExpensesTable({ monthlyExpenses }: Props) {
+export function YearTotalTable({ monthlyExpenses }: Props) {
   const yearTotal = monthlyExpenses.reduce((acc, month) => acc + month.totalExpenses, 0);
 
   return (

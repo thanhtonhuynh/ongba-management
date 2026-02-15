@@ -3,18 +3,9 @@
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { formatVancouverDate, parseVancouverUrlDate } from "@/lib/utils";
-import {
-  SearchReportInput,
-  SearchReportSchema,
-} from "@/lib/validations/report";
+import { SearchReportInput, SearchReportSchema } from "@/lib/validations/report";
 import { getTodayStartOfDay } from "@/utils/datetime";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams, useRouter } from "next/navigation";
@@ -61,9 +52,7 @@ export function ReportPicker() {
   if (!isMounted) {
     return (
       <div className="space-y-4">
-        <h6 className="font-semibold">
-          Pick a date to search for a sale report
-        </h6>
+        <h6 className="font-semibold">Pick a date to search for a sale report</h6>
         <div className="mx-auto w-full max-w-xl space-y-4">
           <div className="bg-muted h-75 w-full animate-pulse rounded-lg border" />
         </div>
@@ -83,9 +72,7 @@ export function ReportPicker() {
           }
         }}
       >
-        <h6 className="text-sm font-semibold">
-          Select a date to view a sales report
-        </h6>
+        <h6 className="text-sm font-semibold">Select a date to view a sales report</h6>
 
         <div className="mx-auto w-full max-w-sm space-y-3">
           <FormField
@@ -104,7 +91,7 @@ export function ReportPicker() {
                     startMonth={new Date(2024, 9)}
                     disabled={{ after: today }}
                     captionLayout="dropdown"
-                    className="w-full rounded-lg border shadow-sm"
+                    className="w-full rounded-lg border border-blue-950"
                   />
                 </FormControl>
                 <FormMessage />
@@ -118,6 +105,7 @@ export function ReportPicker() {
             onClick={() => {
               form.setValue("date", today);
               setMonth(new Date(today.getFullYear(), today.getMonth()));
+              router.push(`/report/${formatVancouverDate(today)}`);
             }}
             className="p-0"
           >

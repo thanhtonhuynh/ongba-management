@@ -22,6 +22,8 @@ export function Typography({
         variant === "h3" && "text-xs font-semibold tracking-wide text-blue-950 uppercase",
         // caption
         variant === "caption" && "text-sm font-semibold",
+        // body
+        variant === "p" && "space-y-1",
         className,
       )}
       {...props}
