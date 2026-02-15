@@ -1,3 +1,4 @@
+import { SHORT_MONTHS } from "@/app/constants";
 import {
   Table,
   TableBody,
@@ -6,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatPriceWithDollar } from "@/lib/utils";
+import { formatMoney } from "@/lib/utils";
 import { MonthlyExpense } from "@/types";
 
 type Props = {
@@ -14,18 +15,15 @@ type Props = {
 };
 
 export function ExpensesTable({ monthlyExpenses }: Props) {
-  const yearTotal = monthlyExpenses.reduce(
-    (acc, month) => acc + month.totalExpenses,
-    0,
-  );
+  const yearTotal = monthlyExpenses.reduce((acc, month) => acc + month.totalExpenses, 0);
 
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          {Array.from({ length: 12 }).map((_, index) => (
+          {SHORT_MONTHS.map((month, index) => (
             <TableHead key={index} className="text-center">
-              {index + 1}
+              {month}
             </TableHead>
           ))}
           <TableHead className="text-center font-bold">Year total</TableHead>
@@ -36,15 +34,11 @@ export function ExpensesTable({ monthlyExpenses }: Props) {
         <TableRow>
           {monthlyExpenses.map((monthData) => (
             <TableCell key={monthData.month} className="text-center">
-              {monthData.totalExpenses
-                ? formatPriceWithDollar(monthData.totalExpenses / 100)
-                : "-"}
+              {monthData.totalExpenses ? formatMoney(monthData.totalExpenses / 100) : "-"}
             </TableCell>
           ))}
 
-          <TableCell className="text-center font-bold">
-            {formatPriceWithDollar(yearTotal / 100)}
-          </TableCell>
+          <TableCell className="text-center font-bold">{formatMoney(yearTotal / 100)}</TableCell>
         </TableRow>
       </TableBody>
     </Table>
