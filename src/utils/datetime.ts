@@ -33,3 +33,10 @@ export function getEndOfYear(year: number): Date {
 export function getTodayStartOfDay(): Date {
   return fromZonedTime(startOfDay(Date.now()), timeZone);
 }
+
+/**
+ * Get current year in Vancouver timezone
+ */
+export function getCurrentYear(): number {
+  return fromZonedTime(new Date(), timeZone).getFullYear();
+}

@@ -44,7 +44,7 @@ export function ReportPicker() {
 
   async function onSubmit(data: SearchReportInput) {
     startTransition(() => {
-      router.push(`/report/${formatVancouverDate(data.date)}`);
+      router.push(`/report?date=${formatVancouverDate(data.date)}`);
     });
   }
 
@@ -105,7 +105,7 @@ export function ReportPicker() {
             onClick={() => {
               form.setValue("date", today);
               setMonth(new Date(today.getFullYear(), today.getMonth()));
-              router.push(`/report/${formatVancouverDate(today)}`);
+              router.push(`/report?date=${formatVancouverDate(today)}`);
             }}
             className="p-0"
           >

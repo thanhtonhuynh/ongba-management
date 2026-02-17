@@ -2,15 +2,16 @@ import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
 import { Typography } from "@/components/shared/typography";
 import { Button } from "@/components/ui/button";
+import { ICONS } from "@/constants/icons";
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasAccess } from "@/utils/access-control";
-import { ClipboardPen } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { Fragment, ReactNode, Suspense } from "react";
 import { SalesAnalyticsDashboard } from "../_components/sales-analytics";
 import { SalesAnalyticsSkeleton } from "../_components/sales-analytics/sales-analytics-skeleton";
-import { ReportPicker } from "../report-picker";
+import { ReportPicker } from "./_components";
 
 export default async function ReportViewLayout({ children }: { children: ReactNode }) {
   const { user } = await getCurrentSession();
@@ -20,27 +21,24 @@ export default async function ReportViewLayout({ children }: { children: ReactNo
   return (
     <Fragment>
       <Header>
-        <div className="flex flex-1 items-center justify-between">
-          <Typography variant="h1">Sales</Typography>
-
-          {hasAccess(user.role, "/report", "create") && (
-            <Button
-              nativeButton={false}
-              size="sm"
-              variant="outline"
-              className="tracking-normal"
-              render={
-                <Link href={`/report/new`}>
-                  <ClipboardPen />
-                  Create report
-                </Link>
-              }
-            />
-          )}
-        </div>
+        <Typography variant="h1">Sales</Typography>
       </Header>
 
       <Container>
+        {hasAccess(user.role, "/report", "create") && (
+          <Button
+            nativeButton={false}
+            size="sm"
+            className="self-end"
+            render={
+              <Link href={`/report/new`}>
+                <HugeiconsIcon icon={ICONS.REPORT_ADD} />
+                Create report
+              </Link>
+            }
+          />
+        )}
+
         <Suspense fallback={<SalesAnalyticsSkeleton />}>
           <SalesAnalyticsDashboard />
         </Suspense>

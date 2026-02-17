@@ -1,13 +1,9 @@
 import { Typography } from "@/components/shared";
 import { Button } from "@/components/ui/button";
+import { ICONS } from "@/constants/icons";
 import type { User } from "@/lib/auth/session";
 import { hasAccess } from "@/utils/access-control";
-import {
-  Calculator01Icon,
-  Calendar02Icon,
-  TaskAdd01Icon,
-  UserAccountIcon,
-} from "@hugeicons/core-free-icons";
+import { Calculator01Icon, Calendar02Icon, UserAccountIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 
@@ -29,7 +25,7 @@ export function QuickActions({ user }: Props) {
             className="text-foreground border-0 p-0"
             render={
               <Link href={`report/new`}>
-                <HugeiconsIcon icon={TaskAdd01Icon} />
+                <HugeiconsIcon icon={ICONS.REPORT_ADD} />
                 Create report
               </Link>
             }

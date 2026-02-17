@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { formatPriceWithDollar } from "@/lib/utils";
+import { formatMoney } from "@/lib/utils";
 import { LinkSquare01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { format } from "date-fns";
@@ -20,17 +20,13 @@ export function RecentReports({ reports, isOwner }: RecentReportsProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          Recent Reports
-        </CardTitle>
+        <CardTitle className="flex items-center gap-2">Recent Reports</CardTitle>
       </CardHeader>
 
       <CardContent className="space-y-3">
         {reports.length === 0 && (
           <p className="text-muted-foreground text-sm">
-            {isOwner
-              ? "You haven't submitted any reports yet."
-              : "No reports submitted yet."}
+            {isOwner ? "You haven't submitted any reports yet." : "No reports submitted yet."}
           </p>
         )}
 
@@ -38,16 +34,14 @@ export function RecentReports({ reports, isOwner }: RecentReportsProps) {
           reports.map((report) => (
             <Link
               key={report.id}
-              href={`/report/${format(report.date, "yyyy-MM-dd")}`}
+              href={`/report?date=${format(report.date, "yyyy-MM-dd")}`}
               className="hover:bg-muted/50 group flex items-center justify-between rounded-lg border p-3 text-sm transition-colors"
             >
               <p className="">{format(report.date, "EEEE, MMM d, yyyy")}</p>
 
               <div className="flex items-center gap-3">
                 <div className="text-right">
-                  <p className="font-medium">
-                    {formatPriceWithDollar(report.totalSales / 100)}
-                  </p>
+                  <p className="font-medium">{formatMoney(report.totalSales / 100)}</p>
                   <p className="text-muted-foreground text-xs">Total Sales</p>
                 </div>
 

@@ -16,23 +16,22 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { format } from "date-fns";
 import { useTransition } from "react";
 import { toast } from "sonner";
-import { deleteExpenseAction } from "../actions";
+import { deleteReportAction } from "../../_actions";
 
 type Props = {
-  expenseId: string;
+  reportId: string;
   date: Date;
 };
 
-export function DeleteExpenseModal({ expenseId, date }: Props) {
+export function DeleteReportModal({ reportId, date }: Props) {
   const [isPending, startTransition] = useTransition();
 
-  async function handleDeleteExpense() {
+  async function handleDeleteReport() {
     startTransition(async () => {
-      const error = await deleteExpenseAction(expenseId);
-      if (error) {
-        toast.error(error);
-      } else {
-        toast.success("Expense deleted successfully");
+      const error = await deleteReportAction(reportId);
+      if (error) toast.error(error);
+      else {
+        toast(`Report has been deleted.`);
       }
     });
   }
@@ -41,30 +40,30 @@ export function DeleteExpenseModal({ expenseId, date }: Props) {
     <Dialog>
       <DialogTrigger
         render={
-          <Button
-            variant="accent-destructive"
-            size="icon-sm"
-            className="text-muted-foreground group-hover:text-destructive"
-          >
+          <Button size={"sm"} variant={"destructive"}>
             <HugeiconsIcon icon={ICONS.DELETE} />
+            Delete
           </Button>
         }
       />
 
       <DialogContent>
         <DialogHeader showBorder>
-          <DialogTitle>Delete expense on {format(date, "MMM d, yyyy")}?</DialogTitle>
+          <DialogTitle>Delete report on {format(date, "MMM d, yyyy")}?</DialogTitle>
         </DialogHeader>
 
         <DialogBody>
           <Typography>
-            <div className="font-semibold">Are you sure you want to delete this expense?</div>
+            <div className="font-semibold">Are you sure you want to delete this report?</div>
             <div>This action cannot be undone.</div>
+            <div>
+              It will also remove all employees' hours and tips associated with this report.
+            </div>
           </Typography>
         </DialogBody>
 
         <DialogFooter showCloseButton closeText="Cancel">
-          <Button variant="destructive" onClick={handleDeleteExpense} disabled={isPending}>
+          <Button variant="destructive" onClick={handleDeleteReport} disabled={isPending}>
             {isPending ? "Deleting..." : "Delete"}
           </Button>
         </DialogFooter>

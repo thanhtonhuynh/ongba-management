@@ -1,10 +1,10 @@
 import { getFirstReportDate, getReportsForYears } from "@/data-access/report";
+import { getCurrentYear } from "@/utils/datetime";
 import { getAvailableYears } from "@/utils/sales-analytics";
-import moment from "moment-timezone";
 import { SalesAnalyticsDashboardClient } from "./sales-analytics-dashboard";
 
 export async function SalesAnalyticsDashboard() {
-  const currentYear = moment.tz("America/Vancouver").year();
+  const currentYear = getCurrentYear();
   const firstReportDate = await getFirstReportDate();
   const availableYears = getAvailableYears(firstReportDate ?? null);
 

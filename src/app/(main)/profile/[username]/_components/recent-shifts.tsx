@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { formatPriceWithDollar } from "@/lib/utils";
+import { formatMoney } from "@/lib/utils";
 import { LinkSquare01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { format } from "date-fns";
@@ -26,9 +26,7 @@ export function RecentShifts({ shifts, isOwner }: RecentShiftsProps) {
       <CardContent className="space-y-3">
         {shifts.length === 0 && (
           <p className="text-muted-foreground text-sm">
-            {isOwner
-              ? "You don't have any recorded shifts yet."
-              : "No shifts recorded yet."}
+            {isOwner ? "You don't have any recorded shifts yet." : "No shifts recorded yet."}
           </p>
         )}
 
@@ -36,7 +34,7 @@ export function RecentShifts({ shifts, isOwner }: RecentShiftsProps) {
           shifts.map((shift) => (
             <Link
               key={shift.date.toISOString()}
-              href={`/report/${format(shift.date, "yyyy-MM-dd")}`}
+              href={`/report?date=${format(shift.date, "yyyy-MM-dd")}`}
               className="hover:bg-muted/50 group flex items-center justify-between rounded-lg border p-3 text-sm transition-colors"
             >
               <p>{format(shift.date, "EEEE, MMM d, yyyy")}</p>
@@ -48,9 +46,7 @@ export function RecentShifts({ shifts, isOwner }: RecentShiftsProps) {
                 </div>
 
                 <div className="text-right">
-                  <p className="font-medium">
-                    {formatPriceWithDollar(shift.tips / 100)}
-                  </p>
+                  <p className="font-medium">{formatMoney(shift.tips / 100)}</p>
                   <p className="text-muted-foreground text-xs">Tips</p>
                 </div>
 

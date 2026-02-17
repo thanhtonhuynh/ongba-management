@@ -1,6 +1,6 @@
 // Centralized icons for the app
 
-import { Add01Icon, ArrowRight01Icon, Calendar03Icon, Clock01Icon, CoinsDollarIcon, Delete01Icon, Invoice02Icon, PencilEdit01Icon } from "@hugeicons/core-free-icons";
+import { Add01Icon, ArrowRight01Icon, Calendar03Icon, Clock01Icon, CoinsDollarIcon, Delete01Icon, Invoice02Icon, PencilEdit01Icon, TaskAdd01Icon } from "@hugeicons/core-free-icons";
 import type { IconSvgElement } from "@hugeicons/react";
 
 export const ICONS = {
@@ -12,4 +12,5 @@ export const ICONS = {
     DELETE: Delete01Icon,
     EDIT: PencilEdit01Icon,
     EXPENSE: Invoice02Icon,
+    REPORT_ADD: TaskAdd01Icon,
 } as const satisfies Record<string, IconSvgElement>;

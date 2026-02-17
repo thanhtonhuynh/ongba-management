@@ -95,7 +95,7 @@ export function SalesHeatmap({ data }: SalesHeatmapProps) {
                             cell.intensity === 0 && "border",
                           )}
                           onClick={() => {
-                            router.push(`/report/${cell.dateStr}`);
+                            router.push(`/report?date=${cell.dateStr}`);
                           }}
                         />
                       }
