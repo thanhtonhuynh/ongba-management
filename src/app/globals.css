@@ -34,7 +34,8 @@
   --color-info: var(--info);
   --color-success: var(--success);
 
-  --color-border: var(--border);
+  /* --color-border: var(--border); */
+  --color-border: color-mix(in oklab, var(--color-blue-950) 10%, transparent);
   --color-input: var(--input);
   --color-ring: var(--ring);
 
@@ -115,7 +116,7 @@
   --warning: oklch(55.4% 0.135 66.442);
   --success: oklch(52.7% 0.154 150.069);
 
-  --border: oklch(0.922 0 0);
+  /* --border: oklch(0.922 0 0); */
   --input: oklch(0.922 0 0);
   /* --input: oklch(88.2% 0.059 254.128); */
   --ring: oklch(28.2% 0.091 267.935);

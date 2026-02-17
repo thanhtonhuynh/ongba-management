@@ -2,25 +2,16 @@ import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
 import { NotiMessage } from "@/components/noti-message";
 import { Typography } from "@/components/shared";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getReportRaw } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
-import { hasAccess } from "@/utils/access-control";
 import { getTodayStartOfDay } from "@/utils/datetime";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import {
-  Calculator01Icon,
-  Calendar02Icon,
-  TaskAdd01Icon,
-  UserAccountIcon,
-} from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
-import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
 import { SalesSummary } from "../(admin)/SalesSummary";
-import { EmployeeAnalytics } from "./EmployeeAnalytics";
+import { CurrentPayPeriodSummary } from "./_components";
+import { QuickActions } from "./_components/quick-actions";
 
 type SearchParams = Promise<{
   year: string;
@@ -65,62 +56,7 @@ export default async function Home(props: { searchParams: SearchParams }) {
           </CardHeader>
 
           <CardContent className="space-y-2">
-            <Typography variant="h3">Quick Actions</Typography>
-
-            <div className="flex flex-col items-start gap-1">
-              {!todayReport && hasAccess(user.role, "/report", "create") && (
-                <Button
-                  nativeButton={false}
-                  size="sm"
-                  variant={"link"}
-                  className="text-foreground border-0 p-0"
-                  render={
-                    <Link href={`report/new`}>
-                      <HugeiconsIcon icon={TaskAdd01Icon} />
-                      Create report
-                    </Link>
-                  }
-                />
-              )}
-
-              <Button
-                nativeButton={false}
-                variant="link"
-                size="sm"
-                className="text-foreground border-0 p-0"
-                render={
-                  <Link href="/cash-counter">
-                    <HugeiconsIcon icon={Calculator01Icon} />
-                    Cash calculator
-                  </Link>
-                }
-              />
-
-              <Button
-                nativeButton={false}
-                variant="link"
-                size="sm"
-                className="text-foreground border-0 p-0"
-                render={
-                  <Link href="/my-shifts">
-                    <HugeiconsIcon icon={Calendar02Icon} />
-                    My shifts
-                  </Link>
-                }
-              />
-              <Button
-                nativeButton={false}
-                variant="link"
-                size="sm"
-                className="text-foreground border-0 p-0"
-                render={
-                  <Link href={`/profile/${user.username}`}>
-                    <HugeiconsIcon icon={UserAccountIcon} />
-                    My profile
-                  </Link>
-                }
-              />
-            </div>
+            <QuickActions user={user} />
           </CardContent>
         </Card>
 
@@ -138,8 +74,10 @@ export default async function Home(props: { searchParams: SearchParams }) {
           </>
         )} */}
 
-        <EmployeeAnalytics user={user} />
+        {/* Current pay period summary */}
+        <CurrentPayPeriodSummary user={user} />
 
+        {/* Sales summary */}
         {user.role === "admin" && <SalesSummary year={selectedYear} month={selectedMonth} />}
       </Container>
     </Fragment>

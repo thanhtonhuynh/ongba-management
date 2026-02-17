@@ -87,7 +87,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
 
         <CardContent className="grid gap-3 sm:grid-cols-2">
           <div className="flex items-center gap-3">
-            <div className="bg-accent flex size-10 items-center justify-center rounded-xl">
+            <div className="bg-accent flex size-10 items-center justify-center rounded-full">
               <HugeiconsIcon icon={Clock01Icon} className="text-accent-foreground size-5" />
             </div>
             <div>
@@ -99,7 +99,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="bg-accent flex size-10 items-center justify-center rounded-xl">
+            <div className="bg-accent flex size-10 items-center justify-center rounded-full">
               <HugeiconsIcon icon={CoinsDollarIcon} className="text-accent-foreground size-5" />
             </div>
             <div>
