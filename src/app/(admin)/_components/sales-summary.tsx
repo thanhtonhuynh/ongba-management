@@ -11,7 +11,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import moment from "moment";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { FULL_MONTHS, NUM_MONTHS } from "../constants";
+import { FULL_MONTHS, NUM_MONTHS } from "../../constants";
 import { ViewPeriodsDialog } from "./ViewPeriodsDialog";
 
 type SalesSummaryProps = {

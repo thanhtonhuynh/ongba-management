@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn, formatPriceWithDollar } from "@/lib/utils";
 import { WEEKDAY_LABELS } from "@/types/datetime";
 import { HeatmapCell, HeatmapData } from "@/utils/sales-analytics";
@@ -28,8 +24,7 @@ export function SalesHeatmap({ data }: SalesHeatmapProps) {
 
   // Calculate how many columns (weeks) we need
   // If the max is 0 (no data), we still want at least 1 week column
-  const maxWeekIndex =
-    cells.length > 0 ? Math.max(...cells.map((c) => c.weekIndex)) : 0;
+  const maxWeekIndex = cells.length > 0 ? Math.max(...cells.map((c) => c.weekIndex)) : 0;
   const totalWeeks = maxWeekIndex + 1;
 
   // Create a grid: 7 rows (days) x totalWeeks columns
@@ -71,10 +66,7 @@ export function SalesHeatmap({ data }: SalesHeatmapProps) {
         {/* Weekday labels */}
         <div className="flex shrink-0 flex-col gap-1 pr-1">
           {WEEKDAY_LABELS.map((label) => (
-            <div
-              key={label}
-              className="flex h-3 w-5 items-center justify-end text-[10px]"
-            >
+            <div key={label} className="flex h-3 w-5 items-center justify-end text-[10px]">
               {label}
             </div>
           ))}
@@ -89,12 +81,7 @@ export function SalesHeatmap({ data }: SalesHeatmapProps) {
 
                 // If no cell (date outside year), render empty
                 if (!cell) {
-                  return (
-                    <div
-                      key={dayIdx}
-                      className="size-3 rounded-xs bg-transparent"
-                    />
-                  );
+                  return <div key={dayIdx} className="size-3 rounded-xs bg-transparent" />;
                 }
 
                 return (
@@ -117,18 +104,18 @@ export function SalesHeatmap({ data }: SalesHeatmapProps) {
                     <TooltipContent
                       side="top"
                       sideOffset={8}
-                      className="bg-popover text-popover-foreground pointer-events-none border shadow-xl"
+                      className="pointer-events-none border shadow-xl"
                     >
                       <p className="font-medium">{cell.formattedDate}</p>
                       {cell.hasReport ? (
-                        <p className="text-primary">
+                        <p>
                           <span className="text-sm font-medium">
                             {formatPriceWithDollar(cell.totalSales / 100)}
                           </span>{" "}
                           Total Sales
                         </p>
                       ) : (
-                        <p className="text-muted-foreground">No report</p>
+                        <p>No report</p>
                       )}
                     </TooltipContent>
                   </Tooltip>

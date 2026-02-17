@@ -3,22 +3,14 @@ import { Header } from "@/components/layout";
 import { NotiMessage } from "@/components/noti-message";
 import { Typography } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getReportRaw } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
-import { getTodayStartOfDay } from "@/utils/datetime";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
-import { SalesSummary } from "../(admin)/SalesSummary";
 import { CurrentPayPeriodSummary } from "./_components";
 import { QuickActions } from "./_components/quick-actions";
 
-type SearchParams = Promise<{
-  year: string;
-  month: string;
-}>;
-
-export default async function Home(props: { searchParams: SearchParams }) {
+export default async function Home() {
   const { user } = await getCurrentSession();
   if (!user) redirect("/login");
   if (user.accountStatus !== "active") notFound();
@@ -27,19 +19,7 @@ export default async function Home(props: { searchParams: SearchParams }) {
     return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
   }
 
-  const searchParams = await props.searchParams;
-
-  const today = getTodayStartOfDay();
-  const todayReport = await getReportRaw({ date: today });
-
-  let selectedYear: number, selectedMonth: number;
-  if (searchParams.year && searchParams.month) {
-    selectedYear = parseInt(searchParams.year);
-    selectedMonth = parseInt(searchParams.month);
-  } else {
-    selectedYear = today.getFullYear();
-    selectedMonth = today.getMonth() + 1;
-  }
+  // const todayReport = await getReportRaw({ date: today });
 
   return (
     <Fragment>
@@ -76,9 +56,6 @@ export default async function Home(props: { searchParams: SearchParams }) {
 
         {/* Current pay period summary */}
         <CurrentPayPeriodSummary user={user} />
-
-        {/* Sales summary */}
-        {user.role === "admin" && <SalesSummary year={selectedYear} month={selectedMonth} />}
       </Container>
     </Fragment>
   );
