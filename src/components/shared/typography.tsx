@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { ComponentProps } from "react";
 
 type Props = {
-  variant?: "h1" | "h2" | "h3" | "p" | "caption" | "p-sm";
+  variant?: "h1" | "h2" | "h3" | "p" | "caption" | "p-sm" | "p-xs";
 };
 
 export function Typography({
@@ -25,6 +25,7 @@ export function Typography({
         // body
         variant === "p" && "space-y-1",
         variant === "p-sm" && "space-y-1 text-sm",
+        variant === "p-xs" && "space-y-1 text-xs",
         className,
       )}
       {...props}

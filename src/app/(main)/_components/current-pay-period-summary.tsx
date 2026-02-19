@@ -39,7 +39,7 @@ export async function CurrentPayPeriodSummary({ user }: Props) {
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="flex items-center gap-3">
               <div className="bg-accent flex size-10 items-center justify-center rounded-full">
-                <HugeiconsIcon icon={ICONS.CLOCK} className="text-accent-foreground size-5" />
+                <HugeiconsIcon icon={ICONS.TOTAL_HOURS} className="text-accent-foreground size-5" />
               </div>
               <div>
                 <Typography className="text-xs">Total Hours</Typography>
@@ -51,7 +51,7 @@ export async function CurrentPayPeriodSummary({ user }: Props) {
 
             <div className="flex items-center gap-3">
               <div className="bg-accent flex size-10 items-center justify-center rounded-full">
-                <HugeiconsIcon icon={ICONS.COINS} className="text-accent-foreground size-5" />
+                <HugeiconsIcon icon={ICONS.TOTAL_TIPS} className="text-accent-foreground size-5" />
               </div>
               <div>
                 <Typography className="text-xs">Total Tips</Typography>

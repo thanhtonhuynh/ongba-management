@@ -1,4 +1,4 @@
-import { SaleReportCard } from "@/components/SaleReportCard";
+import { SaleReportCard } from "@/app/(main)/report/_components/sales-report-card";
 import { Typography } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -66,7 +66,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
         </div>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="space-y-6">
         <SaleReportCard data={processedReport} />
 
         <ReportAuditLog auditLogs={processedReport.auditLogs} />

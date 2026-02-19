@@ -1,4 +1,7 @@
 import { ProfilePicture } from "@/components/ProfilePicture";
+import { DecoIcon } from "@/components/shared";
+import { Typography } from "@/components/shared/typography";
+import { ICONS } from "@/constants/icons";
 import { type ReportAuditLog } from "@/types";
 import { formatVancouverDate } from "@/utils/datetime";
 import Link from "next/link";
@@ -13,25 +16,31 @@ export function ReportAuditLog({ auditLogs }: Props) {
   const sortedAuditLogs = auditLogs.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
 
   return (
-    <div className="bg-muted/50 space-y-3 rounded-lg p-4">
-      <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-        Audit Log
-      </h3>
+    <div className="bg-muted space-y-3 rounded-xl border p-3">
+      <Typography variant="h3">Audit Log</Typography>
+
       <div className="space-y-2 text-sm">
         {sortedAuditLogs.map((log) => (
           <div
             key={`${log.userId}-${log.timestamp.toISOString()}`}
-            className="flex items-center gap-2"
+            className="flex flex-col gap-1 border-b py-2 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
           >
-            Edited by{" "}
-            <Link
-              href={`/profile/${log.username}`}
-              className="group inline-flex items-center gap-2 transition-opacity hover:opacity-80"
-            >
-              <ProfilePicture image={log.image} size={24} name={log.name} />
-              <span className="group-hover:underline">{log.name}</span>
-            </Link>
-            on {formatVancouverDate(log.timestamp, "MMM d, yyyy h:mma")}
+            <div className="flex items-center gap-1">
+              <DecoIcon icon={ICONS.DOT} fill="currentColor" size={2} />
+              <Typography variant="p-sm">Edited by</Typography>
+
+              <Link
+                href={`/profile/${log.username}`}
+                className="group flex items-center gap-2 transition-opacity hover:opacity-80"
+              >
+                <ProfilePicture image={log.image} size={24} name={log.name} />
+                <span className="group-hover:underline">{log.name}</span>
+              </Link>
+            </div>
+
+            <Typography variant="p-xs" className="text-muted-foreground self-end sm:self-center">
+              {formatVancouverDate(log.timestamp, "MMM d, yyyy hh:mm a")}
+            </Typography>
           </div>
         ))}
       </div>

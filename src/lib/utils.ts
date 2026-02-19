@@ -27,14 +27,14 @@ export function formatPriceWithDollar(amount: number) {
   }).format(amount);
 }
 
-/** Format a number as a currency string with 2 decimal places. */
+/** Format a number as a currency string with 2 decimal places. Amount is in cents. Convert to dollars. */
 export function formatMoney(amount: number): string {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  }).format(amount);
+  }).format(amount / 100);
 }
 
 export function formatNumber(number: number) {

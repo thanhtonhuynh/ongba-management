@@ -3,6 +3,7 @@ import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
 import { NotiMessage } from "@/components/noti-message";
 import { CurrentBadge, Typography } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ICONS } from "@/constants/icons";
 import { getUserShiftsInDateRange } from "@/data-access/employee";
 import { getCurrentSession } from "@/lib/auth/session";
 import { formatMoney } from "@/lib/utils";
@@ -13,12 +14,7 @@ import {
   populateMonthSelectData,
 } from "@/utils/hours-tips";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import {
-  ArrowRight01Icon,
-  Calendar03Icon,
-  Clock01Icon,
-  CoinsDollarIcon,
-} from "@hugeicons/core-free-icons";
+import { ArrowRight01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { format } from "date-fns";
 import { notFound, redirect } from "next/navigation";
@@ -88,7 +84,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
         <CardContent className="grid gap-3 sm:grid-cols-2">
           <div className="flex items-center gap-3">
             <div className="bg-accent flex size-10 items-center justify-center rounded-full">
-              <HugeiconsIcon icon={Clock01Icon} className="text-accent-foreground size-5" />
+              <HugeiconsIcon icon={ICONS.TOTAL_HOURS} className="text-accent-foreground size-5" />
             </div>
             <div>
               <Typography className="text-xs">Total Hours</Typography>
@@ -100,7 +96,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
 
           <div className="flex items-center gap-3">
             <div className="bg-accent flex size-10 items-center justify-center rounded-full">
-              <HugeiconsIcon icon={CoinsDollarIcon} className="text-accent-foreground size-5" />
+              <HugeiconsIcon icon={ICONS.TOTAL_TIPS} className="text-accent-foreground size-5" />
             </div>
             <div>
               <Typography className="text-xs">Total Tips</Typography>
