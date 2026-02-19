@@ -1,7 +1,7 @@
 "use client";
 
-import { EmployeeRoleTag } from "@/components/EmployeeRoleTag";
-import { ProfilePicture } from "@/components/ProfilePicture";
+import { EmployeeRoleTag } from "@/components/shared/employee-role-tag";
+import { ProfilePicture } from "@/components/shared/profile-picture";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -32,11 +32,7 @@ export function EmployeesTable({
   const router = useRouter();
 
   if (employees.length === 0) {
-    return (
-      <div className="text-muted-foreground py-8 text-center text-sm">
-        No results found.
-      </div>
-    );
+    return <div className="text-muted-foreground py-8 text-center text-sm">No results found.</div>;
   }
 
   const handleRowClick = (username: string) => {
@@ -51,16 +47,13 @@ export function EmployeesTable({
           <TableHead>Email</TableHead>
           <TableHead>Role</TableHead>
           {canUpdateEmployees && <TableHead>Status</TableHead>}
-          {canUpdateEmployees && (
-            <TableHead className="w-20">Actions</TableHead>
-          )}
+          {canUpdateEmployees && <TableHead className="w-20">Actions</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
         {employees.map((employee) => {
           const statusConfig = getEmployeeStatusConfig(employee.accountStatus);
-          const canUpdate =
-            canUpdateEmployees && canUpdateEmployee(employee.role);
+          const canUpdate = canUpdateEmployees && canUpdateEmployee(employee.role);
 
           return (
             <TableRow
@@ -70,18 +63,12 @@ export function EmployeesTable({
             >
               <TableCell>
                 <div className="flex items-center gap-2">
-                  <ProfilePicture
-                    image={employee.image}
-                    size={32}
-                    name={employee.name}
-                  />
+                  <ProfilePicture image={employee.image} size={32} name={employee.name} />
                   <span className="font-medium">{employee.name}</span>
                 </div>
               </TableCell>
 
-              <TableCell className="text-muted-foreground">
-                {employee.email}
-              </TableCell>
+              <TableCell className="text-muted-foreground">{employee.email}</TableCell>
 
               <TableCell>
                 <EmployeeRoleTag role={employee.role} />
@@ -89,9 +76,7 @@ export function EmployeesTable({
 
               {canUpdateEmployees && (
                 <TableCell>
-                  <Badge variant={statusConfig.variant}>
-                    {statusConfig.label}
-                  </Badge>
+                  <Badge variant={statusConfig.variant}>{statusConfig.label}</Badge>
                 </TableCell>
               )}
 

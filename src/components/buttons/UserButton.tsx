@@ -1,5 +1,5 @@
 import { logoutAction } from "@/app/(auth)/actions";
-import { ProfilePicture } from "@/components/ProfilePicture";
+import { ProfilePicture } from "@/components/shared/profile-picture";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -28,11 +28,7 @@ export default function UserButton({ user }: UserButtonProps) {
             size="icon"
             className="bg-background text-primary hover:bg-muted hover:ring-border flex-none rounded-full border shadow-md hover:ring-1"
           >
-            {user.image ? (
-              <ProfilePicture image={user.image} size={50} />
-            ) : (
-              <UserRound size={20} />
-            )}
+            {user.image ? <ProfilePicture image={user.image} size={50} /> : <UserRound size={20} />}
           </Button>
         }
       />
@@ -40,9 +36,7 @@ export default function UserButton({ user }: UserButtonProps) {
       <DropdownMenuContent className="w-48">
         <DropdownMenuLabel className="space-y-1">
           <div>{user.name}</div>
-          <div className="text-muted-foreground text-xs capitalize">
-            {user.role}
-          </div>
+          <div className="text-muted-foreground text-xs capitalize">{user.role}</div>
         </DropdownMenuLabel>
 
         <DropdownMenuSeparator />

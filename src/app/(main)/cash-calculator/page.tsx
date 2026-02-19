@@ -1,6 +1,6 @@
 import { CashCalculator } from "@/app/(main)/cash-calculator/cash-calculator";
-import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
+import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared/typography";
 import { getCurrentSession } from "@/lib/auth/session";
 import { notFound, redirect } from "next/navigation";

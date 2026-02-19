@@ -1,6 +1,6 @@
 "use client";
 
-import { ProfilePicture } from "@/components/ProfilePicture";
+import { ProfilePicture } from "@/components/shared/profile-picture";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -11,11 +11,7 @@ import {
   CommandList,
   CommandShortcut,
 } from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { User } from "@/lib/auth/session";
 import { cn } from "@/lib/utils";
 import { AtIcon, Tick02Icon } from "@hugeicons/core-free-icons";
@@ -30,12 +26,7 @@ type Props = {
   onSelect: (user: User) => void;
 };
 
-export function EmployeeCombobox({
-  users,
-  selectedUserId,
-  selectedUserIds,
-  onSelect,
-}: Props) {
+export function EmployeeCombobox({ users, selectedUserId, selectedUserIds, onSelect }: Props) {
   const [open, setOpen] = useState(false);
 
   const selectedUser = users.find((user) => user.id === selectedUserId);
@@ -55,11 +46,7 @@ export function EmployeeCombobox({
           >
             {selectedUser ? (
               <div className="flex items-center gap-2">
-                <ProfilePicture
-                  image={selectedUser.image}
-                  name={selectedUser.name}
-                  size={25}
-                />
+                <ProfilePicture image={selectedUser.image} name={selectedUser.name} size={25} />
                 <div className="flex flex-col items-start text-xs tracking-tight">
                   <span className="font-medium">{selectedUser.name}</span>
                   <span className="text-muted-foreground flex items-center gap-0.5">
@@ -69,9 +56,7 @@ export function EmployeeCombobox({
                 </div>
               </div>
             ) : (
-              <span className="text-muted-foreground text-xs">
-                Select employee...
-              </span>
+              <span className="text-muted-foreground text-xs">Select employee...</span>
             )}
             <ChevronsUpDown className="opacity-50" />
           </Button>
@@ -88,8 +73,7 @@ export function EmployeeCombobox({
             <CommandGroup>
               {users.map((user, i) => {
                 const alreadySelected =
-                  selectedUserIds.includes(user.id) &&
-                  user.id !== selectedUserId;
+                  selectedUserIds.includes(user.id) && user.id !== selectedUserId;
                 return (
                   <div key={user.id}>
                     <CommandItem
@@ -102,11 +86,7 @@ export function EmployeeCombobox({
                       }}
                       className="mb-1 py-0.5"
                     >
-                      <ProfilePicture
-                        name={user.name}
-                        image={user.image}
-                        size={25}
-                      />
+                      <ProfilePicture name={user.name} image={user.image} size={25} />
                       <div className="flex flex-1 items-center justify-between gap-1">
                         <div className="text-xs">
                           <span className="font-medium">{user.name}</span>
@@ -117,11 +97,7 @@ export function EmployeeCombobox({
                         </div>
 
                         <CommandShortcut
-                          className={cn(
-                            selectedUserId === user.id
-                              ? "opacity-100"
-                              : "opacity-0",
-                          )}
+                          className={cn(selectedUserId === user.id ? "opacity-100" : "opacity-0")}
                         >
                           <HugeiconsIcon icon={Tick02Icon} className="size-4" />
                         </CommandShortcut>

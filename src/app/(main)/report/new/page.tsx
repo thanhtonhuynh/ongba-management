@@ -1,6 +1,6 @@
-import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
-import { ErrorMessage } from "@/components/noti-message";
+import { Container } from "@/components/layout/container";
+import { ErrorMessage } from "@/components/shared/noti-message";
 import { Typography } from "@/components/shared/typography";
 import { PLATFORMS, getPlatformById } from "@/constants/platforms";
 import { getEmployees } from "@/data-access/employee";

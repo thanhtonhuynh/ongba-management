@@ -1,4 +1,4 @@
-import { ErrorMessage } from "@/components/noti-message";
+import { ErrorMessage } from "@/components/shared/noti-message";
 import { getEmployees } from "@/data-access/employee";
 import { getCurrentSession } from "@/lib/auth/session";
 import { type EmployeeStatus } from "@/types";

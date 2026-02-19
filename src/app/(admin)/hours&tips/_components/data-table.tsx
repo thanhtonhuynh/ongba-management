@@ -1,4 +1,4 @@
-import { ProfilePicture } from "@/components/ProfilePicture";
+import { ProfilePicture } from "@/components/shared/profile-picture";
 import {
   Table,
   TableBody,

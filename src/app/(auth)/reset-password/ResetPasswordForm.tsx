@@ -1,8 +1,8 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { ErrorMessage } from "@/components/noti-message";
 import { PasswordInput } from "@/components/PasswordInput";
+import { ErrorMessage } from "@/components/shared/noti-message";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,

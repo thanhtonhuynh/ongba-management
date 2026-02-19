@@ -1,5 +1,5 @@
-import { ErrorMessage } from "@/components/noti-message";
 import { CurrentBadge } from "@/components/shared";
+import { ErrorMessage } from "@/components/shared/noti-message";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { type Platform, getPlatformById } from "@/constants/platforms";
 import { getExpensesByYear } from "@/data-access/expenses";

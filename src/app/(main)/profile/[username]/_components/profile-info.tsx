@@ -1,5 +1,5 @@
-import { EmployeeRoleTag } from "@/components/EmployeeRoleTag";
-import { ProfilePicture } from "@/components/ProfilePicture";
+import { EmployeeRoleTag } from "@/components/shared/employee-role-tag";
+import { ProfilePicture } from "@/components/shared/profile-picture";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -61,10 +61,7 @@ export function ProfileInfo({ user, isOwner }: ProfileInfoProps) {
       <div className="bg-background grid gap-6 rounded-xl border border-blue-950 p-6 sm:grid-cols-2">
         <div className="flex items-center gap-3">
           <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
-            <HugeiconsIcon
-              icon={Mail01Icon}
-              className="text-muted-foreground size-5"
-            />
+            <HugeiconsIcon icon={Mail01Icon} className="text-muted-foreground size-5" />
           </div>
           <div>
             <p className="text-muted-foreground text-xs">Email</p>
@@ -74,10 +71,7 @@ export function ProfileInfo({ user, isOwner }: ProfileInfoProps) {
 
         <div className="flex items-center gap-3">
           <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
-            <HugeiconsIcon
-              icon={Calendar02Icon}
-              className="text-muted-foreground size-5"
-            />
+            <HugeiconsIcon icon={Calendar02Icon} className="text-muted-foreground size-5" />
           </div>
           <div>
             <p className="text-muted-foreground text-xs">Joined</p>
@@ -87,10 +81,7 @@ export function ProfileInfo({ user, isOwner }: ProfileInfoProps) {
 
         <div className="flex items-center gap-3">
           <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
-            <HugeiconsIcon
-              icon={ShieldUserIcon}
-              className="text-muted-foreground size-5"
-            />
+            <HugeiconsIcon icon={ShieldUserIcon} className="text-muted-foreground size-5" />
           </div>
           <div>
             <p className="text-muted-foreground text-xs">Role</p>
@@ -100,10 +91,7 @@ export function ProfileInfo({ user, isOwner }: ProfileInfoProps) {
 
         <div className="flex items-center gap-3">
           <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
-            <HugeiconsIcon
-              icon={UserCheck01Icon}
-              className="text-muted-foreground size-5"
-            />
+            <HugeiconsIcon icon={UserCheck01Icon} className="text-muted-foreground size-5" />
           </div>
           <div>
             <p className="text-muted-foreground text-xs">Status</p>

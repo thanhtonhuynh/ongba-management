@@ -1,5 +1,5 @@
-import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
+import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared/typography";
 import { getRecentShiftsByUser } from "@/data-access/employee";
 import { getRecentReportsByUser } from "@/data-access/report";

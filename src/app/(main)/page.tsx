@@ -1,7 +1,7 @@
-import { Container } from "@/components/Container";
 import { Header } from "@/components/layout";
-import { NotiMessage } from "@/components/noti-message";
+import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared";
+import { NotiMessage } from "@/components/shared/noti-message";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getCurrentSession } from "@/lib/auth/session";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";

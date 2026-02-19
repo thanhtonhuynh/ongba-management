@@ -1,6 +1,6 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
-import { NotiMessage } from "@/components/noti-message";
 import { CurrentBadge } from "@/components/shared";
+import { NotiMessage } from "@/components/shared/noti-message";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { type Platform, getPlatformById } from "@/constants/platforms";
 import { getReportsByDateRange } from "@/data-access/report";

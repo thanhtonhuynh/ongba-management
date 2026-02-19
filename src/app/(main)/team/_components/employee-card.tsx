@@ -1,5 +1,5 @@
-import { EmployeeRoleTag } from "@/components/EmployeeRoleTag";
-import { ProfilePicture } from "@/components/ProfilePicture";
+import { EmployeeRoleTag } from "@/components/shared/employee-role-tag";
+import { ProfilePicture } from "@/components/shared/profile-picture";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getEmployeeStatusConfig } from "@/constants/employee";
@@ -19,14 +19,9 @@ export function EmployeeCard({ user, actions }: EmployeeCardProps) {
     <Card className="flex flex-col justify-center gap-0">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 py-4">
         <CardTitle className="flex items-center gap-2 text-sm">
-          <Link
-            href={`/profile/${user.username}`}
-            className="group flex items-center gap-2"
-          >
+          <Link href={`/profile/${user.username}`} className="group flex items-center gap-2">
             <ProfilePicture image={user.image} size={32} name={user.name} />
-            <span className="underline-offset-2 group-hover:underline">
-              {user.name}
-            </span>
+            <span className="underline-offset-2 group-hover:underline">{user.name}</span>
           </Link>
         </CardTitle>
 

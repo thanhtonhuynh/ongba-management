@@ -1,4 +1,4 @@
-import { ErrorMessage } from "@/components/noti-message";
+import { ErrorMessage } from "@/components/shared/noti-message";
 import { Typography } from "@/components/shared/typography";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";

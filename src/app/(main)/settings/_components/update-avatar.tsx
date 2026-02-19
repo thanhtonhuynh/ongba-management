@@ -1,7 +1,7 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { ProfilePicture } from "@/components/ProfilePicture";
+import { ProfilePicture } from "@/components/shared/profile-picture";
 import { Typography } from "@/components/shared/typography";
 import { Card } from "@/components/ui/card";
 import {
