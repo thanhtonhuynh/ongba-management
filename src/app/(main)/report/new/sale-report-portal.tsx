@@ -5,7 +5,7 @@ import { Typography } from "@/components/shared/typography";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { type Platform } from "@/constants/platforms";
-import { User } from "@/lib/auth/session";
+import { DisplayUser } from "@/types";
 import { formatVancouverDate } from "@/lib/utils";
 import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -45,7 +45,7 @@ const steps = [
 type FieldName = keyof SaleReportInputs;
 
 type Props = {
-  usersPromise: Promise<User[]>;
+  usersPromise: Promise<DisplayUser[]>;
   startCashPromise: Promise<number>;
   activePlatforms: Platform[];
   initialValues?: SaleReportInputs;

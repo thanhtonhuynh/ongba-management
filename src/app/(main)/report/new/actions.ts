@@ -1,26 +1,24 @@
 "use server";
 
+import { PERMISSIONS } from "@/constants/permissions";
 import { upsertReport } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
-import { hasAccess } from "@/utils/access-control";
+import { hasPermission } from "@/utils/access-control";
 import { authenticatedRateLimit, rateLimitByKey } from "@/utils/rate-limiter";
 import moment from "moment-timezone";
 
-export async function saveReportAction(
-  data: SaleReportInputs,
-  mode: "create" | "edit",
-) {
+export async function saveReportAction(data: SaleReportInputs, mode: "create" | "edit") {
   try {
     const { user } = await getCurrentSession();
     if (!user || user.accountStatus !== "active") {
       return { error: "Unauthorized." };
     }
 
-    if (mode === "edit" && !hasAccess(user.role, "/report", "update")) {
+    if (mode === "edit" && !hasPermission(user.role, PERMISSIONS.REPORTS_UPDATE)) {
       return { error: "Unauthorized." };
     } else {
-      if (mode === "create" && !hasAccess(user.role, "/report", "create")) {
+      if (mode === "create" && !hasPermission(user.role, PERMISSIONS.REPORTS_CREATE)) {
         return { error: "Unauthorized." };
       }
 

@@ -8,14 +8,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { User } from "@/lib/auth/session";
 import { SaleReportInputs } from "@/lib/validations/report";
+import { DisplayUser } from "@/types";
 import { Plus, X } from "lucide-react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { EmployeeCombobox } from "./employee-combobox";
 
 type Props = {
-  users: User[];
+  users: DisplayUser[];
 };
 
 export function EmployeeInput({ users }: Props) {
@@ -30,7 +30,7 @@ export function EmployeeInput({ users }: Props) {
     .map((e) => e.userId)
     .filter(Boolean);
 
-  function handleSelectUser(index: number, user: User) {
+  function handleSelectUser(index: number, user: DisplayUser) {
     const currentItem = form.getValues(`employees.${index}`);
 
     employees.update(index, {

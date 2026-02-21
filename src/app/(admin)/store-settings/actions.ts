@@ -1,5 +1,6 @@
 "use server";
 
+import { PERMISSIONS } from "@/constants/permissions";
 import { updateStoreSettings } from "@/data-access/store";
 import { getCurrentSession } from "@/lib/auth/session";
 import { toCents } from "@/lib/utils";
@@ -9,7 +10,7 @@ import {
   UpdateStartCashInput,
   UpdateStartCashSchema,
 } from "@/lib/validations/store";
-import { hasAccess } from "@/utils/access-control";
+import { hasPermission } from "@/utils/access-control";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { revalidatePath } from "next/cache";
 
@@ -19,7 +20,7 @@ export async function updateStartCash(data: UpdateStartCashInput) {
     if (
       !user ||
       user.accountStatus !== "active" ||
-      !hasAccess(user.role, "/admin")
+      !hasPermission(user.role, PERMISSIONS.STORE_SETTINGS_MANAGE)
     ) {
       return { error: "Unauthorized." };
     }
@@ -46,7 +47,7 @@ export async function updateActivePlatforms(data: UpdateActivePlatformsInput) {
     if (
       !user ||
       user.accountStatus !== "active" ||
-      !hasAccess(user.role, "/admin")
+      !hasPermission(user.role, PERMISSIONS.STORE_SETTINGS_MANAGE)
     ) {
       return { error: "Unauthorized." };
     }

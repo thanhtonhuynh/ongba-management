@@ -31,7 +31,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       data-scroll-behavior="smooth"
       className={`${inter.variable} ${spaceGrotesk.variable} scroll-smooth`}
     >
-      <body className={`font-inter bg-neutral-100 antialiased`}>
+      <body className={`font-space-grotesk bg-neutral-100 antialiased`}>
         <ThemeProvider>
           <SessionProvider session={session} user={user}>
             <SidebarProvider>

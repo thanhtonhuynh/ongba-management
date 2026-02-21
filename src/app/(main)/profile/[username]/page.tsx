@@ -1,11 +1,12 @@
 import { Header } from "@/components/layout";
 import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared/typography";
+import { PERMISSIONS } from "@/constants/permissions";
 import { getRecentShiftsByUser } from "@/data-access/employee";
 import { getRecentReportsByUser } from "@/data-access/report";
 import { getUserByUsername } from "@/data-access/user";
 import { getCurrentSession } from "@/lib/auth/session";
-import { hasAccess } from "@/utils/access-control";
+import { hasPermission } from "@/utils/access-control";
 import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
 import { ProfileInfo } from "./_components/profile-info";
@@ -35,7 +36,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
   }
 
   // Non-admins and non-managers can only view users with "active" status
-  const canViewAllStatuses = hasAccess(currentUser.role, "/employees", "update");
+  const canViewAllStatuses = hasPermission(currentUser.role, PERMISSIONS.EMPLOYEES_VIEW);
   if (!canViewAllStatuses && profileUser.accountStatus !== "active") {
     return notFound();
   }

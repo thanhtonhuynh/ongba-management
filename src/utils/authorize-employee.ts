@@ -1,6 +1,7 @@
+import { PERMISSIONS } from "@/constants/permissions";
 import { getCurrentSession, User } from "@/lib/auth/session";
 import "server-only";
-import { hasAccess } from "./access-control";
+import { hasPermission } from "./access-control";
 import { authenticatedRateLimit } from "./rate-limiter";
 
 type AuthorizeResult = { user: User } | { error: string };
@@ -16,7 +17,7 @@ export async function authorizeEmployeeAction(): Promise<AuthorizeResult> {
   if (
     !user ||
     user.accountStatus !== "active" ||
-    !hasAccess(user.role, "/employees", "update")
+    !hasPermission(user.role, PERMISSIONS.EMPLOYEES_UPDATE)
   ) {
     return { error: "Unauthorized" };
   }

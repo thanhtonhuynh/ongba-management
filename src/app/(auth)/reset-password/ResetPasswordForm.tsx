@@ -1,7 +1,7 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { PasswordInput } from "@/components/PasswordInput";
+import { PasswordInput } from "@/components/shared";
 import { ErrorMessage } from "@/components/shared/noti-message";
 import { Checkbox } from "@/components/ui/checkbox";
 import {

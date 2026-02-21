@@ -18,17 +18,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { User } from "@/lib/auth/session";
+import { DisplayUser } from "@/types";
+import type { RoleWithDetails } from "@/types/rbac";
 import { MoreHorizontal, ShieldCheck, ShieldOff, UserCog } from "lucide-react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { activateUserAction, deactivateUserAction } from "../_actions";
-import { ChangeUserRoleDialog } from "./change-role-dialog";
+import { ChangeRoleModal } from "./change-role-modal";
 
 type EmployeeActionsProps = {
-  employee: User;
+  employee: DisplayUser;
   /** Whether the current user can update this employee */
   canUpdate: boolean;
+  rolesPromise: Promise<RoleWithDetails[]>;
 };
 
 type ConfirmAction = {
@@ -39,10 +41,7 @@ type ConfirmAction = {
   variant: "destructive" | "default";
 };
 
-const CONFIRM_ACTIONS: Record<
-  ConfirmAction["type"],
-  Omit<ConfirmAction, "type">
-> = {
+const CONFIRM_ACTIONS: Record<ConfirmAction["type"], Omit<ConfirmAction, "type">> = {
   deactivate: {
     title: "Deactivate employee?",
     description: "Deactivating will revoke their access to the system.",
@@ -64,11 +63,9 @@ const CONFIRM_ACTIONS: Record<
   },
 };
 
-export function EmployeeActions({ employee, canUpdate }: EmployeeActionsProps) {
+export function EmployeeActions({ employee, canUpdate, rolesPromise }: EmployeeActionsProps) {
   const [isPending, startTransition] = useTransition();
-  const [confirmAction, setConfirmAction] = useState<
-    ConfirmAction["type"] | null
-  >(null);
+  const [confirmAction, setConfirmAction] = useState<ConfirmAction["type"] | null>(null);
   const [roleDialogOpen, setRoleDialogOpen] = useState(false);
 
   if (!canUpdate) return null;
@@ -170,9 +167,7 @@ export function EmployeeActions({ employee, canUpdate }: EmployeeActionsProps) {
               {actionConfig?.title.replace("?", ` ${employee.name}?`)}
             </AlertDialogTitle>
 
-            <AlertDialogDescription>
-              {actionConfig?.description}
-            </AlertDialogDescription>
+            <AlertDialogDescription>{actionConfig?.description}</AlertDialogDescription>
           </AlertDialogHeader>
 
           <AlertDialogFooter>
@@ -189,10 +184,11 @@ export function EmployeeActions({ employee, canUpdate }: EmployeeActionsProps) {
       </AlertDialog>
 
       {/* Change Role Dialog */}
-      <ChangeUserRoleDialog
+      <ChangeRoleModal
         selectedUser={employee}
         open={roleDialogOpen}
         onOpenChange={setRoleDialogOpen}
+        rolesPromise={rolesPromise}
       />
     </>
   );

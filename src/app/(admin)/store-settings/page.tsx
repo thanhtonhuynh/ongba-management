@@ -1,10 +1,11 @@
 import { Header } from "@/components/layout";
 import { Container } from "@/components/layout/container";
-import { ErrorMessage } from "@/components/shared/noti-message";
+import { NotiMessage } from "@/components/shared";
 import { Typography } from "@/components/shared/typography";
+import { PERMISSIONS } from "@/constants/permissions";
 import { getActivePlatforms, getStartCash } from "@/data-access/store";
 import { getCurrentSession } from "@/lib/auth/session";
-import { hasAccess } from "@/utils/access-control";
+import { hasPermission } from "@/utils/access-control";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
@@ -15,10 +16,10 @@ export default async function Page() {
   const { session, user } = await getCurrentSession();
   if (!session) redirect("/login");
   if (user.accountStatus !== "active") return notFound();
-  if (!hasAccess(user.role, "/admin")) return notFound();
+  if (!hasPermission(user.role, PERMISSIONS.STORE_SETTINGS_MANAGE)) return notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
-    return <ErrorMessage message="Too many requests. Please try again later." />;
+    return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
   }
 
   const [currentStartCash, activePlatformIds] = await Promise.all([

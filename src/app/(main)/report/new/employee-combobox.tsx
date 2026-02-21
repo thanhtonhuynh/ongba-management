@@ -12,18 +12,18 @@ import {
   CommandShortcut,
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { User } from "@/lib/auth/session";
 import { cn } from "@/lib/utils";
+import { DisplayUser } from "@/types";
 import { AtIcon, Tick02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
 
 type Props = {
-  users: User[];
+  users: DisplayUser[];
   selectedUserId: string;
   selectedUserIds: string[];
-  onSelect: (user: User) => void;
+  onSelect: (user: DisplayUser) => void;
 };
 
 export function EmployeeCombobox({ users, selectedUserId, selectedUserIds, onSelect }: Props) {

@@ -1,11 +1,9 @@
 "use server";
 
+import { getRoleById } from "@/data-access/roles";
 import { getUserById, updateUser } from "@/data-access/user";
-import {
-  UpdateEmployeeRoleInput,
-  UpdateEmployeeRoleSchema,
-} from "@/lib/validations/employee";
-import { canUpdateUser } from "@/utils/access-control";
+import { UpdateEmployeeRoleInput, UpdateEmployeeRoleSchema } from "@/lib/validations/employee";
+import { canAssignRole } from "@/utils/access-control";
 import { authorizeEmployeeAction } from "@/utils/authorize-employee";
 import { revalidatePath } from "next/cache";
 
@@ -15,9 +13,7 @@ type ActionResult = { error?: string };
  * Activates a user account (used for both verification and reactivation).
  * @param userId - The ID of the user to activate
  */
-export async function activateUserAction(
-  userId: string,
-): Promise<ActionResult> {
+export async function activateUserAction(userId: string): Promise<ActionResult> {
   try {
     const authResult = await authorizeEmployeeAction();
     if ("error" in authResult) return authResult;
@@ -35,9 +31,7 @@ export async function activateUserAction(
 /**
  * Deactivates a user account.
  */
-export async function deactivateUserAction(
-  userId: string,
-): Promise<ActionResult> {
+export async function deactivateUserAction(userId: string): Promise<ActionResult> {
   try {
     const authResult = await authorizeEmployeeAction();
     if ("error" in authResult) return authResult;
@@ -49,7 +43,7 @@ export async function deactivateUserAction(
       return { error: "Deactivation failed. Please try again." };
     }
 
-    if (!canUpdateUser(user.role, targetUser.role)) {
+    if (!canAssignRole(user.role, targetUser.role)) {
       return { error: "Unauthorized" };
     }
 
@@ -66,21 +60,36 @@ export async function deactivateUserAction(
 /**
  * Updates a user's role.
  */
-export async function updateUserRoleAction(
-  data: UpdateEmployeeRoleInput,
-): Promise<ActionResult> {
+export async function updateUserRoleAction(data: UpdateEmployeeRoleInput): Promise<ActionResult> {
   try {
     const authResult = await authorizeEmployeeAction();
     if ("error" in authResult) return authResult;
 
     const { user } = authResult;
-    const { userId, role } = UpdateEmployeeRoleSchema.parse(data);
+    const { userId, roleId } = UpdateEmployeeRoleSchema.parse(data);
 
-    if (!canUpdateUser(user.role, role)) {
-      return { error: "Unauthorized" };
+    const targetRole = await getRoleById(roleId);
+
+    if (!targetRole) {
+      return { error: "Role not found" };
     }
 
-    await updateUser(userId, { role });
+    if (!canAssignRole(user.role, targetRole)) {
+      return { error: "You are not authorized to assign this role." };
+    }
+
+    // // TODO: Update to use roleId instead of role string once migration is complete
+    // // For now, find the role by name and update the user's roleId
+    // const prisma = (await import("@/lib/prisma")).default;
+    // const targetRole = await prisma.role.findFirst({
+    //   where: { name: { equals: role, mode: "insensitive" } },
+    // });
+
+    // if (!targetRole) {
+    //   return { error: "Role not found" };
+    // }
+
+    await updateUser(userId, { roleId });
 
     revalidatePath("/team");
     return {};

@@ -1,14 +1,13 @@
-import { EmployeeRoleTag } from "@/components/shared/employee-role-tag";
 import { ProfilePicture } from "@/components/shared/profile-picture";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getEmployeeStatusConfig } from "@/constants/employee";
-import { User } from "@/lib/auth/session";
+import { DisplayUser } from "@/types";
 import Link from "next/link";
 import { ReactNode } from "react";
 
 type EmployeeCardProps = {
-  user: User;
+  user: DisplayUser;
   actions: ReactNode;
 };
 
@@ -29,9 +28,7 @@ export function EmployeeCard({ user, actions }: EmployeeCardProps) {
       </CardHeader>
 
       <CardContent className="space-y-2 px-4 pt-0 pb-4 text-sm">
-        <p className="flex items-center gap-1">
-          Role: <EmployeeRoleTag role={user.role} />
-        </p>
+        <p className="flex items-center gap-1">Role: {user.role?.name ?? "No Role"}</p>
 
         <div className="flex items-center gap-1">
           Status:

@@ -4,43 +4,46 @@ import { cache } from "react";
 import "server-only";
 
 // Get current user employee shifts in date range
-export const getUserShiftsInDateRange = cache(
-  async (userId: string, dateRange: DayRange) => {
-    const reports = await prisma.saleReport.findMany({
-      where: {
-        date: { gte: dateRange.start, lte: dateRange.end },
-        shifts: { some: { userId } },
-      },
-      select: {
-        date: true,
-        shifts: true,
-      },
-    });
+export const getUserShiftsInDateRange = cache(async (userId: string, dateRange: DayRange) => {
+  const reports = await prisma.saleReport.findMany({
+    where: {
+      date: { gte: dateRange.start, lte: dateRange.end },
+      shifts: { some: { userId } },
+    },
+    select: {
+      date: true,
+      shifts: true,
+    },
+  });
 
-    return reports.flatMap((report) =>
-      report.shifts
-        .filter((shift) => shift.userId === userId)
-        .map((shift) => ({
-          date: report.date,
-          hours: shift.hours,
-          tips: shift.tips,
-        })),
-    );
-  },
-);
+  return reports.flatMap((report) =>
+    report.shifts
+      .filter((shift) => shift.userId === userId)
+      .map((shift) => ({
+        date: report.date,
+        hours: shift.hours,
+        tips: shift.tips,
+      })),
+  );
+});
 
 // Get employees with optional status filter and hidden from reports filter
-export const getEmployees = cache(
-  async (status?: string, excludeHiddenFromReports?: boolean) => {
-    return prisma.user.findMany({
-      where: {
-        accountStatus: status,
-        ...(excludeHiddenFromReports && { hiddenFromReports: false }),
+export const getEmployees = cache(async (status?: string, excludeHiddenFromReports?: boolean) => {
+  return prisma.user.findMany({
+    where: {
+      accountStatus: status,
+      ...(excludeHiddenFromReports && { hiddenFromReports: false }),
+      // Exclude platform super admins (AdminUser) from team list
+      adminUser: null,
+    },
+    include: {
+      role: {
+        select: { id: true, name: true, permissions: { select: { code: true } } },
       },
-      orderBy: { name: "asc" },
-    });
-  },
-);
+    },
+    orderBy: { name: "asc" },
+  });
+});
 
 // Fetch all shifts in a date range
 export const getShiftsInDateRange = cache(async (dateRange: DayRange) => {
@@ -105,31 +108,29 @@ export const getEmployeesByIds = cache(async (userIds: string[]) => {
 });
 
 // Get recent shifts for a user (most recent first)
-export const getRecentShiftsByUser = cache(
-  async (userId: string, limit: number = 5) => {
-    const reports = await prisma.saleReport.findMany({
-      where: {
-        shifts: { some: { userId } },
-      },
-      orderBy: { date: "desc" },
-      take: limit,
-      select: {
-        date: true,
-        shifts: true,
-      },
-    });
+export const getRecentShiftsByUser = cache(async (userId: string, limit: number = 5) => {
+  const reports = await prisma.saleReport.findMany({
+    where: {
+      shifts: { some: { userId } },
+    },
+    orderBy: { date: "desc" },
+    take: limit,
+    select: {
+      date: true,
+      shifts: true,
+    },
+  });
 
-    // Extract user's shifts from each report and flatten
-    const shifts = reports.flatMap((report) =>
-      report.shifts
-        .filter((shift) => shift.userId === userId)
-        .map((shift) => ({
-          date: report.date,
-          hours: shift.hours,
-          tips: shift.tips,
-        })),
-    );
+  // Extract user's shifts from each report and flatten
+  const shifts = reports.flatMap((report) =>
+    report.shifts
+      .filter((shift) => shift.userId === userId)
+      .map((shift) => ({
+        date: report.date,
+        hours: shift.hours,
+        tips: shift.tips,
+      })),
+  );
 
-    return shifts;
-  },
-);
+  return shifts;
+});

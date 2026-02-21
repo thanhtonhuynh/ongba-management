@@ -3,10 +3,11 @@ import { CurrentBadge } from "@/components/shared";
 import { NotiMessage } from "@/components/shared/noti-message";
 import { Typography } from "@/components/shared/typography";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { PERMISSIONS } from "@/constants/permissions";
 import { getShiftsInDateRange } from "@/data-access/employee";
 import { getCurrentSession } from "@/lib/auth/session";
 import { TotalHoursTips } from "@/types";
-import { hasAccess } from "@/utils/access-control";
+import { hasPermission } from "@/utils/access-control";
 import { getTodayStartOfDay } from "@/utils/datetime";
 import {
   getHoursTipsBreakdownInDayRange,
@@ -29,7 +30,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const { session, user } = await getCurrentSession();
   if (!session) redirect("/login");
   if (user.accountStatus !== "active") return notFound();
-  if (!hasAccess(user.role, "/admin")) return notFound();
+  if (!hasPermission(user.role, PERMISSIONS.HOURS_TIPS_VIEW)) return notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
     return <NotiMessage variant="error" message="Too many requests. Please try again later." />;

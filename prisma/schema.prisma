@@ -13,13 +13,19 @@ model User {
   username          String  @unique
   email             String  @unique
   emailVerified     Boolean @default(false)
-  role              String  @default("unassigned role")
   accountStatus     String  @default("inactive")
   passwordHash      String?
   image             String?
   hiddenFromReports Boolean @default(false)
   // totpKey          Bytes?
   // twoFactorEnabled Boolean @default(false)
+
+  // Role relation (replaces old string-based role field)
+  roleId String? @db.ObjectId
+  role   Role?   @relation(fields: [roleId], references: [id])
+
+  // Platform super admin (developer / full access across tenants; separate from Role for multi-tenant)
+  adminUser AdminUser?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -57,6 +63,13 @@ model PasswordResetToken {
   expiresAt DateTime
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+/// Platform super admins (developers); bypass all permission checks. Not tied to a tenant.
+model AdminUser {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @unique @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model StoreSettings {
@@ -147,4 +160,38 @@ model Expense {
 type ExpenseEntry {
   amount Int
   reason String
+}
+
+// ==========================================
+// Role-Based Access Control (RBAC) Models
+// ==========================================
+
+model Permission {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  code        String  @unique
+  name        String
+  description String?
+  resource    String
+  action      String
+
+  roleIds String[] @db.ObjectId
+  roles   Role[]   @relation(fields: [roleIds], references: [id])
+}
+
+model Role {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  editable    Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  permissionIds String[]     @db.ObjectId
+  permissions   Permission[] @relation(fields: [permissionIds], references: [id])
+
+  users User[]
+
+  // Note: name uniqueness will be enforced at application level
+  // When multi-tenant is added, this will become @@unique([name, tenantId])
 }

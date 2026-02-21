@@ -1,8 +1,9 @@
 import { Typography } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { ICONS } from "@/constants/icons";
+import { PERMISSIONS } from "@/constants/permissions";
 import type { User } from "@/lib/auth/session";
-import { hasAccess } from "@/utils/access-control";
+import { hasPermission } from "@/utils/access-control";
 import { Calculator01Icon, Calendar02Icon, UserAccountIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
@@ -17,7 +18,7 @@ export function QuickActions({ user }: Props) {
       <Typography variant="h3">Quick Actions</Typography>
 
       <div className="flex flex-col items-start gap-1">
-        {hasAccess(user.role, "/report", "create") && (
+        {hasPermission(user.role, PERMISSIONS.REPORTS_CREATE) && (
           <Button
             nativeButton={false}
             size="sm"

@@ -3,8 +3,9 @@ import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared/typography";
 import { Button } from "@/components/ui/button";
 import { ICONS } from "@/constants/icons";
+import { PERMISSIONS } from "@/constants/permissions";
 import { getCurrentSession } from "@/lib/auth/session";
-import { hasAccess } from "@/utils/access-control";
+import { hasPermission } from "@/utils/access-control";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
@@ -25,7 +26,7 @@ export default async function ReportViewLayout({ children }: { children: ReactNo
       </Header>
 
       <Container>
-        {hasAccess(user.role, "/report", "create") && (
+        {hasPermission(user.role, PERMISSIONS.REPORTS_CREATE) && (
           <Button
             nativeButton={false}
             size="sm"

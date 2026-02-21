@@ -1,6 +1,28 @@
-import { Expense } from "@prisma/client";
+import { Expense, Permission, Role } from "@prisma/client";
 
 export type EmployeeStatus = "active" | "inactive" | "deactivated";
+
+// Role with permissions
+export type RoleWithPermissions = Role & { permissions: Permission[] };
+
+// Basic user type for display purposes (without permissionContext)
+export type DisplayUser = {
+  id: string;
+  name: string;
+  username: string;
+  email: string;
+  emailVerified: boolean;
+  accountStatus: string;
+  image: string | null;
+  hiddenFromReports: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  role: {
+    id: string;
+    name: string;
+    permissions: { code: string }[];
+  } | null;
+};
 
 export type CashType =
   | "coin5c"

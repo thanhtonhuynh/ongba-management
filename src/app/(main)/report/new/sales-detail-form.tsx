@@ -2,14 +2,14 @@
 
 import { InputField } from "@/components/ui/form/input-field";
 import { getPlatformById } from "@/constants/platforms";
-import { User } from "@/lib/auth/session";
 import { SaleReportInputs } from "@/lib/validations/report";
+import { DisplayUser } from "@/types";
 import { use } from "react";
 import { useFormContext } from "react-hook-form";
 import { EmployeeInput } from "./employee-input";
 
 type Props = {
-  usersPromise: Promise<User[]>;
+  usersPromise: Promise<DisplayUser[]>;
 };
 export function SalesDetailForm({ usersPromise }: Props) {
   const users = use(usersPromise);

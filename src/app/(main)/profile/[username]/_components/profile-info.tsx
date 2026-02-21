@@ -1,10 +1,9 @@
-import { EmployeeRoleTag } from "@/components/shared/employee-role-tag";
 import { ProfilePicture } from "@/components/shared/profile-picture";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { getEmployeeStatusConfig } from "@/constants/employee";
-import { User } from "@/lib/auth/session";
+import { DisplayUser } from "@/types";
 import {
   AtIcon,
   Calendar02Icon,
@@ -18,7 +17,7 @@ import { format } from "date-fns";
 import Link from "next/link";
 
 type ProfileInfoProps = {
-  user: User;
+  user: DisplayUser;
   isOwner: boolean;
 };
 
@@ -85,7 +84,7 @@ export function ProfileInfo({ user, isOwner }: ProfileInfoProps) {
           </div>
           <div>
             <p className="text-muted-foreground text-xs">Role</p>
-            <EmployeeRoleTag role={user.role} className="text-sm" />
+            {user.role?.name ?? "No Role"}
           </div>
         </div>
 

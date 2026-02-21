@@ -1,6 +1,5 @@
 "use client";
 
-import { EmployeeRoleTag } from "@/components/shared/employee-role-tag";
 import { ProfilePicture } from "@/components/shared/profile-picture";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -12,22 +11,27 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getEmployeeStatusConfig } from "@/constants/employee";
-import { User } from "@/lib/auth/session";
+import { DisplayUser } from "@/types";
+import type { RoleWithDetails } from "@/types/rbac";
 import { useRouter } from "next/navigation";
 import { EmployeeActions } from "./employee-actions";
 
 type EmployeesTableProps = {
-  employees: User[];
+  employees: DisplayUser[];
   /** Whether the current user can update employees */
   canUpdateEmployees: boolean;
   /** Function to check if current user can update a specific employee */
-  canUpdateEmployee: (employeeRole: string) => boolean;
+  canUpdateEmployee: (
+    employeeRole: { id: string; name: string; permissions: { code: string }[] } | null,
+  ) => boolean;
+  rolesPromise: Promise<RoleWithDetails[]>;
 };
 
 export function EmployeesTable({
   employees,
   canUpdateEmployees,
   canUpdateEmployee,
+  rolesPromise,
 }: EmployeesTableProps) {
   const router = useRouter();
 
@@ -70,9 +74,7 @@ export function EmployeesTable({
 
               <TableCell className="text-muted-foreground">{employee.email}</TableCell>
 
-              <TableCell>
-                <EmployeeRoleTag role={employee.role} />
-              </TableCell>
+              <TableCell>{employee.role?.name ?? "No Role"}</TableCell>
 
               {canUpdateEmployees && (
                 <TableCell>
@@ -82,7 +84,11 @@ export function EmployeesTable({
 
               {canUpdateEmployees && (
                 <TableCell onClick={(e) => e.stopPropagation()}>
-                  <EmployeeActions employee={employee} canUpdate={canUpdate} />
+                  <EmployeeActions
+                    employee={employee}
+                    canUpdate={canUpdate}
+                    rolesPromise={rolesPromise}
+                  />
                 </TableCell>
               )}
             </TableRow>

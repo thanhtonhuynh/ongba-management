@@ -98,7 +98,7 @@ export function AppSidebar() {
                     <div className="flex-1">
                       <p className="truncate text-sm font-bold">{user?.name}</p>
                       <p className="text-muted-foreground text-xs font-medium capitalize">
-                        {user?.role?.name ?? "No Role"}
+                        {user.role.isAdminUser ? "Platform Admin" : (user.role.name ?? "No Role")}
                       </p>
                       <p className="text-muted-foreground truncate text-xs">{user?.email}</p>
                     </div>

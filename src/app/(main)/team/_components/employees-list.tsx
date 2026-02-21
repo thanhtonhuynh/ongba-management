@@ -1,8 +1,9 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { User } from "@/lib/auth/session";
-import { canUpdateUser } from "@/utils/access-control";
+import { DisplayUser } from "@/types";
+import type { RoleWithDetails, UserRole } from "@/types/rbac";
+import { canAssignRole } from "@/utils/access-control";
 import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { EmployeesCards } from "./employees-cards";
@@ -10,17 +11,19 @@ import { EmployeesTable } from "./employees-table";
 import { type ViewMode } from "./view-toggle";
 
 type EmployeesListProps = {
-  employees: User[];
+  employees: DisplayUser[];
   view: ViewMode;
   canUpdateEmployees: boolean;
-  currentUserRole: string;
+  userRole: UserRole;
+  rolesPromise: Promise<RoleWithDetails[]>;
 };
 
 export function EmployeesList({
   employees,
   view,
   canUpdateEmployees,
-  currentUserRole,
+  userRole,
+  rolesPromise,
 }: EmployeesListProps) {
   const [search, setSearch] = useState("");
 
@@ -35,8 +38,9 @@ export function EmployeesList({
     );
   }, [employees, search]);
 
-  const canUpdateEmployeeFn = (employeeRole: string) =>
-    canUpdateUser(currentUserRole, employeeRole);
+  const canUpdateEmployeeFn = (
+    employeeRole: { id: string; name: string; permissions: { code: string }[] } | null,
+  ) => canAssignRole(userRole, employeeRole);
 
   return (
     <div className="space-y-4">
@@ -58,12 +62,14 @@ export function EmployeesList({
           employees={filteredEmployees}
           canUpdateEmployees={canUpdateEmployees}
           canUpdateEmployee={canUpdateEmployeeFn}
+          rolesPromise={rolesPromise}
         />
       ) : (
         <EmployeesCards
           employees={filteredEmployees}
           canUpdateEmployees={canUpdateEmployees}
           canUpdateEmployee={canUpdateEmployeeFn}
+          rolesPromise={rolesPromise}
         />
       )}
     </div>

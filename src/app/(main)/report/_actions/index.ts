@@ -1,8 +1,9 @@
 "use server";
 
+import { PERMISSIONS } from "@/constants/permissions";
 import { deleteReportById, reportExists } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
-import { hasAccess } from "@/utils/access-control";
+import { hasPermission } from "@/utils/access-control";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { revalidatePath } from "next/cache";
 
@@ -12,7 +13,7 @@ export async function deleteReportAction(reportId: string) {
     if (
       !user ||
       user.accountStatus !== "active" ||
-      !hasAccess(user.role, "/report", "delete")
+      !hasPermission(user.role, PERMISSIONS.REPORTS_DELETE)
     ) {
       return "Unauthorized.";
     }

@@ -1,8 +1,10 @@
-import { ErrorMessage } from "@/components/shared/noti-message";
+import { NotiMessage } from "@/components/shared";
+import { PERMISSIONS } from "@/constants/permissions";
 import { getEmployees } from "@/data-access/employee";
+import { getRoles } from "@/data-access/roles";
 import { getCurrentSession } from "@/lib/auth/session";
 import { type EmployeeStatus } from "@/types";
-import { hasAccess } from "@/utils/access-control";
+import { hasPermission } from "@/utils/access-control";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { notFound, redirect } from "next/navigation";
 import { EmployeesList } from "./_components/employees-list";
@@ -19,11 +21,11 @@ export default async function TeamPage({ searchParams }: PageProps) {
   if (user.accountStatus !== "active") return notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
-    return <ErrorMessage message="Too many requests. Please try again later." />;
+    return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
   }
 
   const params = await searchParams;
-  const canManageEmployees = hasAccess(user.role, "/employees", "update");
+  const canManageEmployees = hasPermission(user.role, PERMISSIONS.EMPLOYEES_UPDATE);
 
   // Non-managers can only see active employees
   const status: EmployeeStatus = canManageEmployees
@@ -33,6 +35,8 @@ export default async function TeamPage({ searchParams }: PageProps) {
   const view: ViewMode = (params.view as ViewMode) || "table";
 
   const employees = await getEmployees(status);
+
+  const rolesPromise = getRoles();
 
   return (
     <div className="bg-background space-y-4 rounded-xl border border-blue-950 p-6">
@@ -48,7 +52,8 @@ export default async function TeamPage({ searchParams }: PageProps) {
         employees={employees}
         view={view}
         canUpdateEmployees={canManageEmployees}
-        currentUserRole={user.role}
+        userRole={user.role}
+        rolesPromise={rolesPromise}
       />
     </div>
   );

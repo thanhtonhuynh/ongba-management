@@ -4,10 +4,11 @@ import { NotiMessage } from "@/components/shared/noti-message";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ICONS } from "@/constants/icons";
+import { PERMISSIONS } from "@/constants/permissions";
 import { getExpensesByYear } from "@/data-access/expenses";
 import { getCurrentSession } from "@/lib/auth/session";
 import { formatMoney } from "@/lib/utils";
-import { hasAccess } from "@/utils/access-control";
+import { hasPermission } from "@/utils/access-control";
 import { getTodayStartOfDay } from "@/utils/datetime";
 import { reshapeExpenses } from "@/utils/expenses";
 import { populateMonthSelectData } from "@/utils/hours-tips";
@@ -25,7 +26,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const { session, user } = await getCurrentSession();
   if (!session) redirect("/login");
   if (user.accountStatus !== "active") return notFound();
-  if (!hasAccess(user.role, "/admin")) return notFound();
+  if (!hasPermission(user.role, PERMISSIONS.EXPENSES_VIEW)) return notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
     return <NotiMessage variant="error" message="Too many requests. Please try again later." />;

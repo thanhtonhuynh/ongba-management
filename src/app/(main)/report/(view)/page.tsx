@@ -3,10 +3,11 @@ import { Typography } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ICONS } from "@/constants/icons";
+import { PERMISSIONS } from "@/constants/permissions";
 import { getReportRaw } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import { parseVancouverUrlDate } from "@/lib/utils";
-import { hasAccess } from "@/utils/access-control";
+import { hasPermission } from "@/utils/access-control";
 import { processReportDataForView } from "@/utils/report";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
@@ -47,7 +48,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
         <CardTitle>Sales Report</CardTitle>
 
         <div className="flex items-center gap-3">
-          {hasAccess(user.role, "/report", "update") && (
+          {hasPermission(user.role, PERMISSIONS.REPORTS_UPDATE) && (
             <Button
               nativeButton={false}
               variant="outline-accent"
@@ -60,7 +61,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
               }
             />
           )}
-          {hasAccess(user.role, "/report", "delete") && (
+          {hasPermission(user.role, PERMISSIONS.REPORTS_DELETE) && (
             <DeleteReportModal reportId={processedReport.id!} date={processedReport.date} />
           )}
         </div>

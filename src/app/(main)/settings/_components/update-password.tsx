@@ -1,7 +1,7 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { PasswordInput } from "@/components/PasswordInput";
+import { PasswordInput } from "@/components/shared";
 import { Typography } from "@/components/shared/typography";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";

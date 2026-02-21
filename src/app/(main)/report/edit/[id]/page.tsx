@@ -1,13 +1,14 @@
 import { Header } from "@/components/layout";
 import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared/typography";
+import { PERMISSIONS } from "@/constants/permissions";
 import { PLATFORMS, getPlatformById } from "@/constants/platforms";
 import { getEmployees } from "@/data-access/employee";
 import { getReportRaw } from "@/data-access/report";
 import { getActivePlatforms, getStartCash } from "@/data-access/store";
 import { getCurrentSession } from "@/lib/auth/session";
 import { SaleReportInputs } from "@/lib/validations/report";
-import { hasAccess } from "@/utils/access-control";
+import { hasPermission } from "@/utils/access-control";
 import { format } from "date-fns";
 import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
@@ -19,7 +20,7 @@ export default async function Page(props: { params: Params }) {
   const { session, user } = await getCurrentSession();
   if (!session) redirect("/login");
   if (user.accountStatus !== "active") notFound();
-  if (!hasAccess(user.role, "/report", "update")) notFound();
+  if (!hasPermission(user.role, PERMISSIONS.REPORTS_UPDATE)) notFound();
 
   const params = await props.params;
   const report = await getReportRaw({ id: params.id });
