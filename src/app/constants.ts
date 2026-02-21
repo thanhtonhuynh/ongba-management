@@ -1,14 +1,5 @@
+import { ICONS } from "@/constants/icons";
 import { CashType } from "@/types";
-import {
-  Calculator,
-  CalendarCheck,
-  ClipboardList,
-  Hourglass,
-  Landmark,
-  ShoppingBasket,
-  Store,
-  Users,
-} from "lucide-react";
 
 export const NUM_MONTHS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
@@ -67,15 +58,16 @@ export const BILL_FIELDS = MONEY_FIELDS.filter((key) => key.startsWith("bill"));
 export const ROLL_FIELDS = MONEY_FIELDS.filter((key) => key.startsWith("roll"));
 
 export const staffMenuItems = [
-  { title: "Sales", url: "/report", icon: ClipboardList },
-  { title: "Cash calculator", url: "/cash-calculator", icon: Calculator },
-  { title: "My shifts", url: "/my-shifts", icon: CalendarCheck },
-  { title: "Team", url: "/team", icon: Users },
+  { title: "Sales", url: "/report", icon: ICONS.REPORT },
+  { title: "Cash Calculator", url: "/cash-calculator", icon: ICONS.CALCULATOR },
+  { title: "My Shifts", url: "/my-shifts", icon: ICONS.CALENDAR },
+  { title: "Team", url: "/team", icon: ICONS.USERS },
 ];
 
 export const adminMenuItems = [
-  { title: "Hours & tips", url: "/hours&tips", icon: Hourglass },
-  { title: "Cashflow", url: "/cashflow", icon: Landmark },
-  { title: "Expenses", url: "/expenses", icon: ShoppingBasket },
-  { title: "Store settings", url: "/store-settings", icon: Store },
+  { title: "Hours & Tips", url: "/hours&tips", icon: ICONS.HOURGLASS },
+  { title: "Cashflow", url: "/cashflow", icon: ICONS.CASHFLOW },
+  { title: "Expenses", url: "/expenses", icon: ICONS.EXPENSE },
+  { title: "Roles & Permissions", url: "/roles", icon: ICONS.SHIELD },
+  { title: "Store Settings", url: "/store-settings", icon: ICONS.STORE_SETTINGS },
 ];

@@ -8,8 +8,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { ICONS } from "@/constants/icons";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { Home } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { activeMenuItemClass } from "./constant";
@@ -22,17 +23,14 @@ export function HomeGroup() {
   return (
     <SidebarGroup>
       <SidebarGroupContent>
-        <SidebarMenu>
+        <SidebarMenu className="font-space-grotesk">
           <SidebarMenuItem>
             <SidebarMenuButton
-              className="h-12"
+              className="h-12 font-medium"
               onClick={() => isMobile && toggleSidebar()}
               render={
-                <Link
-                  href={"/"}
-                  className={pathname === "/" ? activeMenuItemClass : ""}
-                >
-                  <Home />
+                <Link href={"/"} className={pathname === "/" ? activeMenuItemClass : ""}>
+                  <HugeiconsIcon icon={ICONS.HOME} strokeWidth={2} />
                   <span>Home</span>
                 </Link>
               }

@@ -1,23 +1,33 @@
 // Centralized icons for the app
 
-import { Add01Icon, ArrowRight01Icon, BalanceScaleIcon, Calendar03Icon, CashIcon, Clock01Icon, CoinsDollarIcon, Delete01Icon, DivideSignCircleIcon, Invoice02Icon, MoneyBag02Icon, PencilEdit01Icon, RecordIcon, SmartPhone01Icon, Store01Icon, TaskAdd01Icon } from "@hugeicons/core-free-icons";
+import { Add01Icon, ArrowRight01Icon, BalanceScaleIcon, Calculator01Icon, Calendar03Icon, CashIcon, Chart01Icon, Clock01Icon, CoinsDollarIcon, Delete01Icon, DivideSignCircleIcon, Home03Icon, HourglassIcon, Invoice02Icon, MoneyBag02Icon, PencilEdit01Icon, RecordIcon, Settings01Icon, ShieldUserIcon, SmartPhone01Icon, Store01Icon, StoreManagement01Icon, Task01Icon, TaskAdd01Icon, UserAccountIcon, UserGroupIcon } from "@hugeicons/core-free-icons";
 import type { IconSvgElement } from "@hugeicons/react";
 
 export const ICONS = {
+    ACCOUNT_SETTINGS: Settings01Icon,
     ADD: Add01Icon,
     ARROW_RIGHT: ArrowRight01Icon,
+    CALCULATOR: Calculator01Icon,
     CALENDAR: Calendar03Icon,
     CASH_DIFFERENCE: BalanceScaleIcon,
+    CASHFLOW: Chart01Icon,
     CASH_OUT: CashIcon,
     DELETE: Delete01Icon,
     DOT: RecordIcon,
     EDIT: PencilEdit01Icon,
     EXPENSE: Invoice02Icon,
+    HOME: Home03Icon,
+    HOURGLASS: HourglassIcon,
     PER_HOUR: DivideSignCircleIcon,
+    REPORT: Task01Icon,
     REPORT_ADD: TaskAdd01Icon,
     SALES_IN_STORE: Store01Icon,
     SALES_ONLINE: SmartPhone01Icon,
     SALES_TOTAL: MoneyBag02Icon,
+    SHIELD: ShieldUserIcon,
+    STORE_SETTINGS: StoreManagement01Icon,
     TOTAL_TIPS: CoinsDollarIcon,
     TOTAL_HOURS: Clock01Icon,
+    USER_ACCOUNT: UserAccountIcon,
+    USERS: UserGroupIcon,
 } as const satisfies Record<string, IconSvgElement>;

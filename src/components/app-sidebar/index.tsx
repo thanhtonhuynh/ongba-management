@@ -49,14 +49,12 @@ export function AppSidebar() {
                     src={
                       state === "collapsed" && !isMobile
                         ? "/serva-logo-icon.svg"
-                        : "/serva-logo-full.svg"
+                        : "/serva-logo-full-2.svg"
                     }
                     alt="Serva"
                     width={240}
                     height={80}
-                    className={cn(
-                      state === "collapsed" && !isMobile ? "h-6" : "h-10 w-fit",
-                    )}
+                    className={cn(state === "collapsed" && !isMobile ? "h-6" : "h-10 w-fit")}
                   />
                   <span className="sr-only">Serva home</span>
                 </Link>
@@ -100,21 +98,16 @@ export function AppSidebar() {
                     <div className="flex-1">
                       <p className="truncate text-sm font-bold">{user?.name}</p>
                       <p className="text-muted-foreground text-xs font-medium capitalize">
-                        {user?.role}
+                        {user?.role?.name ?? "No Role"}
                       </p>
-                      <p className="text-muted-foreground truncate text-xs">
-                        {user?.email}
-                      </p>
+                      <p className="text-muted-foreground truncate text-xs">{user?.email}</p>
                     </div>
                     <ChevronUp className="ml-auto" />
                   </SidebarMenuButton>
                 }
               />
 
-              <DropdownMenuContent
-                side="top"
-                className="w-(--radix-popper-anchor-width)"
-              >
+              <DropdownMenuContent side="top" className="w-(--radix-popper-anchor-width)">
                 <DropdownMenuItem className="p-0">
                   <Button
                     variant={`ghost`}

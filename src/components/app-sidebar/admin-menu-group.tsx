@@ -11,6 +11,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { activeMenuItemClass } from "./constant";
@@ -22,20 +23,20 @@ export function AdminMenuGroup() {
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel className="tracking-wide">ADMIN</SidebarGroupLabel>
+      <SidebarGroupLabel className="font-space-grotesk">ADMIN</SidebarGroupLabel>
       <SidebarGroupContent>
-        <SidebarMenu>
+        <SidebarMenu className="font-space-grotesk">
           {adminMenuItems.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton
-                className="h-12"
+                className="h-12 font-medium"
                 onClick={() => isMobile && toggleSidebar()}
                 render={
                   <Link
                     href={item.url}
                     className={pathname === item.url ? activeMenuItemClass : ""}
                   >
-                    <item.icon />
+                    <HugeiconsIcon icon={item.icon} strokeWidth={2} />
                     <span>{item.title}</span>
                   </Link>
                 }

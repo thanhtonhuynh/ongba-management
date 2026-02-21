@@ -6,11 +6,14 @@ import { SessionProvider } from "@/contexts/SessionProvider";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
 import { getCurrentSession } from "@/lib/auth/session";
 import type { Metadata, Viewport } from "next";
-import { Geist, Inter } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+});
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 
@@ -18,9 +21,7 @@ export const metadata: Metadata = { title: "Serva" };
 
 export const viewport: Viewport = { maximumScale: 1 };
 
-export default async function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const { session, user } = await getCurrentSession();
 
   return (
@@ -28,11 +29,9 @@ export default async function RootLayout({
       lang="en"
       suppressHydrationWarning
       data-scroll-behavior="smooth"
-      className={`${inter.variable} scroll-smooth`}
+      className={`${inter.variable} ${spaceGrotesk.variable} scroll-smooth`}
     >
-      <body
-        className={`${geistSans.variable} font-inter bg-neutral-100 antialiased`}
-      >
+      <body className={`font-inter bg-neutral-100 antialiased`}>
         <ThemeProvider>
           <SessionProvider session={session} user={user}>
             <SidebarProvider>
