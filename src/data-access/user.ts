@@ -1,19 +1,16 @@
-import "server-only";
 import { hashPassword } from "@/lib/auth/password";
+import type { User } from "@/lib/auth/session";
 import prisma from "@/lib/prisma";
+import type { PermissionCode } from "@/types/rbac";
+import { Permission, User as PrismaUser, Role } from "@prisma/client";
 import { cache } from "react";
-import { Permission, Role, User as PrismaUser } from "@prisma/client";
+import "server-only";
 
 type RoleWithPermissions = Role & { permissions: Permission[] };
 type UserWithRole = PrismaUser & { role: RoleWithPermissions | null };
 
 // Create User
-export async function createUser(
-  name: string,
-  username: string,
-  email: string,
-  password: string,
-) {
+export async function createUser(name: string, username: string, email: string, password: string) {
   const passwordHash = await hashPassword(password);
   const user = await prisma.user.create({
     data: { name, username, email, passwordHash },
@@ -68,15 +65,34 @@ export const getUserByEmail = cache(async (email: string) => {
 export const getUserByUsername = cache(async (username: string) => {
   const user = await prisma.user.findUnique({
     where: { username },
+  });
+  return user;
+});
+
+export const getUserProfileByUsername = cache(async (username: string) => {
+  const user = await prisma.user.findUnique({
+    where: { username },
     include: {
       role: {
-        include: {
-          permissions: true,
+        select: {
+          name: true,
+          permissions: { select: { code: true } },
         },
       },
+      adminUser: { select: { id: true } },
     },
   });
-  return user as UserWithRole | null;
+
+  if (!user) return null;
+
+  return {
+    ...user,
+    role: {
+      name: user?.role?.name ?? null,
+      isAdminUser: !!user?.adminUser,
+      permissions: user?.role?.permissions.map((p) => p.code as PermissionCode) ?? [],
+    },
+  } as User;
 });
 
 // Get User By Email Or Username

@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { getEmployeeStatusConfig } from "@/constants/employee";
-import { DisplayUser } from "@/types";
+import type { User } from "@/lib/auth/session";
 import {
   AtIcon,
   Calendar02Icon,
@@ -17,7 +17,7 @@ import { format } from "date-fns";
 import Link from "next/link";
 
 type ProfileInfoProps = {
-  user: DisplayUser;
+  user: User;
   isOwner: boolean;
 };
 
@@ -43,7 +43,8 @@ export function ProfileInfo({ user, isOwner }: ProfileInfoProps) {
         {isOwner && (
           <Button
             nativeButton={false}
-            variant="outline"
+            variant="outline-accent"
+            size="sm"
             render={
               <Link href="/settings">
                 <HugeiconsIcon icon={Settings01Icon} className="mr-2 size-4" />
@@ -84,7 +85,9 @@ export function ProfileInfo({ user, isOwner }: ProfileInfoProps) {
           </div>
           <div>
             <p className="text-muted-foreground text-xs">Role</p>
-            {user.role?.name ?? "No Role"}
+            <span className="text-sm font-medium">
+              {user.role?.isAdminUser ? "Platform Admin" : (user.role?.name ?? "No Role")}
+            </span>
           </div>
         </div>
 

@@ -1,7 +1,5 @@
-import { PERMISSIONS } from "@/constants/permissions";
 import { getCurrentSession, User } from "@/lib/auth/session";
 import "server-only";
-import { hasPermission } from "./access-control";
 import { authenticatedRateLimit } from "./rate-limiter";
 
 type AuthorizeResult = { user: User } | { error: string };
@@ -14,17 +12,10 @@ type AuthorizeResult = { user: User } | { error: string };
 export async function authorizeEmployeeAction(): Promise<AuthorizeResult> {
   const { user } = await getCurrentSession();
 
-  if (
-    !user ||
-    user.accountStatus !== "active" ||
-    !hasPermission(user.role, PERMISSIONS.EMPLOYEES_UPDATE)
-  ) {
-    return { error: "Unauthorized" };
-  }
+  if (!user || user.accountStatus !== "active") return { error: "Unauthorized" };
 
-  if (!(await authenticatedRateLimit(user.id))) {
+  if (!(await authenticatedRateLimit(user.id)))
     return { error: "Too many requests. Please try again later." };
-  }
 
   return { user };
 }

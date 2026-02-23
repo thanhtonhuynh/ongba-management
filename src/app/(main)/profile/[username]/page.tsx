@@ -4,7 +4,7 @@ import { Typography } from "@/components/shared/typography";
 import { PERMISSIONS } from "@/constants/permissions";
 import { getRecentShiftsByUser } from "@/data-access/employee";
 import { getRecentReportsByUser } from "@/data-access/report";
-import { getUserByUsername } from "@/data-access/user";
+import { getUserProfileByUsername } from "@/data-access/user";
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasPermission } from "@/utils/access-control";
 import { notFound, redirect } from "next/navigation";
@@ -20,23 +20,17 @@ type ProfilePageProps = {
 export default async function ProfilePage({ params }: ProfilePageProps) {
   const { user: currentUser } = await getCurrentSession();
 
-  if (!currentUser) {
-    redirect("/login");
-  }
-
-  if (currentUser.accountStatus !== "active") {
-    return notFound();
-  }
+  if (!currentUser) redirect("/login");
+  if (currentUser.accountStatus !== "active") return notFound();
 
   const { username } = await params;
-  const profileUser = await getUserByUsername(username);
+  const profileUser = await getUserProfileByUsername(username);
 
-  if (!profileUser) {
+  if (!profileUser || (profileUser.role.isAdminUser && !currentUser.role.isAdminUser)) {
     return notFound();
   }
 
-  // Non-admins and non-managers can only view users with "active" status
-  const canViewAllStatuses = hasPermission(currentUser.role, PERMISSIONS.EMPLOYEES_VIEW);
+  const canViewAllStatuses = hasPermission(currentUser.role, PERMISSIONS.TEAM_MANAGE_ACCESS);
   if (!canViewAllStatuses && profileUser.accountStatus !== "active") {
     return notFound();
   }
