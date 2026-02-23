@@ -1,38 +1,36 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { Button } from "@/components/ui/button";
+import { Typography } from "@/components/shared";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogBody,
-  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSet,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { UpdateRoleInput, UpdateRoleSchema } from "@/lib/validations/roles";
+import type { RoleWithDetails } from "@/types/rbac";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Permission, Role } from "@prisma/client";
-import { useEffect, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { Permission } from "@prisma/client";
+import { useTransition } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { updateRoleAction } from "../actions";
-
-type RoleWithDetails = Role & {
-  permissions: Permission[];
-};
 
 type EditRoleModalProps = {
   role: RoleWithDetails;
@@ -48,7 +46,6 @@ export function EditRoleModal({
   onOpenChange,
 }: EditRoleModalProps) {
   const [isPending, startTransition] = useTransition();
-
   const form = useForm<UpdateRoleInput>({
     resolver: zodResolver(UpdateRoleSchema),
     defaultValues: {
@@ -58,17 +55,7 @@ export function EditRoleModal({
       permissionIds: role.permissions.map((p) => p.id),
     },
   });
-
-  useEffect(() => {
-    if (open) {
-      form.reset({
-        id: role.id,
-        name: role.name,
-        description: role.description ?? "",
-        permissionIds: role.permissions.map((p) => p.id),
-      });
-    }
-  }, [open, role, form]);
+  const isAdminRole = role.name.toLowerCase() === "admin";
 
   async function onSubmit(data: UpdateRoleInput) {
     startTransition(async () => {
@@ -83,100 +70,132 @@ export function EditRoleModal({
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
+    <Dialog
+      open={open}
+      onOpenChange={(newOpen) => {
+        onOpenChange(newOpen);
+        if (!newOpen) form.reset();
+      }}
+    >
+      <DialogContent className="max-h-[80vh] overflow-y-auto sm:max-w-xl">
         <DialogHeader showBorder>
-          <DialogTitle>Edit Role: {role.name}</DialogTitle>
+          <DialogTitle>Edit role: {role.name}</DialogTitle>
         </DialogHeader>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <DialogBody className="space-y-4">
-              <FormField
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <DialogBody className="space-y-6">
+            <FieldGroup>
+              <Controller
                 control={form.control}
                 name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g., Shift Lead" {...field} disabled={!role.editable} />
-                    </FormControl>
-                    <FormMessage />
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldContent className="gap-0">
+                      <FieldLabel htmlFor="edit-role-name">Name</FieldLabel>
+                      <FieldDescription>Role name must be unique.</FieldDescription>
+                    </FieldContent>
+
+                    <Input
+                      {...field}
+                      id="edit-role-name"
+                      placeholder="e.g., Shift Lead"
+                      aria-invalid={fieldState.invalid}
+                      disabled={!role.editable}
+                    />
+
                     {!role.editable && (
-                      <p className="text-muted-foreground text-xs">
+                      <Typography variant="p-xs" className="text-muted-foreground">
                         Default role names cannot be changed
-                      </p>
+                      </Typography>
                     )}
-                  </FormItem>
+
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  </Field>
                 )}
               />
+            </FieldGroup>
 
-              <FormField
-                control={form.control}
+            <FieldGroup>
+              <Controller
                 name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description (optional)</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Brief description of this role's responsibilities"
-                        className="resize-none"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="edit-role-description">Description (optional)</FieldLabel>
+                    <Textarea
+                      {...field}
+                      id="edit-role-description"
+                      aria-invalid={fieldState.invalid}
+                      placeholder="Brief description of this role's responsibilities"
+                      className="resize-none"
+                    />
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  </Field>
                 )}
               />
+            </FieldGroup>
 
-              <FormField
-                control={form.control}
+            <FieldGroup>
+              <Controller
                 name="permissionIds"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Permissions</FormLabel>
-                    <div className="space-y-4">
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <FieldSet data-invalid={fieldState.invalid}>
+                    <FieldLegend variant="label">Permissions</FieldLegend>
+                    <FieldGroup data-slot="checkbox-group">
                       {Object.entries(permissionsGrouped).map(([resource, permissions]) => (
                         <div key={resource} className="space-y-2">
-                          <p className="text-sm font-medium capitalize">
+                          <Typography variant="p-sm" className="font-medium capitalize">
                             {resource.replace("_", " ")}
-                          </p>
+                          </Typography>
                           <div className="ml-2 space-y-1">
                             {permissions.map((permission) => (
-                              <label
+                              <Field
                                 key={permission.id}
-                                className="flex cursor-pointer items-center gap-2 text-sm"
+                                orientation="horizontal"
+                                data-invalid={fieldState.invalid}
                               >
                                 <Checkbox
-                                  checked={field.value?.includes(permission.id)}
+                                  id={`edit-role-permission-${permission.id}`}
+                                  name={field.name}
+                                  aria-invalid={fieldState.invalid}
+                                  disabled={!role.editable}
+                                  checked={isAdminRole ? true : field.value.includes(permission.id)}
                                   onCheckedChange={(checked) => {
                                     const newValue = checked
-                                      ? [...(field.value || []), permission.id]
-                                      : (field.value || []).filter((id) => id !== permission.id);
+                                      ? [...field.value, permission.id]
+                                      : field.value.filter((id) => id !== permission.id);
                                     field.onChange(newValue);
                                   }}
                                 />
-                                <span>{permission.name}</span>
-                              </label>
+                                <FieldContent className="gap-0">
+                                  <FieldLabel
+                                    htmlFor={`edit-role-permission-${permission.id}`}
+                                    className="font-normal"
+                                  >
+                                    {permission.name}
+                                  </FieldLabel>
+                                  <FieldDescription>{permission.description}</FieldDescription>
+                                </FieldContent>
+                              </Field>
                             ))}
                           </div>
                         </div>
                       ))}
-                    </div>
-                    <FormMessage />
-                  </FormItem>
+                    </FieldGroup>
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  </FieldSet>
                 )}
               />
-            </DialogBody>
+            </FieldGroup>
+          </DialogBody>
 
-            <DialogFooter>
-              <DialogClose render={<Button variant="ghost">Cancel</Button>} />
-              <LoadingButton loading={isPending} type="submit">
-                Save Changes
-              </LoadingButton>
-            </DialogFooter>
-          </form>
-        </Form>
+          <DialogFooter showCloseButton closeText="Cancel">
+            <LoadingButton loading={isPending} type="submit">
+              {isPending ? "Saving..." : "Save changes"}
+            </LoadingButton>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );

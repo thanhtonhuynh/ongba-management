@@ -64,9 +64,6 @@ export async function createRole(data: {
       description: data.description,
       permissionIds: data.permissionIds,
     },
-    include: {
-      permissions: true,
-    },
   });
 }
 
@@ -82,26 +79,25 @@ export async function updateRole(
   return prisma.role.update({
     where: { id },
     data,
-    include: {
-      permissions: true,
-    },
   });
 }
 
-// Delete a role (only default roles)
+// Delete a role (only non-default roles)
 export async function deleteRole(id: string) {
   const role = await prisma.role.findUnique({
     where: { id },
     select: { editable: true },
   });
 
-  if (!role?.editable) {
+  if (!role) {
+    throw new Error("Role not found");
+  }
+
+  if (!role.editable) {
     throw new Error("Cannot delete default roles");
   }
 
-  return prisma.role.delete({
-    where: { id },
-  });
+  return prisma.role.delete({ where: { id } });
 }
 
 // Check if role name already exists

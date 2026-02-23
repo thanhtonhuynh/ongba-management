@@ -1,33 +1,29 @@
 "use client";
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+import { Typography } from "@/components/shared";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogBody,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Permission, Role } from "@prisma/client";
-import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
+import { ICONS } from "@/constants/icons";
+import type { RoleWithDetails } from "@/types/rbac";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Permission } from "@prisma/client";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { deleteRoleAction } from "../actions";
 import { EditRoleModal } from "./edit-role-modal";
-
-type RoleWithDetails = Role & {
-  permissions: Permission[];
-  _count: { users: number };
-};
 
 type RoleActionsProps = {
   role: RoleWithDetails;
@@ -36,10 +32,10 @@ type RoleActionsProps = {
 
 export function RoleActions({ role, permissionsGrouped }: RoleActionsProps) {
   const [isPending, startTransition] = useTransition();
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [showEditDialog, setShowEditDialog] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
-  const canDelete = role.editable && role._count.users === 0;
+  const canDelete = role.editable;
 
   async function handleDelete() {
     startTransition(async () => {
@@ -49,7 +45,7 @@ export function RoleActions({ role, permissionsGrouped }: RoleActionsProps) {
       } else {
         toast.success(`Role "${role.name}" has been deleted.`);
       }
-      setShowDeleteDialog(false);
+      setShowDeleteModal(false);
     });
   }
 
@@ -59,51 +55,64 @@ export function RoleActions({ role, permissionsGrouped }: RoleActionsProps) {
         <DropdownMenuTrigger
           render={
             <Button variant="ghost" size="icon" className="h-8 w-8">
-              <MoreHorizontal className="h-4 w-4" />
+              <HugeiconsIcon icon={ICONS.MORE_HORIZONTAL} />
               <span className="sr-only">Open menu</span>
             </Button>
           }
         />
 
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => setShowEditDialog(true)}>
-            <Edit className="mr-2 h-4 w-4" />
+          <DropdownMenuItem onClick={() => setShowEditModal(true)}>
+            <HugeiconsIcon icon={ICONS.EDIT} />
             Edit
           </DropdownMenuItem>
 
-          {canDelete && (
-            <DropdownMenuItem variant="destructive" onClick={() => setShowDeleteDialog(true)}>
-              <Trash2 className="mr-2 h-4 w-4" />
-              Delete
-            </DropdownMenuItem>
-          )}
+          <DropdownMenuItem
+            disabled={!canDelete}
+            variant="destructive"
+            onClick={() => setShowDeleteModal(true)}
+          >
+            <HugeiconsIcon icon={ICONS.DELETE} />
+            Delete
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
       <EditRoleModal
         role={role}
         permissionsGrouped={permissionsGrouped}
-        open={showEditDialog}
-        onOpenChange={setShowEditDialog}
+        open={showEditModal}
+        onOpenChange={setShowEditModal}
       />
 
-      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete role "{role.name}"?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the role.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
+      <Dialog open={showDeleteModal} onOpenChange={setShowDeleteModal}>
+        <DialogContent>
+          <DialogHeader showBorder>
+            <DialogTitle>Delete role "{role.name}"?</DialogTitle>
+          </DialogHeader>
 
-          <AlertDialogFooter>
-            <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete} disabled={isPending} variant="destructive">
-              Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+          <DialogBody className="space-y-6">
+            <Typography
+              variant="p-sm"
+              className="text-warning flex items-center gap-2 font-semibold"
+            >
+              <HugeiconsIcon icon={ICONS.ALERT} className="size-4" strokeWidth={2} />
+              This role is currently assigned to {role._count.users} members.
+            </Typography>
+
+            <Typography variant="p-sm">
+              <div className="font-semibold">Are you sure you want to delete this role?</div>
+              <div>Members with this role will have "No role" assigned to them.</div>
+            </Typography>
+          </DialogBody>
+
+          <DialogFooter showCloseButton closeText="Cancel">
+            <Button variant="destructive" onClick={handleDelete} disabled={isPending}>
+              {isPending ? "Deleting..." : "Delete"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

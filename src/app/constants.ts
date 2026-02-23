@@ -61,7 +61,7 @@ export const staffMenuItems = [
   { title: "Sales", url: "/report", icon: ICONS.REPORT },
   { title: "Cash Calculator", url: "/cash-calculator", icon: ICONS.CALCULATOR },
   { title: "My Shifts", url: "/my-shifts", icon: ICONS.CALENDAR },
-  { title: "Team", url: "/team", icon: ICONS.USERS },
+  { title: "Team", url: "/team", icon: ICONS.USER_GROUP },
 ];
 
 export const adminMenuItems = [

@@ -1,16 +1,14 @@
 "use client";
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogBody,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,9 +16,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ICONS } from "@/constants/icons";
 import { DisplayUser } from "@/types";
 import type { RoleWithDetails } from "@/types/rbac";
-import { MoreHorizontal, ShieldCheck, ShieldOff, UserCog } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ShieldCheck, ShieldOff, UserCog } from "lucide-react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { activateUserAction, deactivateUserAction } from "../_actions";
@@ -114,7 +114,7 @@ export function EmployeeActions({ employee, canUpdate, rolesPromise }: EmployeeA
         <DropdownMenuTrigger
           render={
             <Button variant="ghost" size="icon" className="h-8 w-8">
-              <MoreHorizontal className="h-4 w-4" />
+              <HugeiconsIcon icon={ICONS.MORE_HORIZONTAL} />
               <span className="sr-only">Open menu</span>
             </Button>
           }
@@ -157,31 +157,24 @@ export function EmployeeActions({ employee, canUpdate, rolesPromise }: EmployeeA
       </DropdownMenu>
 
       {/* Confirmation Dialog */}
-      <AlertDialog
+      <Dialog
         open={confirmAction !== null}
         onOpenChange={(open) => !open && setConfirmAction(null)}
       >
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>
-              {actionConfig?.title.replace("?", ` ${employee.name}?`)}
-            </AlertDialogTitle>
+        <DialogContent>
+          <DialogHeader showBorder>
+            <DialogTitle>{actionConfig?.title.replace("?", ` ${employee.name}?`)}</DialogTitle>
+          </DialogHeader>
 
-            <AlertDialogDescription>{actionConfig?.description}</AlertDialogDescription>
-          </AlertDialogHeader>
+          <DialogBody>{actionConfig?.description}</DialogBody>
 
-          <AlertDialogFooter>
-            <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleConfirm}
-              disabled={isPending}
-              variant={actionConfig?.variant}
-            >
+          <DialogFooter showCloseButton closeText="Cancel">
+            <Button variant={actionConfig?.variant} onClick={handleConfirm} disabled={isPending}>
               {actionConfig?.confirmText}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Change Role Dialog */}
       <ChangeRoleModal
