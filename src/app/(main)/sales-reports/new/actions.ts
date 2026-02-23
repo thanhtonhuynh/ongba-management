@@ -5,8 +5,8 @@ import { upsertReport } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
 import { hasPermission } from "@/utils/access-control";
+import { getTodayStartOfDay } from "@/utils/datetime";
 import { authenticatedRateLimit, rateLimitByKey } from "@/utils/rate-limiter";
-import moment from "moment-timezone";
 
 export async function saveReportAction(data: SaleReportInputs, mode: "create" | "edit") {
   try {
@@ -22,7 +22,7 @@ export async function saveReportAction(data: SaleReportInputs, mode: "create" | 
         return { error: "Unauthorized." };
       }
 
-      const today = moment().tz("America/Vancouver").startOf("day").toDate();
+      const today = getTodayStartOfDay();
       if (mode === "create" && data.date.getTime() !== today.getTime()) {
         return { error: "Unauthorized." };
       }

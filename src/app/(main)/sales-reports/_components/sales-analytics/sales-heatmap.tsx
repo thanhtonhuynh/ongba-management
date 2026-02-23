@@ -1,7 +1,7 @@
 "use client";
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { cn, formatPriceWithDollar } from "@/lib/utils";
+import { cn, formatMoney } from "@/lib/utils";
 import { WEEKDAY_LABELS } from "@/types/datetime";
 import { HeatmapCell, HeatmapData } from "@/utils/sales-analytics";
 import { useRouter } from "next/navigation";
@@ -95,7 +95,7 @@ export function SalesHeatmap({ data }: SalesHeatmapProps) {
                             cell.intensity === 0 && "border",
                           )}
                           onClick={() => {
-                            router.push(`/report?date=${cell.dateStr}`);
+                            router.push(`/sales-reports?date=${cell.dateStr}`);
                           }}
                         />
                       }
@@ -110,7 +110,7 @@ export function SalesHeatmap({ data }: SalesHeatmapProps) {
                       {cell.hasReport ? (
                         <p>
                           <span className="text-sm font-medium">
-                            {formatPriceWithDollar(cell.totalSales / 100)}
+                            {formatMoney(cell.totalSales)}
                           </span>{" "}
                           Total Sales
                         </p>

@@ -22,7 +22,7 @@ export default async function ReportViewLayout({ children }: { children: ReactNo
   return (
     <Fragment>
       <Header>
-        <Typography variant="h1">Sales</Typography>
+        <Typography variant="h1">Sales Reports</Typography>
       </Header>
 
       <Container>
@@ -32,7 +32,7 @@ export default async function ReportViewLayout({ children }: { children: ReactNo
             size="sm"
             className="self-end"
             render={
-              <Link href={`/report/new`}>
+              <Link href={`/sales-reports/new`}>
                 <HugeiconsIcon icon={ICONS.REPORT_ADD} />
                 Create report
               </Link>

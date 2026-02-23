@@ -31,7 +31,7 @@ export async function deleteReportAction(reportId: string) {
     // Delete the report
     await deleteReportById(reportId);
 
-    revalidatePath("/report/(view)/[date]", "page");
+    revalidatePath("/sales-reports/(view)", "page");
   } catch (error) {
     console.error(error);
     return "Failed to delete report";

@@ -5,9 +5,9 @@ import { Typography } from "@/components/shared/typography";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { type Platform } from "@/constants/platforms";
-import { DisplayUser } from "@/types";
 import { formatVancouverDate } from "@/lib/utils";
 import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
+import { DisplayUser } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Left, Right } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -117,7 +117,7 @@ export function SaleReportPortal({
       if (mode === "create") {
         router.push("/");
       } else {
-        router.push(`/report/${formatVancouverDate(reportDate)}`);
+        router.push(`/sales-reports?date=${formatVancouverDate(reportDate)}`);
       }
       toast.success("Your report has been saved. Thank you!");
     }

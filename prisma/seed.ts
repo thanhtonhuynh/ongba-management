@@ -3,20 +3,11 @@ const prisma = new PrismaClient();
 
 // Predefined permissions based on app features
 const PERMISSIONS = [
-  // Admin access
-  {
-    code: "admin.access",
-    name: "Admin Access",
-    description: "Access to admin dashboard and routes",
-    resource: "admin",
-    action: "access",
-  },
-
   // Reports
   {
     code: "reports.view",
     name: "View Reports",
-    description: "View sales reports",
+    description: "Access to sales reports page",
     resource: "reports",
     action: "view",
   },

@@ -1,6 +1,6 @@
 "use client";
 
-import { SaleReportCard } from "@/app/(main)/report/_components/sales-report-card";
+import { SaleReportCard } from "@/app/(main)/sales-reports/_components/sales-report-card";
 import { Card } from "@/components/ui/card";
 import { useSession } from "@/contexts/SessionProvider";
 import { SaleReportInputs } from "@/lib/validations/report";

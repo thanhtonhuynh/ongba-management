@@ -1,4 +1,4 @@
-import { SaleReportCard } from "@/app/(main)/report/_components/sales-report-card";
+import { SaleReportCard } from "@/app/(main)/sales-reports/_components/sales-report-card";
 import { Typography } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -54,7 +54,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
               variant="outline-accent"
               size={"sm"}
               render={
-                <Link href={`/report/edit/${processedReport.id}`}>
+                <Link href={`/sales-reports/edit/${processedReport.id}`}>
                   <HugeiconsIcon icon={ICONS.EDIT} />
                   Edit
                 </Link>

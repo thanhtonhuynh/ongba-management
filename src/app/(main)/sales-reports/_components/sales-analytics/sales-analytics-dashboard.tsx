@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { formatPriceWithDollar } from "@/lib/utils";
+import { formatMoney } from "@/lib/utils";
 import {
   calculateSalesAnalytics,
   DaySalesData,
@@ -33,20 +33,14 @@ export function SalesAnalyticsDashboardClient({
 }: SalesAnalyticsDashboardProps) {
   const [selectedYear, setSelectedYear] = useState<number>(currentYear);
 
-  const reports = useMemo(
-    () => reportsByYear[selectedYear] ?? [],
-    [reportsByYear, selectedYear],
-  );
+  const reports = useMemo(() => reportsByYear[selectedYear] ?? [], [reportsByYear, selectedYear]);
 
   const heatmapData = useMemo(
     () => generateHeatmapData(selectedYear, reports),
     [selectedYear, reports],
   );
 
-  const analytics: SalesAnalytics = useMemo(
-    () => calculateSalesAnalytics(reports),
-    [reports],
-  );
+  const analytics: SalesAnalytics = useMemo(() => calculateSalesAnalytics(reports), [reports]);
 
   const handleYearChange = useCallback((value: string | null) => {
     if (value) {
@@ -59,17 +53,12 @@ export function SalesAnalyticsDashboardClient({
       {/* Header row: Total Sales + Year Selector */}
       <CardHeader className="flex items-start justify-between">
         <div>
-          <p className="text-muted-foreground text-xs font-medium">
-            Total Sales
-          </p>
+          <p className="text-muted-foreground text-xs font-medium">Total Sales</p>
           <p className="text-2xl font-bold tracking-tight">
-            {formatPriceWithDollar(analytics.ytdTotalSales / 100)}
+            {formatMoney(analytics.ytdTotalSales)}
           </p>
         </div>
-        <Select
-          value={selectedYear.toString()}
-          onValueChange={handleYearChange}
-        >
+        <Select value={selectedYear.toString()} onValueChange={handleYearChange}>
           <SelectTrigger className="w-25">
             <SelectValue />
           </SelectTrigger>
