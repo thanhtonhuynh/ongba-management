@@ -60,14 +60,14 @@ const PERMISSIONS = [
   {
     code: "expenses.view",
     name: "View Expenses",
-    description: "View expense records",
+    description: "Access to expenses page",
     resource: "expenses",
     action: "view",
   },
   {
     code: "expenses.manage",
     name: "Manage Expenses",
-    description: "Create, edit, and delete expenses",
+    description: "Manage expenses (create, edit, delete)",
     resource: "expenses",
     action: "manage",
   },
@@ -76,7 +76,7 @@ const PERMISSIONS = [
   {
     code: "hours_tips.view",
     name: "View Hours & Tips",
-    description: "View hours and tips records",
+    description: "Access to hours & tips page",
     resource: "hours_tips",
     action: "view",
   },
@@ -85,7 +85,7 @@ const PERMISSIONS = [
   {
     code: "cashflow.view",
     name: "View Cashflow",
-    description: "Access cashflow reports",
+    description: "Access to cashflow page",
     resource: "cashflow",
     action: "view",
   },
@@ -94,7 +94,7 @@ const PERMISSIONS = [
   {
     code: "store_settings.manage",
     name: "Manage Store Settings",
-    description: "Configure store settings",
+    description: "Manage store settings",
     resource: "store_settings",
     action: "manage",
   },
@@ -105,14 +105,14 @@ const PERMISSIONS = [
   {
     code: "roles.view",
     name: "View Roles",
-    description: "View roles and permissions",
+    description: "Access to roles & permissions page",
     resource: "roles",
     action: "view",
   },
   {
     code: "roles.manage",
     name: "Manage Roles",
-    description: "Create, edit, and delete roles",
+    description: "Manage roles (create, edit, delete)",
     resource: "roles",
     action: "manage",
   },
