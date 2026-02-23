@@ -26,7 +26,7 @@ export function hasPermission(
  * Super admins and users with roles.manage permission can update any role
  * Users cannot assign roles with more permissions than they have
  */
-export function canAssignRole(
+export function hasAssignRolePermission(
   role: UserRole | null | undefined,
   targetRole: { id: string; name: string; permissions: { code: string }[] } | null,
 ): boolean {
@@ -38,8 +38,8 @@ export function canAssignRole(
   // Store admins can assign any role
   if (role.name === "Admin") return true;
 
-  // Must have employees.update permission
-  if (!role.permissions.includes(PERMISSIONS.EMPLOYEES_UPDATE)) return false;
+  // Must have team.assign_roles permission
+  if (!role.permissions.includes(PERMISSIONS.TEAM_ASSIGN_ROLES)) return false;
 
   // If target role is admin, the user must be an admin
   if (targetRole?.name === "Admin") return role.name === "Admin";

@@ -18,7 +18,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useSession } from "@/contexts/SessionProvider";
 import { UpdateEmployeeRoleInput, UpdateEmployeeRoleSchema } from "@/lib/validations/employee";
 import { DisplayUser } from "@/types";
 import type { RoleWithDetails } from "@/types/rbac";
@@ -36,7 +35,6 @@ type Props = {
 };
 
 export function ChangeRoleModal({ selectedUser, open, onOpenChange, rolesPromise }: Props) {
-  const { user } = useSession();
   const [isPending, startTransition] = useTransition();
   const roles = use(rolesPromise);
 

@@ -25,10 +25,9 @@ export default async function TeamPage({ searchParams }: PageProps) {
   }
 
   const params = await searchParams;
-  const canManageEmployees = hasPermission(user.role, PERMISSIONS.EMPLOYEES_UPDATE);
+  const canManageTeamAccess = hasPermission(user.role, PERMISSIONS.TEAM_MANAGE_ACCESS);
 
-  // Non-managers can only see active employees
-  const status: EmployeeStatus = canManageEmployees
+  const status: EmployeeStatus = canManageTeamAccess
     ? (params.status as EmployeeStatus) || "active"
     : "active";
 
@@ -42,19 +41,15 @@ export default async function TeamPage({ searchParams }: PageProps) {
     <div className="bg-background space-y-4 rounded-xl border border-blue-950 p-6">
       {/* Toolbar: Filter + View Toggle */}
       <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-2">{canManageEmployees && <StatusFilter />}</div>
+        <div className="flex items-center gap-2">
+          <StatusFilter canManageTeamAccess={canManageTeamAccess} />
+        </div>
 
         <ViewToggle />
       </div>
 
       {/* Content: Search + Table/Cards view */}
-      <EmployeesList
-        employees={employees}
-        view={view}
-        canUpdateEmployees={canManageEmployees}
-        userRole={user.role}
-        rolesPromise={rolesPromise}
-      />
+      <EmployeesList employees={employees} view={view} rolesPromise={rolesPromise} />
     </div>
   );
 }

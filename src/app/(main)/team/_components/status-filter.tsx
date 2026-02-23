@@ -15,7 +15,11 @@ const STATUS_OPTIONS = [
   { value: "deactivated", label: "Deactivated" },
 ] as const;
 
-export function StatusFilter() {
+type Props = {
+  canManageTeamAccess: boolean;
+};
+
+export function StatusFilter({ canManageTeamAccess }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentStatus = searchParams.get("status") || "active";
@@ -32,6 +36,7 @@ export function StatusFilter() {
       value={currentStatus}
       onValueChange={handleStatusChange}
       items={STATUS_OPTIONS}
+      disabled={!canManageTeamAccess}
     >
       <SelectTrigger className="w-48">
         <SelectValue placeholder="Filter by status" />

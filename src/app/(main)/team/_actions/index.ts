@@ -1,9 +1,10 @@
 "use server";
 
+import { PERMISSIONS } from "@/constants/permissions";
 import { getRoleById } from "@/data-access/roles";
 import { getUserById, updateUser } from "@/data-access/user";
 import { UpdateEmployeeRoleInput, UpdateEmployeeRoleSchema } from "@/lib/validations/employee";
-import { canAssignRole } from "@/utils/access-control";
+import { hasAssignRolePermission, hasPermission } from "@/utils/access-control";
 import { authorizeEmployeeAction } from "@/utils/authorize-employee";
 import { revalidatePath } from "next/cache";
 
@@ -17,6 +18,14 @@ export async function activateUserAction(userId: string): Promise<ActionResult> 
   try {
     const authResult = await authorizeEmployeeAction();
     if ("error" in authResult) return authResult;
+
+    const { user } = authResult;
+    if (!hasPermission(user.role, PERMISSIONS.TEAM_MANAGE_ACCESS)) return { error: "Unauthorized" };
+
+    const targetUser = await getUserById(userId);
+    if (!targetUser) return { error: "User not found" };
+
+    if (targetUser.accountStatus === "active") return {};
 
     await updateUser(userId, { accountStatus: "active" });
 
@@ -37,15 +46,12 @@ export async function deactivateUserAction(userId: string): Promise<ActionResult
     if ("error" in authResult) return authResult;
 
     const { user } = authResult;
+    if (!hasPermission(user.role, PERMISSIONS.TEAM_MANAGE_ACCESS)) return { error: "Unauthorized" };
+
     const targetUser = await getUserById(userId);
+    if (!targetUser) return { error: "User not found" };
 
-    if (!targetUser) {
-      return { error: "Deactivation failed. Please try again." };
-    }
-
-    if (!canAssignRole(user.role, targetUser.role)) {
-      return { error: "Unauthorized" };
-    }
+    if (targetUser.accountStatus === "deactivated") return {};
 
     await updateUser(userId, { accountStatus: "deactivated" });
 
@@ -69,25 +75,9 @@ export async function updateUserRoleAction(data: UpdateEmployeeRoleInput): Promi
     const { userId, roleId } = UpdateEmployeeRoleSchema.parse(data);
 
     const targetRole = await getRoleById(roleId);
+    if (!targetRole) return { error: "Role not found" };
 
-    if (!targetRole) {
-      return { error: "Role not found" };
-    }
-
-    if (!canAssignRole(user.role, targetRole)) {
-      return { error: "You are not authorized to assign this role." };
-    }
-
-    // // TODO: Update to use roleId instead of role string once migration is complete
-    // // For now, find the role by name and update the user's roleId
-    // const prisma = (await import("@/lib/prisma")).default;
-    // const targetRole = await prisma.role.findFirst({
-    //   where: { name: { equals: role, mode: "insensitive" } },
-    // });
-
-    // if (!targetRole) {
-    //   return { error: "Role not found" };
-    // }
+    if (!hasAssignRolePermission(user.role, targetRole)) return { error: "Unauthorized" };
 
     await updateUser(userId, { roleId });
 

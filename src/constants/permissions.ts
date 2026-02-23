@@ -11,9 +11,10 @@ export const PERMISSIONS = {
   REPORTS_UPDATE: "reports.update",
   REPORTS_DELETE: "reports.delete",
 
-  // Employees
-  EMPLOYEES_VIEW: "employees.view",
-  EMPLOYEES_UPDATE: "employees.update",
+  // Team
+  TEAM_VIEW: "team.view",
+  TEAM_ASSIGN_ROLES: "team.assign_roles",
+  TEAM_MANAGE_ACCESS: "team.manage_access",
 
   // Expenses
   EXPENSES_VIEW: "expenses.view",
@@ -27,10 +28,6 @@ export const PERMISSIONS = {
 
   // Store Settings
   STORE_SETTINGS_MANAGE: "store_settings.manage",
-
-  // Shifts
-  SHIFTS_VIEW_OWN: "shifts.view_own",
-  SHIFTS_VIEW_ALL: "shifts.view_all",
 
   // Roles
   ROLES_VIEW: "roles.view",

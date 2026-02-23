@@ -2,8 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { DisplayUser } from "@/types";
-import type { RoleWithDetails, UserRole } from "@/types/rbac";
-import { canAssignRole } from "@/utils/access-control";
+import type { RoleWithDetails } from "@/types/rbac";
 import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { EmployeesCards } from "./employees-cards";
@@ -13,18 +12,10 @@ import { type ViewMode } from "./view-toggle";
 type EmployeesListProps = {
   employees: DisplayUser[];
   view: ViewMode;
-  canUpdateEmployees: boolean;
-  userRole: UserRole;
   rolesPromise: Promise<RoleWithDetails[]>;
 };
 
-export function EmployeesList({
-  employees,
-  view,
-  canUpdateEmployees,
-  userRole,
-  rolesPromise,
-}: EmployeesListProps) {
+export function EmployeesList({ employees, view, rolesPromise }: EmployeesListProps) {
   const [search, setSearch] = useState("");
 
   const filteredEmployees = useMemo(() => {
@@ -37,10 +28,6 @@ export function EmployeesList({
         employee.email.toLowerCase().includes(query),
     );
   }, [employees, search]);
-
-  const canUpdateEmployeeFn = (
-    employeeRole: { id: string; name: string; permissions: { code: string }[] } | null,
-  ) => canAssignRole(userRole, employeeRole);
 
   return (
     <div className="space-y-4">
@@ -58,19 +45,9 @@ export function EmployeesList({
 
       {/* Content: Table or Cards view */}
       {view === "table" ? (
-        <EmployeesTable
-          employees={filteredEmployees}
-          canUpdateEmployees={canUpdateEmployees}
-          canUpdateEmployee={canUpdateEmployeeFn}
-          rolesPromise={rolesPromise}
-        />
+        <EmployeesTable employees={filteredEmployees} rolesPromise={rolesPromise} />
       ) : (
-        <EmployeesCards
-          employees={filteredEmployees}
-          canUpdateEmployees={canUpdateEmployees}
-          canUpdateEmployee={canUpdateEmployeeFn}
-          rolesPromise={rolesPromise}
-        />
+        <EmployeesCards employees={filteredEmployees} rolesPromise={rolesPromise} />
       )}
     </div>
   );

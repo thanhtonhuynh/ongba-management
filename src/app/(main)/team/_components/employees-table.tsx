@@ -18,21 +18,10 @@ import { EmployeeActions } from "./employee-actions";
 
 type EmployeesTableProps = {
   employees: DisplayUser[];
-  /** Whether the current user can update employees */
-  canUpdateEmployees: boolean;
-  /** Function to check if current user can update a specific employee */
-  canUpdateEmployee: (
-    employeeRole: { id: string; name: string; permissions: { code: string }[] } | null,
-  ) => boolean;
   rolesPromise: Promise<RoleWithDetails[]>;
 };
 
-export function EmployeesTable({
-  employees,
-  canUpdateEmployees,
-  canUpdateEmployee,
-  rolesPromise,
-}: EmployeesTableProps) {
+export function EmployeesTable({ employees, rolesPromise }: EmployeesTableProps) {
   const router = useRouter();
 
   if (employees.length === 0) {
@@ -50,14 +39,13 @@ export function EmployeesTable({
           <TableHead>Name</TableHead>
           <TableHead>Email</TableHead>
           <TableHead>Role</TableHead>
-          {canUpdateEmployees && <TableHead>Status</TableHead>}
-          {canUpdateEmployees && <TableHead className="w-20">Actions</TableHead>}
+          <TableHead>Status</TableHead>
+          <TableHead className="w-20">Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {employees.map((employee) => {
           const statusConfig = getEmployeeStatusConfig(employee.accountStatus);
-          const canUpdate = canUpdateEmployees && canUpdateEmployee(employee.role);
 
           return (
             <TableRow
@@ -76,21 +64,13 @@ export function EmployeesTable({
 
               <TableCell>{employee.role?.name ?? "No Role"}</TableCell>
 
-              {canUpdateEmployees && (
-                <TableCell>
-                  <Badge variant={statusConfig.variant}>{statusConfig.label}</Badge>
-                </TableCell>
-              )}
+              <TableCell>
+                <Badge variant={statusConfig.variant}>{statusConfig.label}</Badge>
+              </TableCell>
 
-              {canUpdateEmployees && (
-                <TableCell onClick={(e) => e.stopPropagation()}>
-                  <EmployeeActions
-                    employee={employee}
-                    canUpdate={canUpdate}
-                    rolesPromise={rolesPromise}
-                  />
-                </TableCell>
-              )}
+              <TableCell onClick={(e) => e.stopPropagation()}>
+                <EmployeeActions employee={employee} rolesPromise={rolesPromise} />
+              </TableCell>
             </TableRow>
           );
         })}

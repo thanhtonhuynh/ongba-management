@@ -17,8 +17,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ICONS } from "@/constants/icons";
+import { PERMISSIONS } from "@/constants/permissions";
+import { useSession } from "@/contexts/SessionProvider";
 import { DisplayUser } from "@/types";
 import type { RoleWithDetails } from "@/types/rbac";
+import { hasPermission } from "@/utils/access-control";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ShieldCheck, ShieldOff, UserCog } from "lucide-react";
 import { useState, useTransition } from "react";
@@ -28,8 +31,6 @@ import { ChangeRoleModal } from "./change-role-modal";
 
 type EmployeeActionsProps = {
   employee: DisplayUser;
-  /** Whether the current user can update this employee */
-  canUpdate: boolean;
   rolesPromise: Promise<RoleWithDetails[]>;
 };
 
@@ -63,15 +64,17 @@ const CONFIRM_ACTIONS: Record<ConfirmAction["type"], Omit<ConfirmAction, "type">
   },
 };
 
-export function EmployeeActions({ employee, canUpdate, rolesPromise }: EmployeeActionsProps) {
+export function EmployeeActions({ employee, rolesPromise }: EmployeeActionsProps) {
+  const { user } = useSession();
   const [isPending, startTransition] = useTransition();
   const [confirmAction, setConfirmAction] = useState<ConfirmAction["type"] | null>(null);
   const [roleDialogOpen, setRoleDialogOpen] = useState(false);
 
-  if (!canUpdate) return null;
-
   const status = employee.accountStatus;
   const actionConfig = confirmAction ? CONFIRM_ACTIONS[confirmAction] : null;
+
+  const canManageTeamAccess = hasPermission(user?.role, PERMISSIONS.TEAM_MANAGE_ACCESS);
+  const canAssignRole = hasPermission(user?.role, PERMISSIONS.TEAM_ASSIGN_ROLES);
 
   async function handleConfirm() {
     if (!confirmAction) return;
@@ -123,7 +126,7 @@ export function EmployeeActions({ employee, canUpdate, rolesPromise }: EmployeeA
         <DropdownMenuContent align="end">
           {status === "active" && (
             <>
-              <DropdownMenuItem onClick={() => setRoleDialogOpen(true)}>
+              <DropdownMenuItem onClick={() => setRoleDialogOpen(true)} disabled={!canAssignRole}>
                 <UserCog className="mr-2 h-4 w-4" />
                 Change role
               </DropdownMenuItem>
@@ -133,6 +136,7 @@ export function EmployeeActions({ employee, canUpdate, rolesPromise }: EmployeeA
               <DropdownMenuItem
                 variant="destructive"
                 onClick={() => setConfirmAction("deactivate")}
+                disabled={!canManageTeamAccess}
               >
                 <ShieldOff className="mr-2 h-4 w-4" />
                 Deactivate
@@ -141,14 +145,20 @@ export function EmployeeActions({ employee, canUpdate, rolesPromise }: EmployeeA
           )}
 
           {status === "inactive" && (
-            <DropdownMenuItem onClick={() => setConfirmAction("verify")}>
+            <DropdownMenuItem
+              onClick={() => setConfirmAction("verify")}
+              disabled={!canManageTeamAccess}
+            >
               <ShieldCheck className="mr-2 h-4 w-4" />
               Grant access
             </DropdownMenuItem>
           )}
 
           {status === "deactivated" && (
-            <DropdownMenuItem onClick={() => setConfirmAction("reactivate")}>
+            <DropdownMenuItem
+              onClick={() => setConfirmAction("reactivate")}
+              disabled={!canManageTeamAccess}
+            >
               <ShieldCheck className="mr-2 h-4 w-4" />
               Reactivate
             </DropdownMenuItem>

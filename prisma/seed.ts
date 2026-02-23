@@ -33,20 +33,27 @@ const PERMISSIONS = [
     action: "delete",
   },
 
-  // Employees
+  // Team
   {
-    code: "employees.view",
-    name: "View Employees",
+    code: "team.view",
+    name: "View Team",
     description: "View team members list",
-    resource: "employees",
+    resource: "team",
     action: "view",
   },
   {
-    code: "employees.update",
-    name: "Manage Employees",
-    description: "Update employee roles and details",
-    resource: "employees",
-    action: "update",
+    code: "team.assign_roles",
+    name: "Assign Roles to Team Members",
+    description: "Assign roles to team members",
+    resource: "team",
+    action: "assign_roles",
+  },
+  {
+    code: "team.manage_access",
+    name: "Manage Team Members' Access",
+    description: "Manage team members' access (deactivate, verify, reactivate)",
+    resource: "team",
+    action: "manage_access",
   },
 
   // Expenses
@@ -92,14 +99,7 @@ const PERMISSIONS = [
     action: "manage",
   },
 
-  // Shifts
-  {
-    code: "shifts.view_own",
-    name: "View Own Shifts",
-    description: "View personal shift history",
-    resource: "shifts",
-    action: "view_own",
-  },
+  // My Shifts: basic access
 
   // Roles management
   {
@@ -128,35 +128,29 @@ const DEFAULT_ROLES = [
   },
   {
     name: "Manager",
-    description: "Manager with access to reports, employees, and cashflow",
+    description: "Manager with access to reports, team members, and cashflow",
     editable: true,
     permissions: [
       "reports.view",
       "reports.create",
       "reports.update",
-      "employees.view",
-      "employees.update",
+      "team.view",
+      "team.assign_roles",
+      "team.manage_access",
       "cashflow.view",
-      "shifts.view_own",
     ],
   },
   {
     name: "Server",
     description: "Server with access to create and view reports",
     editable: true,
-    permissions: ["reports.view", "reports.create", "employees.view", "shifts.view_own"],
+    permissions: ["reports.view", "reports.create", "team.view"],
   },
   {
     name: "Chef",
     description: "Kitchen staff with basic access",
     editable: true,
-    permissions: ["employees.view", "shifts.view_own"],
-  },
-  {
-    name: "Team Member",
-    description: "Default role for new users with minimal access",
-    editable: true,
-    permissions: ["shifts.view_own"],
+    permissions: ["team.view"],
   },
 ] as const;
 
