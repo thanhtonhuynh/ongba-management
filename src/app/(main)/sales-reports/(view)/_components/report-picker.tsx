@@ -8,15 +8,15 @@ import { formatVancouverDate, parseVancouverUrlDate } from "@/lib/utils";
 import { SearchReportInput, SearchReportSchema } from "@/lib/validations/report";
 import { getTodayStartOfDay } from "@/utils/datetime";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 
 export function ReportPicker() {
-  const { date } = useParams<{ date?: string }>();
+  const searchParams = useSearchParams();
   const router = useRouter();
-
   const [isMounted, setIsMounted] = useState(false);
+  const date = searchParams.get("date") ?? undefined;
 
   const today = getTodayStartOfDay();
   const dateFromParams = parseVancouverUrlDate(date);
