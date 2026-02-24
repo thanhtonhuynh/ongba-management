@@ -16,7 +16,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarSeparator,
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useSession } from "@/contexts/SessionProvider";
@@ -24,10 +23,7 @@ import { cn } from "@/lib/utils";
 import { ChevronUp, LogOut, User2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { AccountMenuGroup } from "./account-menu-group";
-import { AdminMenuGroup } from "./admin-menu-group";
-import { HomeGroup } from "./home-group";
-import { StaffMenuGroup } from "./staff-menu-group";
+import { SidebarMenuGroups } from "./sidebar-menu-groups";
 
 export function AppSidebar() {
   const { user } = useSession();
@@ -64,14 +60,8 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarHeader>
 
-      <SidebarContent>
-        <HomeGroup />
-        <SidebarSeparator />
-        <StaffMenuGroup />
-        <SidebarSeparator />
-        <AdminMenuGroup />
-        <SidebarSeparator />
-        <AccountMenuGroup username={user.username} />
+      <SidebarContent className="mt-6 gap-0">
+        <SidebarMenuGroups />
       </SidebarContent>
 
       <SidebarFooter>

@@ -1,4 +1,3 @@
-import { ICONS } from "@/constants/icons";
 import { CashType } from "@/types";
 
 export const NUM_MONTHS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -56,18 +55,3 @@ export const MONEY_FIELDS = Array.from(MONEY_VALUES.keys()) as CashType[];
 export const COIN_FIELDS = MONEY_FIELDS.filter((key) => key.startsWith("coin"));
 export const BILL_FIELDS = MONEY_FIELDS.filter((key) => key.startsWith("bill"));
 export const ROLL_FIELDS = MONEY_FIELDS.filter((key) => key.startsWith("roll"));
-
-export const staffMenuItems = [
-  { title: "Sales Reports", url: "/sales-reports", icon: ICONS.REPORT },
-  { title: "Cash Calculator", url: "/cash-calculator", icon: ICONS.CALCULATOR },
-  { title: "My Shifts", url: "/my-shifts", icon: ICONS.CALENDAR },
-  { title: "Team", url: "/team", icon: ICONS.USER_GROUP },
-];
-
-export const adminMenuItems = [
-  { title: "Hours & Tips", url: "/hours&tips", icon: ICONS.HOURGLASS },
-  { title: "Cashflow", url: "/cashflow", icon: ICONS.CASHFLOW },
-  { title: "Expenses", url: "/expenses", icon: ICONS.EXPENSE },
-  { title: "Roles & Permissions", url: "/roles", icon: ICONS.SHIELD },
-  { title: "Store Settings", url: "/store-settings", icon: ICONS.STORE_SETTINGS },
-];
