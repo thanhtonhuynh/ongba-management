@@ -21,7 +21,7 @@ const PERMISSIONS = [
   {
     code: "reports.update",
     name: "Update Reports",
-    description: "Edit existing sales reports",
+    description: "Update existing sales reports",
     resource: "reports",
     action: "update",
   },
@@ -137,14 +137,14 @@ const DEFAULT_ROLES = [
       "team.view",
       "team.assign_roles",
       "team.manage_access",
-      "cashflow.view",
+      "store_settings.manage",
     ],
   },
   {
     name: "Server",
     description: "Server with access to create and view reports",
     editable: true,
-    permissions: ["reports.view", "reports.create", "team.view"],
+    permissions: ["reports.create", "team.view"],
   },
   {
     name: "Chef",

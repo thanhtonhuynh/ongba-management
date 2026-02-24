@@ -4,10 +4,13 @@ import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { Typography } from "@/components/shared/typography";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { PERMISSIONS } from "@/constants/permissions";
 import { type Platform } from "@/constants/platforms";
+import { useSession } from "@/contexts/SessionProvider";
 import { formatVancouverDate } from "@/lib/utils";
 import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
 import { DisplayUser } from "@/types";
+import { hasPermission } from "@/utils/access-control";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Left, Right } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -108,6 +111,7 @@ export function SaleReportPortal({
   const [previousStep, setPreviousStep] = useState(0);
   const delta = currentStep - previousStep;
   const router = useRouter();
+  const { user } = useSession();
 
   async function processForm(data: SaleReportInputs) {
     data.date.setHours(0, 0, 0, 0);
@@ -117,9 +121,11 @@ export function SaleReportPortal({
       if (mode === "create") {
         router.push("/");
       } else {
-        router.push(`/sales-reports?date=${formatVancouverDate(reportDate)}`);
+        if (hasPermission(user?.role, PERMISSIONS.REPORTS_VIEW)) {
+          router.push(`/sales-reports?date=${formatVancouverDate(reportDate)}`);
+        }
       }
-      toast.success("Your report has been saved. Thank you!");
+      toast.success("Report saved successfully.");
     }
   }
 
