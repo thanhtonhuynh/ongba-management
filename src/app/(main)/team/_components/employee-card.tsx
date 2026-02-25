@@ -1,7 +1,5 @@
-import { ProfilePicture } from "@/components/shared/profile-picture";
-import { Badge } from "@/components/ui/badge";
+import { AccountStatusBadge, ProfilePicture, Typography } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getEmployeeStatusConfig } from "@/constants/employee";
 import { DisplayUser } from "@/types";
 import Link from "next/link";
 import { ReactNode } from "react";
@@ -12,29 +10,29 @@ type EmployeeCardProps = {
 };
 
 export function EmployeeCard({ user, actions }: EmployeeCardProps) {
-  const statusConfig = getEmployeeStatusConfig(user.accountStatus);
-
   return (
-    <Card className="flex flex-col justify-center gap-0">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 py-4">
-        <CardTitle className="flex items-center gap-2 text-sm">
+    <Card size="sm" className="flex flex-col justify-center">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0">
+        <CardTitle className="flex items-center gap-3 text-sm">
           <Link href={`/profile/${user.username}`} className="group flex items-center gap-2">
             <ProfilePicture image={user.image} size={32} name={user.name} />
             <span className="underline-offset-2 group-hover:underline">{user.name}</span>
           </Link>
+
+          <AccountStatusBadge status={user.accountStatus} />
         </CardTitle>
 
         <div className="">{actions}</div>
       </CardHeader>
 
-      <CardContent className="space-y-2 px-4 pt-0 pb-4 text-sm">
-        <p className="flex items-center gap-1">Role: {user.role?.name ?? "No Role"}</p>
+      <CardContent className="space-y-2">
+        <Typography variant="p-sm" className="flex items-center gap-3">
+          Role: <span className="font-medium">{user.role?.name ?? "No Role"}</span>
+        </Typography>
 
-        <div className="flex items-center gap-1">
-          Status:
-          <Badge variant={statusConfig.variant}>{statusConfig.label}</Badge>
-        </div>
-        <p>Email: {user.email}</p>
+        <Typography variant="p-sm" className="flex items-center gap-2">
+          Email: <span className="font-medium">{user.email}</span>
+        </Typography>
       </CardContent>
     </Card>
   );

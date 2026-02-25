@@ -1,7 +1,6 @@
 "use client";
 
-import { ProfilePicture } from "@/components/shared/profile-picture";
-import { Badge } from "@/components/ui/badge";
+import { AccountStatusBadge, ProfilePicture } from "@/components/shared";
 import {
   Table,
   TableBody,
@@ -10,7 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getEmployeeStatusConfig } from "@/constants/employee";
 import { DisplayUser } from "@/types";
 import type { RoleWithDetails } from "@/types/rbac";
 import { useRouter } from "next/navigation";
@@ -45,8 +43,6 @@ export function EmployeesTable({ employees, rolesPromise }: EmployeesTableProps)
       </TableHeader>
       <TableBody>
         {employees.map((employee) => {
-          const statusConfig = getEmployeeStatusConfig(employee.accountStatus);
-
           return (
             <TableRow
               key={employee.id}
@@ -65,7 +61,7 @@ export function EmployeesTable({ employees, rolesPromise }: EmployeesTableProps)
               <TableCell>{employee.role?.name ?? "No Role"}</TableCell>
 
               <TableCell>
-                <Badge variant={statusConfig.variant}>{statusConfig.label}</Badge>
+                <AccountStatusBadge status={employee.accountStatus} />
               </TableCell>
 
               <TableCell onClick={(e) => e.stopPropagation()}>

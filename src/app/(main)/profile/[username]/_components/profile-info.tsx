@@ -1,5 +1,5 @@
+import { AccountStatusBadge } from "@/components/shared";
 import { ProfilePicture } from "@/components/shared/profile-picture";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { getEmployeeStatusConfig } from "@/constants/employee";
@@ -97,7 +97,7 @@ export function ProfileInfo({ user, isOwner }: ProfileInfoProps) {
           </div>
           <div>
             <p className="text-muted-foreground text-xs">Status</p>
-            <Badge variant={statusConfig.variant}>{statusConfig.label}</Badge>
+            <AccountStatusBadge status={user.accountStatus} />
           </div>
         </div>
       </div>

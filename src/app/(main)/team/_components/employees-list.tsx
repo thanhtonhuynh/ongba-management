@@ -30,7 +30,7 @@ export function EmployeesList({ employees, view, rolesPromise }: EmployeesListPr
   }, [employees, search]);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {/* Search Input */}
       <div className="relative">
         <Search className="text-muted-foreground absolute top-2.5 left-2.5 size-4" />

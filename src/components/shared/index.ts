@@ -1,4 +1,5 @@
 // Shared components
+export * from "./account-status-badge";
 export * from "./current-badge";
 export * from "./deco-icon";
 export * from "./noti-message";
