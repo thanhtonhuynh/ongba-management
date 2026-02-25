@@ -99,7 +99,21 @@ const PERMISSIONS = [
     action: "manage",
   },
 
-  // My Shifts: basic access
+  // Schedule
+  {
+    code: "schedule.view",
+    name: "View Schedule",
+    description: "View employee schedule",
+    resource: "schedule",
+    action: "view",
+  },
+  {
+    code: "schedule.manage",
+    name: "Manage Schedule",
+    description: "Create and edit schedule entries",
+    resource: "schedule",
+    action: "manage",
+  },
 
   // Roles management
   {
@@ -137,6 +151,8 @@ const DEFAULT_ROLES = [
       "team.view",
       "team.assign_roles",
       "team.manage_access",
+      "schedule.view",
+      "schedule.manage",
       "store_settings.manage",
     ],
   },
@@ -144,13 +160,13 @@ const DEFAULT_ROLES = [
     name: "Server",
     description: "Server with access to create and view reports",
     editable: true,
-    permissions: ["reports.create", "team.view"],
+    permissions: ["reports.create", "team.view", "schedule.view"],
   },
   {
     name: "Chef",
     description: "Kitchen staff with basic access",
     editable: true,
-    permissions: ["team.view"],
+    permissions: ["team.view", "schedule.view"],
   },
 ] as const;
 

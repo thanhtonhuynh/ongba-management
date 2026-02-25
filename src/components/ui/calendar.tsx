@@ -2,10 +2,58 @@
 
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import * as React from "react";
-import { DayPicker, getDefaultClassNames, type DayButton } from "react-day-picker";
+import {
+  DayPicker,
+  getDefaultClassNames,
+  useDayPicker,
+  type DayButton,
+  type DropdownProps,
+} from "react-day-picker";
 
 import { Button, buttonVariants } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+
+function CalendarDropdown(props: DropdownProps) {
+  const { options = [], value, onChange, disabled, className, "aria-label": ariaLabel } = props;
+  const { classNames } = useDayPicker();
+
+  const stringValue = value !== undefined && value !== null ? String(value) : undefined;
+
+  return (
+    <Select
+      value={stringValue}
+      onValueChange={(v) => {
+        const syntheticEvent = {
+          target: { value: v },
+        } as React.ChangeEvent<HTMLSelectElement>;
+        onChange?.(syntheticEvent);
+      }}
+      disabled={disabled}
+    >
+      <SelectTrigger
+        size="sm"
+        className={cn(classNames?.dropdown_root, className)}
+        aria-label={ariaLabel}
+      >
+        <SelectValue>{options.find((opt) => opt.value === value)?.label}</SelectValue>
+      </SelectTrigger>
+      <SelectContent alignItemWithTrigger={false}>
+        {options.map((opt) => (
+          <SelectItem key={opt.value} value={String(opt.value)} disabled={opt.disabled}>
+            {opt.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
 
 function Calendar({
   className,
@@ -58,11 +106,11 @@ function Calendar({
           defaultClassNames.month_caption,
         ),
         dropdowns: cn(
-          "w-full flex items-center text-sm font-medium justify-center h-(--cell-size) gap-1.5",
+          "w-full flex items-center text-sm font-medium justify-center h-(--cell-size) gap-3 px-3",
           defaultClassNames.dropdowns,
         ),
         dropdown_root: cn(
-          "relative has-focus:border-ring border border-input shadow-xs has-focus:ring-ring/50 has-focus:ring-[3px] rounded-md",
+          "relative has-focus:border-ring border border-input shadow-xs has-focus:ring-ring/50 has-focus:ring-[3px]",
           defaultClassNames.dropdown_root,
         ),
         dropdown: cn("absolute bg-popover inset-0 opacity-0", defaultClassNames.dropdown),
@@ -105,6 +153,7 @@ function Calendar({
         Root: ({ className, rootRef, ...props }) => {
           return <div data-slot="calendar" ref={rootRef} className={cn(className)} {...props} />;
         },
+        Dropdown: CalendarDropdown,
         Chevron: ({ className, orientation, ...props }) => {
           if (orientation === "left") {
             return <ChevronLeftIcon className={cn("size-4", className)} {...props} />;

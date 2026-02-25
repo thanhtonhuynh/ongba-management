@@ -32,4 +32,8 @@ export const PERMISSIONS = {
   // Roles
   ROLES_VIEW: "roles.view",
   ROLES_MANAGE: "roles.manage",
+
+  // Schedule
+  SCHEDULE_VIEW: "schedule.view",
+  SCHEDULE_MANAGE: "schedule.manage",
 } as const;

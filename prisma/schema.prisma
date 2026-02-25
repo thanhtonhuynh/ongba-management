@@ -163,6 +163,30 @@ type ExpenseEntry {
 }
 
 // ==========================================
+// Scheduling (one document per day)
+// ==========================================
+
+type ScheduleSlot {
+  startMinutes Int
+  endMinutes   Int
+  note         String?
+}
+
+type DayEntry {
+  userId String  @db.ObjectId
+  slots  ScheduleSlot[]
+  notes  String?
+}
+
+model ScheduleDay {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  date      DateTime   @unique // unique implies index; efficient for date and date-range queries
+  entries   DayEntry[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+// ==========================================
 // Role-Based Access Control (RBAC) Models
 // ==========================================
 

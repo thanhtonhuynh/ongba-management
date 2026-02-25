@@ -3,6 +3,7 @@
 import {
   Add01Icon,
   Alert02Icon,
+  ArrowDown01Icon,
   ArrowRight01Icon,
   BalanceScaleIcon,
   Calculator01Icon,
@@ -38,6 +39,7 @@ export const ICONS = {
   ADD: Add01Icon,
   ALERT: Alert02Icon,
   ARROW_RIGHT: ArrowRight01Icon,
+  ARROW_DOWN: ArrowDown01Icon,
   CALCULATOR: Calculator01Icon,
   CALENDAR: Calendar03Icon,
   CASH_DIFFERENCE: BalanceScaleIcon,

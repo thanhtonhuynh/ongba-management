@@ -16,6 +16,7 @@
   "dependencies": {
     "@base-ui/react": "^1.1.0",
     "@date-fns/tz": "^1.4.1",
+    "@dnd-kit/react": "^0.3.2",
     "@hookform/resolvers": "^3.10.0",
     "@hugeicons/core-free-icons": "^3.1.1",
     "@hugeicons/react": "^1.1.4",
@@ -81,6 +82,8 @@
   },
   "prettier": {
     "printWidth": 100,
-    "plugins": ["prettier-plugin-tailwindcss"]
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ]
   }
 }

@@ -54,6 +54,13 @@ export const MENU_ITEMS: MenuItem[] = [
     group: "team",
     permission: PERMISSIONS.TEAM_VIEW,
   },
+  {
+    title: "Schedules",
+    url: "/schedules",
+    icon: ICONS.CALENDAR,
+    group: "team",
+    permission: PERMISSIONS.SCHEDULE_VIEW,
+  },
   // Finance
   {
     title: "Hours & Tips",

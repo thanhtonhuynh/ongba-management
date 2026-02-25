@@ -1,0 +1,80 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { ICONS } from "@/constants/icons";
+import { useDraggable } from "@dnd-kit/react";
+import { Copy01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { useClipboard } from "../_context/clipboard-context";
+import { minutesToTimeString, type SlotFormValue } from "../_lib/types";
+import { SlotEditor } from "./slot-editor";
+
+type SlotChipProps = {
+  slot: SlotFormValue;
+  dragId: string;
+  dragData: { dayIndex: number; entryIndex: number; slotIndex: number };
+  canManage: boolean;
+  onEdit: (slot: SlotFormValue) => void;
+  onDelete: () => void;
+};
+
+export function SlotChip({ slot, dragId, dragData, canManage, onEdit, onDelete }: SlotChipProps) {
+  const { copySlot } = useClipboard();
+  const { ref, isDragging } = useDraggable({ id: dragId, data: dragData });
+
+  return (
+    <div
+      ref={canManage ? ref : undefined}
+      className={`group/chip bg-accent border-accent-foreground/10 flex w-full flex-col items-center gap-1 rounded-xl border px-3 py-1 text-xs ${
+        isDragging ? "opacity-50" : ""
+      } ${canManage ? "cursor-grab active:cursor-grabbing" : ""}`}
+    >
+      <div className="min-w-0 flex-1">
+        <span className="block leading-tight">
+          {minutesToTimeString(slot.startMinutes)} - {minutesToTimeString(slot.endMinutes)}
+        </span>
+        {slot.note && (
+          <span className="text-muted-foreground block truncate leading-tight">{slot.note}</span>
+        )}
+      </div>
+
+      {canManage && (
+        <div className="flex shrink-0 items-center gap-0.5 opacity-0 transition-opacity group-hover/chip:opacity-100">
+          <Button
+            size="icon-xs"
+            onClick={(e) => {
+              e.stopPropagation();
+              copySlot(slot);
+            }}
+          >
+            <HugeiconsIcon icon={Copy01Icon} />
+            <span className="sr-only">Copy</span>
+          </Button>
+
+          <SlotEditor
+            initial={slot}
+            onSave={onEdit}
+            trigger={
+              <Button size="icon-xs" onClick={(e) => e.stopPropagation()}>
+                <HugeiconsIcon icon={ICONS.EDIT} className="size-3" />
+              </Button>
+            }
+          />
+
+          <Button
+            variant="destructive"
+            size="icon-xs"
+            className="border-transparent"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete();
+            }}
+          >
+            <HugeiconsIcon icon={ICONS.DELETE} />
+            <span className="sr-only">Delete</span>
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}
