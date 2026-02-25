@@ -96,5 +96,4 @@ export const MENU_ITEMS: MenuItem[] = [
   { title: "Account Settings", url: "/settings", icon: ICONS.ACCOUNT_SETTINGS, group: "account" },
 ];
 
-export const activeMenuItemClass =
-  "bg-blue-950 text-primary-foreground aria-disabled:opacity-100 select-none";
+export const activeMenuItemClass = "bg-blue-950 text-primary-foreground aria-disabled:opacity-100";

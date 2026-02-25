@@ -83,7 +83,7 @@ export function SidebarMenuGroups() {
                   return (
                     <SidebarMenuItem key={item.url + item.title}>
                       <SidebarMenuButton
-                        className="h-12 font-medium"
+                        className="h-12 font-medium select-none"
                         onClick={() => isMobile && toggleSidebar()}
                         render={
                           <Link
