@@ -11,7 +11,7 @@ import { ChevronRight, Left, Right } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { format } from "date-fns";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 type WeekNavProps = {
@@ -19,8 +19,7 @@ type WeekNavProps = {
   weekEndUTC: Date;
   prevWeekParam: string; // YYYY-MM-DD
   nextWeekParam: string; // YYYY-MM-DD
-  isDirty: boolean;
-  onBeforeNavigate: () => boolean;
+  guardedNavigate: (href: string) => void;
 };
 
 export function WeekNav({
@@ -28,10 +27,8 @@ export function WeekNav({
   weekEndUTC,
   prevWeekParam,
   nextWeekParam,
-  isDirty,
-  onBeforeNavigate,
+  guardedNavigate,
 }: WeekNavProps) {
-  const router = useRouter();
   const [calendarOpen, setCalendarOpen] = useState(false);
   const searchParams = useSearchParams();
   const dateParam = searchParams.get("date");
@@ -40,23 +37,16 @@ export function WeekNav({
 
   const [month, setMonth] = useState(selectedDateLocal);
 
-  function handleNavClick(e: React.MouseEvent, href: string) {
-    if (isDirty && !onBeforeNavigate()) {
-      e.preventDefault();
-    }
-  }
-
   function handleCalendarSelect(date: Date | undefined) {
     if (!date) return;
     setCalendarOpen(false);
-    router.push(`/schedules?date=${format(date, "yyyy-MM-dd")}`);
+    guardedNavigate(`/schedules?date=${format(date, "yyyy-MM-dd")}`);
   }
 
   return (
     <div className="flex items-center gap-3">
       <Link
         href={`/schedules?date=${prevWeekParam}`}
-        onClick={(e) => handleNavClick(e, `/schedules?date=${prevWeekParam}`)}
         className={cn(buttonVariants({ variant: "outline", size: "icon-xs" }))}
       >
         <HugeiconsIcon icon={Left} />
@@ -92,7 +82,6 @@ export function WeekNav({
 
       <Link
         href={`/schedules?date=${nextWeekParam}`}
-        onClick={(e) => handleNavClick(e, `/schedules?date=${nextWeekParam}`)}
         className={cn(buttonVariants({ variant: "outline", size: "icon-xs" }))}
       >
         <span className="sr-only">Next</span>

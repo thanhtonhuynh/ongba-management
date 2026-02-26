@@ -1,4 +1,4 @@
-import { Container, Header } from "@/components/layout";
+import { Container, Header, Loader } from "@/components/layout";
 import { NotiMessage, Typography } from "@/components/shared";
 import { PERMISSIONS } from "@/constants/permissions";
 import { getEmployees } from "@/data-access/employee";
@@ -11,7 +11,7 @@ import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { utc } from "@date-fns/utc";
 import { addDays, format } from "date-fns";
 import { notFound, redirect } from "next/navigation";
-import { Fragment } from "react";
+import { Fragment, Suspense } from "react";
 import { ScheduleWeekGrid } from "./_components/schedule-week-grid";
 
 type PageProps = {
@@ -30,27 +30,45 @@ export default async function SchedulePage({ searchParams }: PageProps) {
   }
 
   const params = await searchParams;
-  const dateParam = params.date; // YYYY-MM-DD of any day in the week
+  const dateParam = params.date;
 
-  // If no dateParam, use today and redirect
   if (!dateParam) {
     redirect(`/schedules?date=${format(getTodayStartOfDay(), "yyyy-MM-dd")}`);
   }
 
-  // Get start of week of the dateParam
+  const canManage = hasPermission(user.role, PERMISSIONS.SCHEDULE_MANAGE);
+
+  return (
+    <Fragment>
+      <Header>
+        <Typography variant="h1">Schedules</Typography>
+      </Header>
+
+      <Container>
+        <Suspense key={dateParam} fallback={<Loader />}>
+          <ScheduleWeekContent dateParam={dateParam} canManage={canManage} />
+        </Suspense>
+      </Container>
+    </Fragment>
+  );
+}
+
+async function ScheduleWeekContent({
+  dateParam,
+  canManage,
+}: {
+  dateParam: string;
+  canManage: boolean;
+}) {
   const weekStartUTC = getStartOfWeekUTC(dateParam);
   const weekEndUTC = getEndOfWeekUTC(dateParam);
 
-  // Get schedule days for the week
   const dateRangeUTC: DayRange = { start: weekStartUTC, end: weekEndUTC };
   const [scheduleDays, employees] = await Promise.all([
     getScheduleDaysByDateRangeUTC(dateRangeUTC),
     getEmployees("active"),
   ]);
 
-  const canManage = hasPermission(user.role, PERMISSIONS.SCHEDULE_MANAGE);
-
-  // Get previous and next week start dates (in UTC)
   const prevWeekStart = addDays(weekStartUTC, -7);
   const prevWeekParam = format(prevWeekStart, "yyyy-MM-dd", { in: utc });
   const nextWeekStart = addDays(weekStartUTC, 7);
@@ -62,22 +80,14 @@ export default async function SchedulePage({ searchParams }: PageProps) {
   }));
 
   return (
-    <Fragment>
-      <Header>
-        <Typography variant="h1">Schedules</Typography>
-      </Header>
-
-      <Container>
-        <ScheduleWeekGrid
-          weekStartUTC={weekStartUTC}
-          weekEndUTC={weekEndUTC}
-          prevWeekParam={prevWeekParam}
-          nextWeekParam={nextWeekParam}
-          days={daysForClient}
-          employees={employees}
-          canManage={canManage}
-        />
-      </Container>
-    </Fragment>
+    <ScheduleWeekGrid
+      weekStartUTC={weekStartUTC}
+      weekEndUTC={weekEndUTC}
+      prevWeekParam={prevWeekParam}
+      nextWeekParam={nextWeekParam}
+      days={daysForClient}
+      employees={employees}
+      canManage={canManage}
+    />
   );
 }

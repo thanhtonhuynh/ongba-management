@@ -17,6 +17,7 @@ import { useCallback, useEffect, useMemo, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { ClipboardProvider } from "../_context/clipboard-context";
+import { useNavigationGuard } from "../_hooks/use-navigation-guard";
 import { useUndoRedo } from "../_hooks/use-undo-redo";
 import {
   toUTCDateKey,
@@ -143,21 +144,7 @@ export function ScheduleWeekGrid({
     form.reset(initialValues);
   }, [initialValues, form]);
 
-  // Unsaved changes: beforeunload
-  useEffect(() => {
-    function handleBeforeUnload(e: BeforeUnloadEvent) {
-      if (form.formState.isDirty) {
-        e.preventDefault();
-      }
-    }
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [form.formState.isDirty]);
-
-  // Confirm navigation guard (for Link clicks)
-  const confirmNavigate = useCallback((): boolean => {
-    return window.confirm("You have unsaved changes. Discard them?");
-  }, []);
+  const { confirmDialog, guardedNavigate } = useNavigationGuard(isDirty);
 
   // ------ Mutators (all local, no server call) ------
 
@@ -324,8 +311,7 @@ export function ScheduleWeekGrid({
               weekEndUTC={weekEndUTC}
               prevWeekParam={prevWeekParam}
               nextWeekParam={nextWeekParam}
-              isDirty={isDirty}
-              onBeforeNavigate={confirmNavigate}
+              guardedNavigate={guardedNavigate}
             />
             {canManage && (
               <ScheduleToolbar
@@ -391,6 +377,8 @@ export function ScheduleWeekGrid({
           </div>
         </DragDropProvider>
       </ClipboardProvider>
+
+      {confirmDialog}
     </TooltipProvider>
   );
 }
