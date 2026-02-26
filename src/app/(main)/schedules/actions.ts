@@ -34,7 +34,11 @@ export async function saveWeekScheduleAction(
     if (!hasPermission(user.role, PERMISSIONS.SCHEDULE_MANAGE))
       return { error: "Unauthorized" };
 
-    for (const day of days) {
+    const daysToSave = days.filter((day) =>
+      day.entries.some((e) => e.slots && e.slots.length > 0),
+    );
+
+    for (const day of daysToSave) {
       const date = parseScheduleDate(day.dateStr);
       if (!date) return { error: `Invalid date: ${day.dateStr}` };
       await upsertScheduleDay(date, day.entries);

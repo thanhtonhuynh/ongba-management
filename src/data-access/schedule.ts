@@ -10,21 +10,14 @@ function startOfDayUTC(d: Date): Date {
   return d2;
 }
 
-/** End of day UTC for a given date (date at 23:59:59.999Z) */
-function endOfDayUTC(d: Date): Date {
-  const d2 = new Date(d);
-  d2.setUTCHours(23, 59, 59, 999);
-  return d2;
-}
-
 /** Get all ScheduleDay documents in a date range (uses unique index on date). */
-export const getScheduleDaysByDateRange = cache(async (dateRange: DayRange) => {
-  const start = startOfDayUTC(dateRange.start);
-  const end = endOfDayUTC(dateRange.end);
+export const getScheduleDaysByDateRangeUTC = cache(async (dateRangeUTC: DayRange) => {
+  const start = dateRangeUTC.start;
+  const end = dateRangeUTC.end;
 
   return prisma.scheduleDay.findMany({
     where: {
-      date: { gte: start, lte: end },
+      date: { gte: start, lte: end }, // UTC
     },
     orderBy: { date: "asc" },
   });

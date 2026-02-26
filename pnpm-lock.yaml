@@ -14,6 +14,9 @@ importers:
       '@date-fns/tz':
         specifier: ^1.4.1
         version: 1.4.1
+      '@date-fns/utc':
+        specifier: ^2.1.1
+        version: 2.1.1
       '@dnd-kit/react':
         specifier: ^0.3.2
         version: 0.3.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -57,11 +60,14 @@ importers:
         specifier: ^1.1.1
         version: 1.1.1(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       date-fns:
-        specifier: ^3.6.0
-        version: 3.6.0
+        specifier: ^4.1.0
+        version: 4.1.0
       date-fns-tz:
         specifier: ^3.2.0
-        version: 3.2.0(date-fns@3.6.0)
+        version: 3.2.0(date-fns@4.1.0)
+      dotenv:
+        specifier: ^17.3.1
+        version: 17.3.1
       firebase:
         specifier: ^12.7.0
         version: 12.7.0
@@ -390,6 +396,9 @@ packages:
 
   '@date-fns/tz@1.4.1':
     resolution: {integrity: sha512-P5LUNhtbj6YfI3iJjw5EL9eUAG6OitD0W3fWQcpQjDRc/QIsL0tRNuO1PcDvPccWL1fSTXXdE1ds+l95DV/OFA==}
+
+  '@date-fns/utc@2.1.1':
+    resolution: {integrity: sha512-SlJDfG6RPeEX8wEVv6ZB3kak4MmbtyiI2qX/5zuKdordbrhB/iaJ58GVMZgJ6P1sJaM1gMgENFYYeg1JWrCFrA==}
 
   '@dnd-kit/abstract@0.3.2':
     resolution: {integrity: sha512-uvPVK+SZYD6Viddn9M0K0JQdXknuVSxA/EbMlFRanve3P/XTc18oLa5zGftKSGjfQGmuzkZ34E26DSbly1zi3Q==}
@@ -2937,9 +2946,6 @@ packages:
     peerDependencies:
       date-fns: ^3.0.0 || ^4.0.0
 
-  date-fns@3.6.0:
-    resolution: {integrity: sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==}
-
   date-fns@4.1.0:
     resolution: {integrity: sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==}
 
@@ -3036,6 +3042,10 @@ packages:
 
   dotenv@16.6.1:
     resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
+    engines: {node: '>=12'}
+
+  dotenv@17.3.1:
+    resolution: {integrity: sha512-IO8C/dzEb6O3F9/twg6ZLXz164a2fhTnEWb95H23Dm4OuN+92NmEAlTrupP9VW6Jm3sO26tQlqyvyi4CsnY9GA==}
     engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
@@ -5249,6 +5259,8 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.9
 
   '@date-fns/tz@1.4.1': {}
+
+  '@date-fns/utc@2.1.1': {}
 
   '@dnd-kit/abstract@0.3.2':
     dependencies:
@@ -7909,11 +7921,9 @@ snapshots:
 
   date-fns-jalali@4.1.0-0: {}
 
-  date-fns-tz@3.2.0(date-fns@3.6.0):
+  date-fns-tz@3.2.0(date-fns@4.1.0):
     dependencies:
-      date-fns: 3.6.0
-
-  date-fns@3.6.0: {}
+      date-fns: 4.1.0
 
   date-fns@4.1.0: {}
 
@@ -7990,6 +8000,8 @@ snapshots:
       type-fest: 5.3.1
 
   dotenv@16.6.1: {}
+
+  dotenv@17.3.1: {}
 
   dunder-proto@1.0.1:
     dependencies:

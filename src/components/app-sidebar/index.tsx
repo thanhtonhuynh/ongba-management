@@ -97,16 +97,16 @@ export function AppSidebar() {
                 }
               />
 
-              <DropdownMenuContent side="top" className="w-(--radix-popper-anchor-width)">
+              <DropdownMenuContent side="top" className="w-(--anchor-width)">
                 <DropdownMenuItem className="p-0">
                   <Button
-                    variant={`ghost`}
+                    variant={`accent`}
                     className="w-full justify-start"
                     onClick={async () => {
                       await logoutAction();
                     }}
                   >
-                    <LogOut className="size-4" /> Sign Out
+                    <LogOut className="size-4" /> Logout
                   </Button>
                 </DropdownMenuItem>
               </DropdownMenuContent>

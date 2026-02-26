@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useRef, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import type { WeekFormValues } from "../_lib/types";
@@ -50,8 +52,14 @@ export function useUndoRedo(form: UseFormReturn<WeekFormValues>) {
     forceRender((n) => n + 1);
   }, [form]);
 
+  const clearHistory = useCallback(() => {
+    historyRef.current = [];
+    pointerRef.current = -1;
+    forceRender((n) => n + 1);
+  }, []);
+
   const canUndo = pointerRef.current > 0;
   const canRedo = pointerRef.current < historyRef.current.length - 1;
 
-  return { snapshot, undo, redo, canUndo, canRedo };
+  return { snapshot, undo, redo, clearHistory, canUndo, canRedo };
 }

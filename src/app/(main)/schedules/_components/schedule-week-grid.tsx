@@ -12,6 +12,7 @@ import {
 import { TooltipProvider } from "@/components/ui/tooltip";
 import type { DisplayUser } from "@/types";
 import { DragDropProvider } from "@dnd-kit/react";
+import { addDays } from "date-fns";
 import { useCallback, useEffect, useMemo, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -43,12 +44,12 @@ type ServerScheduleDay = {
 };
 
 type ScheduleWeekGridProps = {
-  weekStart: string;
-  prevWeekStart: string;
-  nextWeekStart: string;
+  weekStartUTC: Date;
+  weekEndUTC: Date;
+  prevWeekParam: string; // YYYY-MM-DD
+  nextWeekParam: string; // YYYY-MM-DD
   days: ServerScheduleDay[];
   employees: DisplayUser[];
-  userMap: Record<string, { id: string; name: string; image: string | null; username: string }>;
   canManage: boolean;
 };
 
@@ -57,10 +58,9 @@ type ScheduleWeekGridProps = {
 // ---------------------------------------------------------------------------
 
 /** Build the 7-day array with YYYY-MM-DD keys for a week starting at weekStart (UTC). */
-function buildWeekDates(weekStartISO: string): string[] {
-  const d = new Date(weekStartISO);
+function buildWeekDates(weekStartUTC: Date): string[] {
   return Array.from({ length: 7 }, (_, i) => {
-    const day = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + i));
+    const day = addDays(weekStartUTC, i);
     return toUTCDateKey(day);
   });
 }
@@ -110,15 +110,15 @@ function formatDayHeader(dateStr: string): string {
 // ---------------------------------------------------------------------------
 
 export function ScheduleWeekGrid({
-  weekStart,
-  prevWeekStart,
-  nextWeekStart,
+  weekStartUTC,
+  weekEndUTC,
+  prevWeekParam,
+  nextWeekParam,
   days: serverDays,
   employees,
-  userMap,
   canManage,
 }: ScheduleWeekGridProps) {
-  const weekDates = useMemo(() => buildWeekDates(weekStart), [weekStart]);
+  const weekDates = useMemo(() => buildWeekDates(weekStartUTC), [weekStartUTC]);
   const initialValues = useMemo(
     () => buildInitialValues(weekDates, serverDays, employees),
     [weekDates, serverDays, employees],
@@ -129,7 +129,7 @@ export function ScheduleWeekGrid({
   });
 
   const { isDirty } = form.formState;
-  const { snapshot, undo, redo, canUndo, canRedo } = useUndoRedo(form);
+  const { snapshot, undo, redo, clearHistory, canUndo, canRedo } = useUndoRedo(form);
   const [isSaving, startSaveTransition] = useTransition();
 
   // Take initial snapshot
@@ -300,9 +300,11 @@ export function ScheduleWeekGrid({
         toast.error(result.error);
       } else {
         toast.success("Schedule saved.");
+        clearHistory();
+        snapshot();
       }
     });
-  }, [form]);
+  }, [form, clearHistory, snapshot]);
 
   const handleReset = useCallback(() => {
     form.reset(initialValues);
@@ -318,9 +320,10 @@ export function ScheduleWeekGrid({
         <DragDropProvider onDragEnd={handleDragEnd}>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <WeekNav
-              weekStart={weekStart}
-              prevWeekStart={prevWeekStart}
-              nextWeekStart={nextWeekStart}
+              weekStartUTC={weekStartUTC}
+              weekEndUTC={weekEndUTC}
+              prevWeekParam={prevWeekParam}
+              nextWeekParam={nextWeekParam}
               isDirty={isDirty}
               onBeforeNavigate={confirmNavigate}
             />

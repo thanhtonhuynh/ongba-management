@@ -173,9 +173,9 @@ type ScheduleSlot {
 }
 
 type DayEntry {
-  userId String  @db.ObjectId
+  userId String         @db.ObjectId
   slots  ScheduleSlot[]
-  notes  String?
+  note   String?
 }
 
 model ScheduleDay {
