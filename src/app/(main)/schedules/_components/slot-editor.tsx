@@ -3,19 +3,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
-import {
-  minutesToTimeInput,
-  timeToMinutes,
-  type SlotFormValue,
-} from "../_lib/types";
+import { minutesToTimeInput, timeToMinutes, type SlotFormValue } from "../_lib/types";
 
 type SlotEditorProps = {
   initial?: SlotFormValue;
@@ -90,12 +82,7 @@ export function SlotEditor({ initial, onSave, trigger }: SlotEditorProps) {
             />
           </div>
           <div className="flex justify-end gap-2">
-            <Button
-              type="button"
-              variant="ghost"
-              size="xs"
-              onClick={() => setOpen(false)}
-            >
+            <Button type="button" variant="ghost" size="xs" onClick={() => setOpen(false)}>
               Cancel
             </Button>
             <Button type="submit" size="xs">

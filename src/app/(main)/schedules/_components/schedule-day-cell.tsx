@@ -42,7 +42,7 @@ export function ScheduleDayCell({
     <div
       ref={ref}
       className={`flex min-h-[60px] flex-col items-center justify-center gap-1 p-1 transition-colors ${
-        isDropTarget ? "bg-primary/10 ring-primary/30 ring-2" : ""
+        isDropTarget ? "bg-primary/10 ring-primary/30 rounded-xl ring-2" : ""
       }`}
     >
       {entry.slots.map((slot, slotIdx) => (

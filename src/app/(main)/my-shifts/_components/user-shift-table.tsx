@@ -31,9 +31,9 @@ export function UserShiftTable({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="bg-accent sticky left-0 z-10 h-15"></TableHead>
+          <TableHead className="bg-primary-500 sticky left-0 z-10 h-15">Date</TableHead>
           {Array.from({ length: endDay - startDay + 1 }).map((_, index) => (
-            <TableHead className="text-center" key={index}>
+            <TableHead className="h-15 text-center" key={index}>
               <div className="flex flex-col gap-1">
                 <span>{format(addDays(dateRange.start, index), "EEE")}</span>
                 {startDay + index}
