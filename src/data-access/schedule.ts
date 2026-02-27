@@ -73,7 +73,7 @@ export type ScheduleSlotInput = {
 export type DayEntryInput = {
   userId: string;
   slots: ScheduleSlotInput[];
-  notes?: string | null;
+  note?: string | null;
 };
 
 /** Create or update the ScheduleDay for a given date. Replaces entries for that day. */

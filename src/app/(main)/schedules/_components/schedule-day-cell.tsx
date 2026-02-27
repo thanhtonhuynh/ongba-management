@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ICONS } from "@/constants/icons";
 import { useDroppable } from "@dnd-kit/react";
-import { FilePasteIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useClipboard } from "../_context/clipboard-context";
 import type { EntryFormValue, SlotFormValue } from "../_lib/types";
@@ -58,13 +57,13 @@ export function ScheduleDayCell({
         />
       ))}
 
-      {entry.notes && !canManage && (
-        <p className="text-muted-foreground text-xs italic">{entry.notes}</p>
+      {entry.note && !canManage && (
+        <p className="text-muted-foreground text-xs italic">{entry.note}</p>
       )}
 
       {canManage && hasSlots && (
         <Textarea
-          value={entry.notes ?? ""}
+          value={entry.note ?? ""}
           onChange={(e) => onNotesChange(e.target.value)}
           placeholder="Cell note..."
           rows={1}
@@ -77,21 +76,16 @@ export function ScheduleDayCell({
           <SlotEditor
             onSave={onAddSlot}
             trigger={
-              <Button variant="ghost" size="xs" className="h-6 text-[11px]">
-                <HugeiconsIcon icon={ICONS.ADD} className="size-3" />
-                Add
+              <Button variant="accent" size="icon-xs">
+                <HugeiconsIcon icon={ICONS.ADD} />
+                <span className="sr-only">Add</span>
               </Button>
             }
           />
           {copiedSlot && (
-            <Button
-              variant="ghost"
-              size="xs"
-              className="h-6 text-[11px]"
-              onClick={() => onAddSlot({ ...copiedSlot })}
-            >
-              <HugeiconsIcon icon={FilePasteIcon} className="size-3" />
-              Paste
+            <Button variant="accent" size="icon-xs" onClick={() => onAddSlot({ ...copiedSlot })}>
+              <HugeiconsIcon icon={ICONS.FILE_PASTE} />
+              <span className="sr-only">Paste</span>
             </Button>
           )}
         </div>

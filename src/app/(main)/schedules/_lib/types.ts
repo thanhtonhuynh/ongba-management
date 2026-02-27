@@ -9,7 +9,7 @@ export type SlotFormValue = {
 export type EntryFormValue = {
   userId: string;
   slots: SlotFormValue[];
-  notes?: string;
+  note?: string;
 };
 
 /** One day's worth of schedule data. */

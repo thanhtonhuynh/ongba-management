@@ -1,6 +1,7 @@
 "use client";
 
 import { ProfilePicture } from "@/components/shared";
+import { Card } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -40,7 +41,7 @@ type ServerScheduleDay = {
   entries: {
     userId: string;
     slots: { startMinutes: number; endMinutes: number; note?: string | null }[];
-    notes?: string | null;
+    note?: string | null;
   }[];
 };
 
@@ -88,7 +89,7 @@ function buildInitialValues(
           endMinutes: s.endMinutes,
           note: s.note ?? undefined,
         })),
-        notes: serverEntry?.notes ?? undefined,
+        note: serverEntry?.note ?? undefined,
       };
     });
     return { dateStr, entries };
@@ -184,7 +185,7 @@ export function ScheduleWeekGrid({
 
   const updateNotes = useCallback(
     (dayIndex: number, entryIndex: number, notes: string) => {
-      form.setValue(`days.${dayIndex}.entries.${entryIndex}.notes`, notes, {
+      form.setValue(`days.${dayIndex}.entries.${entryIndex}.note`, notes, {
         shouldDirty: true,
       });
     },
@@ -270,7 +271,7 @@ export function ScheduleWeekGrid({
       const payload = values.days.map((day) => ({
         dateStr: day.dateStr,
         entries: day.entries
-          .filter((e) => e.slots.length > 0 || (e.notes && e.notes.trim()))
+          .filter((e) => e.slots.length > 0 || (e.note && e.note.trim()))
           .map((e) => ({
             userId: e.userId,
             slots: e.slots.map((s) => ({
@@ -278,7 +279,7 @@ export function ScheduleWeekGrid({
               endMinutes: s.endMinutes,
               note: s.note || undefined,
             })),
-            notes: e.notes || undefined,
+            note: e.note || undefined,
           })),
       }));
 
@@ -327,7 +328,7 @@ export function ScheduleWeekGrid({
             )}
           </div>
 
-          <div className="rounded-xl border">
+          <Card className="py-0">
             <Table>
               <TableHeader>
                 <TableRow className="divide-x">
@@ -374,7 +375,7 @@ export function ScheduleWeekGrid({
                 ))}
               </TableBody>
             </Table>
-          </div>
+          </Card>
         </DragDropProvider>
       </ClipboardProvider>
 

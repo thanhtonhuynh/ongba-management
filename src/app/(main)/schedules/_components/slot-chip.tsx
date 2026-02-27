@@ -25,7 +25,7 @@ export function SlotChip({ slot, dragId, dragData, canManage, onEdit, onDelete }
   return (
     <div
       ref={canManage ? ref : undefined}
-      className={`group/chip bg-accent border-accent-foreground/10 flex w-full flex-col items-center gap-1 rounded-xl border px-3 py-1 text-xs ${
+      className={`group/chip bg-accent border-accent-foreground/10 relative flex w-full flex-col items-center gap-1 rounded-xl border px-3 py-2 text-xs ${
         isDragging ? "opacity-50" : ""
       } ${canManage ? "cursor-grab active:cursor-grabbing" : ""}`}
     >
@@ -39,7 +39,7 @@ export function SlotChip({ slot, dragId, dragData, canManage, onEdit, onDelete }
       </div>
 
       {canManage && (
-        <div className="flex shrink-0 items-center gap-0.5 opacity-0 transition-opacity group-hover/chip:opacity-100">
+        <div className="absolute -top-6 left-1/2 hidden shrink-0 -translate-x-1/2 items-center gap-0.5 group-hover/chip:flex">
           <Button
             size="icon-xs"
             onClick={(e) => {
@@ -62,9 +62,8 @@ export function SlotChip({ slot, dragId, dragData, canManage, onEdit, onDelete }
           />
 
           <Button
-            variant="destructive"
+            variant="default-destructive"
             size="icon-xs"
-            className="border-transparent"
             onClick={(e) => {
               e.stopPropagation();
               onDelete();
