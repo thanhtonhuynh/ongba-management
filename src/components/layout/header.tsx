@@ -3,11 +3,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import { ComponentProps } from "react";
 
-export function Header({
-  children,
-  className,
-  ...props
-}: ComponentProps<"header">) {
+export function Header({ children, className, ...props }: ComponentProps<"header">) {
   return (
     <header
       className={cn(
