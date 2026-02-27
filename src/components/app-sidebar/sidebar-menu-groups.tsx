@@ -11,13 +11,13 @@ import {
 } from "@/components/ui/sidebar";
 import { useSession } from "@/contexts/SessionProvider";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { cn } from "@/lib/utils";
 import { hasPermission } from "@/utils/access-control";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import {
-  activeMenuItemClass,
   MENU_GROUP_LABELS,
   MENU_GROUPS,
   MENU_ITEMS,
@@ -83,15 +83,15 @@ export function SidebarMenuGroups() {
                   return (
                     <SidebarMenuItem key={item.url + item.title}>
                       <SidebarMenuButton
-                        className="h-12 font-medium select-none"
+                        size="md"
+                        className={cn(
+                          "aria-disabled:opacity-100",
+                          isActiveItem && "text-primary-foreground bg-blue-950/80",
+                        )}
                         onClick={() => isMobile && toggleSidebar()}
                         render={
-                          <Link
-                            href={href}
-                            aria-disabled={isActiveItem}
-                            className={isActiveItem ? activeMenuItemClass : ""}
-                          >
-                            <HugeiconsIcon icon={item.icon} strokeWidth={2} />
+                          <Link href={href} aria-disabled={isActiveItem}>
+                            <HugeiconsIcon icon={item.icon} strokeWidth={1.5} />
                             <span>{item.title}</span>
                           </Link>
                         }

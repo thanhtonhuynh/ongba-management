@@ -18,11 +18,14 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { ICONS } from "@/constants/icons";
 import { useSession } from "@/contexts/SessionProvider";
 import { cn } from "@/lib/utils";
-import { ChevronUp, LogOut, User2 } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
 import Image from "next/image";
 import Link from "next/link";
+import { Typography } from "../shared";
+import { ProfilePicture } from "../shared/profile-picture";
 import { SidebarMenuGroups } from "./sidebar-menu-groups";
 
 export function AppSidebar() {
@@ -45,7 +48,7 @@ export function AppSidebar() {
                     src={
                       state === "collapsed" && !isMobile
                         ? "/serva-logo-icon.svg"
-                        : "/serva-logo-full-2.svg"
+                        : "/serva-logo-full-white-border-and-text.svg"
                     }
                     alt="Serva"
                     width={240}
@@ -60,7 +63,7 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarHeader>
 
-      <SidebarContent className="mt-6 gap-0">
+      <SidebarContent className="mt-3 gap-0">
         <SidebarMenuGroups />
       </SidebarContent>
 
@@ -71,28 +74,22 @@ export function AppSidebar() {
               <DropdownMenuTrigger
                 className="h-fit cursor-pointer"
                 render={
-                  <SidebarMenuButton className="group-data-[collapsible=icon]:p-0!">
-                    <span className="relative flex size-8 shrink-0 items-center justify-center shadow-xs">
-                      {user?.image ? (
-                        <Image
-                          src={user?.image}
-                          alt={"User profile picture"}
-                          fill
-                          sizes="40px"
-                          className="aspect-square size-full rounded-lg border object-cover shadow-xs"
-                        />
-                      ) : (
-                        <User2 className="size-4 border" />
-                      )}
-                    </span>
+                  <SidebarMenuButton className="text-primary-foreground group-data-[collapsible=icon]:p-0!">
+                    <ProfilePicture image={user?.image} size={32} name={user?.name} />
                     <div className="flex-1">
-                      <p className="truncate text-sm font-bold">{user?.name}</p>
-                      <p className="text-muted-foreground text-xs font-medium capitalize">
+                      <Typography variant="p-sm" className="truncate font-medium">
+                        {user?.name}
+                      </Typography>
+
+                      <Typography variant="p-xs" className="capitalize">
                         {user.role.isAdminUser ? "Platform Admin" : (user.role.name ?? "No Role")}
-                      </p>
-                      <p className="text-muted-foreground truncate text-xs">{user?.email}</p>
+                      </Typography>
+
+                      <Typography variant="p-xs" className="truncate">
+                        {user?.email}
+                      </Typography>
                     </div>
-                    <ChevronUp className="ml-auto" />
+                    <HugeiconsIcon icon={ICONS.ARROW_UP} strokeWidth={1.5} className="ml-auto" />
                   </SidebarMenuButton>
                 }
               />
@@ -101,12 +98,13 @@ export function AppSidebar() {
                 <DropdownMenuItem className="p-0">
                   <Button
                     variant={`accent`}
-                    className="w-full justify-start"
+                    className="w-full justify-start rounded-xl"
                     onClick={async () => {
                       await logoutAction();
                     }}
                   >
-                    <LogOut className="size-4" /> Logout
+                    <HugeiconsIcon icon={ICONS.LOGOUT} strokeWidth={1.5} />
+                    <span className="ml-2">Logout</span>
                   </Button>
                 </DropdownMenuItem>
               </DropdownMenuContent>

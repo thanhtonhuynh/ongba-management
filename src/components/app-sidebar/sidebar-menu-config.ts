@@ -102,5 +102,3 @@ export const MENU_ITEMS: MenuItem[] = [
   { title: "My Profile", url: "__profile__", icon: ICONS.USER_ACCOUNT, group: "account" },
   { title: "Account Settings", url: "/settings", icon: ICONS.ACCOUNT_SETTINGS, group: "account" },
 ];
-
-export const activeMenuItemClass = "bg-blue-950 text-primary-foreground aria-disabled:opacity-100";
